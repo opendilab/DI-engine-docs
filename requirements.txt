@@ -1,0 +1,7 @@
+Pillow==8.2.0
+sphinx>=2.2.1
+sphinx_rtd_theme~=0.4.3
+enum_tools
+sphinx-toolbox
+plantumlcli>=0.0.2
+DI-engine
