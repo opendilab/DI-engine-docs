@@ -17,6 +17,10 @@ import sys
 
 sys.path.insert(0, os.path.abspath('../../'))
 print(sys.path)
+f = os.popen('make -f diagrams_source.mk')
+for item in f.readlines():
+    print(f)
+print('diagrams is OK')
 # -- Project information -----------------------------------------------------
 
 project = 'DI-engine'

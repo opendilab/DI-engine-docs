@@ -2,3 +2,4 @@
 *.eps
 *.jpg
 *.svg
+.DS_Store

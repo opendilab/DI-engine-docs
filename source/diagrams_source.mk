@@ -1,7 +1,7 @@
 PLANTUMLCLI := $(shell which plantumlcli)
 
 
-SOURCE := ./source
+SOURCE := .
 PUMLS := $(shell find ${SOURCE} -name *.puml)
 PNGS  := $(addsuffix .puml.png, $(basename ${PUMLS}))
 EPSS  := $(addsuffix .puml.eps, $(basename ${PUMLS}))
