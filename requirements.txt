@@ -4,4 +4,4 @@ sphinx_rtd_theme~=0.4.3
 enum_tools
 sphinx-toolbox
 plantumlcli>=0.0.2
-DI-engine
+git+http://github.com/opendilab/DI-engine@main
