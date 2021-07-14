@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Feature
+特性介绍
 ===============================
 
 .. toctree::
@@ -23,5 +23,6 @@ Feature
 
     hpc_rl_overview_en
     orchestrator_overview_en
-    interaction_overview_en
-    loader_overview_en
+    interaction_overview_zh
+    autolog_overview_zh
+    loader_overview_zh

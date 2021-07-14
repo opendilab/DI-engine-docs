@@ -54,13 +54,13 @@ DI-engine是一个通用决策智能平台。它支持大多数常用的深度�
    installation/index_zh
    quick_start/index
    key_concept/index
-   intro_rl/index
+   intro_rl/index_zh
    hands_on/index
    best_practice/index
    api_doc/index
 
-   faq/index_en
-   feature/index
+   faq/index_zh
+   feature/index_zh
 
 .. toctree::
    :maxdepth: 2
