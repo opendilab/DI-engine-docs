@@ -3,7 +3,7 @@
 
 [English Docs](https://di-engine-docs.readthedocs.io/en/latest/index.html)
 
-Chinese Docs TBD
+[中文文档](https://di-engine-docs.readthedocs.io/en/main-zh/index.html) (施工中）
 
 # Local Docs Generation
 ```bash
