@@ -22,6 +22,7 @@
 .. code-block:: python
 
     cartpole_dqn_config = dict(
+        exp_name="cartpole_dqn",
         env=dict(
             collector_env_num=8,
             evaluator_env_num=5,
@@ -144,11 +145,15 @@ DI-engine 需要构建一些执行组件来实际运行 RL 训练过程。``Coll
     import os
     from tensorboardX import SummaryWriter    
 
-    tb_logger = SummaryWriter(os.path.join('./log/', 'your_experiment_name'))
-    learner = BaseLearner(cfg.policy.learn.learner, policy.learn_mode, tb_logger)
-    collector = SampleCollector(cfg.policy.collect.collector, collector_env, policy.collect_mode, tb_logger)
-    evaluator = BaseSerialEvaluator(cfg.policy.eval.evaluator, evaluator_env, policy.eval_mode, tb_logger)
-    replay_buffer = AdvancedReplayBuffer(cfg.policy.other.replay_buffer, tb_logger)
+    tb_logger = SummaryWriter(os.path.join('./{}/log/'.format(cfg.exp_name), 'serial'))
+    learner = BaseLearner(cfg.policy.learn.learner, policy.learn_mode, tb_logger, exp_name=cfg.exp_name)
+    collector = SampleCollector(
+        cfg.policy.collect.collector, collector_env, policy.collect_mode, tb_logger, exp_name=cfg.exp_name
+    )
+    evaluator = BaseSerialEvaluator(
+        cfg.policy.eval.evaluator, evaluator_env, policy.eval_mode, tb_logger, exp_name=cfg.exp_name
+    )
+    replay_buffer = AdvancedReplayBuffer(cfg.policy.other.replay_buffer, tb_logger, exp_name=cfg.exp_name)
 
 这只是一组执行模块示例的具体设定。用户应根据需求自行选择需要的模块。
 
@@ -201,7 +206,9 @@ DI-engine 支持常见 RL 训练中的各种工具，如下所示。
     evaluator_env = BaseEnvManager(env_fn=[wrapped_cartpole_env for _ in range(evaluator_env_num)], cfg=cfg.env.manager)
     cfg.env.replay_path = './video'
     evaluator_env.enable_save_replay(cfg.env.replay_path)
-    evaluator = BaseSerialEvaluator(cfg.policy.eval.evaluator, evaluator_env, policy.eval_mode, tb_logger)
+    evaluator = BaseSerialEvaluator(
+        cfg.policy.eval.evaluator, evaluator_env, policy.eval_mode, tb_logger, exp_name=cfg.exp_name
+    )
     evaluator.eval(learner.save_checkpoint, learner.train_iter, collector.envstep)
 
 .. tip::
