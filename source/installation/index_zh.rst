@@ -42,7 +42,7 @@
 
 .. code-block:: bash
 
-    conda -c conda-forge install DI-engine
+    conda install -c opendilab di-engine
 
 此外，您还可以从github中的源代码安装DI-engine（建议使用main分支）
 
