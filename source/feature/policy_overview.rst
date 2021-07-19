@@ -96,11 +96,9 @@
 .. 备注::
      **如何定义自己的get_train_sample案例？**
 
-.. 备注::
+.. tip::
      **如何定义策略配置？**
 
-.. note::
-    **How to define own get_train_sample case?**
 
     你可以参考 `this <../key_concept/index.html#config>`_. 这里我们以 ``default_config`` 的 ``DQNPolicy`` 为例.
 
