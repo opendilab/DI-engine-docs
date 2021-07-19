@@ -93,13 +93,11 @@
 
 以上提到的都是一些基本的定义和说明，用户可以从例子中学习.( ``ding/policy/`` )
 
-.. 备注
+.. 备注::
+    **如何定义自己的get_train_sample案例？**
 
-如何定义自己的get_train_sample案例？
-
-.. tip::
-     **如何定义策略配置？**
-
+.. 备注::
+    **如何定义策略配置？**
 
     你可以参考 `this <../key_concept/index.html#config>`_. 这里我们以 ``default_config`` 的 ``DQNPolicy`` 为例.
 
