@@ -95,7 +95,7 @@
 
 .. 备注
 
-     **如何定义自己的get_train_sample案例？**
+如何定义自己的get_train_sample案例？
 
 .. tip::
      **如何定义策略配置？**
