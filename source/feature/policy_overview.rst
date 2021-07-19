@@ -93,10 +93,10 @@
 
 以上提到的都是一些基本的定义和说明，用户可以从例子中学习.( ``ding/policy/`` )
 
-.. 备注::
+.. note::
     **如何定义自己的get_train_sample案例？**
 
-.. 备注::
+.. note::
     **如何定义策略配置？**
 
     你可以参考 `this <../key_concept/index.html#config>`_. 这里我们以 ``default_config`` 的 ``DQNPolicy`` 为例.
@@ -170,7 +170,7 @@
             ),
         )
 
-.. 备注::
+.. note::
     **如何在不同模式下定制模型？**
 
     在大多数情况下，学习、收集和评估模式使用一个相同的模型. 然而，他们可能会用不同的包装器来包装这个共享模型，以满足他们自己的需求. 比如说, 模型在收集和评估模式中不需要更新，而在学习模式中需要更新；收集模式模型可能需要使用探索，而评估模式模型不需要.
@@ -191,7 +191,7 @@
         # FootballKaggle5thPlaceModel is an expert model.s
         self._collect_model = model_wrap(FootballKaggle5thPlaceModel(), wrapper_name='base')
 
-.. 提示::
+.. tip::
     许多算法使用目标模型(target model)来解决过度估计(over estimation)问题. 在策略中，也经常以这种方式实现.
     
     .. code:: python
