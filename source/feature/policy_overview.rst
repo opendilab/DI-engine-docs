@@ -80,7 +80,7 @@
 
     * ``_load_state_dict_collect`` : 加载一个状态数据到模型中.
 
-4. Eval Mode Interfaces:
+4. 评价模式接口:
 
     * ``_forward_eval`` : 评价模式的正向方法.
 
@@ -93,10 +93,10 @@
 
 以上提到的都是一些基本的定义和说明，用户可以从例子中学习.( ``ding/policy/`` )
 
-.. note::
+.. 备注::
     **如何定义自己的get_train_sample案例？**
 
-.. note::
+.. 备注::
     **如何定义策略配置？**
 
     你可以参考 `this <../key_concept/index.html#config>`_. 这里我们以 ``default_config`` 的 ``DQNPolicy`` 为例.
