@@ -94,10 +94,10 @@
 以上提到的都是一些基本的定义和说明，用户可以从例子中学习.( ``ding/policy/`` )
 
 .. 备注::
-    **如何定义自己的get_train_sample案例？**
+     **如何定义自己的get_train_sample案例？**
 
 .. 备注::
-    **如何定义策略配置？**
+     **如何定义策略配置？**
 
     你可以参考 `this <../key_concept/index.html#config>`_. 这里我们以 ``default_config`` 的 ``DQNPolicy`` 为例.
 
@@ -192,7 +192,7 @@
         self._collect_model = model_wrap(FootballKaggle5thPlaceModel(), wrapper_name='base')
 
 .. 提示::
-    许多算法使用目标模型来解决过度估计问题. 在策略中，也经常以这种方式实现.
+    许多算法使用目标模型(target model)来解决过度估计(over estimation)问题. 在策略中，也经常以这种方式实现.
     
     .. code:: python
 
