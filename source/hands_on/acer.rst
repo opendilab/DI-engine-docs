@@ -56,17 +56,16 @@ To ensure more stability, ACER limit the per-step change to the policy by solvin
 
 .. math::
     \begin{split}
-    &\minimize_z\quad\frac{1}{2}\|g_t^{\text{acer}}-z\|_2^2\\
+    &\text{minimize}_z\quad\frac{1}{2}\|g_t^{\text{acer}}-z\|_2^2\\
     &subjec\ to\quad \nabla_{\phi_{\theta}(x_t)}D_{KL}[f(\cdot|\phi_{\theta_a}(x_t))\|f(\cdot|\phi_{\theta}(x_t))]^\top\le\delta 
     \end{split}
 
 The :math:`\phi(\theta)` is target policy network and the :math:`\phi(\theta_a)` is average policy network.
-The solution can be easily derived in closed form using the KKT condition:
+letting :math:`k=\nabla_{\phi_{\theta}(x_t)}D_{KL}[f(\cdot|\phi_{\theta_a}(x_t))\|f(\cdot|\phi_{\theta}(x_t))]`, the solution can be easily derived in closed form using the KKT condition:
 
 .. math::
     z^*=g_{t}^{\text{acer}}-\max\{0,\frac{k^\top g_t{\text{acer}}-\delta}{\|k\|_2^2}\}k 
 
-:math:`k=\nabla_{\phi_{\theta}(x_t)}D_{KL}[f(\cdot|\phi_{\theta_a}(x_t))\|f(\cdot|\phi_{\theta}(x_t))]`
 
 
 
@@ -198,7 +197,6 @@ First, we use the following functions to compute retrace Q value.
         tmp_retraces = v_pred[-1,...]
         q_retraces[-1,...] = v_pred[-1,...]
         q_gather = torch.zeros_like(v_pred)
-        # ratio_gather = torch.zeros_like(actions)
         q_gather[0:-1,...] = q_values[0:-1,...].gather(-1,actions)
         ratio_gather = ratio.gather(-1,actions)
         for idx in reversed(range(n_len-1)):
