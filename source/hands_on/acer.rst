@@ -64,7 +64,7 @@ The :math:`\phi(\theta)` is target policy network and the :math:`\phi(\theta_a)`
 letting :math:`k=\nabla_{\phi_{\theta}(x_t)}D_{KL}[f(\cdot|\phi_{\theta_a}(x_t))\|f(\cdot|\phi_{\theta}(x_t))]`, the solution can be easily derived in closed form using the KKT condition:
 
 .. math::
-    z^*=g_{t}^{\text{acer}}-\max\{0,\frac{k^\top g_t{\text{acer}}-\delta}{\|k\|_2^2}\}k 
+    z^*=g_{t}^{\text{acer}}-\max\{0,\frac{k^\top g_t^{\text{acer}}-\delta}{\|k\|_2^2}\}k 
 
 
 
