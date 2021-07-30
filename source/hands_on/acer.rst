@@ -3,7 +3,7 @@ ACER
 
 Overview
 ---------
-ACER, short for actor-critic with experience replay, is an off-policy actor-critic model with experience replay. It greatly increase
+ACER, short for actor-critic with experience replay, is an off-policy actor-critic model with experience replay. It greatly increases
 the sample efficiency and decreasing the data correlation. ACER uses retrace Q-value estimation,  an efficient TRPO and truncates importance sample weights with
 bias correction to control the stability of the off-policy estimator. You can find more details in this paper
 `Sample Efficient Actor-Critic with Experience Replay <https://arxiv.org/abs/1611.01224>`_.
@@ -14,7 +14,7 @@ Quick Facts
 1. ACER  is a **model-free** and **off-policy** RL algorithm.
 
 2. ACER can support both **discrete** action spaces and **continuous** action spaces with several differences
-
+s
 3. ACER is a actor-critic RL algorithm, which optimizes actor network and critic network, respectively.
 
 4. ACER decouples acting from learning. Collectors in ACER needs to record behavior probabilty distributions.
@@ -100,77 +100,8 @@ Usually, we hope to compute everything as a batch to improve efficiency. This is
 Once we execute this function in collector, the length of samples will equal to unroll-len in config. For details, please
 refer to doc of ``ding.rl_utils.adder``.
 
-.. code:: python
+You can find more information in :ref:`here <ref2other>`
 
-    def _get_train_sample(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        return get_train_sample(data, self._unroll_len)
-
-    def get_train_sample(cls, data: List[Dict[str, Any]], unroll_len: int, last_fn_type: str = 'last') -> List[Dict[str, Any]]:
-        """
-        Overview:
-            Process raw traj data by updating keys ['next_obs', 'reward', 'done'] in data's dict element.
-            If ``unroll_len`` equals to 1, which means no process is needed, can directly return ``data``.
-            Otherwise, ``data`` will be split according to ``self._unroll_len``, process residual part according to
-            ``last_fn_type`` and call ``lists_to_dicts`` to form sampled training data.
-        Arguments:
-            - data (:obj:`List[Dict[str, Any]]`): transitions list, each element is a transition dict
-        Returns:
-            - data (:obj:`List[Dict[str, Any]]`): transitions list processed after unrolling
-        """
-        if unroll_len == 1:
-            return data
-        else:
-            # cut data into pieces whose length is unroll_len
-            split_data, residual = list_split(data, step=self._unroll_len)
-
-            def null_padding():
-                template = copy.deepcopy(residual[0])
-                template['done'] = True
-                template['reward'] = torch.zeros_like(template['reward'])
-                if 'value_gamma' in template:
-                    template['value_gamma'] = 0.
-                null_data = [cls._get_null_transition(template) for _ in range(miss_num)]
-                return null_data
-
-            if residual is not None:
-                miss_num = unroll_len - len(residual)
-                if last_fn_type == 'drop':
-                    # drop the residual part
-                    pass
-                elif last_fn_type == 'last':
-                    if len(split_data) > 0:
-                        # copy last datas from split_data's last element, and insert in front of residual
-                        last_data = copy.deepcopy(split_data[-1][-miss_num:])
-                        split_data.append(last_data + residual)
-                    else:
-                        # get null transitions using ``null_padding``, and insert behind residual
-                        null_data = null_padding()
-                        split_data.append(residual + null_data)
-                elif last_fn_type == 'null_padding':
-                    # same to the case of 'last' type and split_data is empty
-                    null_data = null_padding()
-                    split_data.append(residual + null_data)
-            # collate unroll_len dicts according to keys
-            if len(split_data) > 0:
-                split_data = [lists_to_dicts(d, recursive=True) for d in split_data]
-            return split_data
-
-.. note::
-    In ``get_train_sample``, we introduce three ways to cut trajectory data into same-length pieces (length equal
-    to ``unroll_len``).
-
-    The first one is ``drop``, this means after splitting trajectory data into small pieces, we simply throw away those
-    with length smaller than ``unroll_len``. This method is kind of naive and usually is not a good choice. Since in
-    Reinforcement Learning, the last few data in an episode is usually very important, we can't just throw away them.
-
-    The second method is ``last``, which means if the total length trajectory is smaller than ``unrollen_len``,
-    we will use zero padding. Else, we will use data from previous piece to pad residual piece. This method is set as
-    default and recommended.
-
-    The last method ``null_padding`` is just zero padding, which is not vert efficient since many data will be ``null``.
-
-
-Now, we introduce the computation of vtrace-value.
 First, we use the following functions to compute retrace Q value.
 
 .. code:: python
@@ -234,7 +165,7 @@ After that, we calculate policy loss value, it will calcuate the actor loss with
         bc_loss=bc_loss.sum(-1).unsqueeze(-1)
         return actor_loss,bc_loss
 
-Then, we execute backward operation until target_pi. The we need to calculate the correction gradient in the trust region:
+Then, we execute backward operation towards target_pi. Moreover, we need to calculate the correction gradient in the trust region:
 
 .. code:: python
 
