@@ -102,6 +102,9 @@ refer to doc of ``ding.rl_utils.adder``.
 
 You can find more information in :ref:`here <ref2other>`
 
+The whole code of ACER you can find `here <https://github.com/opendilab/DI-engine/blob/main/ding/policy/acer.py>`_.
+Here we show some details of this algorithm.
+
 First, we use the following functions to compute retrace Q value.
 
 .. code:: python
