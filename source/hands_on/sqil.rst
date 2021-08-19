@@ -124,7 +124,10 @@ The bellman updates of SQIL/SQL and the Q-value function updates are defined in 
             q_s_a = q[batch_range, action]
             target_v = alpha * torch.log(torch.sum(torch.exp(next_n_q / alpha), 1))
             target_v[target_v == float("Inf")] = 20
-            target_v[target_v == float("-Inf")] = -20 #This line and the obove line is to prevent from value function explosion 
+            target_v[target_v == float("-Inf")] = -20 
+            # For an appropriate hyper-parameter alpha, these hardcodes can be removed.
+            # However, algorithms may face the danger of explosion for other alphas.
+            # The hardcodes above are to prevent this situation from happening
             record_target_v = copy.deepcopy(target_v) #add the value function into tensorboard
             if cum_reward:
                if value_gamma is None:
