@@ -1,5 +1,5 @@
-*.png
+#*.png
 *.eps
-#*.jpg
+*.jpg
 *.svg
 .DS_Store
