@@ -46,7 +46,7 @@ By defining policy to be proportional to a exponential function of some energy f
 Therefore, the Q values with the best action is of the following form:
 
 .. image:: images/ul_V_sqil.png
-   :scale: 80 %
+   :scale: 50 %
 
 SQIL performs SQL with three small but important, modifications:
 
@@ -219,4 +219,4 @@ Regrading the demonstration data, we can leave these rewards as they were. For a
 
 References
 -----------
-Siddharth Reddy, Anca D. Dragan, Sergey Levine: “SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards”, 2018; [https://arxiv.org/abs/1905.11108 arXiv:1905.11108].
+Siddharth Reddy, Anca D. Dragan, Sergey Levine: “SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards”, 2019; [https://arxiv.org/abs/1905.11108 arXiv:1905.11108].
