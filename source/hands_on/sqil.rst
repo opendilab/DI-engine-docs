@@ -217,19 +217,15 @@ We also need to modify rewards for new data and demonstation data. Taking the Ca
 Regrading the demonstration data, we can leave these rewards as they were. For a general reward modification, please refer to ``ding//entry/serial_entry_sqil.py``.
 
 Regrading its performance, we drew a table below to compare with DQN, SQL in lunarlander and pong environments
-.. list-table:: Title
-   :widths: 25 25 50
-   :header-rows: 1
-
-   * - Heading row 1, column 1
-     - Heading row 1, column 2
-     - Heading row 1, column 3
-   * - Row 1, column 1
-     -
-     - Row 1, column 3
-   * - Row 2, column 1
-     - Row 2, column 2
-     - Row 2, column 3
+.. table::
++-------------+----------+----------+----------+
+| env / method| DQN      |SQL       | SQIL     |
++=============+==========+==========+==========+
+| LunarLander | Value 1  | Value 2  |          |
++-------------+----------+----------+----------+
+| Pong        | Value 1  | Value 2  |          |
++-------------+----------+----------+----------+
+Note: The stopping values for Lunarlander and Pong are 200 and 20 respectively. 
 
 References
 -----------
