@@ -17,9 +17,9 @@ Quick Facts
 
 4. SQIL is an **off-policy** algorithm.
 
-5. In nerveX, SQIL uses **eps-greedy** for exploration.
+5. In DI-engine, SQIL uses **eps-greedy** for exploration.
 
-6. The nerveX implementation of SQIL only supports **discrete** action spaces for now.
+6. The DI-engine implementation of SQIL only supports **discrete** action spaces for now.
 
 7. The advantages for SQIL include more robustness in the face of uncertain dynamics and Naturally incorporation with exploration.
 
@@ -46,6 +46,7 @@ By defining policy to be proportional to a exponential function of some energy f
 Therefore, the Q values with the best action is of the following form:
 
 .. image:: images/ul_V_sqil.png
+   :scale: 80 %
 
 SQIL performs SQL with three small but important, modifications:
 
@@ -67,16 +68,18 @@ SQIL = SQL + Imitation learning. The pseudo code is as follows:
 
 .. image:: images/SQIL_algo.png
 
+| where
+
 .. image:: images/SQIL_part.png
 
 Implementations
 ----------------
 The default config is defined as follows:
 
-.. autoclass:: nervex.policy.sql.SQLPolicy
+.. autoclass:: ding.policy.sql.SQLPolicy
 
 
-The bellman updates of SQIL/SQL and the Q-value function updates are defined in the function ``q_nstep_sql_td_error`` of ``nervex/rl_utils/td.py``:
+The bellman updates of SQIL/SQL and the Q-value function updates are defined in the function ``q_nstep_sql_td_error`` of ``ding/rl_utils/td.py``:
 
     .. code-block:: python
 
@@ -96,7 +99,7 @@ The bellman updates of SQIL/SQL and the Q-value function updates are defined in 
             Arguments:
                - data (:obj:`q_nstep_td_data`): the input data, q_nstep_sql_td_data to calculate loss
                - gamma (:obj:`float`): discount factor
-               - Alpha (:obj:｀float`): A parameter to weight entropy term in a policy equation
+               - alpha (:obj:｀float`): A parameter to weight entropy term in a policy equation
                - cum_reward (:obj:`bool`): whether to use cumulative nstep reward, which is figured out when collecting data
                - value_gamma (:obj:`torch.Tensor`): gamma discount value for target soft_q_value
                - criterion (:obj:`torch.nn.modules`): loss function criterion
@@ -140,7 +143,7 @@ The bellman updates of SQIL/SQL and the Q-value function updates are defined in 
             return (td_error_per_sample * weight).mean(), td_error_per_sample, record_target_v
 
 
-We use an epsilon-greedy strategy when implementing the SQIL/SQL policy.  How we pick actions is implemented in  ``EpsGreedySampleWrapper_sql`` of ``nervex/model/wrappers/model_wrappers.py``
+We use an epsilon-greedy strategy when implementing the SQIL/SQL policy.  How we pick actions is implemented in  ``EpsGreedySampleWrapper_sql`` of ``ding/model/wrappers/model_wrappers.py``
 
 .. code-block:: python
 
@@ -208,6 +211,12 @@ We also need to modify rewards for new data and demonstation data. Taking the Ca
 
         new_data = collector.collect_data(learner.train_iter, policy_kwargs={'eps': eps})
         for i in range(len(new_data)):
-            new_data[i].reward = torch.tensor([0.])
+            device = new_data[i]['obs'].device
+            new_data[i].reward = torch.tensor([0.]).to(device)
 
-Regrading the demonstration data, we can leave these rewards as they were.
+Regrading the demonstration data, we can leave these rewards as they were. For a general reward modification, please refer to ``ding//entry/serial_entry_sqil.py``.
+
+
+References
+-----------
+Siddharth Reddy, Anca D. Dragan, Sergey Levine: “SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards”, 2018; [https://arxiv.org/abs/1905.11108 arXiv:1905.11108].
