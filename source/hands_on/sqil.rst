@@ -45,7 +45,7 @@ By defining policy to be proportional to a exponential function of some energy f
 
 Therefore, the Q values with the best action is of the following form:
 
-.. image:: images/ul_V_sqil.png
+.. image:: images/ul_V_sqil_2.png
    :scale: 50 %
 
 SQIL performs SQL with three small but important, modifications:
