@@ -219,14 +219,22 @@ Regrading the demonstration data, we can leave these rewards as they were. For a
 Regrading its performance, we drew a table below to compare with DQN, SQL in lunarlander and pong environments
 
 .. table::
-+-------------+----------+----------+----------+
-| env / method| DQN      |SQL       | SQIL     |
-+=============+==========+==========+==========+
-| LunarLander | Value 1  | Value 2  |          |
-+-------------+----------+----------+----------+
-| Pong        | Value 1  | Value 2  |          |
-+-------------+----------+----------+----------+
-Note: The stopping values for Lunarlander and Pong are 200 and 20 respectively. 
++-------------+---------------------------------+-----------------------------------+------------------------------------+--------+
+| env / method| DQN                             |SQL                                | SQIL                               | alpha  |
++=============+=================================+===================================+====================================+========+
+| LunarLander | 153392 / 277 / 23900 (both off) | 693664 / 1017 / 32436 (both off)  | 35856   / 238  / 1683   (both off) |        |
+|             | 83016  / 155 / 12950 (both on)  | 1149592 / 1388/ 53805 (both on)   | 31376   / 197  / 1479   (both on)  |  0.08  |
++-------------+---------------------------------+-----------------------------------+------------------------------------+--------+
+| Pong        | 765848 / 482 / 80000 (both on)  | 2682144 / 1750 / 278250 (both on) | 2390608 / 1665 / 247700 (both on)  |  0.12  |
++-------------+---------------------------------+-----------------------------------+------------------------------------+--------+
+Note: *The stopping values for Lunarlander and Pong are 200 and 20 respectively.
+*both on：cuda = True； base env manger = subprocess
+*both off：cuda = False； base env manager = base 
+
+
+.. image:: images/pong.png
+
+The  above tensorboard diagram corresponds to the convergence of SQIL in the pong environment when alpha = 0.12, as shown in the above table.  
 
 References
 -----------
