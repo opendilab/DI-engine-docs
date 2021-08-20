@@ -28,8 +28,7 @@ Key Equations or Key Graphs
 SQL considers a more general maximum entropy policy, such that the optimal policy aims to maximize its entropy at each visited state:
 
 .. math::
-   \nabla_{\theta^{\mu}}\mathcal{J}(\theta^{\mu}) = \mathbb{E}_{o,a\sim \mathcal{R}}[\nabla_{\theta^{\mu}}\mu(a|o)\nabla_{a}Q^{\mu}(o,a)|_{a=\mu (o)}]
-
+   g_{k} = \mathbb{E}_{\pi}[\sum_{a}\nabla_{\theta_{k}} \log \pi^{a}(u^{a}|\tau^{a})A^{a}(s, \textbf{u})]
 
 where :math:`{\alpha}`   is an optional but convenient parameter that can be used to determine the relative importance of entropy and reward. In practice, :math:`{\alpha}`  is a hyperparameter that has to be tuned (This is not a parameter to learn). 
 
