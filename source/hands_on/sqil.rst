@@ -227,9 +227,10 @@ Regrading its performance, we drew a table below to compare with DQN, SQL in lun
 +-------------+---------------------------------+-----------------------------------+------------------------------------+--------+
 | Pong        | 765848 / 482 / 80000 (both on)  | 2682144 / 1750 / 278250 (both on) | 2390608 / 1665 / 247700 (both on)  |  0.12  |
 +-------------+---------------------------------+-----------------------------------+------------------------------------+--------+
-Note: *The stopping values for Lunarlander and Pong are 200 and 20 respectively.
-*both on：cuda = True； base env manger = subprocess
-*both off：cuda = False； base env manager = base 
+Note: 
+|*The stopping values for Lunarlander and Pong are 200 and 20 respectively.
+|*both on：cuda = True； base env manger = subprocess
+|*both off：cuda = False； base env manager = base 
 
 
 .. image:: images/pong.png
