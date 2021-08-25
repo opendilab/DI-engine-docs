@@ -17,7 +17,7 @@
 构建运行时配置
 -------------------------------
 
-构建训练工作流的第一步是指定训练配置。 DI-engine 推荐使用嵌套的 `dict` 对象来表示 RL 实验的所有参数和配置，例如：
+构建训练工作流的第一步是指定训练配置。 DI-engine 推荐使用嵌套的 `dict` 对象来表示 RL 实验的所有参数和配置（``...`` 表示省略的配置内容，完整的配置文件可以参考下面的路径），例如：
 
 .. code-block:: python
 
@@ -33,7 +33,7 @@
             ),
             discount_factor=0.97,
         ),
-        ......
+        ...
     )
 
 .. note ::
@@ -198,18 +198,43 @@ DI-engine 支持常见 RL 训练中的各种工具，如下所示。
 可视化和日志
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-某些环境具有渲染或可视化功能，DI-engine 添加了一个开关来指定是否存储可视化结果。如果想开启该功能，用户需要在 ``config`` 中注明 ``env.replay_path`` 和 ``policy.learn.learner.load_path``
+某些环境具有渲染或可视化功能，DI-engine 没有使用渲染接口，而是添加了存储可视化结果 (replay) 的开关接口。如果想开启该功能，用户需要在 ``config`` 中注明 ``env.replay_path`` 和 ``policy.learn.learner.hook.load_ckpt_before_run``
 ，并在训练收敛后添加如下几行代码。如果一切正常，您可以在 ``replay_path`` 指定的文件夹中找到一些以 ``.mp4`` 为后缀的视频。
 
 .. code-block:: python
 
     evaluator_env = BaseEnvManager(env_fn=[wrapped_cartpole_env for _ in range(evaluator_env_num)], cfg=cfg.env.manager)
     cfg.env.replay_path = './video'
-    evaluator_env.enable_save_replay(cfg.env.replay_path)
+    evaluator_env.enable_save_replay(cfg.env.replay_path)  # switch save replay interface
     evaluator = BaseSerialEvaluator(
         cfg.policy.eval.evaluator, evaluator_env, policy.eval_mode, tb_logger, exp_name=cfg.exp_name
     )
     evaluator.eval(learner.save_checkpoint, learner.train_iter, collector.envstep)
+
+.. note::
+
+  上述两个config字段 ``env.replay_path`` and ``policy.learn.learner.hook.load_ckpt_before_run`` 的示例如下面的代码所示，``...`` 表示省略的config内容
+
+  .. code-block:: python
+  
+    config = dict(
+        env=dict(
+            replay_path='your_replay_save_dir_path',
+        ),
+        policy=dict(
+            ...,
+            learn=dict(
+                ...,
+                learner=dict(
+                     hook=dict(
+                         load_ckpt_before_run='your_ckpt_path',
+                     )
+                ),
+            ),
+            ...,
+        ),
+    )
+
 
 .. tip::
 
