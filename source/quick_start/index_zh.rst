@@ -198,13 +198,13 @@ DI-engine 支持常见 RL 训练中的各种工具，如下所示。
 可视化和日志
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-某些环境具有渲染或可视化功能，DI-engine 没有使用渲染接口，而是添加了存储可视化结果 (replay) 的开关接口。如果想开启该功能，用户需要在 ``config`` 中注明 ``env.replay_path`` 和 ``policy.learn.learner.hook.load_ckpt_before_run``
-，并在训练收敛后添加如下几行代码。如果一切正常，您可以在 ``replay_path`` 指定的文件夹中找到一些以 ``.mp4`` 为后缀的视频。
+某些环境具有渲染或可视化功能，DI-engine 没有使用渲染接口，而是添加了存储可视化结果 (replay) 的开关接口。如果想开启该功能，用户只需在入口函数训练主循环收敛后添加如下几行代码。如果一切正常，您可以在 ``replay_path`` 指定的文件夹中找到一些以 ``.mp4`` 为后缀的视频。
 
 .. code-block:: python
 
     evaluator_env = BaseEnvManager(env_fn=[wrapped_cartpole_env for _ in range(evaluator_env_num)], cfg=cfg.env.manager)
-    cfg.env.replay_path = './video'
+    cfg.env.replay_path = './video'  # indicate save replay directory path
+    evaluator_env.seed(seed=0, dynamic_seed=False)
     evaluator_env.enable_save_replay(cfg.env.replay_path)  # switch save replay interface
     evaluator = BaseSerialEvaluator(
         cfg.policy.eval.evaluator, evaluator_env, policy.eval_mode, tb_logger, exp_name=cfg.exp_name
@@ -213,7 +213,7 @@ DI-engine 支持常见 RL 训练中的各种工具，如下所示。
 
 .. note::
 
-  上述两个config字段 ``env.replay_path`` and ``policy.learn.learner.hook.load_ckpt_before_run`` 的示例如下面的代码所示，``...`` 表示省略的config内容
+  如果用户想使用之前已经训练好的策略来进行可视化，可以参照 ``dizoo/classic_control/cartpole/entry/cartpole_dqn_eval.py`` 构建一个自定义的评测入口函数，并在config中指定 ``env.replay_path`` and ``policy.load_path`` 两个字段，config示例如下面的代码所示，``...`` 表示省略的config内容
 
   .. code-block:: python
   
@@ -223,14 +223,7 @@ DI-engine 支持常见 RL 训练中的各种工具，如下所示。
         ),
         policy=dict(
             ...,
-            learn=dict(
-                ...,
-                learner=dict(
-                     hook=dict(
-                         load_ckpt_before_run='your_ckpt_path',
-                     )
-                ),
-            ),
+            load_path='your_ckpt_path',
             ...,
         ),
     )
@@ -238,7 +231,7 @@ DI-engine 支持常见 RL 训练中的各种工具，如下所示。
 
 .. tip::
 
-   如果在使用 ``gym wrapper`` 录制视频时遇到一些错误，请尝试安装 ``ffmpeg`` ：
+   每个新的RL环境都可以自定义自己的 ``enable_save_replay`` 方法，指定具体生成回放文件的方式。DI-engine对于几个经典环境使用 ``gym wrapper (内部调用ffmpeg)`` 进行可视化。如果在使用 ``gym wrapper`` 录制视频时遇到一些错误，请尝试安装 ``ffmpeg`` 。
 
 
 和其他深度强化学习平台类似，DI-engine也使用tensorboard来记录一些训练时的关键信息和参数。除了DI-engine默认记录
