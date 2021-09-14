@@ -3,3 +3,4 @@
 *.jpg
 *.svg
 .DS_Store
+build/
