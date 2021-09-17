@@ -16,7 +16,7 @@ RL入门
 
 根据文档安装：\ `英文 <https://opendilab.github.io/DI-engine/installation/index.html>`__\ 、\ `中文 <https://di-engine-docs.readthedocs.io/en/main-zh/installation/index_zh.html>`__
 
-**提示**\ ：如果是在集群上，记得将
+**提示**\ ：如果是在服务器上，记得将
 ``~/.local/bin``\ 加入环境变量\ ``$PATH``\ ，否则会无法使用命令行\ ``ding``\ 。Linux上配置环境变量的方法可以参考这份\ `教程 <https://www.cnblogs.com/youyoui/p/10680329.html>`__\ ，重点关注方法一（临时性）和方法二（永久性）即可。
 
 .. _12-cartpole-dqn-demo:
@@ -40,11 +40,13 @@ pipeline几个部分。\ **config**\ 是整个实验的配置文件，\ **env**\
 
 .. image:: ./images/rl/cartpole-ui.png
     :scale: 33%
+    :align: center
 
 上述demo中用到的\ **cartpole**\ 环境，是RL中最基础常用的离散动作环境。cartpole的目标是利用cart（小车）左右移动来平衡画面中pole（竖杆），竖杆保持平衡的时间越长，得分reward越高。竖杆起初是竖直的。
 
 .. image:: ./images/rl/cartpole_x_theta.png
     :scale: 33%
+    :align: center
 
 
 **observation**
@@ -86,10 +88,9 @@ pipeline几个部分。\ **config**\ 是整个实验的配置文件，\ **env**\
 
 **收敛判断条件**
 
-判断n个episode的累积reward的平均值是否到达设定值\ ``stop_val``\ ，我们设定cartpole-v0该值为195。
+判断n个episode（n可自定义）的累积reward的平均值是否到达设定值\ ``stop_val``\ ，我们设定cartpole-v0该值为195。
 
-目前常用的cartpole环境已经集成在了OpenAI
-Gym，如果想了解如何通过gym的API使用环境，可以参考这个\ `链接 <https://blog.csdn.net/qq_32892383/article/details/89576003>`__\ 。
+目前常用的cartpole环境已经集成在OpenAI Gym中，如果想了解如何通过gym的API使用环境，可以参考这个\ `链接 <https://blog.csdn.net/qq_32892383/article/details/89576003>`__\ 。
 
 .. _2-尝试新算法:
 
@@ -113,14 +114,22 @@ pipeline下调收敛，并进行可视化。
 精读一些经典算法，如DQN, C51, IQN, Rainbow, A2C, PPO, IMPALA, DDPG, TD3,
 SAC, QMIX, COMA, MAPPO......横向对比，纵向深入探究。
 
-具体产出形式：针对算法给出一些问题，有意思的QA可以整合进文档Hands-on部分
+具体产出形式：针对算法给出一些问题，有意思的QA可以整合进文档Hands-on RL部分，举例：
+
+- 对比PPO, SAC, TD3在连续动作空间上，动作输出时的处理方式（如何优化，如何探索和利用）
+
+- 对比distributional RL算法的一系列版本，C51，QRDQN，IQN
+
+- priority在不同的算法中该如何定义，DQN，R2D2，TD3
+
+- 哪些算法在收集训练数据时必须保持整个episode的时序关系
 
 .. _4-复现:
 
 4. 复现
 ~~~~~~~
 
-复现某个DI-engine中没有的RL算法
+复现某个DI-engine中尚未实现的RL算法
 
 **paper list**\ ：
 
@@ -138,17 +147,19 @@ SAC, QMIX, COMA, MAPPO......横向对比，纵向深入探究。
 
 -  BCQ (offline RL)
 
+-  Decision Transformer
+
 -  LICA (MARL)
 
-工程协作
---------
+工程协作入门
+------------
 
 .. _1-git使用:
 
 1. git使用
 ~~~~~~~~~~
 
-如果对git几乎不了解，那么还是推荐看一下\ `廖雪峰git教程 <https://www.liaoxuefeng.com/wiki/896043488029600>`__\ ，号称一小时上手git命令，会对相关概念和命令有一个正确且充分的认识。下面罗列一下实际开发中常用的知识。
+如果对git几乎不了解，那么推荐看一下\ `廖雪峰git教程 <https://www.liaoxuefeng.com/wiki/896043488029600>`__\ ，号称一小时上手git命令，会对相关概念和命令有一个正确且充分的认识。下面罗列一下实际开发中常用的知识。
 
 .. _11-基础概念和命令:
 
@@ -160,6 +171,7 @@ SAC, QMIX, COMA, MAPPO......横向对比，纵向深入探究。
 
 .. image:: ./images/dev_collaboration/git_command1.png
     :scale: 33%
+    :align: center
 
 **git
 stash命令**\ ：如果正在开发分支A，此时突然来了个工作需要切换到分支B，而A又还没有到可以提交一个commit的程度，就可以使用\ ``git stash``\ 保存下对分支A的修改（如果希望像commit一样留下一些信息，可以使用\ ``git stash save "STASH-MESSAGE"``\ ），然后切换到分支B（如果不\ ``git stash``\ 或\ ``git commit``\ 会报错）。在分支B施工完成后，可以切换回分支B，然后利用\ ``git stash pop``\ 将暂存的内容恢复。
@@ -168,6 +180,7 @@ stash是一个栈式结构，如果需要pop某个非栈顶元素，可以先使
 
 .. image:: ./images/dev_collaboration/git_command2_stash.png
     :scale: 33%
+    :align: center
 
 **git
 log命令**\ ：可以显示提交commit的信息，可参考\ `教程 <https://www.yiibai.com/git/git_log.html>`__
@@ -253,7 +266,7 @@ cherry-pick只会将某个commit应用在其它分支，可参考\ `教程 <http
 
 4. 保证通过github CI
 
-5. merge最新master分支，解决冲突，等待被合并
+5. merge最新main分支，解决冲突，根据code review结果进行迭代，最终被合并
 
 .. _22-github-actions:
 
@@ -262,6 +275,7 @@ cherry-pick只会将某个commit应用在其它分支，可参考\ `教程 <http
 
 .. image:: ./images/dev_collaboration/github_actions_all.png
     :scale: 25%
+    :align: center
 
 GitHub
 actions是一种持续式集成，用于自动化完成各种任务。如果想进一步了解可以移步\ `教程 <http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html>`__\ （不具体了解也没关系）。DI-engine
@@ -269,11 +283,13 @@ repo中主要使用actions进行各种测试（算法测试、平台测试、风
 
 .. image:: ./images/dev_collaboration/github_actions_all.png
     :scale: 25%
+    :align: center
 
 此时就需要点击Details进入查看具体失败原因。如果本地可以通过测试，但CI不通过，可以尝试rerun：
 
 .. image:: ./images/dev_collaboration/github_actions_rerun.png
     :scale: 25%
+    :align: center
 
 .. _23-issue--pull-request:
 
@@ -336,23 +352,27 @@ In Progess的缩写。
 
 **label和milestone**
 
-每个issue和pr都需要被打上标签label，并注明相关的重要时间节点milestone，需要在界面的这个位置进行指定：
+每个issue和pr都需要被打上标签label，并注明相关的重要时间节点milestone，milestone的意义是追踪每个具体任务对应的中长期目标，二者需要在界面的这个位置进行指定：
 
 .. image:: ./images/dev_collaboration/github_label_milestone.png
     :scale: 25%
+    :align: center
 
 DI-engine repo中目前的label支持：
 
 .. image:: ./images/dev_collaboration/github_label1.png
     :scale: 33%
+    :align: center
 
 .. image:: ./images/dev_collaboration/github_label2.png
     :scale: 33%
+    :align: center
 
 目前的milestone支持：
 
 .. image:: ./images/dev_collaboration/github_milestone.png
     :scale: 33%
+    :align: center
 
 **review**
 
@@ -362,15 +382,18 @@ DI-engine repo中目前的label支持：
 
 .. image:: ./images/dev_collaboration/github_review11.png
     :scale: 33%
+    :align: center
 
 .. image:: ./images/dev_collaboration/github_review12.png
     :scale: 33%
+    :align: center
 
 二是针对具体某行或某段代码进行评论，可以在Files
 Changed中点击加号新建评论，如下图：
 
 .. image:: ./images/dev_collaboration/github_review2.png
     :scale: 33%
+    :align: center
 
 .. _3-代码风格:
 
@@ -455,6 +478,7 @@ Changed中点击加号新建评论，如下图：
 
 .. image:: ./images/dev_collaboration/pytest_assert.png
     :scale: 33%
+    :align: center
 
 也支持异常断言：
 
@@ -482,6 +506,7 @@ test的缩写。在测试文件中不需要显示地import，pytest会自动寻�
 
 .. image:: ./images/dev_collaboration/pytest_mark.png
     :scale: 33%
+    :align: center
 
 **approx**
 
@@ -489,6 +514,7 @@ test的缩写。在测试文件中不需要显示地import，pytest会自动寻�
 
 .. image:: ./images/dev_collaboration/pytest_approx.png
     :scale: 33%
+    :align: center
 
 **parameterize**
 
@@ -549,11 +575,13 @@ Language）是一种统一建模语言，为面向对象开发系统的产品进
 
 .. image:: ./images/dev_collaboration/uml_serial_learner_activity.png
     :scale: 67%
+    :align: center
 
 串行模式下整个pipeline的顺序图：
 
 .. image:: ./images/dev_collaboration/uml_serial_main_sequence.png
     :scale: 50%
+    :align: center
 
 .. _52-画图工具:
 
