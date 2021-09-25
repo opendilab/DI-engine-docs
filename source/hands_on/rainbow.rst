@@ -106,6 +106,23 @@ The network interface Rainbow used is defined as follows:
 The Benchmark result of Rainbow implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview_en.html>`_
 
 
+
+Experiments on Rainbow Tricks
+-----------------------------
+We conduct experiments on lunarlander environment using rainbow(dqn) policy, comparing the performance of dueling, priority, and priority_IS tricks with baseline. 
+
+1. ``reward_mean`` over ``iteration`` is used as an evaluatio metric.
+   
+2. Each experiment setting is done for three times with random seed 0, 1, 2 and average the results to insure stochasticity.
+
+The result is shown in the figure below. As we can see, with tricks on, the speed of convergence is increased by a large amount. In this experiement setting, dueling trick contributes most to the performance. 
+
+.. image:: 
+   images/lunarlander_rainbow.png
+   :align: center
+
+
+
 References
 -----------
 Matteo Hessel, Joseph Modayil, Hado van Hasselt, Tom Schaul, Georg Ostrovski, Will Dabney, Dan Horgan, Bilal Piot, Mohammad Azar, David Silver: “Rainbow: Combining Improvements in Deep Reinforcement Learning”, 2017; [http://arxiv.org/abs/1710.02298 arXiv:1710.02298].
