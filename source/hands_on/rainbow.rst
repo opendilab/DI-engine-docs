@@ -111,7 +111,7 @@ Experiments on Rainbow Tricks
 -----------------------------
 We conduct experiments on lunarlander environment using rainbow(dqn) policy, comparing the performance of dueling, priority, and priority_IS tricks with baseline. 
 
-1. ``reward_mean`` over ``iteration`` is used as an evaluatio metric.
+1. ``reward_mean`` over ``iteration`` is used as an evaluation metric.
    
 2. Each experiment setting is done for three times with random seed 0, 1, 2 and average the results to insure stochasticity.
 
