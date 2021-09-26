@@ -115,6 +115,8 @@ We conduct experiments on lunarlander environment using rainbow(dqn) policy, com
    
 2. Each experiment setting is done for three times with random seed 0, 1, 2 and average the results to insure stochasticity.
 
+3. By setting the ``exp_name`` in config file, the experiement results can be saved in specified path. Otherwise, it will be saved in ``./default_experiment``.
+
 The result is shown in the figure below. As we can see, with tricks on, the speed of convergence is increased by a large amount. In this experiement setting, dueling trick contributes most to the performance. 
 
 .. image:: 
