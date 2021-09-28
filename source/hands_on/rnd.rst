@@ -15,25 +15,21 @@ Quick Facts
 -----------
 
 1. The insight behind exploration approaches is that we first establish a methodology of measuring the **novelty of states**, then we assign a exploration
-   reward in proportional to the novelty of the state. If the visited state is more novel, it will matching a bigger intrinsic reward, on the contrary,
+   reward in proportional to the novelty of the state.
+   If the visited state is more novel, it will matching a bigger intrinsic reward, on the contrary,
    if the state is more familiar to the agent, it will matching a smaller intrinsic reward.
 
 2. RND is a **prediction-error-based** exploration approach that can be applied in non-tabular cases.
    The main idea of prediction-error-based approaches is that defining the intrinsic reward as the prediction error
    for a problem related to the agent’s transitions, such as learning forward dynamics model, learning
    inverse dynamics model, or even a randomly generated problem, which is the case in RND algorithm.
-   In unfamiliar states it’s hard to predict the output of the fixed randomly initialized neural network, and hence the prediction error is higher, so RND can consider
-   the prediction error as a measure of the novelty of visited states.
 
 3. RND involves **two neural networks**: a fixed and randomly initialized target network which sets the prediction problem,
-   and a predictor network trained on data collected by the agent. The target network takes an observation to an embedding
-   :math:`f: O → R^k` and the predictor neural network :math:`\hat{f}: O → R^k` is trained by gradient descent to minimize
-   the expected MSE :math:`|f (x; θ) − f (x)|` with respect to its parameters :math:`θ_\hat{f}`.
-
+   and a predictor network trained on data collected by the agent.
 
 4. In RND paper, though the underlying base RL algorithm is off-policy PPO, RND intrinsic reward generation model can be combined with different RL algorithms conveniently.
 
-Key Graphs and Extensions
+Key Equations or Key Graphs
 ---------------------------
 
 The overall sketch of RND is as follows:
@@ -64,11 +60,20 @@ Factor 1 is a useful source of error since it quantifies the novelty of experien
 serious in the next_sate_prediction based exploration method.
 RND obviates factors 2 and 3 since the target network is chosen to be deterministic and has the identical network structure with
 the model-class of the predictor network.
-But RND is still facing a problem that the rnd bonus reward is gradually disappears over time.
+
+In RND, the target network takes an observation to an embedding :math:`f: O → R^k` and the predictor neural network :math:`\hat{f}: O → R^k` is trained by
+gradient descent to minimize the expected MSE :math:`|f (x; θ) − f (x)|` with respect to its parameters :math:`θ_\hat{f}`.
+In unfamiliar states it’s hard to predict the output of the fixed randomly initialized neural network, and hence the prediction error is higher, so RND can consider
+the prediction error as a measure of the novelty of visited states.
+
+But RND is still facing some problems, one of which is that the RND bonus reward could gradually disappear over time, because with the training progresses advancing,
+the predictor network can fit the output of the randomly initialized neural network better and better.
 Interested readers can refer to the follow-up improvement work `Never Give Up: Learning Directed Exploration Strategies <https://arxiv.org/abs/2002.06038>`__
 and `Agent57: Outperforming the Atari Human Benchmark <https://arxiv.org/abs/2003.13350>`__.
 
-``The implementation details that matters in the paper``
+
+The implementation details that matters
+~~~~~~~~~~~~~~~~~
 
 1.  ``reward normalization``. Normalized the intrinsic reward by dividing it by a running estimate
 of the standard deviations of the intrinsic returns.
@@ -83,7 +88,7 @@ Use the same observation normalization for both predictor and target networks bu
 Non-episodic setting (it means the return is not truncated at “game over”) resulted in more exploration than the episodic setting when exploring without any extrinsic rewards.
 In order to combine episodic and non-episodic reward streams we require two value heads.
 When combing the episodic and non-episodic returns, a higher discount factor for the extrinsic rewards leads to better performance,
-while for intrinsic rewards it hurts exploration. so we set discount factor as 0.999 for extrinsic rewards and 0.99 for intrinsic rewards.
+while for intrinsic rewards it hurts exploration. So we set discount factor as 0.999 for extrinsic rewards and 0.99 for intrinsic rewards.
 
 To understand the reasons behind these operations, it is recommended to read the original paper.
 
@@ -95,7 +100,7 @@ Pseudo-Code
    :scale: 85%
    :alt:
 
-Implementation Interface
+Implementation
 ---------------
 
 The interface of RND reward model is defined as follows:
@@ -109,11 +114,11 @@ The interface of on policy PPO is defined as follows:
 .. autoclass:: ding.policy.ppo.PPOPolicy
    :noindex:
 
-Key Implementation
----------------
 Note: ``...`` indicates the omitted code snippet. For the complete code, please refer to our
 `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/rnd_reward_model.py>`__ in DI-engine.
 
+RndNetwork
+~~~~~~~~~~~~~~~~~
 First, we define the class ``RndNetwork`` involves two neural networks: the fixed and randomly initialized target network ``self.target``,
 and the predictor network ``self.predictor`` trained on data collected by the agent.
 
@@ -145,6 +150,8 @@ and the predictor network ``self.predictor`` trained on data collected by the ag
 
 
 
+RndRewardModel
+~~~~~~~~~~~~~~~~~
 Then, we initialize reward model, optimizer and self._running_mean_std_rnd in ``_init_`` of class ``RndRewardModel``.
 
         .. code-block:: python
@@ -159,6 +166,8 @@ Then, we initialize reward model, optimizer and self._running_mean_std_rnd in ``
                 ...
                 self._running_mean_std_rnd = RunningMeanStd(epsilon=1e-4)
 
+Train RndRewardModel
+~~~~~~~~~~~~~~~~~
 Afterwards, we calculate the reward model loss and update the RND predictor network: ``self.reward_model.predictor``.
 
         .. code-block:: python
@@ -172,7 +181,8 @@ Afterwards, we calculate the reward model loss and update the RND predictor netw
                 loss.backward()
                 self.opt.step()
 
-
+Calculate RND Reward
+~~~~~~~~~~~~~~~~~
 Finally, we calculate MSE loss according to the RND reward model and do the necessary subsequent processing
 and rewrite the reward key in the data in ``estimate`` method of class ``RndRewardModel``.
 
