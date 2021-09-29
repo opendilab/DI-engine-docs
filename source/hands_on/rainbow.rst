@@ -173,7 +173,7 @@ The detailed experiments setting is stated below.
 The result is shown in the figure below. As we can see, with tricks on, the speed of convergence is increased by a large amount. In this experiement setting, dueling trick contributes most to the performance. 
 
 .. image:: 
-   images/rainbow-dqn-exp.png
+   images/rainbow_exp.png
    :align: center
 
 
