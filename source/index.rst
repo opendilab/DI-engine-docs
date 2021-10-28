@@ -56,6 +56,7 @@ DI-engine是一个通用决策智能平台。它支持大多数常用的深度�
    key_concept/index
    intro_rl/index_zh
    hands_on/index
+   env_tutorial/index_zh
    best_practice/index
    api_doc/index
 
