@@ -4,7 +4,7 @@
 .. toctree::
    :maxdepth: 2
 
-   warmup
-   git_guide
-   doc_contribution
-   code_comment
+   git_guide_en
+   doc_contribution_en
+   code_comment_en
+   

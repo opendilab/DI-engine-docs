@@ -12,6 +12,7 @@ Hands on RL
     sqil
 
     a2c
+    acer
     ppo
     ppg
     impala
