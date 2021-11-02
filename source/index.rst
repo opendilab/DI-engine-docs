@@ -57,6 +57,7 @@ If you want to deeply customize your algorithm and application with DI-engine, a
    key_concept/index
    intro_rl/index
    hands_on/index
+   env_tutorial/index
    best_practice/index
    api_doc/index
 
