@@ -168,13 +168,21 @@ Then, we initialize reward model, optimizer and self._running_mean_std_rnd in ``
 
 Train RndRewardModel
 ~~~~~~~~~~~~~~~~~
-Afterwards, we calculate the reward model loss and update the RND predictor network: ``self.reward_model.predictor``.
+Afterwards, we calculate the reward model loss and update the RND predictor network: ``self.reward_model.predictor``.  Note that, according to the
+original paper, we adopt the observation normalization trick that is transforming the original observations to mean 0, std 1, and clip the normalized observations
+to be between -5 and 5, which is empirically important especially when using a random network as a target, for the detailed explanation, please refer the chapter 2.4 in the RND paper.
 
         .. code-block:: python
 
          def _train(self) -> None:
                 train_data: list = random.sample(self.train_data, self.cfg.batch_size)
                 train_data: torch.Tensor = torch.stack(train_data).to(self.device)
+
+                # observation normalization:  transform to mean 0, std 1
+                self._running_mean_std_rnd_obs.update(train_data.cpu().numpy())
+                train_data = (train_data - to_tensor(self._running_mean_std_rnd_obs.mean)) / to_tensor(self._running_mean_std_rnd_obs.std)
+                train_data = torch.clamp(train_data, min=-5, max=5)
+
                 predict_feature, target_feature = self.reward_model(train_data)
                 loss = F.mse_loss(predict_feature, target_feature.detach())
                 self.opt.zero_grad()
@@ -184,7 +192,9 @@ Afterwards, we calculate the reward model loss and update the RND predictor netw
 Calculate RND Reward
 ~~~~~~~~~~~~~~~~~
 Finally, we calculate MSE loss according to the RND reward model and do the necessary subsequent processing
-and rewrite the reward key in the data in ``estimate`` method of class ``RndRewardModel``.
+and rewrite the reward key in the data in ``estimate`` method of class ``RndRewardModel``. And note that
+we adapt the reward normalization trick that is transforming the original RND reward to (mean 0, std 1), empirically we found this normalization way works well
+than only dividing the self._running_mean_std_rnd.std in some sparse reward environment, such as minigrid.
 
     1. ``calculate the RND pseudo reward``
 
@@ -192,13 +202,22 @@ and rewrite the reward key in the data in ``estimate`` method of class ``RndRewa
 
          obs = collect_states(data)
          obs = torch.stack(obs).to(self.device)
+
+         # observation normalization:  transform to mean 0, std 1
+         obs = (obs - to_tensor(self._running_mean_std_rnd_obs.mean)) / to_tensor(self._running_mean_std_rnd_obs.std)
+         obs = torch.clamp(obs, min=-5, max=5)
+
          with torch.no_grad():
              predict_feature, target_feature = self.reward_model(obs)
              reward = F.mse_loss(predict_feature, target_feature, reduction='none').mean(dim=1)
              self._running_mean_std_rnd.update(reward.cpu().numpy())
-             reward = reward / self._running_mean_std_rnd.std
+             # reward normalization: transform to (mean 0, std 1), empirically we found this normalization way works well
+             # than only dividing the self._running_mean_std_rnd.std
+             reward = (reward - self._running_mean_std_rnd.mean) / (self._running_mean_std_rnd.std + 1e-11)
+             # reward = reward / self._running_mean_std_rnd.std
 
-    2. ``combine the RND pseudo reward with the original reward``
+    2. ``combine the RND pseudo reward with the original reward``. Here, we may also use some weighting factor to control the
+    balance of exploration and exploitation.
 
         .. code-block:: python
 
