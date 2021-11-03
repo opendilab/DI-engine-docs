@@ -4,9 +4,9 @@ MiniGrid
 概述
 =======
 
-MiniGrid,即最小化的格子世界环境，是经典的离散动作空间稀疏奖励的强化学习环境，常来作为离散动作空间条件下稀疏强化学习算法的基准测试环境。它有许多不同的实现版本，这里主要介绍
-\ `MiniGrid <https://github.com/maximecb/gym-minigrid>`__, 因为实现设计简单、轻量快速，代码依赖少，容易安装。
-它包括一系列环境的集合（共有57个子环境），常用的子环境有MiniGrid-Empty-8x8-v0，MiniGrid-FourRooms-v0，MiniGrid-DoorKey-16x16-v0, MiniGrid-KeyCorridorS3R3-v0,
+MiniGrid, 即最小化的格子世界环境，是经典的稀疏奖励的离散动作空间强化学习环境，常作为离散动作空间条件下稀疏强化学习算法的基准测试环境。它有许多不同的实现版本，这里主要介绍
+\ `MiniGrid <https://github.com/maximecb/gym-minigrid>`__, 因为其实现简单、轻量、代码依赖少、容易安装。
+它包括一系列环境的集合，常用的子环境有MiniGrid-Empty-8x8-v0，MiniGrid-FourRooms-v0，MiniGrid-DoorKey-16x16-v0, MiniGrid-KeyCorridorS3R3-v0,
 MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图所示为其中的MiniGrid-DoorKey-16x16-v0游戏。
 
 .. image:: ./images/MiniGrid-DoorKey-16x16-v0.png
@@ -18,9 +18,9 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图�
 安装方法
 --------
 
-安装十分简单，可以通过pip一键安装或git clone后本地安装
+用户可以选择通过pip一键安装或git clone代码库后pip本地安装.
 
-注：如果用户没有root权限，在install的命令后面加上--user
+注：如果用户没有root权限，请在install的命令后面加上--user
 
 .. code:: shell
 
@@ -34,7 +34,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图�
 验证安装
 --------
 
-安装完成后，可以通过在Python命令行中运行如下命令, 如果显示出游戏的交互界面，则验证安装成功：
+安装完成后，可以在Python命令行中运行如下命令, 如果显示出游戏的交互界面，则证明安装成功：
 
 .. code:: python
     cd gym-minigrid
@@ -50,32 +50,30 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图�
 观察空间
 --------
 
--  实际的游戏画面，RGB三通道图片，具体尺寸为\ ``(210, 160, 3)``\ ，数据类型为\ ``uint8``
-以MiniGrid-Empty-8x8-v0为例，
+- 以MiniGrid-Empty-8x8-v0为例，
 
 .. code:: python
    env = gym.make('MiniGrid-Empty-8x8-v0')
-   obs1 = env.reset()  # obs: {'image': numpy.ndarray (7, 7, 3),'direction': ,'mission':,}
+   obs1 = env.reset()  # obs: {'image': numpy.ndarray (7, 7, 3),'direction': ,'mission': ,}
    env = RGBImgPartialObsWrapper(env) # Get pixel observations
    obs2 = env.reset()  # obs: {'mission': ,'image': numpy.ndarray (56, 56, 3)}
    env = ImgObsWrapper(env) # Get rid of the 'mission' field
    obs3 = env.reset()  # obs: numpy.ndarray (56, 56, 3)
 
-   # 不能在使用上述Wrapper后再使用此wrapper，应该单独使用
+   # 不能在使用上述Wrapper后再使用此FlatObsWrapper，应该单独使用
    env = gym.make('MiniGrid-Empty-8x8-v0')
    env = FlatObsWrapper(env)
    obs4 = env.reset()  # obs: numpy.ndarray  (56, 56, 3)
 
 
-- obs1为一个dict，包含'image', 'direction','mission',这3个字段,其中'image'字段是一个shape为(7, 7, 3)的numpy.ndarray，数据类型为\ ``uint8``
-  7，7是因为环境是部分可观测的，3表示，每个小格对应一个3维的描述向量，注意这里不是真正的图像；'direction'字段可用作可选的指南针。
-  带有'mission'字段是一个文本字符串，描述了智能体应该达到什么样的目标以获得奖励.
-- 用户如果想使用真正的像素图像，需要通过RGBImgPartialObsWrapper对env进行封装，
-  obs2为一个dict，包含'mission','image',2个字段，其中'image'字段是一个shape为(56, 56, 3)的numpy.ndarray，数据类型为\ ``uint8``
+- obs1为一个\ ``dict``，包含\ ``image``, \ ``direction``, \ ``mission``,这3个字段, 其中\ ``image``\字段是一个shape为(7, 7, 3)的\ ``numpy.ndarray``，数据类型为\ ``uint8``
+  (7，7)表示只观测到附近7x7方格内的世界(因为环境是部分可观测的)，3表示每个小格对应一个3维的描述向量，注意这里不是真正的图像；\ ``direction``\字段是给出一个指导性的方向；
+  \ ``mission``\字段是一个文本字符串，描述了智能体应该达到什么样的目标以获得奖励.
+- 用户如果想使用真正的像素形式的图像，需要通过\ ``RGBImgPartialObsWrapper``\对env进行封装，obs2为一个\ ``dict``，包含\ ``mission``, \ ``image``\这2个字段，其中\ ``image``\字段是一个shape为(56, 56, 3)的\ ``numpy.ndarray``\，数据类型为\ ``uint8``
   是环境是部分可观测的真正的图像；
--  再通过ImgObsWrapper后，obs3是一个numpy.ndarray，shape为(56, 56, 3)，数据类型为\ ``uint8``
-- 我们的代码库使用第4种FlatObsWrapper方式，这种方式将'mission'字段中的任务字符串用one-hot的方式编码，
-  并将其与'image'字段内容拼接成一个numpy.ndarray，其shape为(2739，)，数据类型为\ ``float32``
+- 再通过\ ``ImgObsWrapper``\后，obs3是一个\ ``numpy.ndarray``，shape为(56, 56, 3)，数据类型为\ ``uint8``
+- 我们的代码库使用第4种\ ``FlatObsWrapper`` \方式，这种方式将\ ``mission``\字段中的任务字符串用one-hot的方式编码，
+  并将其与\ ``image``\字段内容拼接成一个\ ``numpy.ndarray``\obs4，其shape为(2739，)，数据类型为\ ``float32``
 
 
 .. _动作空间-1:
@@ -101,23 +99,22 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图�
 
    -  6： done/noop
 
-动作[0,7)
-
-参考\ `MiniGrid manual_control.py <https://github.com/maximecb/gym-minigrid/blob/master/manual_control.py>`__，键盘按键-动作对应关系为
- - 'arrow left':left,
- - 'arrow right':right,
- - 'arrow up':up
- - ‘ ’:  toggle,
- - ‘pageup’: pickup
- - ‘pagedown’: drop
- - ‘enter’: done/noop
+- 参考\ `MiniGrid manual_control.py <https://github.com/maximecb/gym-minigrid/blob/master/manual_control.py>`__，键盘按键-动作对应关系为:
+     - 'arrow left': left,
+     - 'arrow right': right,
+     - 'arrow up': up
+     - ‘ ’: toggle,
+     - ‘pageup’: pickup
+     - ‘pagedown’: drop
+     - ‘enter’: done/noop
 
 .. _奖励空间-1:
 
 奖励空间
 --------
 
--  游戏得分，根据具体游戏内容不同会有比较大的差异，一般是一个\ ``float``\ 数值，由于是稀疏奖励环境，只有在agent(显示为红色的点)到达goal(显示为绿色的点)时才有一个大于零的奖励，具体的数值由不同环境和达到goal所用的总步数决定，没有达到goal之前的奖励都是0。
+-  游戏得分，不同的minigrid子环境奖励幅度差异较小，其最大值为1，一般是一个\ ``float``\ 数值，由于是稀疏奖励环境，只有在agent(显示为红色的点)到达goal
+   (显示为绿色的点)时才有一个大于零的奖励，具体的数值由不同环境和达到goal所用的总步数决定，没有达到goal之前的奖励都是0。
 
 .. _其他-1:
 
@@ -133,9 +130,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图�
 
 2. 离散动作空间
 
-3. 稀疏奖励
-
-4. 奖励取值尺度变化较小，最大为1
+3. 稀疏奖励，奖励取值尺度变化较小，最大为1，最小为0
 
 .. _变换后的空间rl环境）:
 
@@ -147,7 +142,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图�
 观察空间
 --------
 
--  变换内容：我们的代码库使用第4种FlatObsWrapper方式，这种方式将'mission'字段中的任务字符串用one-hot的方式编码，并将其与'image'字段内容拼接成一个长数组
+-  变换内容：我们的代码库使用第4种\ ``FlatObsWrapper``\方式，这种方式将\ ``mission``\字段中的任务字符串以one-hot的方式编码，并将其与\ ``image``\字段内容拼接成一个长数组
 
 -  变换结果：一维np数组，尺寸为\ ``(2739，)``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[0., 7.]``
 
@@ -156,16 +151,15 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图�
 动作空间
 --------
 
--  基本无变换，依然是大小为N=7的离散动作空间，但一般为一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
+-  基本无变换，依然是大小为N=7的离散动作空间，一般为一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
 .. _奖励空间-2:
 
 奖励空间
 --------
 
--  变换内容：奖励缩放和截断
+-  变换内容：基本无变换
 
--  变换结果：一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[-1, 1]``
 
 上述空间使用gym环境空间定义则可表示为：
 
@@ -188,11 +182,6 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图�
 
 其他
 ====
-
-惰性初始化
-----------
-
-为了便于支持环境向量化等并行操作，环境实例一般实现惰性初始化，即\ ``__init__``\ 方法不初始化真正的原始环境实例，只是设置相关参数和配置值，在第一次调用\ ``reset``\ 方法时初始化具体的原始环境实例。
 
 随机种子
 --------
