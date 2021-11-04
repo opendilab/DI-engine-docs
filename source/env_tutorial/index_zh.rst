@@ -6,3 +6,6 @@
    :maxdepth: 1
 
    atari_zh
+   gym_hybrid_zh
+   gym_soccer_zh
+   

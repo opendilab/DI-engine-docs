@@ -48,7 +48,7 @@ HFO (Half-field Offense, 半场进攻) 是机器人世界杯2D足球比赛中的
     import gym_soccer
     env = gym.make('Soccer-v0')
     obs = env.reset()
-    print(obs.shape)  
+    print(obs)  
 
 镜像
 ----
@@ -70,7 +70,7 @@ Gym-Soccer 的动作空间属于离散连续动作混合空间，有3个离散�
 
 使用gym环境空间定义则可表示为：
 
-.. code:: shell
+.. code:: python
 
     action_space = spaces.Tuple((spaces.Discrete(3),
                                     spaces.Box(low=0, high=100, shape=(1,)),
@@ -82,7 +82,7 @@ Gym-Soccer 的动作空间属于离散连续动作混合空间，有3个离散�
 状态空间
 ----------
 
-Gym-Soccer 的动作空间描述了当前游戏的状态，分为\ ``High Level Feature Set`` \和 \ ``Low Level Feature Set`` \，包含agent当前的坐标，球的坐标，agent的朝向等等。数值型的feature被统一scale到\ ``[-1,1]`` \的范围。具体请查阅官方手册中的 State Spaces 章节。
+Gym-Soccer 的状态空间描述了当前游戏的状态，分为\ ``High Level Feature Set`` \和 \ ``Low Level Feature Set`` \，包含agent当前的坐标，球的坐标，agent的朝向等等。数值型的feature被统一scale到\ ``[-1,1]`` \的范围。具体请查阅官方手册中的 State Spaces 章节。
 
 内置环境
 -----------
@@ -107,6 +107,11 @@ DI-zoo 可运行代码示例
 
 （TBD）待添加PDQN算法。
 
+参考资料
+====================
+- HFO `源码 <https://github.com/LARG/HFO>`__
+- Open-AI Gym-soccer `源码 <https://github.com/openai/gym-soccer>`__ 
+  
 
 
 
