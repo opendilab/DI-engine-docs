@@ -6,3 +6,5 @@
    :maxdepth: 1
 
    atari_zh
+   procgen_zh
+   smac_zh
