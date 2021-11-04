@@ -477,3 +477,14 @@ gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entr
    if __name__ == '__main__':
        config = tuple([deepcopy(main_config), deepcopy(create_config), deepcopy(system_config)])
        parallel_pipeline(config, seed=0)
+
+.. _header-n282:
+
+训练实例
+--------
+
+在DI-engine的状态空间下，经过reward设计和动作空间约束，self
+play训练中对内置hard AI胜率曲线如下图所示：
+
+.. figure:: images/gfootball_train.png
+   :alt:
