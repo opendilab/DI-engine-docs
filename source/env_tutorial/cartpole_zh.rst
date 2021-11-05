@@ -189,6 +189,13 @@ DI-zoo 可运行代码示例
     if __name__ == "__main__":
         main(cartpole_dqn_config)
 
+实验结果
+=================
+使用DQN算法的实验结果如下。横坐标是\ ``episode`` \，纵坐标是\ ``reward_mean`` \。
+
+.. image:: ./images/cartpole_dqn.png
+   :align: center
+
 
 参考资料
 =====================
