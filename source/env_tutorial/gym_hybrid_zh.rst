@@ -30,7 +30,7 @@ Gym-Hybrid
 
 方法二: 在Python命令行中运行如下命令验证安装成功。
 
-.. code:: shell 
+.. code:: python 
 
     import gym
     import gym_hybrid
@@ -44,7 +44,7 @@ Gym-Hybrid
 动作空间
 ----------
 
-Gym-Soccer 的动作空间属于离散连续动作混合空间，有2个离散动作，每个离散动作有n个连续参数（n>=0)。
+Gym-hybrid 的动作空间属于离散连续动作混合空间，有2个离散动作，每个离散动作有n个连续参数（n>=0)。
 
 -  \ ``Accelerate (Acceleration value)`` \: 表示让agent以 \ ``acceleration value`` \的大小加速。 \ ``Acceleration value`` \的取值范围是\ ``[0,1]`` \。数值类型为\ ``float32``。
   
@@ -95,9 +95,13 @@ Gym-hybrid 的状态空间由一个有10个元素的list表示，描述了当前
 终止条件
 ------------
 Gym-hybrid 环境每个episode的终止条件是遇到以下任何一种情况：
+
 - agent 成功进入目标区域
+  
 - agant 出界
+  
 - 达到episode的最大step
+  
 
 内置环境
 -----------
@@ -109,12 +113,12 @@ Gym-hybrid 环境每个episode的终止条件是遇到以下任何一种情况�
 存储录像
 --------
 
-有些环境有自己的渲染插件。DI-engine不支持环境自带的渲染插件，而是通过保存训练时的log日志来生成视频录像。具体方式可参考 `官方文档 <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start 章节下的 Visualization & Logging 部分。
+有些环境有自己的渲染插件。DI-engine不支持环境自带的渲染插件，而是通过保存训练时的log日志来生成视频录像。具体方式可参考DI-engine `官方文档 <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start 章节下的 Visualization & Logging 部分。
 
 DI-zoo 可运行代码示例
 =====================
 
-下面提供一个完整的gym hybrid环境config，采用DDPG算法作为policy。请在\ ``DI-engine/dizoo`` \目录下运行。
+下面提供一个完整的gym hybrid环境config，采用DDPG算法作为policy。请在\ ``DI-engine/dizoo/gym_hybrid`` \目录下运行\ ``gym_hybrid_ddpg_config.py`` \文件，如下。
 
 .. code:: python
 

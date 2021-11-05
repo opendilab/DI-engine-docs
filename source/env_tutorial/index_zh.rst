@@ -6,6 +6,7 @@
    :maxdepth: 1
 
    atari_zh
+   cartpole_zh.rst
    gym_hybrid_zh
    gym_soccer_zh
    
