@@ -65,8 +65,11 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 Gym-Soccer 的动作空间属于离散连续动作混合空间，有3个离散动作，每个离散动作有n个连续参数（n>=0)。
 
 -  \ ``TURN (degree)`` \: 表示让agent朝degree方向转身。 \ ``degree`` \的取值范围是 \ ``[-180，180]`` \。当 \ ``degree`` \= 0时，表示正前方向；当 \ ``degree`` \= 90时，表示正右方向。
+  
 -  \ ``DASH (power, degree)`` \: 表示让agent以 \ ``power`` \ 大小的力气向 \ ``degree`` \方向移动。 \ ``degree`` \的取值范围是 \ ``[-180，180]`` \。\ ``power`` \的取值范围是\ ``[0，100]`` \。注意：DASH并不会TURN智能体。
+  
 -  \ ``KICK (power, degree)`` \: 表示让agent以 \ ``power`` \ 大小的力气向 \ ``degree`` \方向击球。当agent手里没球时，动作不生效。
+
 
 使用gym环境空间定义则可表示为：
 
@@ -88,7 +91,9 @@ Gym-Soccer 的状态空间描述了当前游戏的状态，分为\ ``High Level 
 -----------
 
 -  \ ``"Soccer-v0"`` \: 最简单的设定。初始化1个进攻球员，0个防守球员。进球得1分，否则得0分。奖励稀疏，训练比较难。
+  
 -  \ ``"SoccerEmptyGoal-v0"`` \: 奖励相对更稠密。进攻球员向足球靠近、将足球向目标方向踢、进球都会得到奖励.
+  
 -  \ ``"SoccerAgainstKeeper-v0"`` \: 奖励设定与 \ ``"SoccerEmptyGoal-v0"`` \ 相同。增加1个守门员（由规则控制的bot）。进攻球员需要学习如何与守门员周旋并进球得分。
 
 用户自定义环境(TBD)

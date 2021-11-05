@@ -1,9 +1,9 @@
-Cartpole（倒立摆）
+Cartpole
 ~~~~~~~~~~~~~~~~~~
 
 概述
 =======
-Cartpole游戏中有一个小车，上有竖着一根杆子。小车在一个光滑无摩擦的轨道上左右滑行，目的是使杆子保持竖直。如下图所示。
+倒立摆问题是强化学习中的经典控制问题。Cartpole是倒立摆问题中的一个离散控制任务。在游戏中有一个小车，上有竖着一根杆子。小车在一个光滑无摩擦的轨道上左右滑行，目的是使杆子保持竖直。如下图所示。
 
 .. image:: ./images/cartpole.gif
    :align: center
@@ -199,7 +199,7 @@ DI-zoo 可运行代码示例
 
 参考资料
 =====================
-- Cartpole `源码 <https://github.com/thomashirtz/Cartpole>`__
+- Cartpole `源码 <https://github.com/openai/gym/blob/master/gym/envs/classic_control/cartpole.py>`__
 
 
 
