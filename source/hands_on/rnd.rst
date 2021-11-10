@@ -34,10 +34,14 @@ Key Equations or Key Graphs
 
 The overall sketch of RND is as follows:
 
+.. image:: ./images/RND.png
+   :align: center
+   :scale: 85%
+
 .. figure:: images/RND.png
    :align: center
    :scale: 85%
-   :alt:
+
 
 The overall sketch of next_sate_prediction exploration method is as follows:
 
