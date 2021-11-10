@@ -75,8 +75,12 @@ and `Agent57: Outperforming the Atari Human Benchmark <https://arxiv.org/abs/200
 The implementation details that matters
 ~~~~~~~~~~~~~~~~~
 
-1.  ``reward normalization``. Normalized the intrinsic reward by dividing it by a running estimate
-of the standard deviations of the intrinsic returns.
+1.  ``intrinsic reward normalization and weighting``. Normalized the intrinsic reward by the min-max normalization method, i.e.,
+    first minus the mini-batch min and divide it by the difference between the mini-batch max and the the mini-batch min. After the min-max normalization
+    the RND intrinsic reward is squashed into [0,1]. And we should also use some weighting factor to control the balance of exploration and exploitation.
+    For MiniGrid, in each episode, we let the last non-zero positive original reward times 1000 (more general, the weighting factor could be the max length of the game) as
+    the final fusion-reward to enlarge the effect of its original goal. And our experiment results in minigrid empty8 here shows that the balance of exploration and exploitation
+    (here in exploration RL alg, i.e. the weighting factor of intrinsic reward) is critical to achieve good performance in MiniGrid envs.
 
 2. ``observation normalization``.
 Whiten each dimension by subtracting the running mean and then dividing by the running standard deviation.
@@ -211,23 +215,44 @@ than only dividing the self._running_mean_std_rnd.std in some sparse reward envi
              predict_feature, target_feature = self.reward_model(obs)
              reward = F.mse_loss(predict_feature, target_feature, reduction='none').mean(dim=1)
              self._running_mean_std_rnd.update(reward.cpu().numpy())
-             # reward normalization: transform to (mean 0, std 1), empirically we found this normalization way works well
+             # reward normalization: transform to [0,1], empirically we found this normalization way works well
              # than only dividing the self._running_mean_std_rnd.std
-             reward = (reward - self._running_mean_std_rnd.mean) / (self._running_mean_std_rnd.std + 1e-11)
-             # reward = reward / self._running_mean_std_rnd.std
+             rnd_reward = (reward - reward.min()) / (reward.max() - reward.min() + 1e-11)
 
-    2. ``combine the RND pseudo reward with the original reward``. Here, we may also use some weighting factor to control the
-    balance of exploration and exploitation.
+    2. ``combine the RND pseudo reward with the original reward``. Here, we should also use some weighting factor to control the
+    balance of exploration and exploitation. For minigrid, we let the last non-zero original reward times 1000 to enlarge the effect
+    of original goal. We also conduct the experiment on minigrid empty8 to verify the importance of tradeoff between the exploration
+    and exploitation. In the experiment, we found that if we don't use the weighting factor 1000, the rnd agent can't learn to reach the goal totally because
+    the extent of exploration is to big.
 
         .. code-block:: python
 
          for item, rew in zip(data, reward):
             if self.intrinsic_reward_type == 'add':
                 item['reward'] += rew
+                if item['reward'] > 0 and item['reward'] <= 1:  # for minigrid
+                    item['reward'] = 1000 * item['reward'] + rnd_rew
+                else:
+                    item['reward'] += rnd_rew
             elif self.intrinsic_reward_type == 'new':
                 item['intrinsic_reward'] = rew
             elif self.intrinsic_reward_type == 'assign':
                 item['reward'] = rew
+
+基准算法性能
+============
+
+-  MiniGrid-Empty-8x8-v0（0.5M env step下，平均奖励大于0.95）
+
+   - MiniGrid-Empty-8x8-v0 + rnd-onppo
+   .. image:: images/empty8_rnd-onppo.png
+     :align: center
+
+-  MiniGrid-FourRooms-v0（10M env step下，平均奖励大于0.6）
+
+   - MiniGrid-FourRooms-v0 + rnd-onppo
+   .. image:: images/fourrooms_rnd-onppo.png
+     :align: center
 
 
 Author's Tensorflow Implementation
