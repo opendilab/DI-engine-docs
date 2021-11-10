@@ -6,3 +6,4 @@
    :maxdepth: 1
 
    atari_zh
+   slime_volleyball_zh
