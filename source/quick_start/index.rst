@@ -201,8 +201,7 @@ DI-engine supports various useful tools in common RL training, as shown in follo
 Epsilon Greedy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An easy way of deploying epsilon greedy exploration when sampling data has already been shown above. It is
-called by the ``epsilon_greedy`` function each step. And you can select your own decay strategy, such as envstep and train_iter.
+An easy way of deploying epsilon greedy exploration when sampling data is shown as follows:
 
 .. code-block:: python
 
@@ -214,27 +213,47 @@ called by the ``epsilon_greedy`` function each step. And you can select your own
         eps = epsilon_greedy(learner.train_iter)
         ...
 
+Firstly, you should call ``get_epsilon_greedy_fn`` to acquire an eps-greedy function. Then, you should call ``epsilon_greedy`` function at each step. The epsilon decay strategy can be configured by you, for example, start value, end value, type of decay(linear, exponential). And you can control whether it decay by env step or train iteration.
+
 
 Visualization & Logging
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Some environments have a rendering surface or visualization. DI-engine adds a switch to save these replays.
-After training, users need to indicate ``env.replay_path`` and ``policy.learn.learner.load_path`` in config,
-and add the next lines after training converge. If everything is working fine, you can find some videos with ``.mp4`` suffix in the replay_path(some GUI interfaces are normal).
+Some environments have a rendering visualization. DI-engine doesn't use render interface, but supports saving replay videos instead.
+After training, users can add the code shown below to enable this function. If everything works well, you can find some videos with ``.mp4`` suffix in directory ``replay_path`` (some GUI interfaces are normal).
+
 
 .. code-block:: python
 
     evaluator_env = BaseEnvManager(env_fn=[wrapped_cartpole_env for _ in range(evaluator_env_num)], cfg=cfg.env.manager)
-    cfg.env.replay_path = './video'
-    evaluator_env.enable_save_replay(cfg.env.replay_path)
+    cfg.env.replay_path = './video'  # indicate save replay directory path
+    evaluator_env.seed(seed=0, dynamic_seed=False)
+    evaluator_env.enable_save_replay(cfg.env.replay_path)  # switch save replay interface
     evaluator = BaseSerialEvaluator(
         cfg.policy.eval.evaluator, evaluator_env, policy.eval_mode, tb_logger, exp_name=cfg.exp_name
     )
     evaluator.eval(learner.save_checkpoint, learner.train_iter, collector.envstep)
 
+.. note::
+
+  If users want to visualize with a trained policy, please refer to ``dizoo/classic_control/cartpole/entry/cartpole_dqn_eval.py`` to construct a user-defined evaluation function, and indicate two fields ``env.replay_path`` and ``policy.learn.learner.hook.load_ckpt_before_run`` in config. An example is shown as follows:
+
+  .. code-block:: python
+  
+    config = dict(
+        env=dict(
+            replay_path='your_replay_save_dir_path',
+        ),
+        policy=dict(
+            ...,
+            load_path='your_ckpt_path',
+            ...,
+        ),
+    )
+
 .. tip::
 
-    If users encounter some errors in recording videos by gym wrapper, you should install ``ffmpeg`` first.
+    All new RL environments can define their own ``enable_save_replay`` method to specify how to generate replay files. DI-engine utilizes ``gym wrapper (coupled with ffmpeg)`` to generate replays for some traditional environments. If users encounter some errors in recording videos by ``gym wrapper``, you should install ``ffmpeg`` first.
 
 
 Similar with other Deep Learning platforms, DI-engine uses tensorboard to record key parameters and results during
@@ -251,8 +270,8 @@ DQN experiment.
 Loading & Saving checkpoints
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is usually needed to save and resume an experiments with model checkpoints. DI-engine saves and loads checkpoints
-in the same way as PyTorch.
+It is usually needed to save and resume an experiment with model checkpoint. 
+DI-engine saves and loads checkpoints in the same way as PyTorch.
 
 .. code-block:: python
 
@@ -264,7 +283,7 @@ in the same way as PyTorch.
     ...
 
     dirname = './ckpt_{}'.format(learner.name)
-    os.mkdir(dirname, exsit_ok=True)
+    os.mkdir(dirname, exist_ok=True)
     ckpt_name = 'iteration_{}.pth.tar'.format(learner.last_iter.val)
     path = os.path.join(dirname, ckpt_name)
     state_dict = learner.policy.state_dict()
@@ -272,9 +291,9 @@ in the same way as PyTorch.
     learner.info('{} save ckpt in {}'.format(learner.name, path))
 
 To deploy this in a more elegant way, DI-engine is configured to use 
-:class:`Learner Hooks <ding.worker.learner.learner_hook.LearnerHook>` to handle these cases. The saving hook is 
-automatically frequently called after training iterations. And to load & save checkpoints at the beginning and 
-in the end, users can simply add one line code before & after training as follow.
+:class:`Learner Hook <ding.worker.learner.learner_hook.LearnerHook>` to handle these cases. The saving hook is 
+automatically called after training iterations. And to load & save checkpoints at the beginning and 
+in the end, users can simply add one-line code before & after training as follows.
 
 .. code-block:: python
     
