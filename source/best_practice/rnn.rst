@@ -331,4 +331,4 @@ the ``burnin_output`` and ``burnin_output_target`` will save the hidden_state in
             target_q_action = self._learn_model.forward(next_inputs)['action']
 
 
-For more details of RNN and burn-in, you can refer to `ding/policy/r2d2.py`.
+For more details of RNN and burn-in, you can refer to ``ding/policy/r2d2.py <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`_ .
