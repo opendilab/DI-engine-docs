@@ -90,22 +90,36 @@ DQNPolicy 的默认 config 如下所示：
 Benchmark
 ------------------
 
-+------------------+------------------------------------------------------+------------------------+
-| environment      | result                                               | config                 |
-+==================+======================================================+========================+
-| pong             | .. image:: images/benchmark/pong_dqn.png             | dizoo\                 |
-|                  |                                                      | /atari/config/serial/p |
-|                  |                                                      | ong/pong_dqn_config.py |
-+------------------+------------------------------------------------------+------------------------+
-| qbert            | .. image:: images/benchmark/qbert_dqn.png            | dizoo/a\               |
-|                  |                                                      | tari/config/serial/qbe |
-|                  |                                                      | rt/qbert_dqn_config.py |
-+------------------+------------------------------------------------------+------------------------+
-| spaceinvaders    | .. image:: images/benchmark/spaceinvaders_dqn.png    | d\                     |
-|                  |                                                      | izoo/atari/config/seri |
-|                  |                                                      | al/spaceinvaders/space |
-|                  |                                                      | invaders_dqn_config.py |
-+------------------+------------------------------------------------------+------------------------+
+（在5个不同的随机种子，10M个env_step下重复实验得到）
+
++------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment      |best mean reward | image                                               | config link              | comparison           |
++==================+=================+=====================================================+==========================+======================+
+|                  |                 |                                                     | `config link <\          |                      |
+|                  |                 |                                                     | https://github.com/op\   |                      |
+|                  |                 |                                                     | endilab/DI-engine/tr\    |                      |
+|                  |                 |                                                     | ee/main/\                |  tianshou(20)        |
+| pong             |  20             |.. image:: images/benchmark/pong_dqn.png             | dizoo\                   |                      |
+|                  |                 |                                                     | /atari/config/serial/p\  |  Sb3(20)             |
+|                  |                 |                                                     | ong/pong_dqn_config.py>`_|                      |
++------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                  |                 |                                                     | `config link <\          |                      |
+|                  |                 |                                                     | https://github.com/op\   |  tianshou(7307)      |
+|                  |                 |                                                     | endilab/DI-engine/tr\    |                      |
+|                  |                 |                                                     | ee/main/\                |  Rllib(7968)         |
+| qbert            |  17866          |.. image:: images/benchmark/qbert_dqn.png            | dizoo/a\                 |                      |
+|                  |                 |                                                     | tari/config/serial/qbe\  |                      |
+|                  |                 |                                                     | rt/qbert_dqn_config.py>`_|  Sb3(9496)           |
++------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                  |                 |                                                     | `config link <\          |                      |
+|                  |                 |                                                     | https://github.com/op\   |  tianshou(812)       |
+|                  |                 |                                                     | endilab/DI-engine/tr\    |                      |
+|                  |                 |                                                     | ee/main/\                |  Rllib(1001)         |
+| spaceinvaders    | 1880            |.. image:: images/benchmark/spaceinvaders_dqn.png    | d\                       |                      |
+|                  |                 |                                                     | izoo/atari/config/seri\  |                      |
+|                  |                 |                                                     | al/spaceinvaders/space\  |  Sb3(622)            |
+|                  |                 |                                                     | invaders_dqn_config.py>`_|                      |
++------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
 
