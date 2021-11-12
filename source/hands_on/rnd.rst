@@ -246,24 +246,36 @@ Benchmark Results
 -  MiniGrid-Empty-8x8-v0（40k env step，eval reward_mean>0.95）
 
    - MiniGrid-Empty-8x8-v0 + rnd-onppo-weight100 / rnd-onppo-weight0, where green line is rnd-onppo-weight100, grey line is rnd-onppo-weight0
-   .. image:: images/empty8_rnd_weight100_weight0.png
+   .. image:: images/rnd_empty8_weight100_weight0.png
      :align: center
 
    - MiniGrid-Empty-8x8-v0 + rnd-onppo-weight100 / onppo, where green line is rnd-onppo-weight100, red line is onppo
-   .. image:: images/empty8_rnd_onppo.png
+   .. image:: images/rnd_empty8_rnd_vs_onppo.png
      :align: center
 
 -  MiniGrid-FourRooms-v0（10M env step，val reward_mean>0.6）
 
-   - MiniGrid-FourRooms-v0 + rnd-onppo-weight1000/ rnd-onppo-weight100 / onppo, where green line is rnd-onppo-weight100,
+   - MiniGrid-FourRooms-v0 + rnd-onppo-weight1000/ rnd-onppo-weight100 / onppo, where red line is onppo, green line is rnd-onppo-weight100, grey line is rnd-onppo-weight1000
      green line is rnd-onppo-weight100, red line is onppo.
      We can found that in rnd using the weighting factor 1000 is much better than using 100, which we hypothesis that it's due to the episode length is longer
      of fourrooms to solve the game is larger than empty8 on average, so the total cumulated discounted intrinsic reward is larger in fourrooms, we should
      give a comparable original reward to tradeoff in exploration and exploitation. This reminds us that the weight factor of original reward
      should be related to the total timesteps of completing the game, which can be the future work to to.
-   .. image:: images/fourrooms_rnd_weight1000_weight100_onppo.png
-     :align: center
 
+   .. image:: images/rnd_fourrooms_weight1000_weight100_onppo_collect_mean.png
+     :align: center
+     :scale: 50%
+     :alt:
+
+   .. image:: images/rnd_fourrooms_weight1000_weight100_onppo_eval_mean.png
+     :align: center
+     :scale: 50%
+     :alt:
+
+   .. image:: images/rnd_fourrooms_weight1000_weight100_onppo_eval_min.png
+     :align: center
+     :scale: 50%
+     :alt:
 
 Author's Tensorflow Implementation
 ----------------------------
