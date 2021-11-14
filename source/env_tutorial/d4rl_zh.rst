@@ -334,6 +334,6 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
 -  Walker2d
 
    - walker2d-medium-expert-v0 + CQL
-   .. image:: images/walker2d-medium-expert-cql.png
+   .. image:: images/walker2d_medium_expert_cql.png
      :align: center
 
