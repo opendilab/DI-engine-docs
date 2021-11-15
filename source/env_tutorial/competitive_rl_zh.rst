@@ -4,11 +4,11 @@ Competitive RL
 概述
 =======
 
-Competitive RL 是由香港中文大学（CUHK）开发的一个对抗性游戏环境，环境中允许两个玩家分别控制双方进行对抗。链接为 `github repo <https://github.com/cuhkrlcourse/competitive-rl>`_
+Competitive RL 是由香港中文大学（CUHK）开发的一个对抗性游戏环境，环境中允许两个玩家分别控制双方进行对抗。游戏中双方玩家均可以观测到完整的环境信息（例如相同的球局、相同的赛车跑道），并以战胜对方、取得游戏胜利为最终目标。链接为 `github repo <https://github.com/cuhkrlcourse/competitive-rl>`_
 
 Competitive RL 目前提供两种游戏环境：
 
-   - Competitive Pong (cPong): 是将 Atari 中的 Pong 修改为对抗式的环境，即允许对抗的双方均为用户操控，均可为可训练的智能体。
+   - Competitive Pong (cPong): 是将 Atari 中的 Pong 修改为对抗式的环境，即允许对抗的双方均为玩家操控，且均都是可被训练的智能体agent。
    - Competitive Car-Racing (cCarRacing): 赛车环境允许两辆车在同一个赛道地图中进行竞速。
   
 ================================= ======================================
@@ -77,8 +77,8 @@ cPong                              cCarRacing
 奖励空间
 --------
 
--  虽然对战有双方，但是由于双方的奖励之和必定为0，故只返回 **左侧玩家** 的奖励。
 -  奖励代表游戏得分，是一个\ ``float``\ 数值，范围是\ ``(-inf, inf)``\ 。
+-  虽然对战有双方，但是由于双方的奖励之和必定为0，故只返回 **左侧玩家** 的奖励。
 
 其他
 ----
