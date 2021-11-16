@@ -4,10 +4,12 @@ MiniGrid
 概述
 =======
 
-MiniGrid, 即最小化的格子世界环境，是经典的稀疏奖励的离散动作空间强化学习环境，常作为离散动作空间条件下稀疏强化学习算法的基准测试环境。它有许多不同的实现版本，这里主要介绍
+MiniGrid, 即最小化的格子世界环境，是经典的稀疏奖励的离散动作空间强化学习环境，常作为离散动作空间条件下稀疏强化学习算法的基准测试环境。
+在该游戏中，智能体需要学习在一个离散动作集合中选择合适的动作，在方格世界中完成移动，获取钥匙，开门等一系列序列决策以到达目标的位置。
+它有许多不同的实现版本，这里主要介绍
 \ `MiniGrid <https://github.com/maximecb/gym-minigrid>`__, 因为其实现简单、轻量、代码依赖少、容易安装。
-它包括一系列环境的集合，常用的子环境有MiniGrid-Empty-8x8-v0，MiniGrid-FourRooms-v0，MiniGrid-DoorKey-16x16-v0, MiniGrid-KeyCorridorS3R3-v0,
-MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图所示为其中的MiniGrid-DoorKey-16x16-v0游戏。
+它包括MiniGrid-Empty-8x8-v0, MiniGrid-FourRooms-v0, MiniGrid-DoorKey-16x16-v0, MiniGrid-KeyCorridorS3R3-v0,
+MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环境, 下图所示为其中的MiniGrid-DoorKey-16x16-v0游戏。
 
 .. image:: ./images/MiniGrid-DoorKey-16x16-v0.png
    :align: center
@@ -196,7 +198,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等等，下图�
 训练和测试环境的区别
 --------------------
 
--  训练环境使用动态随机种子，即每个episode的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
+-  训练环境使用动态随机种子，即每个episode的随机种子都不同，由一个随机数发生器产生，而这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
 
 存储录像
 --------
