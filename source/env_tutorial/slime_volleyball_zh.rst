@@ -4,7 +4,7 @@ Slime Volleyball
 概述
 =======
 
-Slime Volleyball是一个双人对战型环境，观察空间有向量和图片形式两种，动作空间常简化为离散动作空间，常用来作为 ``self-play`` 相关算法测试的基本环境。它是一系列环境的集合（共有3个子环境，即 ``SlimeVolley-v0``，``SlimeVolleyPixel-v0``，``SlimeVolleyNoFrameskip-v0``），下图所示为其中的 ``SlimeVolley-v0`` 游戏。
+Slime Volleyball是一个双人对战型环境，可以看作一个简化的一对一排球游戏。它是 ``self-play`` 相关算法测试的基本环境，其观察空间有向量和图片形式两种，动作空间常简化为离散动作空间。它由三个子环境构成，分别为 ``SlimeVolley-v0``，``SlimeVolleyPixel-v0``，``SlimeVolleyNoFrameskip-v0``），下图所示为其中的 ``SlimeVolley-v0`` 游戏。
 
 .. image:: ./images/slime_volleyball.gif
    :align: center
@@ -47,14 +47,14 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 
 变换前的空间（原始环境）
 ========================
-注：这里以 ``SlimeVolley-v0`` 为例，因为对 ``self-play`` 系列算法做基准测试自然是简单优先。如要用到其他两个环境，可结合原仓库查看，并根据DI-engine的API进行相应适配。
+注：这里以 ``SlimeVolley-v0`` 为例，因为对 ``self-play`` 系列算法做基准测试自然是简单优先。如要用到其他两个环境，可结合原仓库查看，并根据 `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview_en.html>`_ 进行相应适配。
 
 .. _观察空间-1:
 
 观察空间
 --------
 
--  向量观察空间，是一个尺寸为 ``(12, )`` 的向量，包含了自己，对手，球三者的绝对位置坐标，且是连续两帧的数据拼接而成，数据类型为\ ``float64``
+-  向量观察空间，是一个尺寸为 ``(12, )`` 的向量，包含了由连续两帧的数据拼接而成的自己，对手，球三者的绝对位置坐标，数据类型为\ ``float64``
 即（x_agent, y_agent, x_agent_next, y_agent_next, x_ball, y_ball, x_ball_next, y_ball_next, x_opponent, y_opponent, x_opponent_next, y_opponent_next）
 
 .. _动作空间-1:
@@ -62,7 +62,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 动作空间
 --------
 
--  ``SlimeVolley-v0`` 的原始动作空间被定义为 ``MultiBinary(3)`` 动作空间，即动作有三种，同一时刻多个动作可同时释放，每个动作就是对应0（不执行）和1（执行）两种情况，例如 ``(1, 0, 1)`` 代表同时执行第一种和第三种动作，数据类型为\ ``int``\ ，需要传入python list对象（或是1维尺寸为3的np数组，例如 ``np.array([0, 1, 0])``
+-  ``SlimeVolley-v0`` 的原始动作空间被定义为 ``MultiBinary(3)`` 动作空间，即动作有三种，同一时刻可同时释放多个动作，每个动作对应0和1两种情况，分别为不执行（0）、执行（1），例如 ``(1, 0, 1)`` 代表同时执行第一种和第三种动作，数据类型为\ ``int``\ ，需要传入python list对象（或是1维尺寸为3的np数组，例如 ``np.array([0, 1, 0])``
 
 -  实际环境内部逻辑实现中，并没有严格限制动作必须为0和1，它是将大于0值的视作1，小于等于0的值视作0
 
@@ -88,7 +88,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 奖励空间
 --------
 
--  奖励即该游戏得分，如果小球落到己方场地的地面，则给-1，如果落到对方场地的地面，则给+1，如果游戏仍在进行中，则给0
+-  奖励即该游戏得分，如果小球落到己方场地的地面，则奖励-1，如果落到对方场地的地面，则奖励+1，如果游戏仍在进行中，则奖励0
 
 .. _其他-1:
 
@@ -96,20 +96,21 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 ----
 
 -  游戏结束即为当前环境episode结束。游戏结束的条件有两种：
-  - 1，每获得一次-1奖励生命值减一，对战任意一方所有生命值（默认生命值为5）扣完游戏结束；
-  - 2，达到最大环境帧数，3000帧
--  游戏支持两种对战，智能体对战内置bot（游戏画面左边是bot，右边是智能体），智能体对战智能体
+  - 每获得一次-1奖励生命值减一，对战任意一方所有生命值（默认生命值为5）耗尽，游戏结束；
+  - 达到最大环境帧数，3000帧
+
+-  游戏支持两种对战：智能体对战智能体，智能体对战内置bot（游戏画面左边是bot，右边是智能体）
 -  默认的内置bot是一个非常简单的RNN训练得到的智能体，具体可以参考 `bot_link <https://blog.otoro.net/2015/03/28/neural-slime-volleyball/>`_
--  默认只返回一方的obs，另外一方的obs，以及双方的剩余生命值等信息都在 ``info`` 字段中
+-  默认只返回一方的obs，另外一方的obs，双方的剩余生命值等信息都在 ``info`` 字段中
 
 关键事实
 ========
 
-1. 1维向量观察空间（尺寸为(12, )），信息为绝对坐标
+（1） 一维向量观察空间（尺寸为 ``(12, )`` ），信息为绝对坐标
 
-2. ``MultiBinary`` 动作空间
+（2） ``MultiBinary`` 动作空间
 
-3. 较稀疏奖励（最大生命值为5，最大步数为3000，只有对战双方扣除生命值时才有奖励）
+（3） 较稀疏奖励（最大生命值为5，最大步数为3000，只有对战双方扣除生命值时才有奖励）
 
 
 .. _变换后的空间rl环境）:
@@ -127,7 +128,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 动作空间
 --------
 
--  将 ``MultiBinary`` 动作空间变换为大小为6离散动作空间（简单笛卡尔积即可，并去除其中无意义的动作），最终结果为一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
+-  将 ``MultiBinary`` 动作空间变换为大小为6离散动作空间（由简单笛卡尔积并去除其中无意义的动作后得到），最终结果为一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
 .. _奖励空间-2:
 
@@ -153,7 +154,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 ----
 
 -  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在这里为整个episode的奖励累加和（即我方相比对手的生命值差异）
--  如果是智能体对战内置bot，则将环境输入配置的 ``agent_vs_agent`` 字段设置为False，否则设置为True
+-  如果选择智能体对战内置bot，请将环境输入配置的 ``agent_vs_agent`` 字段设置为False，智能体对战智能体则设置为True
 -  上述空间定义均是对单智能体的说明（即智能体对战内置bot），多智能体的空间是将上述obs/action/reward进行对应拼接等操作，例如观察空间由 ``(12, )`` 变为 ``(2, 12)``，代表双方的观察信息
 
 .. _其他-3:
