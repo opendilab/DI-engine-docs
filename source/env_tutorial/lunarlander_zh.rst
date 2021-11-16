@@ -44,7 +44,7 @@ LunarLander，即月球登陆，任务目标是通过导航一个登陆器登录
 镜像
 ----
 
-DI-engine准备好了配备有框架本身和Lunarlander环境的镜像，可通过\ ``docker pull opendilab/ding:nightly``\ 获取，或访问\ `docker
+DI-engine的镜像配备有框架本身和Lunarlander环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取，或访问\ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
 
 .. _变换前的空间原始环境）:
