@@ -38,11 +38,11 @@ Cartpole环境内置在gym中，直接安装gym即可。其环境id是\ ``CartPo
 动作空间
 ----------
 
-Cartpole 的动作空间属于离散动作空间，有2个离散动作。
+Cartpole 的动作空间属于离散动作空间，有2个离散动作，分别是左移和右移。
 
--  \ ``左移`` \: 表示让agent向左移动，用0表示。
+-  \ ``左移`` \: 0 表示让agent向左移动。
 
--  \ ``右移`` \: 表示让agent向右移动，用1表示。
+-  \ ``右移`` \: 1 表示让agent向右移动。
 
 使用gym环境空间定义则可表示为：
 
@@ -66,7 +66,7 @@ Cartpole 的状态空间有4个元素，分别是：
 
 奖励空间
 -----------
-每一个step的奖励都为1，直到episode终止（包括终止状态）。
+每一步操作，都将获得值为1的奖励，直到episode终止（终止状态也将获得值为1的奖励）。
 
 
 终止条件
@@ -75,15 +75,15 @@ Cartpole 环境每个episode的终止条件是遇到以下任何一种情况：
 
 - 杆偏移的角度超过12度。
   
-- 小车出界，即位置超过2.4。
+- 小车出界，通常把边界距离设置为2.4。
   
 - 达到episode的最大step，默认为200。
   
 
-在什么情况下视为胜利
--------------------------
+Cartpole任务在什么情况下视为胜利
+--------------------------------
 
-当100次试验的平均episode reward达到195以上时，视作游戏胜利。
+当100次试验的平均episode奖励达到195以上时，视作游戏胜利。
 
 
 其他
@@ -92,7 +92,7 @@ Cartpole 环境每个episode的终止条件是遇到以下任何一种情况：
 存储录像
 --------
 
-有些环境有自己的渲染插件。DI-engine不支持环境自带的渲染插件，而是通过保存训练时的log日志来生成视频录像。具体方式可参考DI-engine `官方文档 <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start 章节下的 Visualization & Logging 部分。
+有些环境有自己的渲染插件，但是DI-engine不支持环境自带的渲染插件，而是通过保存训练时的log日志来生成视频录像。具体方式可参考DI-engine `官方文档 <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start 章节下的 Visualization & Logging 部分。
 
 DI-zoo 可运行代码示例
 =====================

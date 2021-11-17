@@ -3,7 +3,7 @@ Gym-Hybrid
 
 概述
 =======
-在gym-hybrid任务中, 智能体的任务很简单：停留在红色目标区域。整个画面是边长为2的正方形，目标区域是一个半径为0.1的圆。如下图所示。
+在gym-hybrid任务中, 智能体的任务很简单：在边长为2的正方形框内移动，以停留在红色目标区域。目标区域是一个半径为0.1的圆。如下图所示。
 
 .. image:: ./images/hybrid.gif
    :align: center
@@ -113,7 +113,7 @@ Gym-hybrid 环境每个episode的终止条件是遇到以下任何一种情况�
 存储录像
 --------
 
-有些环境有自己的渲染插件。DI-engine不支持环境自带的渲染插件，而是通过保存训练时的log日志来生成视频录像。具体方式可参考DI-engine `官方文档 <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start 章节下的 Visualization & Logging 部分。
+有些环境有自己的渲染插件，但是DI-engine不支持环境自带的渲染插件，而是通过保存训练时的log日志来生成视频录像。具体方式可参考DI-engine `官方文档 <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start 章节下的 Visualization & Logging 部分。
 
 DI-zoo 可运行代码示例
 =====================
