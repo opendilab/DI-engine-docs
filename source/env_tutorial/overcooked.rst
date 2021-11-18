@@ -9,6 +9,10 @@ Overview
 The goal of the game is to deliver soups as fast as possible.
 Each soup requires placing up to 3 ingredients in a pot, waiting for the soup to cook, and then having an agent pick up the soup and delivering it.
 
+This environment can be used to test out the robustness of collaborative agents, the interaction between RL agents and humans, etc.
+
+The environment is still under development, but right now half a dozen research papers are already using ``Overcooked-AI``, you can find these papers in the original \ `Overcooked-AI <https://github.com/HumanCompatibleAI/overcooked_ai>`__ repo.
+
 The original overcooked-ai repo contained 5 available layout, as shown below:
 
 .. image:: ./images/overcooked_layouts.gif
