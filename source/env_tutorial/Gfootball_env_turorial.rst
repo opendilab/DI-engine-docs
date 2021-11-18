@@ -11,7 +11,7 @@ Google Research Football (Gfootball)
 Google Research
 Football（以下简称Gfootball）是Google团队在开源足球游戏GamePlay
 Football的基础上创建的适用于强化学习研究的足球环境，兼容OpenAI Gym
-API，并允许玩家以键盘或手柄输入与内置AI或训练的智能体进行游戏。下图为渲染后的Gfootball游戏环境。
+API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入与内置AI或训练的智能体进行游戏。下图为渲染后的Gfootball游戏环境。
 
 .. figure:: images/gfootballenv.png
    :alt: 
@@ -62,7 +62,7 @@ API，并允许玩家以键盘或手柄输入与内置AI或训练的智能体进
    cd football
    python3 -m pip install .
 
-1. 验证环境安装
+1. 环境安装的验证
 
 .. code:: shell
 
