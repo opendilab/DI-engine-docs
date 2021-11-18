@@ -5,7 +5,7 @@ Procgen
 =======
 
 Procgen Benchmark是OpenAI发布的一组利用16种程序生成的环境（CoinRun，StarPilot，CaveFlyer，Dodgeball，FruitBot，Chaser
-，Miner，Jumper，Leaper，Maze，BigFish，Heist，Climber，Plunder，Ninja和BossFight）,它可以用来衡量模型学习通用技能的速度。下图所示为其中的Coinrun游戏。
+，Miner，Jumper，Leaper，Maze，BigFish，Heist，Climber，Plunder，Ninja和BossFight）,它可以用来衡量模型学习通用技能的速度,从而判断算法对于环境的泛化能力。下图所示为其中的Coinrun游戏。
 
 
 .. image:: ./images/coinrun.gif
@@ -17,7 +17,7 @@ Procgen Benchmark是OpenAI发布的一组利用16种程序生成的环境（Coin
 安装方法
 --------
 
-安装gym和gym[procgen]两个库即可，可以通过pip一键安装或结合DI-engine安装
+可以通过pip一键安装或结合DI-engine安装，只需要安装gym和gym[procgen]两个库即可完成
 
 .. code:: shell
 
@@ -51,7 +51,7 @@ Procgen Benchmark是OpenAI发布的一组利用16种程序生成的环境（Coin
 观察空间
 --------
 
--  实际的游戏画面，RGB三通道图片，具体尺寸为\ ``(64, 3, 3)``\ ，数据类型为\ ``float32``
+-  实际的游戏画面，RGB三通道图片，具体尺寸为\ ``(64, 3, 3)``\ ，数据类型为\ ``float32``\
 
 .. _动作空间-1:
 
@@ -91,7 +91,7 @@ Procgen Benchmark是OpenAI发布的一组利用16种程序生成的环境（Coin
 ========
 
 1. 2D
-   RGB三通道图像输入，三维np数组，尺寸为\ ``(3, 64, 64)``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[0, 255]``
+   RGB三通道图像输入，三维np数组，尺寸为\ ``(3, 64, 64)``\ ，数据类型为\ ``np.float32``\ ，取值为 \ ``[0, 255]``\
 
 2. 离散动作空间
 
@@ -105,7 +105,7 @@ Procgen Benchmark是OpenAI发布的一组利用16种程序生成的环境（Coin
 
 -  变换内容：将尺寸由\ ``（64 ,64 ,3）``\调整为\ ``(3, 64, 64)``\
 
--  变换结果：三维np数组，尺寸为\ ``(3, 84, 84)``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[0, 255]``
+-  变换结果：三维np数组，尺寸为\ ``(3, 84, 84)``\ ，数据类型为\ ``np.float32``\ ，取值为 \ ``[0, 255]``\
 
 .. _动作空间-2:
 
