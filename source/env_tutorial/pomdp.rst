@@ -8,13 +8,14 @@ Partially Observable Markov Decision Process(POMDP)
 
  -  马尔可夫性质，如果一个状态的下一个状态只取决于它当前状态，而跟它当前状态之前的状态都没有关系，即这个状态转移是符合马尔可夫的。
  -  马尔可夫过程，如果一个状态转移过程满足马尔可夫性质，即为马尔可夫过程。
- -  马尔可夫奖励过程，在马尔可夫过程的基础上，当没达到一个状态便获得一个奖励值，即为马尔可夫奖励过程。、
+ -  马尔可夫奖励过程，在马尔可夫过程的基础上，当没达到一个状态便获得一个奖励值，即为马尔可夫奖励过程。
  -  马尔可夫决策过程，相对于马尔可夫奖励过程，马尔可夫决策过程多了一个决策的步骤。
 
-Atari是最经典最常用的离散动作空间强化学习环境，常来作为离散空间强化学习算法的基准测试环境。它是一系列环境的集合（共有57个子环境），常用的子环境有Pong，Space
-Invaders，QBert，Enduro，Breakout，MontezumaRevenge等等。在Atari环境中，v0后缀的环境表示以一定的概率重复之前的动作，不受智能体的控制。
-v4后缀表示这个概率为0。同一环境的不同命名则表示智能体每隔多少帧才做一个动作，这个动作会在接下来的k帧中保持，以避免智能体能超出人类的反应速率。
-一般而言，「Breakout-v0」表示跳过2到4帧，每一步随机选择跳过的帧数，「Deterministic」，如「BreakoutDeterministic-v0」表示恒定跳过4帧（除SpaceInvaders跳过3帧），「NoFrameskip」中间词则表示不做跳过。
+Atari是最经典最常用的离散动作空间强化学习环境，常作为离散空间强化学习算法的基准测试环境。
+它是一个由Pong，Space，Invaders，QBert，Enduro，Breakout，MontezumaRevenge等57个子环境构成的集合。
+在Atari环境中，v0后缀的环境表示以一定的概率重复之前的动作，不受智能体的控制。v4后缀表示这个概率为0。
+同一环境的不同命名则表示智能体每隔多少帧才做一个动作，这个动作会在接下来的k帧中保持，以避免智能体能超出人类的反应上限。
+一般而言，「Breakout-v0」表示跳过2到4帧，每一步随机选择跳过的帧数，「Deterministic」，如「BreakoutDeterministic-v0」表示恒定跳过4帧（除SpaceInvaders跳过3帧），「NoFrameskip」则表示不做跳过。
 
 安装
 ====
@@ -61,7 +62,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 观察空间
 --------
 
--  由于是从ram中读取,直接读取一维数据，具体尺寸为\ ``(128)``\ ，数据类型为\ ``uint8``
+-  由于是从ram中读取，所以会直接读取一维数据，数据具体尺寸为\ ``(128)``\ ，数据类型为\ ``uint8``\。
 
 
 动作空间
@@ -101,7 +102,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 ========
 
 1. 2D
-   RGB三通道图像输入，但单帧图像蕴含的信息不足（比如运动方向），需要堆叠多帧图像来解决。
+   虽然是RGB三通道图像输入，但需要堆叠多帧图像来解决单帧图像蕴含的信息不足（例如运动方向）。
 
 2. 离散动作空间
 
@@ -150,19 +151,19 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 在Gym.spaces中，Box表示连续空间，
 Discrete表示离散空间,
 MultiBinary表示多维01空间,
-MultiDiscrete表示多维离散空间,T
-uple表示Space元祖
+MultiDiscrete表示多维离散空间,
+Tuple表示Space元祖
 Dict表示Space字典
 
 其他
 ----
 
--  ``epsiode_life``\ ：训练时的环境使用\ ``episode_life``\ 选项，即环境拥有多条生命值（一般为5），原始环境游戏失败一次生命值减一，所有生命值耗尽才视为episode结束
+-  \ ``epsiode_life`` \：训练时的环境使用\ ``epsiode_life`` \选项，即环境拥有多条生命值（一般为5），原始环境游戏失败一次生命值减一，所有生命值耗尽则视为episode结束
 
--  ``noop_reset``\ ：环境重置时，最开始设置 x 个原始游戏帧 ( 1 =< x
+-  \ ``noop_reset`` \ ：环境重置时，最开始设置 x 个原始游戏帧 ( 1 =< x
    <=30) 执行空动作（noop），以增加环境开局的随机性
 
--  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在Atari中为整个episode的奖励累加和
+-  环境\ ``step`` \ 方法返回的\ ``info`` \ 必须包含\ ``final_eval_reward`` \ 键值对，表示整个episode的评测指标，在Atari中为整个episode的奖励累加和
 
 其他
 ====
@@ -272,7 +273,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/pomdp/entry/>`__
     pong_dqn_create_config = dict(
         env=dict(
             type='pomdp',
-            import_names=['app_zoo.pomdp.envs.atari_env'],
+            import_names=['di_zoo.pomdp.envs.atari_env'],
         ),
         env_manager=dict(type='subprocess'),
         policy=dict(type='dqn'),
@@ -286,11 +287,3 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/pomdp/entry/>`__
 注：对于某些特殊的算法，比如PPO，需要使用专门的入口函数，示例可以参考
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/pomdp/entry/pomdp_ppo_default_config.py>`__
 
-基准算法性能
-============
-
--  Pong（平均奖励大于等于20视为较好的Agent）
-
-   - Pong + DQN
-   .. image:: images/pong_dqn.png
-     :align: center

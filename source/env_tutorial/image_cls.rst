@@ -62,7 +62,7 @@ ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图
 标签信息
 --------
 
--  共有1000个标签，每个标签代表一种类别，举例前5种，
+-  图片共有1000个标签，每个标签代表一种类别，在这里列出其前5种标签，
 
    -  0: 'tench, Tinca tinca',
    -  1: 'goldfish, Carassius auratus',
@@ -79,7 +79,7 @@ ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图
 
 2. 基于强化学习框架中的Policy模块，负责图像分类网络的初始化、前向以及反向传播、优化器以及损失函数的定义。
 
-3. 设计适用于监督学习的图像分类度量方法ImageClassificationMetric，其中包括top-k计算等。
+3. 设计适用于监督学习的图像分类度量方法ImageClassificationMetric，其中包括Top-K计算等。
 
 4. 基于强化学习框架中的Evaluator模块，设计适用于监督学习的度量评价器MetricSerialEvaluator。
 
@@ -90,7 +90,7 @@ ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图
 其他
 ====
 
-为了加快训练，pytorch中有两种常用的数据并行的方式，DataParallal以及DistributedDataParallel。
+为了加快训练，pytorch中有两种常用的数据并行的方式，DataParallal（DP）以及DistributedDataParalle（DDP）。
 
 DP以及DDP
 ------------
@@ -110,9 +110,9 @@ DP基于单机多卡，所有设备都负责计算和训练网络。
 
 -  DistributedDataParallel(DDP)
 
-DDP支持单机多卡和多机多卡，每张卡都有一个进程，这就涉及到进程通信，多进程通信初始化，是DDP使用最复杂的地方。
-DI-engine中实现了单机多卡的DDP模式,其创建了DistributedSampler。
-在这种情况下，每个进程都可以传递一个DistributedSampler作为DataLoader采样器，并加载它独有的原始数据集的子集。
+DDP主要用于单机多卡和多机多卡，其采用多进程控制多gpu，并使用ring allreduce同步梯度。由于各个进程初始参数、更新梯度是相同的，采用同步后的梯度各自更新参数。
+DDP最佳推荐使用方法是每个进程一张卡，每张卡复制一份模型。由于dataloader使用了DistributedSampler，所以各个进程之间的数据是不会重复的。
+如果要确保DDP性能和单卡性能一致，需要保证在数据上，DDP模式下的一个epoch和单卡下的一个epoch是等效的。
 
 .. code:: python
 
@@ -195,8 +195,8 @@ DI-engine中实现了单机多卡的DDP模式,其创建了DistributedSampler。
 评估方法
 --------
 
-对于imagenet图像分类任务，有个重要的指标是Top-k。
-Top-K准确率就是用来计算预测结果中概率最大的前K个结果包含正确标签的占比。
+对于imagenet图像分类任务，有一个重要的指标是\`` Top-k `` \。
+\`` Top-k `` \准确率就是用来计算预测结果中概率最大的前K个结果包含正确标签的占比。
 其计算方法如下
 
 .. code:: python
