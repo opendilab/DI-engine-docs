@@ -8,7 +8,7 @@
 # Local Docs Generation
 ```bash
 # step 1: install
-pip install requirements.txt
+pip install -r requirements.txt
 # step 2: compile docs
 make html
 # step 3: open build/html/index.html in your browser, and explore it!

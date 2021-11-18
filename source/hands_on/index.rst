@@ -12,6 +12,7 @@
     sqil
 
     a2c
+    acer
     ppo
     ppg
     impala
