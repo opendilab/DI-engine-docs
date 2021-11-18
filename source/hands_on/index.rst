@@ -25,6 +25,8 @@
     atoc
     collaq
 
+    diayn
+
     gail
 
     vpn
