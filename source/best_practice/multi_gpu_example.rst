@@ -6,7 +6,7 @@ DI-engine supports data-parallel training with multi-GPUs.
 During data-parallel training, each device handles a portion of total input. 
 Large training batch significantly accelerate the training process.
 
-About data-parallel training in Ding, we support two types which are DataParallel(DP) and DataDistributedParallel(DDP).
+About data-parallel training in DI-engine, we support two types which are DataParallel(DP) and DataDistributedParallel(DDP).
 
 The experimental environment referred to here is a single machine with multi-GPUs.
 
@@ -17,8 +17,7 @@ There is 1 master node, the default is device[0].
 The gradients are aggregated to the master, and the parameters are updated through backpropagation, 
 and then the parameters are synchronized with other GPUs.
 
-In ding, we define Ding.torch_utils.DataParallel, which inherits Torch.nn.DataParallel.
-And at the same time, we rewrite the parameters() method. please refer to ``ding/torch_utils/dataparallel.py``
+1. In DI-engine, we define ding.torch_utils.DataParallel, which inherits Torch.nn.DataParallel. And at the same time, we rewrite the parameters() method. please refer to ``ding/torch_utils/dataparallel.py``
 
 .. code-block:: python
 
@@ -27,20 +26,37 @@ And at the same time, we rewrite the parameters() method. please refer to ``ding
 
     class DataParallel(nn.DataParallel):
         def __init__(self, module, device_ids=None, output_device=None, dim=0):
-            super().__init__(module,device_ids=None, output_device=None, dim=0)
+            super().__init__(module, device_ids=None, output_device=None, dim=0)
             self.module = module
 
         def parameters(self, recurse: bool = True):
             return self.module.parameters(recurse = True)
 
-
-So, we don’t need to change any other code, just simply encapsulate the policy. 
-please refer to ``dizoo/atari/config/serial/spaceinvaders/spaceinvaders_dqn_config_multi_gpu_dp.py``
+2. Training
 
 .. code-block:: python
 
+    from ding.entry import serial_pipeline
+    from ding.model.template.q_learning import DQN
+    from ding.torch_utils import DataParallel
+
     model = DataParallel(DQN(obs_shape=[4, 84, 84],action_shape=6))
     serial_pipeline((main_config, create_config), seed=0, model=model)
+
+We don’t need to change any other code, just simply encapsulate the policy. Please refer to ``dizoo/atari/config/serial/spaceinvaders/spaceinvaders_dqn_config_multi_gpu_dp.py``
+
+For DP, the runnable script demo is demonstrated as follows.
+
+.. code-block:: python
+
+    CUDA_VISIBLE_DEVICES=0,1 python -u spaceinvaders_dqn_main_multi_gpu_ddp.py
+
+or (on cluster managed by Slurm)
+
+.. code-block:: python
+
+    srun -p PARTITION_NAME --mpi=pmi2 --gres=gpu:2 -n1 --ntasks-per-node=1 --comment=spring-submit python -u spaceinvaders_dqn_main_multi_gpu_ddp.py
+
 
 
 DataDistributedParallel(DDP) Mode
@@ -90,5 +106,25 @@ Please refer to ``dizoo/atari/entry/spaceinvaders_dqn_main_multi_gpu_ddp.py``
 
 .. code-block:: python
 
+    from ding.utils import DistContext
+
     with DistContext():
         main(space_invaders_dqn_config,create_config)
+
+
+For DPP, the runnable script demo is demonstrated as follows.
+
+.. code-block:: python
+
+    CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nnodes=1 --node_rank=0 --nproc_per_node=2 spaceinvaders_dqn_main_multi_gpu_ddp.py
+
+or (on cluster managed by Slurm)
+
+.. code-block:: python
+
+    srun -p PARTITION_NAME --mpi=pmi2 --gres=gpu:2 -n2 --ntasks-per-node=2 --comment=spring-submit python -u spaceinvaders_dqn_main_multi_gpu_ddp.py
+
+
+
+
+
