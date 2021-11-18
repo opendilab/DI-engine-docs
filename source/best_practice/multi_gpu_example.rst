@@ -47,15 +47,15 @@ We don’t need to change any other code, just simply encapsulate the policy. Pl
 
 For DP, the runnable script demo is demonstrated as follows.
 
-.. code-block:: python
+.. code-block:: bash
 
     CUDA_VISIBLE_DEVICES=0,1 python -u spaceinvaders_dqn_main_multi_gpu_ddp.py
 
 or (on cluster managed by Slurm)
 
-.. code-block:: python
+.. code-block:: bash
 
-    srun -p PARTITION_NAME --mpi=pmi2 --gres=gpu:2 -n1 --ntasks-per-node=1 --comment=spring-submit python -u spaceinvaders_dqn_main_multi_gpu_ddp.py
+    srun -p PARTITION_NAME --mpi=pmi2 --gres=gpu:2 -n1 --ntasks-per-node=1 python -u spaceinvaders_dqn_main_multi_gpu_ddp.py
 
 
 
@@ -114,15 +114,15 @@ Please refer to ``dizoo/atari/entry/spaceinvaders_dqn_main_multi_gpu_ddp.py``
 
 For DPP, the runnable script demo is demonstrated as follows.
 
-.. code-block:: python
+.. code-block:: bash
 
     CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nnodes=1 --node_rank=0 --nproc_per_node=2 spaceinvaders_dqn_main_multi_gpu_ddp.py
 
 or (on cluster managed by Slurm)
 
-.. code-block:: python
+.. code-block:: bash
 
-    srun -p PARTITION_NAME --mpi=pmi2 --gres=gpu:2 -n2 --ntasks-per-node=2 --comment=spring-submit python -u spaceinvaders_dqn_main_multi_gpu_ddp.py
+    srun -p PARTITION_NAME --mpi=pmi2 --gres=gpu:2 -n2 --ntasks-per-node=2 python -u spaceinvaders_dqn_main_multi_gpu_ddp.py
 
 
 
