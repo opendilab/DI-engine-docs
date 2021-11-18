@@ -1,14 +1,54 @@
-How to Use Multi-GPU to Train Your Model
+How to Use Multi-GPUs to Train Your Model
 ================================================
 
-DI-engine supports data-parallel training with multiple GPUs.
+DI-engine supports data-parallel training with multi-GPUs.
 
-During data-parallel training, each device handles a portion of total input. Large training batch significantly accelerate the training process.
+During data-parallel training, each device handles a portion of total input. 
+Large training batch significantly accelerate the training process.
 
-To enable multi-gpu training, you can simply set ``config.learn.multi_gpu`` as `True` in the policy file under ``ding/policy/``.
+About data-parallel training in Ding, we support two types which are DataParallel(DP) and DataDistributedParallel(DDP).
 
-Going deeper with multi-gpu training in DI-engine
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The experimental environment referred to here is a single machine with multi-GPUs.
+
+DataParallel(DP) Mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+DP is mainly used for single-machine multi-GPUs, single-process control multi-GPUs.
+There is 1 master node, the default is device[0].
+The gradients are aggregated to the master, and the parameters are updated through backpropagation, 
+and then the parameters are synchronized with other GPUs.
+
+In ding, we define Ding.torch_utils.DataParallel, which inherits Torch.nn.DataParallel.
+And at the same time, we rewrite the parameters() method. please refer to ``ding/torch_utils/dataparallel.py``
+
+.. code-block:: python
+
+    import torch
+    import torch.nn as nn
+
+    class DataParallel(nn.DataParallel):
+        def __init__(self, module, device_ids=None, output_device=None, dim=0):
+            super().__init__(module,device_ids=None, output_device=None, dim=0)
+            self.module = module
+
+        def parameters(self, recurse: bool = True):
+            return self.module.parameters(recurse = True)
+
+
+So, we don’t need to change any other code, just simply encapsulate the policy. 
+please refer to ``dizoo/atari/config/serial/spaceinvaders/spaceinvaders_dqn_config_multi_gpu_dp.py``
+
+.. code-block:: python
+
+    model = DataParallel(DQN(obs_shape=[4, 84, 84],action_shape=6))
+    serial_pipeline((main_config, create_config), seed=0, model=model)
+
+
+DataDistributedParallel(DDP) Mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+DataDistributedParallel(DDP) is mainly used for single-machine multi-GPUs and multi-machine multi-GPUs. 
+It adopts multi-process to control multi-GPUs and adopts ring allreduce to synchronize gradient.
+
+In DataDistributedParallel(DDP) Mode, we should simply set ``config.policy.learn.multi_gpu`` as `True` in the config file under ``dizoo/atari/config/serial/spaceinvaders/spaceinvaders_dqn_config_multi_gpu_ddp.py``.
 
 We re-implement the data-parallel training module with APIs in ``torch.distributed`` for high scalability.
 
@@ -42,3 +82,13 @@ We re-implement the data-parallel training module with APIs in ``torch.distribut
 
 Information including loss and reward should be aggregated among devices when applying data-parallel training. DI-engine achieves this with AllReduce operator in a hook, and only saves log files on process with rank 0.
 For more related functions, please refer to ``ding/utils/pytorch_ddp_dist_helper.py``
+
+3. Training
+
+When using it, firstly we set ``config.policy.learn.multi_gpu`` as `True` in the config file. Secondly, we need to Initialize the current experimental environment.
+Please refer to ``dizoo/atari/entry/spaceinvaders_dqn_main_multi_gpu_ddp.py``
+
+.. code-block:: python
+
+    with DistContext():
+        main(space_invaders_dqn_config,create_config)
