@@ -32,13 +32,13 @@ GCL算法基于最大熵原理的一个基本公式：
 
 .. math::
 
-\mathcal{L}_{\mathrm{IOC}}(\theta)=\frac{1}{N} \sum_{\tau_{i} \in \mathcal{D}_{\text {demo }}} c_{\theta}\left(\tau_{i}\right)+\log Z\approx\frac{1}{N} \sum_{\tau_{i} \in \mathcal{D}_{\text {demo }}} c_{\theta}\left(\tau_{i}\right)+\log\frac{1}{M}\sum_{\tau_{i} \in \mathcal{D}_{\text {samp }}} \frac{exp(-c_{\theta}(\tau_j)) }{q(\tau_j)}
+   \mathcal{L}_{\mathrm{IOC}}(\theta)=\frac{1}{N} \sum_{\tau_{i} \in \mathcal{D}_{\text {demo }}} c_{\theta}\left(\tau_{i}\right)+\log Z\approx\frac{1}{N} \sum_{\tau_{i} \in \mathcal{D}_{\text {demo }}} c_{\theta}\left(\tau_{i}\right)+\log\frac{1}{M}\sum_{\tau_{i} \in \mathcal{D}_{\text {samp }}} \frac{exp(-c_{\theta}(\tau_j)) }{q(\tau_j)}
 
 记 :math: `w_j = \frac{exp(-c_{\theta}(\tau_j)) }{q(\tau_j)}`， `Z=\sum_{j}w_j` 可得：
 
 .. math::
 
-\frac{d \mathcal{L}_{\mathrm{IOC}}}{d \theta}=\frac{1}{N} \sum_{\tau_{i} \in \mathcal{D}_{\text {demo }}} \frac{d c_{\theta}}{d \theta}\left(\tau_{i}\right)-\frac{1}{Z} \sum_{\tau_{j} \in \mathcal{D}_{\text {samp }}} w_{j} \frac{d c_{\theta}}{d \theta}\left(\tau_{j}\right)
+   \frac{d \mathcal{L}_{\mathrm{IOC}}}{d \theta}=\frac{1}{N} \sum_{\tau_{i} \in \mathcal{D}_{\text {demo }}} \frac{d c_{\theta}}{d \theta}\left(\tau_{i}\right)-\frac{1}{Z} \sum_{\tau_{j} \in \mathcal{D}_{\text {samp }}} w_{j} \frac{d c_{\theta}}{d \theta}\left(\tau_{j}\right)
 
 使用该Loss函数来训练GCL算法的reward模型。
 
