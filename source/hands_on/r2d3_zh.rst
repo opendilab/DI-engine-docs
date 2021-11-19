@@ -175,12 +175,12 @@ r2d3的策略 ``R2D3Policy`` 的接口定义如下：
    :noindex:
 
 dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
+
 .. autoclass:: ding.ding.rl_utils.td.dqfd_nstep_td_error_with_rescale
-   :members: __init__, estimate
    :noindex:
 
 
-注意我们目前的r2d3策略实现中网络的输入只是时刻t的状态观测，不包含时刻t-1的动作和奖励,也不包括额外的信息向量 :math:`f_t`.
+注意我们目前的r2d3策略实现中网络的输入只是时刻t的状态观测，不包含时刻t-1的动作和奖励,也不包括额外的信息向量 :math:`f_{t}`.
 
 ..
  注意： ``...`` 表示省略的代码片段。
@@ -204,22 +204,12 @@ dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
 参考资料
 ========
 
-- Paine T L, Gulcehre C, Shahriari B, et al. Making efficient use of
-demonstrations to solve hard exploration problems[J]. arXiv preprint
-arXiv:1909.01387, 2019.
+- Paine T L, Gulcehre C, Shahriari B, et al. Making efficient use of demonstrations to solve hard exploration problems[J]. arXiv preprint arXiv:1909.01387, 2019.
 
-- Kapturowski S, Ostrovski G, Quan J, et al. Recurrent experience replay
-in distributed reinforcement learning[C]//International conference on
-learning representations. 2018.
+- Kapturowski S, Ostrovski G, Quan J, et al. Recurrent experience replay in distributed reinforcement learning[C]//International conference on learning representations. 2018.
 
-- Badia A P, Sprechmann P, Vitvitskyi A, et al. Never give up: Learning
-directed exploration strategies[J]. arXiv preprint arXiv:2002.06038,
-2020.
+- Badia A P, Sprechmann P, Vitvitskyi A, et al. Never give up: Learning directed exploration strategies[J]. arXiv preprint arXiv:2002.06038, 2020.
 
-- Burda Y, Edwards H, Storkey A, et al. Exploration by random network
-distillation[J]. https://arxiv.org/abs/1810.12894v1. arXiv:1810.12894,
-2018.
+- Burda Y, Edwards H, Storkey A, et al. Exploration by random network distillation[J]. https://arxiv.org/abs/1810.12894v1. arXiv:1810.12894, 2018.
 
-- Pathak D, Agrawal P, Efros A A, et al. Curiosity-driven exploration by
-self-supervised prediction[C]//International conference on machine
-learning. PMLR, 2017: 2778-2787.
+- Pathak D, Agrawal P, Efros A A, et al. Curiosity-driven exploration by self-supervised prediction[C]//International conference on machine learning. PMLR, 2017: 2778-2787.
