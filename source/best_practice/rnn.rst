@@ -210,7 +210,7 @@ More details can be found in `ding/rl_utilrs/adder.py <https://github.com/opendi
 the work flow of its data processing is given in
 the following figure:
 
-        .. image:: images/r2d2_sequence_data_process.png
+        .. image:: images/r2d2_sequence.png
             :align: center
             :scale: 50%
 
@@ -331,4 +331,4 @@ the ``burnin_output`` and ``burnin_output_target`` will save the hidden_state in
             target_q_action = self._learn_model.forward(next_inputs)['action']
 
 
-For more details of RNN and burn-in, you can refer to ``ding/policy/r2d2.py <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`_ .
+For more details of RNN and burn-in, you can refer to `ding/policy/r2d2.py <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`__.
