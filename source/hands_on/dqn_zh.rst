@@ -4,21 +4,21 @@ DQN
 综述
 ---------
 DQN最初在论文 `Playing Atari with Deep Reinforcement Learning <https://arxiv.org/abs/1312.5602>`_ 中被提出。
-传统的 Q-learning 维护一张 \ ``M*N`` \的Q值表（其中 M表示状态个数，N表示动作个数），通过贝尔曼方程（Bellman equation）来迭代更新 Q-value。这种算法在状态/动作空间变得很大的时候就会出现维度灾难的问题。而DQN与传统强化学习方法不同，它将 Q-learning 与深度神经网络相结合，使用深度神经网络来估计 Q 值，并通过计算时序差分（TD, Temporal-Difference） 损失，利用梯度下降算法进行更新，从而在高维空间的问题决策中取得了突破。
+传统的 Q-learning 维护一张 \ ``M*N`` \的Q值表（其中 M表示状态个数，N表示动作个数），通过贝尔曼方程（Bellman equation）来迭代更新 Q-value。这种算法在状态/动作空间变得很大的时候就会出现维度灾难的问题。而DQN与传统强化学习方法不同，它将 Q-learning 与深度神经网络相结合，使用深度神经网络来估计 Q 值，并通过计算时序差分（TD, Temporal-Difference） 损失，利用梯度下降算法进行更新，从而在高维空间的问题决策中（例如Atari游戏）达到了媲美甚至超过人类玩家的水平。
 
 快速了解
 -------------
-1. DQN 是一个 **model-free** （无模型） 且 **value-based** （基于值函数） 的强化学习算法。
+1. DQN 是一个 **无模型（model-free)** 且 **基于值函数（value-based）** 的强化学习算法。
 
-2. DQN 只支持 **离散** 动作空间。
+2. DQN 只支持 **离散（discrete）** 动作空间。
 
-3. DQN 是一个 **off-policy** （异策略） 算法.
+3. DQN 是一个 **异策略（off-policy）** 算法.
 
-4. 通常，DQN 使用 **eps-greedy** （epsilon贪心） 或 **multinomial sample** （多项分布采样） 来做 exploration（探索）。
+4. 通常，DQN 使用 **epsilon贪心（eps-greedy）** 或 **多项分布采样（multinomial sample）** 来做探索（exploration）。
 
 5. DQN + RNN = DRQN
 
-6. DI-engine 中实现的 DQN 支持 **多维度离散**  （multi-discrete）动作空间，即在一个step下执行多个离散动作。
+6. DI-engine 中实现的 DQN 支持 **多维度离散（multi-discrete）** 动作空间，即在一个step下执行多个离散动作。
 
 
 重要公示/重要图示
@@ -41,17 +41,17 @@ DQN 中的 TD-loss 是：
    :align: center
 
 .. note::
-   DQN在发展过程中变更出了许多版本。与原始版本相比，现代的 DQN 在算法和实现方面都得到了显著改进。譬如，在算法部分，**TD-loss, PER, n-step, target network and dueling head** 等技巧被广泛使用，感兴趣的读者可参考论文 `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_。在实现部分，根据环境步数（envstep，策略与环境的交互次数），在训练期间，探索所用的 epsilon 从一个较高的初始值（比如，0.95）退火到一个较低值（比如，0.05），而不是在整个训练流程保持不变。
+   DQN在发展过程中变更出了许多版本。与原始版本相比，现代的 DQN 在算法和实现方面都得到了显著改进。譬如，在算法部分，**TD-loss, PER, n-step, target network** and **dueling head** 等技巧被广泛使用，感兴趣的读者可参考论文 `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_。在实现部分，探索所用的 epsilon 并非在整个训练流程保持不变，而是根据环境步数（envstep，意为策略与环境的交互次数），在训练期间，探索所用的 epsilon 从一个较高的初始值（比如，0.95）退火到一个较低值（比如，0.05）。
 
 扩展
 -----------
 DQN 可以和以下方法相结合：
 
-    - PER (`Prioritized Experience Replay <https://arxiv.org/abs/1511.05952>`_  ,带优先级的经验回放池)
+    - 优先级经验回放 （PER，`Prioritized Experience Replay <https://arxiv.org/abs/1511.05952>`_ ）
 
       Prioritized Experience Replay 用一种特殊定义的“优先级”来代替经验回放池中的均匀采样。该优先级可由各种指标定义，如绝对TD误差、观察的新颖性等。通过优先采样，DQN的收敛速度和性能可以得到很大的提高。
 
-      PER 的一种实现可以这样描述：
+      优先级经验回放（PER）有很多种实现方式，其中一种较常用方式的伪代码如下图所示：
 
         .. image:: images/PERDQN.png
            :align: center
@@ -62,23 +62,23 @@ DQN 可以和以下方法相结合：
 
     - 多步（Multi-step） TD-loss
 
-      在单步 TD-loss 中，Q-learning 通过贝尔曼方程更新 :math:`Q(s,a)`:
+      在 Single-step TD-loss 中，Q-learning 通过贝尔曼方程更新 :math:`Q(s,a)`:
 
         .. math::
 
           r(s,a)+\gamma \mathop{max}\limits_{a^*}Q(s',a^*)
       
-      在n步 TD-loss 中，贝尔曼方程方程是:
+      在 Multi-step TD-loss 中，贝尔曼方程是:
 
         .. math::
            \sum_{t=0}^{n-1}\gamma^t r(s_t,a_t) + \gamma^n \mathop{max}\limits_{a^*}Q(s_n,a^*)
         
         .. note::
-          在DQN中使用 Multi-step TD-loss 有一个潜在的问题：采用 epsilon 贪心收集数据时， q 值的估计是有偏的。 因为t >= 1时，:math:`r(s_t,a_t)` 是在 epsilon-greedy 策略下采样的，而不是正在学习的策略本身采样的。但实践中发现 Multi-step TD-loss 与 epsilon-greedy 结合使用，一般都可以提升效果。
+          在DQN中使用 Multi-step TD-loss 有一个潜在的问题：采用 epsilon 贪心收集数据时， q 值的估计是有偏的。 因为t >= 1时，:math:`r(s_t,a_t)` 是在 epsilon-greedy 策略下采样的，而不是通过正在学习的策略本身来采样。但实践中发现 Multi-step TD-loss 与 epsilon-greedy 结合使用，一般都可以明显提升智能体的最终性能。
 
       在DI-engine中，Multi-step TD-loss 可以通过修改配置文件中的 ``nstep`` 字段来控制，详细的损失函数计算代码可以参考 `nstep code <https://github.com/opendilab/DI-engine/blob/dev-treetensor/ding/rl_utils/td.py>`_ 中的 ``q_nstep_td_error``
 
-    - 目标网络（target network）/ Double DQN
+    - 目标网络（target network/Double DQN）
 
       Double DQN, 在 `Deep Reinforcement Learning with Double Q-learning <https://arxiv.org/abs/1509.06461>`_ 中被提出，是 DQN 的一种常见变种。此方法维护另一个 Q 网络，称为目标网络，该网络由当前网络按固定频率更新。
 
@@ -88,10 +88,10 @@ DQN 可以和以下方法相结合：
            :align: center
            :scale: 20%
 
-      区别于传统DQN，Double DQN不会选择当前网络中离散动作空间中的最大q值，而是首先查找  **当前网络**  中q值最大的动作（对应上面公式中的  :math:`argmax_a Q(S_{t+1},a;\theta_t)`），然后根据该动作从 **目标网络**  获取q值
+      区别于传统DQN，Double DQN不会选择当前网络中离散动作空间中的最大Q值，而是首先查找  **当前网络**  中Q值最大的动作（对应上面公式中的  :math:`argmax_a Q(S_{t+1},a;\theta_t)`），然后根据该动作从 **目标网络**  获取Q值
       (对应上面公示中的  :math:`Q(S_{t+1},argmax_a Q(S_{t+1},a;\theta_t);\theta'_t)`）。
       
-      Double DQN可以解决q值过高估计的问题，减少过高估计的偏差。
+      Double DQN可以解决Q值过高估计的问题，减少过高估计的偏差。
 
         .. note::
             过高估计可能是由函数近似误差（近似Q值的神经网络）、环境噪声、数值不稳定等原因造成的。
@@ -100,7 +100,7 @@ DQN 可以和以下方法相结合：
 
     - Dueling head (`Dueling Network Architectures for Deep Reinforcement Learning <https://arxiv.org/pdf/1511.06581>`_)
 
-      Dueling head 结构用于实现每个动作的状态-价值和优势的分解，并利用这两个部分构建最终的q值，从而更好地评估一些与动作选择无关的状态的价值。下图展示了具体的分解结构（图片来自论文 Dueling Network Architectures for Deep Reinforcement Learning）：
+      Dueling head 结构通过对每个动作的状态-价值和优势的分解，并由上述两个部分构建最终的Q值，从而更好地评估一些与动作选择无关的状态的价值。下图展示了具体的分解结构（图片来自论文 Dueling Network Architectures for Deep Reinforcement Learning）：
 
         .. image:: images/DuelingDQN.png
            :align: center
@@ -122,7 +122,7 @@ DQNPolicy 的默认 config 如下所示：
 其中使用的神经网络接口如下所示：
 
 .. autoclass:: ding.model.template.q_learning.DQN
-   :members: __init__, forward
+   :members: forward
    :noindex:
 
 实验 Benchmark
@@ -157,7 +157,7 @@ DQNPolicy 的默认 config 如下所示：
 
 注：
 
-1. 以上结果是在5个不同的随机种子运行相同的配置得到
+1. 以上结果是在5个不同的随机种子（即0，1，2，3，4）运行相同的配置得到
 2. 对于DQN这样的离散动作空间算法，一般选择Atari环境集进行测试（其中包括子环境Pong等），而Atari环境，一般是通过训练10M个env_step下所得的最高平均奖励来进行评价，详细的环境信息可以查看 `Atari环境的介绍文档 <../env_tutorial/atari_zh.html>`_
 
 参考文献
