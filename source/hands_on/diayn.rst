@@ -86,7 +86,7 @@ Note: ``...`` indicates the omitted code snippet. For the complete code, please 
 
 判别器网络
 ~~~~~~~~~~~~~~~~~~~~~~
-我们编写的判别器网络是由``linear encoder`` + ``regression head`` 构成
+我们编写的判别器网络是由 ``linear encoder`` + ``regression head`` 构成
         .. code-block:: python
 
          discriminator = nn.Sequential(
