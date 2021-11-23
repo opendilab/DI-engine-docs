@@ -74,7 +74,7 @@ DQN 可以和以下方法相结合：
            \sum_{t=0}^{n-1}\gamma^t r(s_t,a_t) + \gamma^n \mathop{max}\limits_{a^*}Q(s_n,a^*)
         
         .. note::
-          在DQN中使用 Multi-step TD-loss 有一个潜在的问题：采用 epsilon 贪心收集数据时， q 值的估计是有偏的。 因为t >= 1时，:math:`r(s_t,a_t)` 是在 epsilon-greedy 策略下采样的，而不是通过正在学习的策略本身来采样。但实践中发现 Multi-step TD-loss 与 epsilon-greedy 结合使用，一般都可以明显提升智能体的最终性能。
+          在DQN中使用 Multi-step TD-loss 有一个潜在的问题：采用 epsilon 贪心收集数据时， Q值的估计是有偏的。 因为t >= 1时，:math:`r(s_t,a_t)` 是在 epsilon-greedy 策略下采样的，而不是通过正在学习的策略本身来采样。但实践中发现 Multi-step TD-loss 与 epsilon-greedy 结合使用，一般都可以明显提升智能体的最终性能。
 
       在DI-engine中，Multi-step TD-loss 可以通过修改配置文件中的 ``nstep`` 字段来控制，详细的损失函数计算代码可以参考 `nstep code <https://github.com/opendilab/DI-engine/blob/dev-treetensor/ding/rl_utils/td.py>`_ 中的 ``q_nstep_td_error``
 
@@ -91,7 +91,7 @@ DQN 可以和以下方法相结合：
       区别于传统DQN，Double DQN不会选择当前网络中离散动作空间中的最大Q值，而是首先查找  **当前网络**  中Q值最大的动作（对应上面公式中的  :math:`argmax_a Q(S_{t+1},a;\theta_t)`），然后根据该动作从 **目标网络**  获取Q值
       (对应上面公示中的  :math:`Q(S_{t+1},argmax_a Q(S_{t+1},a;\theta_t);\theta'_t)`）。
       
-      Double DQN可以解决Q值过高估计的问题，减少过高估计的偏差。
+      Double DQN可以减少Q值过高估计的偏差，一定程度上解决由于这个过高估计所带来的的一系列问题。
 
         .. note::
             过高估计可能是由函数近似误差（近似Q值的神经网络）、环境噪声、数值不稳定等原因造成的。
