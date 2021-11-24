@@ -219,7 +219,9 @@ the following figure:
 
         .. image:: images/r2d2_sequence.png
             :align: center
-            :scale: 50%
+
+..
+    :scale: 50%
 
 Initialize Hidden State
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -296,7 +298,8 @@ In R2D2, if we use burn-in, the reset way is not so simple.
 
 - When we call the ``forward`` method of  ``self._learn_model``, we set ``inference=False`` , when ``self._learn_model`` is not the ``inference`` mode, each call we pass into a sequence data,
   the ``prev_state`` filed of their output is only the hidden state in last timestep,
-  so we can specify which timesteps of hidden state to store in the way that specify the parameter ``saved_hidden_state_timesteps`` (a list) when we call the ``forward`` method of  ``self._learn_model``.
+  so we can specify which timesteps of hidden state to store in the way that specify the parameter ``saved_hidden_state_timesteps``
+  (a list, which implementation is in `ding/model/template/q_learning.py <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/q_learning.py#L700>`__ ) when we call the ``forward`` method of  ``self._learn_model``.
   As we can see in the following code, we first pass the ``data['burnin_nstep_obs']`` into the ``self._learn_model`` and
   ``self._target_model`` for obtaining the hidden_state in different timesteps specified in the list ``saved_hidden_state_timesteps`` , which will be used in the latter calculation
   of ``q_value``, ``target_q_value``,  ``target_q_action``.
