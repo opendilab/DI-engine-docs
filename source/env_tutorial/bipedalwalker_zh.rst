@@ -4,8 +4,8 @@ BipedalWalker
 概述
 =======
 
-前进有奖励，移动到最远端可以累计300+积分。 如果机器人摔倒，它会得到 -100。 应用电机扭矩会消耗少量点数，越多的最优代理将获得更好的分数。
-状态包括船体角速度、角速度、水平速度、垂直速度、关节位置和关节角速度、腿与地面的接触以及 10 次激光雷达测距仪测量。 状态向量中没有坐标。
+机器人前进可以获得奖励。如果成功移动到最远端将累积获取300+积分;如果机器人摔倒，积分扣减100分。应用电机扭矩会消耗少量点数，最优代理越多将会获得越高的积分。
+状态包括船体角速度、角速度、水平速度、垂直速度、关节位置和关节角速度、腿与地面的接触以及 10 次激光雷达测距仪测量。这个环境支持4个连续动作。
 
 .. image:: ./images/bipedal_walker.gif
    :align: center
@@ -42,8 +42,8 @@ BipedalWalker
 镜像
 ----
 
-DI-engine准备好了配备有框架本身和Atari环境的镜像，可通过\ ``docker pull opendilab/ding:nightly``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+DI-engine的镜像包含自有框架和Atari环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取. 如何获取更多镜像? 访问\ `docker
+hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\
 
 .. _变换前的空间原始环境）:
 
@@ -70,7 +70,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 奖励空间
 --------
 
--  前进有奖励，累计300+积分到远端。 如果机器人摔倒，它会得到 -100。 应用电机扭矩消耗少量积分，更优的代理将获得更好的分数，奖励是一个\ ``float``\ 数值，范围[-400, 300]
+-  前进有奖励，到达远端需要累积大概300积分。 如果机器人摔倒，代理人将被扣除100积分。每个动作都会扣除少量积分，奖励是一个\ ``float``\ 数值，范围[-400, 300]
 
 关键事实
 ========
