@@ -154,7 +154,7 @@ hidden states to model in next time forward.
        )
 
    	def _init_eval(self) -> None:
-       	...
+           ...
            self._eval_model = model_wrap(self._model, wrapper_name='hidden_state', state_num=self._cfg.eval.env_num)
 
 .. note::
@@ -175,28 +175,35 @@ The mini-batch data used for RNN is different from usual RL data, it
 should be arranged in time series. For DI-engine, this process happens in
 ``collector``. Users need to specify ``unroll_len`` in config to make
 sure the length of sequence data matches your algorithm. For most cases,
-``unroll_len`` should be equal to RNN's historical length. For example,
-the original sampled data is :math:`[x_1,x_2,x_3,x_4,x_5,x_6]`, each
+``unroll_len`` should be equal to RNN's historical length (a.k.a sequence length), but in some cases it's not the case, e.g.
+In r2d2, we use burn-in operation, the sequence length is equal to
+``unroll_len`` plus ``burnin_step``. This will be explained in following section.
+
+For example, the original sampled data is :math:`[x_1,x_2,x_3,x_4,x_5,x_6]`, each
 :math:`x` represents :math:`[s_t,a_t,r_t,d_t,s_{t+1}]` (maybe
 :math:`log_\pi(a_t|s_t)`, hidden state, etc in it), and we need RNN's
-historical length to be 3. By specify ``unroll_len=3``, the data will be
-arranged as :math:`[[x_1,x_2,x_3],[x_4,x_5,x_6]]`.
+sequence length to be 3.
 
-If the ``unroll_len`` is not divided by ``n_sample`` of collector, the
-residual data will be filled by last sample, i.e. if ``n_sample=6`` and
-``unroll_len=4``, the data will be arranged as
-:math:`[[x_1,x_2,x_3,x_4],[x_3,x_4,x_5,x_6]]` by default.
-if ``n_sample=6`` and
-``unroll_len=7``, the data will be arranged as
-:math:`[[x_1,x_2,x_3,x_4,x_5,x_6,x_{null}]]` by default.
+1. ``n_sample`` >= ``unroll_len`` and ``unroll_len`` is divided by ``n_sample`` :
+e.g. ``unroll_len=3``, the data will be arranged as :math:`[[x_1,x_2,x_3],[x_4,x_5,x_6]]`.
 
-DI-engine's
-``get_train_sample`` have ``drop`` and ``null_padding`` method for this case, to
-use it, you need to specify the arguments of ``get_train_sample`` method in policy's collect related method.
+2. ``n_sample`` >= ``unroll_len`` and ``unroll_len`` is not divided by ``n_sample`` :
+residual data will be filled by last sample by default, e.g. if ``n_sample=6`` and ``unroll_len=4`` , the data will be arranged as
+:math:`[[x_1,x_2,x_3,x_4],[x_3,x_4,x_5,x_6]]`.
 
-For ``drop``, it means data'll be arranged as :math:`[[x_1,x_2,x_3,x_4]]`,
-For ``null_padding``, it means data'll be arranged as :math:`[[x_1,x_2,x_3,x_4],[x_5,x_6,x_{null},x_{null}]]`,
-:math:`x_{null}` is similar to :math:`x_6` but its ``done=True`` and ``reward=0``.
+
+3. ``n_sample`` < ``unroll_len``: e.g. if ``n_sample=6`` and ``unroll_len=7``, by default, alg. use ``null_padding`` method, the data will be arranged as
+:math:`[[x_1,x_2,x_3,x_4,x_5,x_6,x_{null}]]`.  :math:`x_{null}` is similar to :math:`x_6` but its ``done=True`` and ``reward=0``.
+
+..
+    DI-engine's
+    ``get_train_sample`` have ``drop`` and ``null_padding`` method for this case, to
+    use it, you need to specify the arguments of ``get_train_sample`` method in policy's collect related method.
+    - For ``drop``, it means data will be arranged as :math:`[[x_1,x_2,x_3,x_4]]`,
+    - For ``null_padding``, it means data'll be arranged as :math:`[[x_1,x_2,x_3,x_4],[x_5,x_6,x_{null},x_{null}]]`,
+      :math:`x_{null}` is similar to :math:`x_6` but its ``done=True`` and ``reward=0``.
+
+
 
 Here, taking the r2d2 algorithm as an example, in r2d2, in method ``_get_train_sample`` it calls the function
 ``get_nstep_return_data`` and  ``get_train_sample``.
@@ -206,7 +213,7 @@ Here, taking the r2d2 algorithm as an example, in r2d2, in method ``_get_train_s
         data = get_nstep_return_data(data, self._nstep, gamma=self._gamma)
         return get_train_sample(data, self._unroll_len_add_burnin_step)
 
-More details can be found in `ding/rl_utilrs/adder.py <https://github.com/opendilab/DI-engine/blob/main/ding/rl_utils/adder.py#L125>`_ ,
+More details about the two data processing functions can be found in `ding/rl_utilrs/adder.py <https://github.com/opendilab/DI-engine/blob/main/ding/rl_utils/adder.py#L125>`_ ,
 the work flow of its data processing is given in
 the following figure:
 
@@ -217,8 +224,8 @@ the following figure:
 Initialize Hidden State
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The `_learn_model` of policy needs to initialize RNN. These hidden states comes from `prev_state` saved by `_collect_model`.
-Users need to add these states to `_learn_model` input data dict by `_process_transition` function.
+The ``_learn_model`` of policy needs to initialize RNN. These hidden states comes from ``prev_state`` saved by ``_collect_model``.
+Users need to add these states to ``_learn_model`` input data dict by ``_process_transition`` function.
 
 .. code:: python
 
@@ -227,14 +234,14 @@ Users need to add these states to `_learn_model` input data dict by `_process_tr
         transition = {
             'obs': obs,
             'action': model_output['action'],
-            'prev_state': model_output['prev_state'], # add `prev_state` key here
+            'prev_state': model_output['prev_state'], # add ``prev_state`` key here
             'reward': timestep.reward,
             'done': timestep.done,
         }
         return transition
 
-Then in `_learn_model` forward function, call its reset function(overwritten by HiddenStateWrapper) to initialize RNN with data's
-`prev_state`.
+Then in ``_learn_model`` forward function, call its reset function(overwritten by HiddenStateWrapper) to initialize RNN with data's
+``prev_state``.
 
 .. code:: python
 
@@ -250,9 +257,10 @@ Burn-in(in R2D2)
 
 This concept comes from R2D2 (Recurrent Experience Replay in Distributed
 Reinforcement Learning). When using LSTM, the most naive way is:
-1. use a zero start state to initialize the network at the beginning of sampled sequences,
-2. replay whole episode trajectories.
-The former brings bias and the latter is hard to implement.
+
+1.use a zero start state to initialize the network at the beginning of sampled sequences.
+
+2.replay whole episode trajectories. The former brings bias and the latter is hard to implement.
 
 Burn-in allow the network a
 ``burn-in period`` by using a portion of the replay sequence only for
@@ -281,21 +289,24 @@ This data process can be implemented by the following code:
     data['main_obs'] = data['obs'][bs:-self._nstep]
     data['target_obs'] = data['obs'][bs + self._nstep:]
 
-In R2D2, if we use burn-in, the reset way is not so simple,
-because the ``forward`` method of ``self._collect_model`` is in the inference mode, once we pass one timestep data, and it's output have the key `prev_state`, which can save the hidden state in all timesteps,
-but the  ``forward`` method  of  ``self._learn_model`` and  ``self._learn_model`` is not the inference mode, once we pass a sequence data, their output don't have key `prev_state`,
-instead, we can specify which timesteps of hidden state to store in this parameter saved_hidden_state_timesteps in a list.
+In R2D2, if we use burn-in, the reset way is not so simple.
 
-As we can see in the following code, we first pass the data['burnin_nstep_obs'] to the self._learn_model and
-self._target_model for obtaining the hidden_state in different timesteps which will be used in the latter calculation
-of ``q_value``, ``target_q_value``,  ``target_q_action``. Note that we specify the
-``saved_hidden_state_timesteps=[self._burnin_step, self._burnin_step + self._nstep]``, and after unroll the rnn,
-the ``burnin_output`` and ``burnin_output_target`` will save the hidden_state in corresponding timesteps in their field ``saved_hidden_state``
+- When we call the ``forward`` method of ``self._collect_model``, we set ``inference=True`` , each time call it, we pass into only one timestep data,
+  so we can get the hidden state of rnn: ``prev_state`` at each timestep.
 
+- When we call the ``forward`` method of  ``self._learn_model``, we set ``inference=False`` , when ``self._learn_model`` is not the ``inference`` mode, each call we pass into a sequence data,
+  the ``prev_state`` filed of their output is only the hidden state in last timestep,
+  so we can specify which timesteps of hidden state to store in the way that specify the parameter ``saved_hidden_state_timesteps`` (a list) when we call the ``forward`` method of  ``self._learn_model``.
+  As we can see in the following code, we first pass the ``data['burnin_nstep_obs']`` into the ``self._learn_model`` and
+  ``self._target_model`` for obtaining the hidden_state in different timesteps specified in the list ``saved_hidden_state_timesteps`` , which will be used in the latter calculation
+  of ``q_value``, ``target_q_value``,  ``target_q_action``.
+
+- Note that here in r2d2, we specify that ``saved_hidden_state_timesteps=[self._burnin_step, self._burnin_step + self._nstep]`` , and after unrolling the rnn,
+  the ``burnin_output`` and ``burnin_output_target`` will save the hidden_state in corresponding timesteps in their field ``saved_hidden_state``.
 
 .. note::
-   In DI-engine, everytime after we call the ``forward`` method of RNN model and we want to unroll the model again, we should consider reset it with the proper hidden state
-   using the ``burnin_output['saved_hidden_state']``, because inherently the init hidden state of the RNN model is set as the last timestep's hidden state last time we unroll the model
+   In DI-engine, each time when we call the ``forward`` method of RNN model and want to unroll the RNN model again, we should consider reset it with the proper hidden state
+   using the ``burnin_output['saved_hidden_state']`` , because inherently the init hidden state of the RNN model is set as the last timestep hidden state when last time we unroll the RNN model.
 
 .. code:: python
 
