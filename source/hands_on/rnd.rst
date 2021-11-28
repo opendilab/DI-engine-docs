@@ -14,10 +14,12 @@ better than average human performance on Montezuma’s Revenge without using dem
 Quick Facts
 -----------
 
-1. The insight behind exploration approaches is that we first establish a methodology of measuring the **novelty of states**, then we assign a exploration
-   reward in proportional to the novelty of the state.
-   If the visited state is more novel, it will matching a bigger intrinsic reward, on the contrary,
-   if the state is more familiar to the agent, it will matching a smaller intrinsic reward.
+1. The insight behind exploration approaches is that we first establish a method to measure the **novelty of states**, namely,
+   how well we know this state, or the number of times we have visited a state similar to it.
+   Then we assign a exploration reward in proportional to the novelty measure of the state.
+   If the visited state is more novel, or say the state is explored very few times, the agent will get a bigger intrinsic reward. On the contrary,
+   if the agent is more familiar with this state, or say, the state have been explored many times,
+   the agent will get a smaller intrinsic reward on this state.
 
 2. RND is a **prediction-error-based** exploration approach that can be applied in non-tabular cases.
    The main idea of prediction-error-based approaches is that defining the intrinsic reward as the prediction error
@@ -27,34 +29,31 @@ Quick Facts
 3. RND involves **two neural networks**: a fixed and randomly initialized target network which sets the prediction problem,
    and a predictor network trained on data collected by the agent.
 
-4. In RND paper, though the underlying base RL algorithm is off-policy PPO, RND intrinsic reward generation model can be combined with different RL algorithms conveniently.
+4. In RND paper, the underlying base RL algorithm is off-policy PPO. Generally, RND intrinsic reward generation model can be combined with
+   many different RL algorithms such as DDPG, TD3, SAC conveniently.
 
 Key Equations or Key Graphs
 ---------------------------
-
+The following two graphs are from `OpenAI's blog  <https://openai.com/blog/reinforcement-learning-with-prediction-based-rewards/>`__.
 The overall sketch of RND is as follows:
 
-.. figure:: images/RND.png
+.. figure:: images/rnd.png
    :align: center
-   :scale: 85%
+   :scale: 30%
    :alt:
 
 The overall sketch of next_sate_prediction exploration method is as follows:
 
-.. figure:: images/RND_next_state_prediction.png
+.. figure:: images/rnd_next_state_prediction.png
    :align: center
-   :scale: 85%
+   :scale: 30%
    :alt:
 
 In RND paper, the authors point out that prediction errors can be attributed to the following factors:
 
- 1.Amount of training data. Prediction error is high where few similar examples were seen by the predictor.
-
- 2.Stochasticity. Prediction error is high because the target function is stochastic.
- Stochastic transitions are a source of such error for forward dynamics prediction.
-
- 3.Model misspecification. Prediction error is high because information necessary for the prediction is missing,
- or the model class of predictors is too limited to fit the complexity of the target function.
+1. **Amount of training data**. Prediction error is high where few similar examples were seen by the predictor.
+2. **Stochasticity**. Prediction error is high because the target function is stochastic. Stochastic transitions are a source of such error for forward dynamics prediction.
+3. **Model misspecification**. Prediction error is high because information necessary for the prediction is missing, or the model class of predictors is too limited to fit the complexity of the target function.
 
 Factor 1 is a useful source of error since it quantifies the novelty of experience, whereas factors 2 and 3 cause the noisy-TV problem, that is
 serious in the next_sate_prediction based exploration method.
@@ -75,22 +74,23 @@ and `Agent57: Outperforming the Atari Human Benchmark <https://arxiv.org/abs/200
 The implementation details that matters
 ~~~~~~~~~~~~~~~~~
 
-1.  ``intrinsic reward normalization and weighting``. Normalized the intrinsic reward by the min-max normalization method, i.e.,
-    first minus the mini-batch min and divide it by the difference between the mini-batch max and the the mini-batch min. After the min-max normalization
-    the RND intrinsic reward is squashed into [0,1]. And we should also use some weighting factor to control the balance of exploration and exploitation.
-    For MiniGrid, in each episode, we let the last non-zero positive original reward times 1000 (more general, the weighting factor could be the max length of the game) as
-    the final fusion-reward to enlarge the effect of its original goal. And our experiment results in minigrid empty8 here shows that the balance of exploration and exploitation
-    (here in exploration RL alg, i.e. the weighting factor of intrinsic reward) is critical to achieve good performance in MiniGrid envs.
+1. **intrinsic reward normalization and weight factors**.
+Normalize the intrinsic reward by the min-max normalization method, i.e.,
+first minus the mini-batch min and divide it by the difference between the mini-batch max and the the mini-batch min. After the min-max normalization,
+the RND intrinsic reward is scaled into [0,1]. And we should also use some weight factor to control the balance of exploration and exploitation.
+For MiniGrid, in each episode, we let the last non-zero positive original reward times 1000 (more general, the weight factor could be the max length of the game) as
+the final fusion-reward to enlarge the effect of its original goal. And our experiment results in minigrid empty8 here shows that the balance of exploration and exploitation
+(here in exploration RL alg, i.e. the weight factor of intrinsic reward) is critical to achieve good performance in MiniGrid envs.
 
-2. ``observation normalization``.
+2.  **observation normalization**.
 Whiten each dimension by subtracting the running mean and then dividing by the running standard deviation.
 Then clip the normalized observations to be between -5 and 5.
 Initialize the normalization parameters by stepping a random agent in the environment for a small number of steps before beginning optimization.
 Use the same observation normalization for both predictor and target networks but not the policy network.
 
-3. ``Non-episodic intrinsic reward``.
-Non-episodic setting (it means the return is not truncated at “game over”) resulted in more exploration than the episodic setting when exploring without any extrinsic rewards.
-In order to combine episodic and non-episodic reward streams we require two value heads.
+3. **Non-episodic intrinsic reward**.
+Non-episodic setting (which means the return is not truncated at “game over” status) resulted in more exploration than the episodic setting when exploring without any extrinsic rewards.
+In order to combine episodic and non-episodic reward streams, we require two value heads.
 When combing the episodic and non-episodic returns, a higher discount factor for the extrinsic rewards leads to better performance,
 while for intrinsic rewards it hurts exploration. So we set discount factor as 0.999 for extrinsic rewards and 0.99 for intrinsic rewards.
 
@@ -99,12 +99,12 @@ To understand the reasons behind these operations, it is recommended to read the
 Pseudo-Code
 -----------
 
-.. figure:: images/RND_pseudo_code.png
+.. figure:: images/rnd_pseudo_code.png
    :align: center
-   :scale: 85%
+   :scale: 30%
    :alt:
 
-Implementation
+Code Implementation
 ---------------
 
 The interface of RND reward model is defined as follows:
@@ -219,10 +219,10 @@ than only dividing the self._running_mean_std_rnd.std in some sparse reward envi
              # than only dividing the self._running_mean_std_rnd.std
              rnd_reward = (reward - reward.min()) / (reward.max() - reward.min() + 1e-11)
 
-    2. ``combine the RND pseudo reward with the original reward``. Here, we should also use some weighting factor to control the
+    2. ``combine the RND pseudo reward with the original reward``. Here, we should also use some weight factor to control the
     balance of exploration and exploitation. For minigrid, we let the last non-zero original reward times 1000 to enlarge the effect
     of original goal. We also conduct the experiment on minigrid empty8 to verify the importance of tradeoff between the exploration
-    and exploitation. In the experiment, we found that if we don't use the weighting factor 1000, the rnd agent can't learn to reach the goal totally because
+    and exploitation. In the experiment, we found that if we don't use the weight factor 1000, the rnd agent can't learn to reach the goal totally because
     the extent of exploration is to big.
 
         .. code-block:: python
@@ -257,7 +257,7 @@ Benchmark Results
 
    - MiniGrid-FourRooms-v0 + rnd-onppo-weight1000/ rnd-onppo-weight100 / onppo, where red line is onppo, green line is rnd-onppo-weight100, grey line is rnd-onppo-weight1000
      green line is rnd-onppo-weight100, red line is onppo.
-     We can found that in rnd using the weighting factor 1000 is much better than using 100, which we hypothesis that it's due to the episode length is longer
+     We can found that in rnd using the weight factor 1000 is much better than using 100, which we hypothesis that it's due to the episode length is longer
      of fourrooms to solve the game is larger than empty8 on average, so the total cumulated discounted intrinsic reward is larger in fourrooms, we should
      give a comparable original reward to tradeoff in exploration and exploitation. This reminds us that the weight factor of original reward
      should be related to the total timesteps of completing the game, which can be the future work to to.
