@@ -39,14 +39,14 @@ The overall sketch of RND is as follows:
 
 .. figure:: images/rnd.png
    :align: center
-   :scale: 30%
+   :scale: 25%
    :alt:
 
 The overall sketch of next_sate_prediction exploration method is as follows:
 
 .. figure:: images/rnd_next_state_prediction.png
    :align: center
-   :scale: 30%
+   :scale: 25%
    :alt:
 
 In RND paper, the authors point out that prediction errors can be attributed to the following factors:
