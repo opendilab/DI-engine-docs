@@ -178,6 +178,7 @@ r2d3的策略 ``R2D3Policy`` 的接口定义如下：
 dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
 
 .. autoclass:: ding.ding.rl_utils.td.dqfd_nstep_td_error_with_rescale
+   :members:
    :noindex:
 
 
@@ -192,16 +193,35 @@ dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
 
 我们在PongNoFrameskip-v4做了不同的相融实验，以验证，预训练，专家演示所占比例，1步td损失，l2正则化损失等不同参数设置对算法最终性能的影响。
 
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+
-| environment         |best mean reward | evaluation results                                  | config link              |
-+=====================+=================+=====================================================+==========================+
-|                     |                 |                                                     |`config link <https://    |
-|                     |                 |                                                     |github.com/opendilab/     |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|
-|Pong                 |  20             |.. image:: images/benchmark/pong_dqn.png             |atari/config/serial/      |
-|                     |                 |                                                     |pong/pong_dqn_config      |
-|(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------------------------------------+
+| environment         |best mean reward | evaluation results                                  | 图例与分析                                               |
++=====================+=================+=====================================================+========================================================+
+|                     |                 |                                                     |观测1：pho需要适中，取1/4                                  |
+|                     |                 |                                                     |蓝线 pong_r2d2_rbs1e4                                    |
+|                     |                 |                                                     |橙线 pong_r2d3_r2d2expert_k0_pho1-4_rbs1e4_1td_l2_ds5e3  |
+|Pong                 |  20             |.. image:: images/r2d3_pong_pho.png                  |灰线pong_r2d3_r2d2expert_k0_pho1-16_rbs1e4_1td_l2_ds5e3  |
+|                     |                 |                                                     |红线pong_r2d3_r2d2expert_k0_pho1-2_rbs1e4_1td_l2_ds5e3   |
+|(PongNoFrameskip-v4) |                 |                                                     |                                                        |
++---------------------+-----------------+-----------------------------------------------------+--------------------------------------------------------+
+|                     |                 |                                                     |观测2：demo size需要适中，取 5e3                           |
+|                     |                 |                                                     |                                                        |
+|                     |                 |                                                     |橙线 pong_r2d2_rbs2e4                                    |
+|Pong                 |  20             |.. image:: images/r2d3_pong_demosize.png             |天蓝线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3|
+|                     |                 |                                                     |蓝线pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3   |
+|(PongNoFrameskip-v4) |                 |                                                     |绿线pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e4  |
++---------------------+-----------------+-----------------------------------------------------+--------------------------------------------------------+
+|                     |                 |                                                     |观测3：预训练和l2正则化影响不大                              |
+|                     |                 |                                                     |橙线r2d2 rbs2e4 demo size 1e3 seed0                      |
+|                     |                 |                                                     |蓝线pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2         |
+|Pong                 |  20             |.. image:: images/r2d3_pong_l2_pretrain.png          |粉红线pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2     |
+|                     |                 |                                                     |深红线pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2     |
+|(PongNoFrameskip-v4) |                 |                                                     |绿线pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2     |
++---------------------+-----------------+-----------------------------------------------------+--------------------------------------------------------+
+
+
+其中r2d2基线算法设置记为r2d2_n5_bs2_ul40_upc8_tut0.001_ed1e5_rbs1e5_bs64, n表示nstep, bs表示burnin_step, ul表示unroll_len, upc表示update_per_collect, tut表示target_update_theta,
+ed表示eps decay, rbs表示replay_buffer_size, bs表示batch_size, 具体参见 `r2d2 pong config <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_r2d2_config.py>`_ .
 
 参考资料
 ========
