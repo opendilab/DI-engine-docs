@@ -175,11 +175,12 @@ r2d3的策略 ``R2D3Policy`` 的接口定义如下：
    :members: __init__, _forward_learn
    :noindex:
 
-..
-    dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
 
-    .. autoclass:: ding.ding.rl_utils.td.dqfd_nstep_td_error_with_rescale
-       :noindex:
+dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
+
+.. autofunction:: ding.rl_utils.td.dqfd_nstep_td_error_with_rescale
+   :noindex:
+
 
 .. note::
     我们目前的r2d3策略实现中网络的输入只是时刻t的状态观测，不包含时刻t-1的动作和奖励,也不包括额外的信息向量 :math:`f_{t}` .
