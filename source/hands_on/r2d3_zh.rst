@@ -33,7 +33,7 @@ R2D3算法的整体分布式训练流程如下：
 
 .. image:: images/r2d3_overview.png
    :align: center
-   :scale: 55%
+   :scale: 40%
 
 其中learner用于训练的mini_batch包含了2部分: 1. 专家演示轨迹, 2. 智能体在训练过程中与环境交互产生的经验轨迹。
 演示和智能体经验验之间的比率是一个关键的超参数, 必须仔细调整以实现良好的性能。
@@ -42,7 +42,7 @@ R2D3算法的整Q网络结构图如下：
 
 .. image:: images/r2d3_q_net.png
    :align: center
-   :scale: 55%
+   :scale: 40%
 
 (a) R2D3智能体使用的recurrent head。 (b) DQfD智能体使用的feedforward head。（c）表示输入为大小为 96x72的图像帧，
 接着通过一个ResNet，然后将前一时刻的动作，前一时刻的奖励和当前时刻的其他本体感受特征 :math:`f_{t}` （包括加速度、avatar是否握住物体以及手与avatar的相对距离等辅助信息
@@ -54,7 +54,7 @@ n步return为：
 
 .. image:: images/r2d3_nstep_return.png
    :align: center
-   :scale: 55%
+   :scale: 40%
 
 监督损失对于预训练的效果至关重要。由于演示数据可能只是覆盖状态空间的一小部分并且在某一个状态并没有采取所有可能的动作，
 因此许多状态动作对从未被专家采取。 如果我们仅使用 Q-learning朝着下一个状态的最大Q值来更新预训练网络，网络将倾向于朝着那些不准确的变量中的最高值方向更新，
@@ -64,7 +64,7 @@ n步return为：
 
 .. image:: images/r2d3_slmcl.png
    :align: center
-   :scale: 55%
+   :scale: 40%
 
 其中a_E表示专家执行的动作。
 
@@ -81,7 +81,7 @@ r2d3还添加了应用于网络权重和偏差的 L2正则化损失，以帮助�
 
 .. image:: images/r2d3_loss.png
    :align: center
-   :scale: 55%
+   :scale: 40%
 
 
 伪代码
@@ -93,11 +93,11 @@ r2d3还添加了应用于网络权重和偏差的 L2正则化损失，以帮助�
 
 .. image:: images/r2d3_pseudo_code_actor.png
    :align: center
-   :scale: 55%
+   :scale: 40%
 
 .. image:: images/r2d3_pseudo_code_learner.png
    :align: center
-   :scale: 55%
+   :scale: 40%
 
 重要的实现细节
 ==============
@@ -175,12 +175,11 @@ r2d3的策略 ``R2D3Policy`` 的接口定义如下：
    :members: __init__, _forward_learn
    :noindex:
 
-dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
+..
+    dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
 
-.. autoclass:: ding.ding.rl_utils.td.dqfd_nstep_td_error_with_rescale
-   :members:
-   :noindex:
-
+    .. autoclass:: ding.ding.rl_utils.td.dqfd_nstep_td_error_with_rescale
+       :noindex:
 
 .. note::
     我们目前的r2d3策略实现中网络的输入只是时刻t的状态观测，不包含时刻t-1的动作和奖励,也不包括额外的信息向量 :math:`f_{t}` .
@@ -191,37 +190,71 @@ dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
 基准算法性能
 ============
 
-我们在PongNoFrameskip-v4做了不同的相融实验，以验证，预训练，专家演示所占比例，1步td损失，l2正则化损失等不同参数设置对算法最终性能的影响。
+我们在PongNoFrameskip-v4环境上，做了一系列对比实验，以验证：1.用于训练的一个mini-batch中专家样本的占比pho，2.专家演示所占比例，3.是否利用预训练与l2正则化
+等不同参数设置对r2d3算法最终性能的影响。注意，我们的专家数据通过 `ppo_offpolicy_collect_traj.py <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo_offpolicy_collect_traj.py>`_ 产生,
+其专家模型来自于r2d2算法在该环境上训练到收敛后得到的专家模型。以下所有实验seed=0。其中r2d2基线算法设置记为r2d2_n5_bs2_ul40_upc8_tut0.001_ed1e5_rbs1e5_bs64, n表示nstep, bs表示burnin_step, ul表示unroll_len, upc表示update_per_collect, tut表示target_update_theta,
+ed表示eps_decay, rbs表示replay_buffer_size, bs表示batch_size, 具体参见 `r2d2 pong config <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_r2d2_config.py>`_ .
+
+..
+    +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
+    | environment         |best mean reward | evaluation results                                  | 图例与分析                                                |
+    +=====================+=================+=====================================================+=========================================================+
+    |                     |                 |                                                     |观测1: pho需要适中，取1/4                                   |
+    |                     |                 |                                                     |蓝线 pong_r2d2_rbs1e4                                     |
+    |                     |                 |                                                     |橙线 pong_r2d3_r2d2expert_k0_pho1-4_rbs1e4_1td_l2_ds5e3   |
+    |Pong                 |  20             |.. image:: images/r2d3_pong_pho.png                  |灰线 pong_r2d3_r2d2expert_k0_pho1-16_rbs1e4_1td_l2_ds5e3  |
+    |                     |                 |                                                     |红线 pong_r2d3_r2d2expert_k0_pho1-2_rbs1e4_1td_l2_ds5e3   |
+    |(PongNoFrameskip-v4) |                 |                                                     |                                                         |
+    +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
+    |                     |                 |                                                     |观测2：demo size需要适中，取5e3                             |
+    |                     |                 |                                                     |                                                         |
+    |                     |                 |                                                     |橙线 pong_r2d2_rbs2e4                                     |
+    |Pong                 |  20             |.. image:: images/r2d3_pong_demosize.png             |天蓝线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3 |
+    |                     |                 |                                                     |蓝线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3   |
+    |(PongNoFrameskip-v4) |                 |                                                     |绿线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e4   |
+    +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
+    |                     |                 |                                                     |观测3：预训练和l2正则化影响不大  demo size 1e3 seed0          |
+    |                     |                 |                                                     |橙线 r2d2_rbs2e4_rbs2e4                                   |
+    |                     |                 |                                                     |蓝线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2         |
+    |Pong                 |  20             |.. image:: images/r2d3_pong_l2_pretrain.png          |粉红线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2     |
+    |                     |                 |                                                     |深红线 pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2     |
+    |(PongNoFrameskip-v4) |                 |                                                     |绿线 pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2     |
+    +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
+
+-  测试在用于训练的一个mini-batch中专家样本的占比的影响。观测1: pho需要适中，取1/4
+    - 蓝线 pong_r2d2_rbs1e4
+    - 橙线 pong_r2d3_r2d2expert_k0_pho1-4_rbs1e4_1td_l2_ds5e3
+    - 灰线 pong_r2d3_r2d2expert_k0_pho1-16_rbs1e4_1td_l2_ds5e3
+    - 红线 pong_r2d3_r2d2expert_k0_pho1-2_rbs1e4_1td_l2_ds5e3
+
+   .. image:: images/r2d3_pong_pho.png
+     :align: center
+     :scale: 50%
 
 
-+---------------------+-----------------+-----------------------------------------------------+--------------------------------------------------------+
-| environment         |best mean reward | evaluation results                                  | 图例与分析                                               |
-+=====================+=================+=====================================================+========================================================+
-|                     |                 |                                                     |观测1：pho需要适中，取1/4                                  |
-|                     |                 |                                                     |蓝线 pong_r2d2_rbs1e4                                    |
-|                     |                 |                                                     |橙线 pong_r2d3_r2d2expert_k0_pho1-4_rbs1e4_1td_l2_ds5e3  |
-|Pong                 |  20             |.. image:: images/r2d3_pong_pho.png                  |灰线pong_r2d3_r2d2expert_k0_pho1-16_rbs1e4_1td_l2_ds5e3  |
-|                     |                 |                                                     |红线pong_r2d3_r2d2expert_k0_pho1-2_rbs1e4_1td_l2_ds5e3   |
-|(PongNoFrameskip-v4) |                 |                                                     |                                                        |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------------------------------------+
-|                     |                 |                                                     |观测2：demo size需要适中，取 5e3                           |
-|                     |                 |                                                     |                                                        |
-|                     |                 |                                                     |橙线 pong_r2d2_rbs2e4                                    |
-|Pong                 |  20             |.. image:: images/r2d3_pong_demosize.png             |天蓝线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3|
-|                     |                 |                                                     |蓝线pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3   |
-|(PongNoFrameskip-v4) |                 |                                                     |绿线pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e4  |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------------------------------------+
-|                     |                 |                                                     |观测3：预训练和l2正则化影响不大                              |
-|                     |                 |                                                     |橙线r2d2 rbs2e4 demo size 1e3 seed0                      |
-|                     |                 |                                                     |蓝线pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2         |
-|Pong                 |  20             |.. image:: images/r2d3_pong_l2_pretrain.png          |粉红线pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2     |
-|                     |                 |                                                     |深红线pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2     |
-|(PongNoFrameskip-v4) |                 |                                                     |绿线pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2     |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------------------------------------+
+-  测试总的专家样本库的大小的影响。观测2：demo size需要适中，取5e3
+    - 橙线 pong_r2d2_rbs2e4
+    - 天蓝线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3
+    - 蓝线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3
+    - 绿线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e4
+
+   .. image:: images/r2d3_pong_demosize.png
+     :align: center
+     :scale: 50%
 
 
-其中r2d2基线算法设置记为r2d2_n5_bs2_ul40_upc8_tut0.001_ed1e5_rbs1e5_bs64, n表示nstep, bs表示burnin_step, ul表示unroll_len, upc表示update_per_collect, tut表示target_update_theta,
-ed表示eps decay, rbs表示replay_buffer_size, bs表示batch_size, 具体参见 `r2d2 pong config <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_r2d2_config.py>`_ .
+-  测试是否预训练以及L2正则化的影响。观测3：预训练和L2正则化影响不大
+    - 橙线 r2d2_rbs2e4_rbs2e4
+    - 蓝线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2
+    - 粉红线 pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2
+    - 深红线 pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2
+    - 绿线 pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2
+
+   .. image:: images/r2d3_pong_l2_pretrain.png
+     :align: center
+     :scale: 50%
+
+
 
 参考资料
 ========
