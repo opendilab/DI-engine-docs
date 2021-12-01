@@ -13,6 +13,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 
 .. image:: ./images/MiniGrid-DoorKey-16x16-v0.png
    :align: center
+   :scale: 30%
 
 安装
 ====
@@ -39,6 +40,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 安装完成后，可以在Python命令行中运行如下命令, 如果显示出游戏的交互界面，则证明安装成功：
 
 .. code:: python
+
     cd gym-minigrid
    ./manual_control.py --env MiniGrid-Empty-8x8-v0
 
@@ -55,6 +57,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 - 以MiniGrid-Empty-8x8-v0为例，
 
 .. code:: python
+
    env = gym.make('MiniGrid-Empty-8x8-v0')
    obs1 = env.reset()  # obs: {'image': numpy.ndarray (7, 7, 3),'direction': ,'mission': ,}
    env = RGBImgPartialObsWrapper(env) # Get pixel observations
@@ -87,28 +90,35 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 
 -  动作在0-6中取值，具体的含义是：
 
-   -  0：left
+    -  0：left
 
-   -  1：right
+    -  1：right
 
-   -  2：up
+    -  2：up
 
-   -  3：toggle
+    -  3：toggle
 
-   -  4：pickup
+    -  4：pickup
 
-   -  5： drop
+    -  5： drop
 
-   -  6： done/noop
+    -  6： done/noop
 
-- 参考\ `MiniGrid manual_control.py <https://github.com/maximecb/gym-minigrid/blob/master/manual_control.py>`__，键盘按键-动作对应关系为:
-     - 'arrow left': left,
-     - 'arrow right': right,
-     - 'arrow up': up
-     - ‘ ’: toggle,
-     - ‘pageup’: pickup
-     - ‘pagedown’: drop
-     - ‘enter’: done/noop
+- 参考 `MiniGrid manual_control.py <https://github.com/maximecb/gym-minigrid/blob/master/manual_control.py>`_ ，键盘按键-动作对应关系为:
+
+   - 'arrow left': left
+
+   - 'arrow right': right
+
+   - 'arrow up': up
+
+   - ‘ ’: toggle
+
+   - ‘pageup’: pickup
+
+   - ‘pagedown’: drop
+
+   - ‘enter’: done/noop
 
 .. _奖励空间-1:
 
@@ -130,9 +140,9 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 
 1. 观测输入可以选择像素形式的图像或者含有具体语义的"图像", 还可以选用描述智能体应该达到何种目标以获得奖励的文本形式的字符串。
 
-2. 离散动作空间
+2. 离散动作空间。
 
-3. 稀疏奖励，奖励取值尺度变化较小，最大为1，最小为0
+3. 稀疏奖励，奖励取值尺度变化较小，最大为1，最小为0。
 
 .. _变换后的空间rl环境）:
 
@@ -229,58 +239,88 @@ DI-zoo可运行代码示例
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/minigrid/config>`__
-内，对于具体的配置文件，例如\ ``minigrid_ppo_config.py``\ ，使用如下的demo即可运行：
+内，对于具体的配置文件，例如\ ``minigrid_r2d2_config.py``\ ，使用如下的demo即可运行：
 
 .. code:: python
 
     from easydict import EasyDict
     from ding.entry import serial_pipeline
-
-    minigrid_ppo_config = dict(
-        exp_name="minigrid_empty8_ppo",
+    collector_env_num = 8
+    evaluator_env_num = 5
+    minigrid_r2d2_config = dict(
+        exp_name='minigrid_empty8_r2d2_n5_bs2_ul40',
         env=dict(
-            collector_env_num=8,
-            evaluator_env_num=5,
+            collector_env_num=collector_env_num,
+            evaluator_env_num=evaluator_env_num,
             env_id='MiniGrid-Empty-8x8-v0',
+            # env_id='MiniGrid-FourRooms-v0',
+            # env_id='MiniGrid-DoorKey-16x16-v0',
             n_evaluator_episode=5,
             stop_value=0.96,
         ),
         policy=dict(
             cuda=True,
+            on_policy=False,
+            priority=True,
+            priority_IS_weight=True,
             model=dict(
                 obs_shape=2739,
                 action_shape=7,
-                encoder_hidden_size_list=[256, 128, 64, 64],
+                encoder_hidden_size_list=[128, 128, 512],
             ),
+            discount_factor=0.997,
+            burnin_step=2,  # TODO(pu) 20
+            nstep=5,
+            # (int) the whole sequence length to unroll the RNN network minus
+            # the timesteps of burnin part,
+            # i.e., <the whole sequence length> = <burnin_step> + <unroll_len>
+            unroll_len=40,  # TODO(pu) 80
             learn=dict(
-                update_per_collect=4,
+                # according to the R2D2 paper, actor parameter update interval is 400
+                # environment timesteps, and in per collect phase, we collect 32 sequence
+                # samples, the length of each samlpe sequence is <burnin_step> + <unroll_len>,
+                # which is 100 in our seeting, 32*100/400=8, so we set update_per_collect=8
+                # in most environments
+                update_per_collect=8,
                 batch_size=64,
-                learning_rate=0.0003,
-                value_weight=0.5,
-                entropy_weight=0.001,
-                clip_ratio=0.2,
-                adv_norm=False,
+                learning_rate=0.0005,
+                target_update_theta=0.001,
             ),
             collect=dict(
-                n_sample=128,
-                unroll_len=1,
-                discount_factor=0.99,
-                gae_lambda=0.95,
+                # NOTE it is important that don't include key n_sample here, to make sure self._traj_len=INF
+                each_iter_n_sample=32,
+                env_num=collector_env_num,
+            ),
+            eval=dict(env_num=evaluator_env_num, ),
+            other=dict(
+                eps=dict(
+                    type='exp',
+                    start=0.95,
+                    end=0.05,
+                    decay=1e5,
+                ),
+                replay_buffer=dict(
+                    replay_buffer_size=100000,
+                    # (Float type) How much prioritization is used: 0 means no prioritization while 1 means full prioritization
+                    alpha=0.6,
+                    # (Float type)  How much correction is used: 0 means no correction while 1 means full correction
+                    beta=0.4,
+                )
             ),
         ),
     )
-    minigrid_ppo_config = EasyDict(minigrid_ppo_config)
-    main_config = minigrid_ppo_config
-    minigrid_ppo_create_config = dict(
+    minigrid_r2d2_config = EasyDict(minigrid_r2d2_config)
+    main_config = minigrid_r2d2_config
+    minigrid_r2d2_create_config = dict(
         env=dict(
             type='minigrid',
             import_names=['dizoo.minigrid.envs.minigrid_env'],
         ),
         env_manager=dict(type='base'),
-        policy=dict(type='ppo_offpolicy'),
+        policy=dict(type='r2d2'),
     )
-    minigrid_ppo_create_config = EasyDict(minigrid_ppo_create_config)
-    create_config = minigrid_ppo_create_config
+    minigrid_r2d2_create_config = EasyDict(minigrid_r2d2_create_config)
+    create_config = minigrid_r2d2_create_config
 
     if __name__ == "__main__":
         serial_pipeline([main_config, create_config], seed=0)
@@ -293,15 +333,18 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/minigrid/config>`__
    - MiniGrid-Empty-8x8-v0 + R2D2
    .. image:: images/empty8_r2d2.png
      :align: center
+     :scale: 50%
 
 -  MiniGrid-FourRooms-v0（10M env step下，平均奖励大于0.6）
 
    - MiniGrid-FourRooms-v0 + R2D2
    .. image:: images/fourrooms_r2d2.png
      :align: center
+     :scale: 50%
 
 -  MiniGrid-DoorKey-16x16-v0（20M env step下，平均奖励大于0.2）
 
    - MiniGrid-DoorKey-16x16-v0 + R2D2
    .. image:: images/doorkey_r2d2.png
      :align: center
+     :scale: 50%
