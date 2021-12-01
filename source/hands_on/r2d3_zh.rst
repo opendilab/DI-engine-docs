@@ -166,6 +166,20 @@ r2d3还添加了应用于网络权重和偏差的 L2正则化损失，以帮助�
 
 4. 预训练，在智能体与环境交互之前，我们可以先利用专家演示样本训练Q网络，期望能得到一个好的初始参数，加速后续的训练进程。
 
+.. code::
+
+    for _ in range(cfg.policy.learn.per_train_iter_k):  # pretrain
+        if evaluator.should_eval(learner.train_iter):
+            stop, reward = evaluator.eval(learner.save_checkpoint, learner.train_iter, collector.envstep)
+            if stop:
+                break
+        # Learn policy from collected demo data
+        # Expert_learner will train ``update_per_collect == 1`` times in one iteration.
+        train_data = expert_buffer.sample(learner.policy.get_attribute('batch_size'), learner.train_iter)
+        learner.train(train_data, collector.envstep)
+        if learner.policy.get_attribute('priority'):
+            expert_buffer.update(learner.priority_info)
+
 实现
 ====
 
