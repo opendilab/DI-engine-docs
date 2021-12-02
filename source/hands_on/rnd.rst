@@ -90,9 +90,10 @@ Use the same observation normalization for both predictor and target networks bu
 
 3. **Non-episodic intrinsic reward**.
 Non-episodic setting (which means the return is not truncated at “game over” status) resulted in more exploration than the episodic setting when exploring without any extrinsic rewards.
-In order to combine episodic and non-episodic reward streams, we require two value heads.
+In order to combine episodic and non-episodic reward streams, the rnd author recommend two value heads.
 When combing the episodic and non-episodic returns, a higher discount factor for the extrinsic rewards leads to better performance,
-while for intrinsic rewards it hurts exploration. So we set discount factor as 0.999 for extrinsic rewards and 0.99 for intrinsic rewards.
+while for intrinsic rewards it hurts exploration. So the rnd author recommend to set discount factor as 0.999 for extrinsic rewards and 0.99 for intrinsic rewards.
+Note that in our implementation, for simplicity, we don't adopt above two tricks: two value heads and different discount factors.
 
 To understand the reasons behind these operations, it is recommended to read the original paper.
 
@@ -222,8 +223,8 @@ than only dividing the self._running_mean_std_rnd.std in some sparse reward envi
     2. ``combine the RND pseudo reward with the original reward``. Here, we should also use some weight factor to control the
     balance of exploration and exploitation. For minigrid, we let the last non-zero original reward times 1000 to enlarge the effect
     of original goal. We also conduct the experiment on minigrid empty8 to verify the importance of tradeoff between the exploration
-    and exploitation. In the experiment, we found that if we don't use the weight factor 1000, the rnd agent can't learn to reach the goal totally because
-    the extent of exploration is to big.
+    and exploitation. In the experiment, we found that if we don't use the weight factor 1000, the rnd agent can't learn to reach the goal at all because
+    the proportion of exploration is too large.
 
         .. code-block:: python
 
@@ -243,24 +244,34 @@ than only dividing the self._running_mean_std_rnd.std in some sparse reward envi
 Benchmark Results
 ----------------------------
 
--  MiniGrid-Empty-8x8-v0（40k env step，eval reward_mean>0.95）
+Because in collection phase, we use multinomial_sample to increase the diversity of collected data,
+in evaluation phase, we use the argmax action to interact with env.
+In the experimental results below, the graph labeled "collector_step" means that
+the y-axis shows the rewards received during the collection phase.
+and in the graph labeled "evaluator_step", the y-axis shows the rewards obtained during the evaluation phase.
 
-   - MiniGrid-Empty-8x8-v0 + rnd-onppo-weight100 / rnd-onppo-weight0, where green line is rnd-onppo-weight100, grey line is rnd-onppo-weight0
-   .. image:: images/rnd_empty8_weight100_weight0.png
+-  MiniGrid-Empty-8x8-v0（40k env steps，eval reward_mean>0.95）
+
+   - green line is rnd-onppo-weight100, red line is onppo
+
+   .. image:: images/rnd_empty8_rnd-weight100_vs_onppo_collect_mean.png
      :align: center
+     :scale: 50%
 
-   - MiniGrid-Empty-8x8-v0 + rnd-onppo-weight100 / onppo, where green line is rnd-onppo-weight100, red line is onppo
-   .. image:: images/rnd_empty8_rnd_vs_onppo.png
+   - green line is rnd-onppo-weight100, grey line is rnd-onppo-noweight
+   .. image:: images/rnd_empty8_weight100_vs_noweight_collect_mean.png
      :align: center
+     :scale: 50%
 
--  MiniGrid-FourRooms-v0（10M env step，val reward_mean>0.6）
+   .. image:: images/rnd_empty8_rnd-weight100_vs_onppo_eval_mean.png
+     :align: center
+     :scale: 50%
 
-   - MiniGrid-FourRooms-v0 + rnd-onppo-weight1000/ rnd-onppo-weight100 / onppo, where red line is onppo, green line is rnd-onppo-weight100, grey line is rnd-onppo-weight1000
-     green line is rnd-onppo-weight100, red line is onppo.
-     We can found that in rnd using the weight factor 1000 is much better than using 100, which we hypothesis that it's due to the episode length is longer
-     of fourrooms to solve the game is larger than empty8 on average, so the total cumulated discounted intrinsic reward is larger in fourrooms, we should
-     give a comparable original reward to tradeoff in exploration and exploitation. This reminds us that the weight factor of original reward
-     should be related to the total timesteps of completing the game, which can be the future work to to.
+-  MiniGrid-FourRooms-v0（10M env steps，eval reward_mean>0.6）
+
+   - red line is onppo
+   - grey line is rnd-onppo-weight1000
+   - green line is rnd-onppo-weight100
 
    .. image:: images/rnd_fourrooms_weight1000_weight100_onppo_collect_mean.png
      :align: center
@@ -276,6 +287,11 @@ Benchmark Results
      :align: center
      :scale: 50%
      :alt:
+
+   We can found that in rnd using the weight factor 1000 is much better than using 100. We hypothesis that it's due to the episode length
+   needed in fourrooms to solve the game is larger than in empty8 on average, so the total cumulated discounted intrinsic rewards in fourrooms is larger than in empty8.
+   we should make sure the original reward to be comparable with intrinsic reward to trade-off between exploitation and exploration. This reminds us that the weight factor of original reward
+   should be related to the total time-steps of solving the game. How to determine the relative weight between the intrinsic reward and the original extrinsic reward can be valuable work in the future.
 
 Author's Tensorflow Implementation
 ----------------------------
