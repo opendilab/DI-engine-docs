@@ -258,14 +258,15 @@ and in the graph labeled "evaluator_step", the y-axis shows the rewards obtained
      :align: center
      :scale: 50%
 
+   .. image:: images/rnd_empty8_rnd-weight100_vs_onppo_eval_mean.png
+     :align: center
+     :scale: 50%
+
    - green line is rnd-onppo-weight100, grey line is rnd-onppo-noweight
    .. image:: images/rnd_empty8_weight100_vs_noweight_collect_mean.png
      :align: center
      :scale: 50%
 
-   .. image:: images/rnd_empty8_rnd-weight100_vs_onppo_eval_mean.png
-     :align: center
-     :scale: 50%
 
 -  MiniGrid-FourRooms-v0（10M env steps，eval reward_mean>0.6）
 
