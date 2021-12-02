@@ -5,7 +5,7 @@ Overview
 --------
 
 RND (Random Network Distillation) was first proposed in
-`Exploration by Random Network Distillation <https://arxiv.org/abs/1810.12894v1>`__, which introduces
+`Exploration by Random Network Distillation <https://arxiv.org/abs/1810.12894v1>`_ , which introduces
 an exploration bonus for deep reinforcement learning methods that is easy to implement and adds minimal
 overhead to the computation performed. The exploration bonus is the error of a neural network predicting features
 of the observations given by a fixed randomly initialized neural network. RND claims that it is the first method that achieves
@@ -88,14 +88,16 @@ Then clip the normalized observations to be between -5 and 5.
 Initialize the normalization parameters by stepping a random agent in the environment for a small number of steps before beginning optimization.
 Use the same observation normalization for both predictor and target networks but not the policy network.
 
-3. **Non-episodic intrinsic reward**.
+3. **Non-episodic intrinsic reward and two value heads**.
 Non-episodic setting (which means the return is not truncated at “game over” status) resulted in more exploration than the episodic setting when exploring without any extrinsic rewards.
 In order to combine episodic and non-episodic reward streams, the rnd author recommend two value heads.
 When combing the episodic and non-episodic returns, a higher discount factor for the extrinsic rewards leads to better performance,
 while for intrinsic rewards it hurts exploration. So the rnd author recommend to set discount factor as 0.999 for extrinsic rewards and 0.99 for intrinsic rewards.
-Note that in our implementation, for simplicity, we don't adopt above two tricks: two value heads and different discount factors.
 
-To understand the reasons behind these operations, it is recommended to read the original paper.
+.. note::
+    In our implementation, for simplicity, we don't adopt the following tricks: non-episodic intrinsic reward, two value heads and different discount factors.
+
+In order to understand the reasons behind these tricks more clearly, it is recommended to read the original `rnd paper <https://arxiv.org/abs/1810.12894v1>`_ .
 
 Pseudo-Code
 -----------
@@ -245,14 +247,19 @@ Benchmark Results
 ----------------------------
 
 Because in collection phase, we use multinomial_sample to increase the diversity of collected data,
-in evaluation phase, we use the argmax action to interact with env.
-In the experimental results below, the graph labeled "collector_step" means that
-the y-axis shows the rewards received during the collection phase.
-and in the graph labeled "evaluator_step", the y-axis shows the rewards obtained during the evaluation phase.
+in evaluation phase, we use the argmax action to interact with env, and we run 5 different seeds and report the mean reward.
+In the experimental results below, the x-axis denotes the total env-steps interacting with the env in the training process.
+In the graph labeled "collector_step", the y-axis shows the rewards received during the collection phase, denoted as collect_reward;
+in the graph labeled "evaluator_step", the y-axis shows the rewards obtained during the evaluation phase, denoted as eval_reward.
+In the sparse reward envs minigrid, only when the agent reach the goal, the agent will get a positive reward, zero otherwise, and its value will be inversely proportional to the steps used to reach the goal.
+In the easiest env MiniGrid-Empty-8x8-v0, different seeds will have the same room configurations, the optimal reward is about 0.96.
+But in MiniGrid-FourRooms-v0, different seeds will have different room configurations
+and corresponding optimal reward is also different, when the mean of eval_reward is greater than 0.6, we consider the env have been solved.
 
 -  MiniGrid-Empty-8x8-v0（40k env steps，eval reward_mean>0.95）
 
-   - green line is rnd-onppo-weight100, red line is onppo
+   - green line is rnd-onppo-weight100
+   - red line is onppo
 
    .. image:: images/rnd_empty8_rnd-weight100_vs_onppo_collect_mean.png
      :align: center
@@ -262,13 +269,14 @@ and in the graph labeled "evaluator_step", the y-axis shows the rewards obtained
      :align: center
      :scale: 50%
 
-   - green line is rnd-onppo-weight100, grey line is rnd-onppo-noweight
+   - green line is rnd-onppo-weight100
+   - grey line is rnd-onppo-noweight
    .. image:: images/rnd_empty8_weight100_vs_noweight_collect_mean.png
      :align: center
      :scale: 50%
 
 
--  MiniGrid-FourRooms-v0（10M env steps，eval reward_mean>0.6）
+-  MiniGrid-FourRooms-v0（20M env steps，eval reward_mean>0.6）
 
    - red line is onppo
    - grey line is rnd-onppo-weight1000
@@ -292,7 +300,10 @@ and in the graph labeled "evaluator_step", the y-axis shows the rewards obtained
    We can found that in rnd using the weight factor 1000 is much better than using 100. We hypothesis that it's due to the episode length
    needed in fourrooms to solve the game is larger than in empty8 on average, so the total cumulated discounted intrinsic rewards in fourrooms is larger than in empty8.
    we should make sure the original reward to be comparable with intrinsic reward to trade-off between exploitation and exploration. This reminds us that the weight factor of original reward
-   should be related to the total time-steps of solving the game. How to determine the relative weight between the intrinsic reward and the original extrinsic reward can be valuable work in the future.
+   should be related to the total time-steps of solving the game.
+
+.. note::
+    How to determine the relative weight between the intrinsic reward and the original extrinsic reward can be valuable work in the future.
 
 Author's Tensorflow Implementation
 ----------------------------
