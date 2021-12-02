@@ -27,6 +27,8 @@
 
     gail
 
+    r2d3
+
     vpn
     mcts
     alphago
