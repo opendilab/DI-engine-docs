@@ -6,4 +6,7 @@
    :maxdepth: 1
 
    atari_zh
+
    lunarlander_zh
+
+   bipedalwalker_zh
