@@ -84,26 +84,26 @@ to be samples from :math:`\pi_\theta(·|x_t)`.
 
 .. image:: images/ACER_SDN.png
    :align: center
-   :scale: 30%
+   :scale: 45%
 
 Pseudocode
 ----------
 
 There are a few changes between ACER applied to discrete action spaces and that applied to continuous action space.
 
-.. image:: images/ACER_alg1_1.png
+.. image:: images/ACER_algo1_1.png
    :align: center
-   :scale: 70%
+   :scale: 50%
 
-.. image:: images/ACER_alg1_2.png
+.. image:: images/ACER_algo1_2.png
    :align: center
-   :scale: 70%
+   :scale: 50%
 
 In continuous action space, it is impossible to enumerate all actions q value. So ACER uses sampled actions to replace the expectation.
 
-.. image:: images/ACER_alg3.png
+.. image:: images/ACER_algo2.png
    :align: center
-   :scale: 70%
+   :scale: 50%
 
 
 Implementations
