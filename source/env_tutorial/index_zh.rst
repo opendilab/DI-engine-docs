@@ -10,3 +10,5 @@
    lunarlander_zh
 
    bipedalwalker_zh
+
+   gfootball_zh
