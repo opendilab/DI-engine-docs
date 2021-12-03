@@ -119,7 +119,7 @@ DI-zoo可运行代码示例
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/box2d/bipedalwalker/config>`__
 内，对于具体的配置文件，例如\ ``bipedalwalker_td3_config.py``\ ，使用如下的demo即可运行：
 
-    .. code:: python
+.. code:: python
 
     bipedalwalker_td3_config = dict(
         env=dict(

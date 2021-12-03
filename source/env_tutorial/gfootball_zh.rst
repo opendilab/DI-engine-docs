@@ -15,6 +15,7 @@ API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入�
 
 .. figure:: images/gfootballenv.png
    :alt: 
+   :align: center
 
 .. _header-n9:
 
@@ -72,6 +73,7 @@ API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入�
 
 .. figure:: images/verify_gfootball.png
    :alt: 
+   :align: center
 
 更多安装环境相关的问题，可以参考\ `Gfootball官网github <https://github.com/google-research/football>`__\ 。此外，官方也提供了docker
 image用于在docker环境中部署环境，可以参考https://github.com/google-research/football/blob/master/gfootball/doc/docker.md。
@@ -87,15 +89,15 @@ image用于在docker环境中部署环境，可以参考https://github.com/googl
 
    import gfootball.env as football_env
    env = football_env.create_environment(
-   		env_name = '11_vs_11_stochastic',
-       	representation = 'raw',
-       	stacked = False,
-       	logdir = '/tmp/football',
+   	env_name='11_vs_11_stochastic',
+       	representation='raw',
+       	stacked=False,
+       	logdir='/tmp/football',
        	write_goal_dumps=False,
        	write_full_episode_dumps=False,
        	write_video=False,
-       	render = False,
-           number_of_right_players_agent_controls=1
+       	render=False,
+        number_of_right_players_agent_controls=1
    )
 
 
@@ -114,15 +116,15 @@ image用于在docker环境中部署环境，可以参考https://github.com/googl
 
 -  logdir。日志文件的保存路径。
 
--  write\ *goal*\ dumps。是否保存进球时的二进制文件用于生成录像回放。
+-  write_goal_dumps。是否保存进球时的二进制文件用于生成录像回放。
 
--  write\ *full*\ episode_dumps。是否保存全程的二进制文件用于生成录像回放。
+-  write_full_episode_dumps。是否保存全程的二进制文件用于生成录像回放。
 
 -  write_video。是否生成渲染的全程视频。
 
 -  render。是否实时渲染。
 
--  number\ *of*\ right\ *players*\ agent_controls。选择同时控制的球员数目。
+-  number_of_right_players_agent_controls。选择同时控制的球员数目。
 
 也可以使用由di-engine封装的环境：
 
@@ -142,7 +144,7 @@ image用于在docker环境中部署环境，可以参考https://github.com/googl
 状态空间
 --------
 
-**raw**
+**一般使用raw输入信息**
 
 -  球信息：
 
@@ -488,3 +490,4 @@ play训练中对内置hard AI胜率曲线如下图所示：
 
 .. figure:: images/gfootball_train.png
    :alt:
+   :align: center
