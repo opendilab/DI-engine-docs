@@ -27,7 +27,7 @@
 
     gail
 
-    r2d3
+    r2d3_zh
 
     vpn
     mcts
