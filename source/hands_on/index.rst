@@ -30,3 +30,5 @@
     vpn
     mcts
     alphago
+
+    icm_zh
