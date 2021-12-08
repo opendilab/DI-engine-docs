@@ -83,7 +83,7 @@ Mujoco是旨在促进机器人、生物力学、图形和动画等需要快速�
 镜像
 ----
 
-DI-engine准备好了配备有框架本身和Mujoco环境的镜像，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
+DI-engine的镜像配备了框架本身和Mujoco环境，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
 
 .. _变换前的空间原始环境）:
@@ -103,7 +103,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 动作空间
 --------
 
--  物理信息组成的向量(torque etc.)，一般是大小为N的连续动作空间（N随具体子环境变化），数据类型为\ ``float32``\ ，需要传入np数组（例如动作为\ ``array([-0.9266078 , -0.4958926 ,  0.46242517], dtype=float32)``\ ）
+-  物理信息组成的向量(torque etc.)，一般是大小为N的连续动作空间（N随具体子环境变化），数据类型为\ ``np.float32``\ ，需要传入np数组（例如动作为\ ``array([-0.9266078 , -0.4958926 ,  0.46242517], dtype=np.float32)``\ ）
 
 -  如在Hopper环境中，N的大小为3，动作在\ ``[-1, 1]``\中取值
 
@@ -124,7 +124,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 关键事实
 ========
 
-1. Vector物理信息输入，经验上做norm中不宜减去均值
+1. Vector物理信息输入，由实际经验可知，在做norm时不宜减去均值。
 
 2. 连续动作空间
 
@@ -307,6 +307,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/mujoco/config/seria
 
 注：对于某些特殊的算法，比如PPO，需要使用专门的入口函数，示例可以参考
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/mujoco/entry/mujoco_ppo_main.py>`__
+也可以使用serial_pipeline_onpolicy一键进入
 
 基准算法性能
 ============
