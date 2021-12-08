@@ -13,4 +13,5 @@
    slime_volleyball_zh
    procgen_zh
    smac_zh
+   d4rl_zh
    gfootball_zh
