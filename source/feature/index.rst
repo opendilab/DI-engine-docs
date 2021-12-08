@@ -11,6 +11,7 @@ Feature
 
     algorithm_overview_en
     policy_overview_en
+    policy_overview_zh
     model_overview_en
     env_overview_en
 
