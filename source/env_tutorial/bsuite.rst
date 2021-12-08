@@ -6,11 +6,13 @@ Description
 
 ``bsuite`` is a collection of carefully-designed experiments that investigate core capabilities of a reinforcement learning (RL) agent with two main objectives:
 
-    -  1. To collect clear, informative and scalable problems that capture key issues in the design of efficient and general learning algorithms.
-    -  2. To study agent behavior through their performance on these shared benchmarks.
+    1. To collect clear, informative and scalable problems that capture key issues in the design of efficient and general learning algorithms.
+    2. To study agent behavior through their performance on these shared benchmarks.
 
-.. image:: ./images/bsuite.png
+.. figure:: ./images/bsuite.png
    :align: center
+
+   Imahge taken from: https://github.com/deepmind/bsuite
 
 Installation
 ====
@@ -45,15 +47,15 @@ Original environment space
 Observations space
 --------
 
--  Array representing the state of the environment, dimensions and size can vary according to the specific environment, datatype is \ ``np.float32``.
+-  Array representing the state of the environment, dimensions and size can vary according to the specific environment. Its datatype is \ ``np.float32``.
 
 .. _Actions space-1:
 Actions space
 --------
 
--  The action space is a discrete space of size N, (where N can vary according to the environment), datatype is \ ``int``\ and input is a python integer value（or a np array of dimension 0 such as \ ``np.array(1)``\ to input action 1）.
+-  The action space is a discrete space of size N which varies according to the environment. This datatype is \ ``int``\ and input is a python integer value（or a np array of dimension 0 such as \ ``np.array(1)``\ to input action 1）.
 
--  For example, in the Deep Sea environment, N is equal to 2, thus action values ranges from 0 to 1. For their specific meaning you can refer to the following list.
+-  For example, in the Deep Sea environment, N is equal to 2, thus action values ranges from 0 to 1. For their specific meaning, you can refer to the following list:
 
    -  0：LEFT.
 
@@ -63,13 +65,13 @@ Actions space
 Rewards space
 --------
 
--  Rewards are assigned according to the rules of the environments, rewards are usually a \ ``float``\ value.
+-  Rewards are assigned according to the rules of the environments. Rewards are usually a \ ``float``\ value.
 
 .. _Other-1:
 Others
 ----
 
--  Environments terminate once they have reached their maximum number of steps or is encountered a failure state. All environments have a fixed number of maximum steps, but not all environments have a failure state.
+-  Environments terminate once they have reached their maximum number of steps or encountered a failure state. All environments have the fixed number of maximum steps, but not all environments have a failure state.
 
 Key facts
 ========
@@ -80,7 +82,7 @@ Key facts
 
 3. Each environment is designed to test a particular propriety of RL policies, including: generalization, exploration, credit assignment, scaling, noise, memory.
 
-4. Rewards scale can vary a lot.
+4. The scale of rewards can vary significantly.
 
 .. _Other-3:
 Others
@@ -106,9 +108,10 @@ Given a specific environment, all possible configurations can be visualized with
 
 .. code:: python
 
-   from bsuite import sweep
-   print('List bsuite_id for "bandit_noise" experiment:')
-   print(sweep.BANDIT_NOISE)
+   from bsuite import sweep  # this module contains information about all the environments
+   for bsuite_id in sweep.BANDIT_NOISE:
+   env = bsuite.load_from_id(bsuite_id)
+   print('bsuite_id={}, settings={}, num_episodes={}' .format(bsuite_id, sweep.SETTINGS[bsuite_id], env.bsuite_num_episodes))
 
 .. image:: ./images/bsuite_config.png
    :align: center
@@ -129,7 +132,7 @@ DI-zoo runnable code
 
 The full training configuration can be found on `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/bsuite/config/serial>`__
-. Following, we show an example of configuration for the file, ``memory_len_0_dqn_config.py``\, you can run the demo with the following code：
+. In the following part, we show an example of configuration for the file, ``memory_len_0_dqn_config.py``\, you can run the demo with the following code：
 
 .. code:: python
 
