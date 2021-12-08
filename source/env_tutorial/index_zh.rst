@@ -6,9 +6,11 @@
    :maxdepth: 1
 
    atari_zh
+   
 
    lunarlander_zh
 
    bipedalwalker_zh
 
+   slime_volleyball_zh
    gfootball_zh
