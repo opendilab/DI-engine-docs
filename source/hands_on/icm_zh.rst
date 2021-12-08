@@ -13,7 +13,7 @@ ICM (Intrinsic Curiosity Module) 首次在论文
 
 1. 高维度的连续状态空间(比如图像信息）很难建立直观的dynamic model，即  :math:`p_\theta(s_{t+1}, a_t)` ;
 
-２. 环境中的observation和agent自身行为的相关性有所区别，大致可以分为：
+2. 环境中的observation和agent自身行为的相关性有所区别，大致可以分为：
 　
     a. agent可以直接控制的元素（比如自动驾驶场景中自车的位置，速度）；
 

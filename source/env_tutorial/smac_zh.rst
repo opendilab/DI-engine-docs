@@ -26,6 +26,7 @@ SMAC是一个用于在暴雪星际争霸2上进行多智能体协同强化学习
 对于Windows系统使用者，安装请参考\ `<https://starcraft2.com>`__
 
 2.安装与DI-engine适配的PySC2
+
 .. code:: shell
 
    git clone https://github.com/opendilab/DI-star.git
@@ -35,7 +36,7 @@ SMAC是一个用于在暴雪星际争霸2上进行多智能体协同强化学习
 验证安装
 --------
 
-安装完成后，可以通过安装成功后echo $SC2PATH确认环境变量设置成功
+安装完成后，可以通过安装成功后 ``echo $SC2PATH`` 确认环境变量设置成功
 
 
 镜像
@@ -177,7 +178,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 存储录像
 --------
 
-调用\ `<https://github.com/opendilab/DI-engine/blob/main/dizoo/smac/utils/eval.py>`__所提供的方法存储视频，并在星际争霸游戏中播放存储的视频。
+调用\ `<https://github.com/opendilab/DI-engine/blob/main/dizoo/smac/utils/eval.py>`_ 所提供的方法存储视频，并在星际争霸2游戏中播放存储的视频。
 
 .. code:: python
 

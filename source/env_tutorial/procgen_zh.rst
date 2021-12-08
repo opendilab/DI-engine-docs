@@ -14,8 +14,11 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
 以下三张图片分别表示了coinrun环境下level1到level3的不同输入：
 
 .. image:: ./images/coinrun_level1.png
+   :align: center
 .. image:: ./images/coinrun_level2.png
+   :align: center
 .. image:: ./images/coinrun_level3.png
+   :align: center
 
 
 安装
@@ -277,4 +280,3 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/ent
    - Maze + DQN
    .. image:: images/maze_dqn.svg
      :align: center
-
