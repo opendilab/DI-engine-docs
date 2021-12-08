@@ -4,12 +4,19 @@ Procgen
 概述
 =======
 
-Procgen Benchmark是OpenAI发布的一组利用16种程序生成的环境（CoinRun，StarPilot，CaveFlyer，Dodgeball，FruitBot，Chaser
-，Miner，Jumper，Leaper，Maze，BigFish，Heist，Climber，Plunder，Ninja和BossFight）,它可以用来衡量模型学习通用技能的速度,从而判断算法对于环境的泛化能力。下图所示为其中的Coinrun游戏。
+Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的环境（CoinRun，StarPilot，CaveFlyer，Dodgeball，FruitBot，Chaser
+，Miner，Jumper，Leaper，Maze，BigFish，Heist，Climber，Plunder，Ninja和BossFight），procgen的全称是Procedural Generation，表示程序化生成。对于procgen环境，它可以生成同一难度但是采用不同地图的游戏，也可以生成采用同一地图但是不同难度的游戏，可以用来衡量模型学习通用技能的速度，从而判断算法对于环境的泛化能力。下图所示为其中的Coinrun游戏。
 
 
 .. image:: ./images/coinrun.gif
    :align: center
+
+以下三张图片分别表示了coinrun环境下level1到level3的不同输入：
+
+.. image:: ./images/coinrun_level1.png
+.. image:: ./images/coinrun_level2.png
+.. image:: ./images/coinrun_level3.png
+
 
 安装
 ====
@@ -37,6 +44,8 @@ Procgen Benchmark是OpenAI发布的一组利用16种程序生成的环境（Coin
 
    import gym
    env = gym.make('procgen:procgen-maze-v0', start_level=0, num_levels=1)
+   # num_levels=0 - The number of unique levels that can be generated. Set to 0 to use unlimited levels.
+   # start_level=0 - The lowest seed that will be used to generated levels. 'start_level' and 'num_levels' fully specify the set of possible levels.
    obs = env.reset()
    print(obs.shape)  # (64, 64, 3)
 
@@ -78,14 +87,14 @@ Procgen Benchmark是OpenAI发布的一组利用16种程序生成的环境（Coin
 奖励空间
 --------
 
--  游戏得分，根据具体游戏内容不同会有一定的差异，一般是一个\ ``float``\ 数值， 如在Coinrun环境中， 吃到硬币则奖励10.0分
+-  游戏得分，根据具体游戏内容不同会有一定的差异，一般是一个\ ``float``\ 数值， 如在Coinrun环境中， 吃到硬币则奖励10.0分，除此以外没有其它奖励。
 
 .. _其他-1:
 
 其他
 ----
 
--  游戏结束即为当前环境episode结束
+-  游戏结束即为当前环境episode结束，例如在coinrun中，智能体吃到硬币或者游戏时间超过了允许的最长游戏时间，则游戏结束。
 
 关键事实
 ========
@@ -94,6 +103,10 @@ Procgen Benchmark是OpenAI发布的一组利用16种程序生成的环境（Coin
    RGB三通道图像输入，三维np数组，尺寸为\ ``(3, 64, 64)``\ ，数据类型为\ ``np.float32``\ ，取值为 \ ``[0, 255]``\
 
 2. 离散动作空间
+
+3. 奖励具有稀疏性，例如在coinrun中，只有吃到硬币才有得分。
+
+4. 环境的泛化性，对于同一环境，有不同等级，它们的输入、奖励空间、动作空间是相同的，但游戏难度却不同。
 
 变换后的空间（RL环境）
 ======================
@@ -206,10 +219,9 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/ent
        ),
        policy=dict(
            cuda=False,
-           on_policy=False,
            model=dict(
                obs_shape=[3, 64, 64],
-               action_shape=15,
+               action_shape=5,
                encoder_hidden_size_list=[128, 128, 512],
                dueling=False,
            ),
