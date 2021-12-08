@@ -3,7 +3,13 @@ Mujoco
 
 概述
 =======
-D4RL是离线强化学习(offline Reinforcement Learning)的开源benchmark，它为训练和基准算法提供标准化的环境和数据集。数据集的收集策略包含：1）通过手工设计的规则和专家演示生成的数据集，2）多任务数据集(代理在相同的环境中执行不同的任务)，3）以及使用混合策略收集的数据集。具体包含以下7个子环境。
+D4RL是离线强化学习(offline Reinforcement Learning)的开源benchmark，它为训练和基准算法提供标准化的环境和数据集。数据集的收集策略包含
+
+1. 通过手工设计的规则和专家演示生成的数据集
+2. 多任务数据集(代理在相同的环境中执行不同的任务)
+3. 使用混合策略收集的数据集
+
+具体包含以下7个子环境
 
 -  Maze2D
 -  AntMaze
@@ -13,7 +19,18 @@ D4RL是离线强化学习(offline Reinforcement Learning)的开源benchmark，�
 -  Flow
 -  Offline CARLA
 
-其中Mujoco数据集是旨在促进机器人、生物力学、图形和动画等需要快速准确模拟领域研究和开发的物理引擎，常来作为连续空间强化学习算法的基准测试环境。它是一系列环境的集合（共有20个子环境），在D4RL中，用到的子环境有Half Cheetah，Hopper，Walker2D，下图所示为其中Hopper游戏。
+注意：offline rl是训练用d4rl的数据集，测试是用具体的RL环境来交互，比如Mujoco.
+
+其中Mujoco数据集是旨在促进机器人、生物力学、图形和动画等需要快速准确模拟领域研究和开发的物理引擎，常来作为连续空间强化学习算法的基准测试环境。它是包含20个子环境的集合，在D4RL中，用到的子环境有Half Cheetah，Hopper，Walker2D。
+每个子环境包含5个小环境
+
+-  expert: 在线训练一个\ `SAC <https://arxiv.org//abs/1801.01290>`__\ 算法直到策略达到专家性能水平，使用该专家策略收集1百万的样本数据
+-  medium-expert: 混合等量的专家策略和中等策略收集的数据
+-  medium: 首先在线训练一个SAC算法，在中间停止训练，然后使用这个部分训练的策略收集1百万的样本数据
+-  medium-replay：在线训练一个SAC算法直到策略达到中等性能水平，将训练期间放在缓冲区中的所有样本收集起来
+-  random：使用一个随机初始化的策略来收集
+
+下图所示为其中Hopper游戏。
 
 .. image:: ./images/d4rl.gif
    :align: center
@@ -40,9 +57,8 @@ D4RL是离线强化学习(offline Reinforcement Learning)的开源benchmark，�
 
 mujoco只要安装gym和mujoco-py两个库即可，可以通过pip一键安装或结合DI-engine安装
 
-注：
-1. mujoco-py库目前已不再需要激活许可(`mujoco-py>=2.1.0`)，可以通过\ `pip install free-mujoco-py <https://github.com/openai/mujoco-py/pull/640>`__安装
-2. 如果安装 `mujoco-py>=2.1`, 可以通过如下方法:
+1. mujoco-py库目前已不再需要激活许可(``mujoco-py>=2.1.0``)，可以通过\ `pip install free-mujoco-py <https://github.com/openai/mujoco-py/pull/640>`__ 安装
+2. 如果安装 ``mujoco-py>=2.1``, 可以通过如下方法:
 
 .. code:: shell
     
@@ -134,6 +150,7 @@ Gym-MuJoco变换前的空间（原始环境）
 --------
 
 -  物理信息组成的向量(3D position, orientation, and joint angles etc. )，具体尺寸为\ ``(N, )``\ ，其中\ ``N``\ 根据环境决定，数据类型为\ ``float64``
+-  `Fujimoto <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__ 提到，对于d4rl数据集做obs norm会提升offline的训练稳定性
 
 .. _动作空间-1:
 
@@ -149,7 +166,7 @@ Gym-MuJoco变换前的空间（原始环境）
 奖励空间
 --------
 
--  游戏得分，根据具体游戏内容不同会有非常大的差异，一般是一个\ ``float``\ 数值，具体的数值可以参考最下方的基准算法性能部分。
+-  根据具体游戏内容不同，游戏得分会有非常大的差异，通常是一个\ float\ 数值，具体的数值可以参考最下方的基准算法性能部分。
 
 .. _其他-1:
 
@@ -249,8 +266,7 @@ Gym-MuJoco变换前的空间（原始环境）
 DI-zoo可运行代码示例
 ====================
 
-完整的训练配置文件在 `github
-link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
+完整的训练配置文件在 `github link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
 内，对于具体的配置文件，例如\ ``https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/config/hopper_medium_cql_default_config.py``\ ，使用如下的demo即可运行：
 
 .. code:: python
@@ -326,7 +342,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
     create_config = hopper_medium_cql_default_create_config
 
 注：对于offline RL的算法，比如TD3_bc，CQL，需要使用专门的入口函数，示例可以参考
-`link <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__
+`link <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__ 
 
 基准算法性能
 ===============
@@ -336,4 +352,4 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
    - walker2d-medium-expert-v0 + CQL
    .. image:: images/walker2d_medium_expert_cql.png
      :align: center
-
+   - 一般迭代1M iteration需要9小时（NVIDIA V100）
