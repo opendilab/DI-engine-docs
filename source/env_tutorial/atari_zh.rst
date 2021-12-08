@@ -4,8 +4,7 @@ Atari
 概述
 =======
 
-Atari是最经典最常用的离散动作空间强化学习环境，常来作为离散空间强化学习算法的基准测试环境。它是一系列环境的集合（共有57个子环境），常用的子环境有Pong，Space
-Invaders，QBert，Enduro，Breakout，MontezumaRevenge等等，下图所示为其中的Space Invaders游戏。
+Atari是最经典最常用的离散动作空间强化学习环境，常作为离散动作空间强化学习算法的基准测试环境。它是一个由57个子环境构成的集合，不同的子环境对应的游戏类型差别很大，常用的子环境有Pong，SpaceInvaders，QBert，Enduro，Breakout，MontezumaRevenge等等，下图所示为其中的SpaceInvaders游戏。
 
 .. image:: ./images/atari.gif
    :align: center
@@ -102,8 +101,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 
 2. 离散动作空间
 
-3. 既有稠密奖励（Space
-   Invaders）；又有稀疏奖励（Pitfall，MontezumaRevenge）
+3. Atari环境集合中的奖励类型比较复杂，既有稠密奖励(SpaceInvaders)，又有稀疏奖励 (Pitfall，MontezumaRevenge)，需要的算法探索能力也不同
 
 4. 奖励取值尺度变化较大
 

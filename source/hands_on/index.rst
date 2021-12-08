@@ -1,11 +1,11 @@
-Hands on RL
+强化学习算法攻略合集
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 
 .. toctree::
     :maxdepth: 3
 
-    dqn
+    dqn_zh
     c51_qrdqn_iqn
     rainbow
     sqn
@@ -27,6 +27,10 @@ Hands on RL
 
     gail
 
+    r2d3_zh
+
     vpn
     mcts
     alphago
+
+    icm_zh
