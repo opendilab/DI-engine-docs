@@ -27,6 +27,10 @@
 
     gail
 
+    r2d3_zh
+
     vpn
     mcts
     alphago
+
+    icm_zh
