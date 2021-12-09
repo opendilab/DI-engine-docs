@@ -4,7 +4,7 @@ Guided Cost Learning
 综述
 ---------
 Guided Cost Learning(GCL)是一种逆强化学习算法，在 `Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization <https://arxiv.org/abs/1603.00448>`_ 中被提出。
-Inverse Reinforcement Learning的一个基本思路就是，在给定的专家数据下，学习一个奖励函数，使得这个专家策略在这个奖励函数下是最优的，但这个奖励函数却并不是唯一的。在 `Maximum Entropy Inverse Reinforcement Learning <https://www.aaai.org/Papers/AAAI/2008/AAAI08-227.pdf>` 和 `Maximum Entropy Deep Inverse Reinforcement Learning <https://arxiv.org/abs/1507.04888>` 中提出了利用最大熵原理的方法来求奖励函数。GCL算法实在这些算法的基础上，利用最大熵原理，使用神经网络来表征一个非线性的奖励函数。GCL算法在训练过程中可以同时学习一个奖励函数reward function和策略policy。 GCL算法主要应用于控制领域，如机械臂控制等场合。
+Inverse Reinforcement Learning的一个基本思路就是，在给定的专家数据下，学习一个奖励函数，使得这个专家策略在这个奖励函数下是最优的，但这个奖励函数却并不是唯一的。在 `Maximum Entropy Inverse Reinforcement Learning <https://www.aaai.org/Papers/AAAI/2008/AAAI08-227.pdf>`_ 和 `Maximum Entropy Deep Inverse Reinforcement Learning <https://arxiv.org/abs/1507.04888>`_ 中提出了利用最大熵原理的方法来求奖励函数。GCL算法实在这些算法的基础上，利用最大熵原理，使用神经网络来表征一个非线性的奖励函数。GCL算法在训练过程中可以同时学习一个奖励函数reward function和策略policy。 GCL算法主要应用于控制领域，如机械臂控制等场合。
 
 快速了解
 -------------
@@ -44,11 +44,11 @@ GCL算法基于最大熵原理的一个基本公式：
 
 伪代码
 ---------------
-.. image:: images/GCL_1.jpg
+.. image:: images/GCL_1.png
    :align: center
    :scale: 55%
 
-.. image:: images/GCL_2.jpg
+.. image:: images/GCL_2.png
    :align: center
    :scale: 55%
 
@@ -57,9 +57,9 @@ GCL算法基于最大熵原理的一个基本公式：
 -----------
 GCL 可以和以下方法相结合：
 
-    - PPO `Proximal Policy Optimization<https://arxiv.org/pdf/1707.06347.pdf>`
+    - PPO `Proximal Policy Optimization<https://arxiv.org/pdf/1707.06347.pdf>`_
 
-    - SAC `Soft Actor-Critic<https://arxiv.org/pdf/1801.01290>`
+    - SAC `Soft Actor-Critic <https://arxiv.org/pdf/1801.01290>`_
 
     使用PPO或SAC算法中Actor网络算出的概率值作为训练reward function时的轨迹概率 :math:`q(\tau )`, 使用GCL reward function算出的reward值作为训练PPO或SAC算法时的reward值。
 
@@ -71,7 +71,7 @@ GCl 的默认 config 如下所示：
 .. autoclass:: ding.dizoo.box2d.lunarlander.config.lunarlander_gcl_config.py
    :noindex:
 
-其中使用的神经网络接口如下所示：
+其中使用的奖励模型接口如下所示：
 
 .. autoclass:: ding.reward_model.guided_cost_reward_model.GuidedCostModel
    :members: __init__, train, estimate
@@ -81,22 +81,22 @@ GCl 的默认 config 如下所示：
 ------------------
 
 
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
-+=====================+=================+=====================================================+==========================+======================+
-|                     |                 |                                                     |`config link <https://    |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  PPO                 |
-|                     |  GCL            |                                                     |DI-engine/tree/main/dizoo/|  env_step=1.5M       |
-|Lunarlander          |  env_step=1.1M  |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |  reward=20           |
-|                     |  reward=20      |                                                     |lunarlander_gcl_config    |                      |
-|                     |                 |                                                     |.py>`_                    |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config link <https://    |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  PPO                 |
-|Hopper               |  GCL            |                                                     |DI-engine/tree/main/dizoo/|  env_step=3M         |
-|                     |  env_step= 1M   |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |  reward=3000         |
-|                     |  reward=20      |                                                     |.py>`_                    |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | 
++=====================+=================+=====================================================+==========================+
+|                     |                 |                                                     |`config link <https://    |
+|                     |                 |                                                     |github.com/opendilab/     |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|
+|Lunarlander          |  1.1M env_step, |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |
+|                     |  reward 200     |                                                     |lunarlander_gcl_config    |
+|                     |                 |                                                     |.py>`_                    |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+
+|                     |                 |                                                     |`config link <https://    |
+|                     |                 |                                                     |github.com/opendilab/     |
+|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|
+|                     |  1M  env_step,  |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |
+|                     |  reward 2950    |                                                     |.py>`_                    |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+
 
 
 
