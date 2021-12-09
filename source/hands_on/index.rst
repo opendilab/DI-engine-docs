@@ -26,7 +26,7 @@
     collaq
 
     gail
-    guided cost
+    guided_cost_zh
 
     vpn
     mcts
