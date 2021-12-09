@@ -57,7 +57,7 @@ GCL算法基于最大熵原理的一个基本公式：
 -----------
 GCL 可以和以下方法相结合：
 
-    - PPO `Proximal Policy Optimization<https://arxiv.org/pdf/1707.06347.pdf>`_
+    - PPO `Proximal Policy Optimization <https://arxiv.org/pdf/1707.06347.pdf>`_
 
     - SAC `Soft Actor-Critic <https://arxiv.org/pdf/1801.01290>`_
 
