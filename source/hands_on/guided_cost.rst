@@ -86,16 +86,16 @@ GCl 的默认 config 如下所示：
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config link <https://    |                      |
 |                     |                 |                                                     |github.com/opendilab/     |  PPO                 |
-|                     |  GCl            |                                                     |DI-engine/tree/main/dizoo/|  1.5M env_step       |
-|Lunarlander          |  1.1M env_step  |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |  20 reward           |
-|                     |  20 reward      |                                                     |lunarlander_gcl_config    |                      |
+|                     |  GCl            |                                                     |DI-engine/tree/main/dizoo/|  env_step=1.5M       |
+|Lunarlander          |  env_step=1.1M  |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |  reward=20           |
+|                     |  reward=20      |                                                     |lunarlander_gcl_config    |                      |
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config link <https://    |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  PPO     (3000/5M)   |
-|Hopper               |  GCL            |                                                     |DI-engine/tree/main/dizoo/|  3M env_step         |
-|                     |  1M env_step    |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |  3000 reward         |
-|                     |                 |                                                     |.py>`_                    |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  PPO                 |
+|Hopper               |  GCL            |                                                     |DI-engine/tree/main/dizoo/|  env_step=3M         |
+|                     |  env_step= 1M   |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |  reward=3000         |
+|                     |  reward=20      |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
