@@ -32,7 +32,7 @@ Invaders，QBert，Enduro，Breakout，MontezumaRevenge等等，下图所示为�
 验证安装
 --------
 
-安装完成后，可以通过在Python命令行中运行如下命令验证安装成功：
+安装完成后，运行如下Python程序，如果没有报错则证明安装成功。
 
 .. code:: python
 

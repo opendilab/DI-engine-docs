@@ -23,7 +23,7 @@ Pendulum环境内置在gym中，直接安装gym即可。其环境id是\ ``Pendul
 验证安装
 --------
 
-在Python命令行中运行如下命令验证安装成功。
+运行如下Python程序，如果没有报错则证明安装成功。
 
 .. code:: shell 
 

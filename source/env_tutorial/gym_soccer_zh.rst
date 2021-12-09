@@ -3,7 +3,7 @@ Gym-Soccer (HFO)
 
 概述
 =======
-HFO (Half-field Offense, 半场进攻) 是机器人世界杯2D足球比赛中的一个子任务。DI-engine 中的 Gym-Soccer 环境是HFO的简化版本，用于离散混合动作空间的RL算法。
+HFO (Half-field Offense, 半场进攻) 是机器人世界杯2D足球比赛中的一个子任务。DI-engine 中的 Gym-Soccer 环境是HFO的简化版本，用来验证应用于混合动作空间的RL算法的性能。
 如下图所示, 白色小圆点即足球，黄黑色圆圈是进攻球员，紫黑色圆圈是守门员。进攻球员的目标是在守门员的防守下完成射门。
 
 .. image:: ./images/hfo.gif
@@ -40,7 +40,7 @@ HFO (Half-field Offense, 半场进攻) 是机器人世界杯2D足球比赛中的
     pip show gym-soccer
 
 
-方法二: 在Python命令行中运行如下命令验证安装成功。
+方法二: 运行如下Python程序，如果没有报错则证明安装成功。
 
 .. code:: shell 
 
@@ -62,7 +62,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 动作空间
 ----------
 
-Gym-Soccer 的动作空间属于离散连续动作混合空间，有3个离散动作，每个离散动作有n个连续参数（n>=0)。
+Gym-Soccer 的动作空间属于离散连续混合动作空间，有3个离散动作，每个离散动作有n个连续参数（n>=0)。
 
 -  \ ``TURN (degree)`` \: 表示让agent朝degree方向转身。 \ ``degree`` \的取值范围是 \ ``[-180，180]`` \。当 \ ``degree`` \= 0时，表示正前方向；当 \ ``degree`` \= 90时，表示正右方向。
   
@@ -90,7 +90,7 @@ Gym-Soccer 的状态空间描述了当前游戏的状态，分为\ ``High Level 
 内置环境
 -----------
 
--  \ ``"Soccer-v0"`` \: 最简单的设定。初始化1个进攻球员，0个防守球员。进球得1分，否则得0分。奖励稀疏，训练比较难。
+-  \ ``"Soccer-v0"`` \: 最简单的设定, 奖励稀疏。该环境含有1个进攻球员，0个防守球员。进球得1分，否则得0分。
   
 -  \ ``"SoccerEmptyGoal-v0"`` \: 奖励相对更稠密。进攻球员向足球靠近、将足球向目标方向踢、进球都会得到奖励.
   

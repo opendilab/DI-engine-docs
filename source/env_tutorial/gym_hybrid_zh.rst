@@ -3,7 +3,7 @@ Gym-Hybrid
 
 概述
 =======
-在gym-hybrid任务中, 智能体的任务很简单：在边长为2的正方形框内移动，以停留在红色目标区域。目标区域是一个半径为0.1的圆。如下图所示。
+在gym-hybrid任务中, agent的任务很简单：在边长为2的正方形框内加速（Accelerate）、转向（Turn）或刹车（Break），以停留在红色目标区域。目标区域是一个半径为0.1的圆。如下图所示。
 
 .. image:: ./images/hybrid.gif
    :align: center
@@ -28,7 +28,7 @@ Gym-Hybrid
     pip show gym-hybrid
 
 
-方法二: 在Python命令行中运行如下命令验证安装成功。
+方法二: 运行如下Python程序，如果没有报错则证明安装成功。
 
 .. code:: python 
 
@@ -44,7 +44,7 @@ Gym-Hybrid
 动作空间
 ----------
 
-Gym-hybrid 的动作空间属于离散连续动作混合空间，有2个离散动作，每个离散动作有n个连续参数（n>=0)。
+Gym-hybrid 的动作空间属于离散连续动作混合空间，有3个离散动作：Accelerate，Turn，Break，其中动作Accelerate，Turn需要给出对应的1维连续参数。
 
 -  \ ``Accelerate (Acceleration value)`` \: 表示让agent以 \ ``acceleration value`` \的大小加速。 \ ``Acceleration value`` \的取值范围是\ ``[0,1]`` \。数值类型为\ ``float32``。
   
@@ -65,7 +65,7 @@ Gym-hybrid 的动作空间属于离散连续动作混合空间，有2个离散�
 状态空间
 ----------
 
-Gym-hybrid 的状态空间由一个有10个元素的list表示，描述了当前agent的状态，包含agent当前的坐标，速度，朝向角度，距离目标的长度等等。
+Gym-hybrid 的状态空间由一个有10个元素的list表示，描述了当前agent的状态，包含agent当前的坐标，速度，朝向角度的正余弦值，目标的坐标，agent距离目标的距离，与目标距离相关的bool值，当前相对步数。
 
 .. code:: python
 
@@ -118,7 +118,7 @@ Gym-hybrid 环境每个episode的终止条件是遇到以下任何一种情况�
 DI-zoo 可运行代码示例
 =====================
 
-下面提供一个完整的gym hybrid环境config，采用DDPG算法作为policy。请在\ ``DI-engine/dizoo/gym_hybrid`` \目录下运行\ ``gym_hybrid_ddpg_config.py`` \文件，如下。
+下面提供一个完整的gym hybrid环境config，采用DDPG作为基线算法。请在\ ``DI-engine/dizoo/gym_hybrid`` \目录下运行\ ``gym_hybrid_ddpg_config.py`` \文件，如下。
 
 .. code:: python
 
