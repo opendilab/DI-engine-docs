@@ -87,14 +87,14 @@ GCl 的默认 config 如下所示：
 |                     |                 |                                                     |`config link <https://    |
 |                     |                 |                                                     |github.com/opendilab/     |
 |                     |                 |                                                     |DI-engine/tree/main/dizoo/|
-|Lunarlander          |  1.1M env_step, |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |
+|Lunarlander          |  2M env_step,   |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |
 |                     |  reward 200     |                                                     |lunarlander_gcl_config    |
 |                     |                 |                                                     |.py>`_                    |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+
 |                     |                 |                                                     |`config link <https://    |
 |                     |                 |                                                     |github.com/opendilab/     |
 |Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|
-|                     |  1M  env_step,  |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |
+|                     |  3M  env_step,  |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |
 |                     |  reward 2950    |                                                     |.py>`_                    |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+
 
