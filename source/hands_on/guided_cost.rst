@@ -4,7 +4,7 @@ Guided Cost Learning
 综述
 ---------
 Guided Cost Learning(GCL)是一种逆强化学习算法，在 `Guided Cost Learning: Deep Inverse Optimal Control via Policy Optimization <https://arxiv.org/abs/1603.00448>`_ 中被提出。
-Inverse Reinforcement Learning的一个基本思路就是，在给定的专家数据下，有一个奖励函数，使得这个专家策略在这个奖励函数下是最优的，但这个奖励函数却并不是唯一的。在 `Maximum Entropy Inverse Reinforcement Learning <https://www.aaai.org/Papers/AAAI/2008/AAAI08-227.pdf>` 和 `Maximum Entropy Deep Inverse Reinforcement Learning <https://arxiv.org/abs/1507.04888>` 中提出了利用最大熵原理的方法来求奖励函数。GCL算法实在这些算法的基础上，利用最大熵原理，使用神经网络来表征一个非线性的奖励函数。GCL算法在训练过程中可以同时学习一个奖励函数reward function和策略policy。 GCL算法主要应用于控制领域，如机械臂控制等场合。
+Inverse Reinforcement Learning的一个基本思路就是，在给定的专家数据下，学习一个奖励函数，使得这个专家策略在这个奖励函数下是最优的，但这个奖励函数却并不是唯一的。在 `Maximum Entropy Inverse Reinforcement Learning <https://www.aaai.org/Papers/AAAI/2008/AAAI08-227.pdf>` 和 `Maximum Entropy Deep Inverse Reinforcement Learning <https://arxiv.org/abs/1507.04888>` 中提出了利用最大熵原理的方法来求奖励函数。GCL算法实在这些算法的基础上，利用最大熵原理，使用神经网络来表征一个非线性的奖励函数。GCL算法在训练过程中可以同时学习一个奖励函数reward function和策略policy。 GCL算法主要应用于控制领域，如机械臂控制等场合。
 
 快速了解
 -------------
@@ -34,7 +34,7 @@ GCL算法基于最大熵原理的一个基本公式：
 
    \mathcal{L}_{\mathrm{IOC}}(\theta)=\frac{1}{N} \sum_{\tau_{i} \in \mathcal{D}_{\text {demo }}} c_{\theta}\left(\tau_{i}\right)+\log Z\approx\frac{1}{N} \sum_{\tau_{i} \in \mathcal{D}_{\text {demo }}} c_{\theta}\left(\tau_{i}\right)+\log\frac{1}{M}\sum_{\tau_{i} \in \mathcal{D}_{\text {samp }}} \frac{exp(-c_{\theta}(\tau_j)) }{q(\tau_j)}
 
-记 :math: `w_j = \frac{exp(-c_{\theta}(\tau_j)) }{q(\tau_j)}`， `Z=\sum_{j}w_j` 可得：
+采用重要性采样的方法，可以记 :math: `w_j = \frac{exp(-c_{\theta}(\tau_j)) }{q(\tau_j)}`， `Z=\sum_{j}w_j` 可得：
 
 .. math::
 
@@ -85,17 +85,16 @@ GCl 的默认 config 如下所示：
 | environment         |best mean reward | evaluation results                                  | config link              | comparison           |
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config link <https://    |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  PPO     (20/1.5M)   |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|Lunarlander          |  20(1.1M)       |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |                      |
-|                     |                 |                                                     |lunarlander_gcl_config.py |                      |
-|                     |                 |                                                     |>`_                       |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  PPO                 |
+|                     |  GCl            |                                                     |DI-engine/tree/main/dizoo/|  1.5M env_step       |
+|Lunarlander          |  1.1M env_step  |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |  20 reward           |
+|                     |  20 reward      |                                                     |lunarlander_gcl_config    |                      |
+|                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config link <https://    |                      |
 |                     |                 |                                                     |github.com/opendilab/     |  PPO     (3000/5M)   |
-|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  2910(500k)     |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |                      |
-|                     |                 |                                                     |hopper_gcl_config         |                      |
+|Hopper               |  GCL            |                                                     |DI-engine/tree/main/dizoo/|  3M env_step         |
+|                     |  1M env_step    |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |  3000 reward         |
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
