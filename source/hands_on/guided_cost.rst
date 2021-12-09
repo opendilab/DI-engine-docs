@@ -86,7 +86,7 @@ GCl 的默认 config 如下所示：
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config link <https://    |                      |
 |                     |                 |                                                     |github.com/opendilab/     |  PPO                 |
-|                     |  GCl            |                                                     |DI-engine/tree/main/dizoo/|  env_step=1.5M       |
+|                     |  GCL            |                                                     |DI-engine/tree/main/dizoo/|  env_step=1.5M       |
 |Lunarlander          |  env_step=1.1M  |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |  reward=20           |
 |                     |  reward=20      |                                                     |lunarlander_gcl_config    |                      |
 |                     |                 |                                                     |.py>`_                    |                      |
