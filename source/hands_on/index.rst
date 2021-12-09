@@ -26,6 +26,7 @@
     collaq
 
     gail
+    guided_cost_zh
 
     r2d3_zh
 
