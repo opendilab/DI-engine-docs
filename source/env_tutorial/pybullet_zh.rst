@@ -272,9 +272,9 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/pybullet/config/ser
 基准算法性能
 ============
 
--  Hoopper-v3
+-  Hopper-v3
 
    - Hopper-v3 + SAC
-   .. image:: images/hopper-sac.png
+   .. image:: images/pybullet.png
      :align: center
 
