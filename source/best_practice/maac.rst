@@ -13,7 +13,7 @@ Environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Unlike single-agent environments that return a Tensor-type observation, our multi-agent environments will return a dict-type observation, which includes ``agent_state``, ``global_state`` and ``action_mask``.
 
-.. code::python 
+.. code:: python 
 
    agent_num = 8
    agent_obs_shape = 150
@@ -42,7 +42,7 @@ Model
 - Centralized training and decentralized executed: Unlike single-agent environments that feed the same observation information to actor and critic networks, in multi-agent environments, we feed agent_state and action_mask information to the actor network to get each actions' logits and mask the invalid/inaccessible actions. At the same time, we feed global_state information to the critic network to gei the global critic value.
 - Action mask: We need to mask the invalid/inaccessible actions when we train or collect data. So we use ``logit[action_mask == 0.0] = -99999999`` to make the inaccessible actions' probability to a very low value. So we can't choose this action when we collect data or train the model. If you don't want to use it, just delect ``logit[action_mask == 0.0] = -99999999``.
 
-.. code::python 
+.. code:: python 
 
     def compute_actor(self, x: torch.Tensor) -> Dict:
         action_mask = x['action_mask']
@@ -71,7 +71,7 @@ Config
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Open the multi-agent key and just change the environment to the one you want to run. 
 
-.. code::python 
+.. code:: python 
 
    agent_num = 5
    collector_env_num = 8
@@ -199,7 +199,7 @@ Policy
 ^^^^^^^^^^^^^^^^^^
 We need to call the multi agent model in the following way.
 
-.. code::python 
+.. code:: python 
 
     MAPPO:
 
@@ -223,7 +223,7 @@ In the signal agent algorithm, the data dimension is (B, N), the B means batch_s
 For example, when we calculate the PPO advantage, we need to modify the codes. For most time, we use unsqueeze to change the (B, N) to (B, 1, N), and it can operate with (B, A, N) data.
 
 
-.. code::python 
+.. code:: python 
 
     def gae(data: namedtuple, gamma: float = 0.99, lambda_: float = 0.97) -> torch.FloatTensor:
         """
@@ -250,7 +250,7 @@ For example, when we calculate the PPO advantage, we need to modify the codes. F
 When we change your codes, we need to test our codes by the following way.
 You can just input (B, N) data to test signal agent rl utils codes and input (B, A, N) data to test multi agent rl utils codes.
 
-.. code::python
+.. code:: python
 
     def test_ppo():
         B, N = 4, 32
