@@ -27,6 +27,7 @@ Unlike single-agent environments that return a Tensor-type observation, our mult
 - death Mask: In multi-agent games, an agent may die before the game terminates, such as SAMC environment. Note that we can always access the game state to compute the agent-specific global state for those dead agents. Therefore, even if an agent dies and becomes inactive in the middle of a rollout, value learning can still be performed in the following timesteps using inputs containing information of other live agents. This is typical in many existing multi-agent PG implementations. Our suggestion is to simply use a zero vector with the agent’s ID as the input to the value function after an agent dies. We call this approach “Death Masking”.
 
 In our environments, it can return four different global states, they have different uses.
+
 - global obs: It contains all global information, default to return it.
 - agent specific global obs: Global observation that contains all global information and the necessary agent-specific features, such as agent id, available actions. If you want to use it, you have to set special_global_state to True in env config.
 - collaq obs: It contains agent_alone_state and agent_alone_padding_state, you can use it in Collaq alg. If you want to use it, you have to set obs_alone to True in env config.
@@ -246,6 +247,7 @@ When we change your codes, we need to test our codes by the following way.
 You can just input (B, N) data to test signal agent rl utils codes and input (B, A, N) data to test multi agent rl utils codes.
 
 .. code:: 
+
     def test_ppo():
         B, N = 4, 32
         logit_new = torch.randn(B, N).requires_grad_(True)
