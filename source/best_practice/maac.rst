@@ -6,6 +6,9 @@ CTDE methods such as MADDPG, MAPPO and COMA improve upon decentralized RL by ado
 In DI-engine, we introduced the multi-agent actor-critic framework to quickly convert a single-agent algorithm into a multi-agent algorithm.
 
 
+For User
+--------------------------
+
 Environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Unlike single-agent environments that return a Tensor-type observation, our multi-agent environments will return a dict-type observation, which includes agent_state, global_state and action_mask.
@@ -19,12 +22,20 @@ Unlike single-agent environments that return a Tensor-type observation, our mult
    }
 
 - agent state: Agent state is ecah agent's local observation.
-- global state: Global state contains all global information and the necessary agent-specific features, such as agent id, available actions.
+- global state: Global state contains all global information that can't be seen by each agents.
+- action Mask: In multi-agent games, it is often the case that some actions cannot be executed due to game constraints. For example, in SMAC, an agent may have skills that cannot be performed frequently. So, when computing the logits for the softmax action probability, we mask out the unavailable actions in both the forward and backward pass so that the probabilities for unavailable actions are always zero. We find that this substantially accelerates training.
+- death Mask: In multi-agent games, an agent may die before the game terminates, such as SAMC environment. Note that we can always access the game state to compute the agent-specific global state for those dead agents. Therefore, even if an agent dies and becomes inactive in the middle of a rollout, value learning can still be performed in the following timesteps using inputs containing information of other live agents. This is typical in many existing multi-agent PG implementations. Our suggestion is to simply use a zero vector with the agent’s ID as the input to the value function after an agent dies. We call this approach “Death Masking”.
+
+In our environments, it can return four different global states, they have different uses.
+- global obs: It contains all global information, default to return it.
+- agent specific global obs: Global observation that contains all global information and the necessary agent-specific features, such as agent id, available actions. If you want to use it, you have to set special_global_state to True in env config.
+- collaq obs: It contains agent_alone_state and agent_alone_padding_state, you can use it in Collaq alg. If you want to use it, you have to set obs_alone to True in env config.
+- independent obs: The global observation is as same as agent observation, we use it in independent PPO, independent SAC alg. If you want to use it, you have to set independent_obs to True in env config.
 
 Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Unlike single-agent environments that feed the same observation information to actor and critic networks, in multi-agent environments, we feed agent_state and action_mask information to the actor network to get each actions' logits and mask the invalid/inaccessible actions. 
-At the same time, we feed global_state information to the critic network to gei the global critic value.
+- Centralized training and decentralized executed: Unlike single-agent environments that feed the same observation information to actor and critic networks, in multi-agent environments, we feed agent_state and action_mask information to the actor network to get each actions' logits and mask the invalid/inaccessible actions. At the same time, we feed global_state information to the critic network to gei the global critic value.
+- Action mask: We need to mask the invalid/inaccessible actions when we train or collect data. So we use logit[action_mask == 0.0] = -99999999 to make the inaccessible actions' probability to a very low value. So we can't choose this action when we collect data or train the model. If you don't want to use it, just delect logit[action_mask == 0.0] = -99999999.
 
 .. code:: 
 
@@ -45,28 +56,11 @@ At the same time, we feed global_state information to the critic network to gei 
 
 Policy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-When modifying the single-agent algorithm into a multi-agent algorithm, the policy part basically remains the same, the only thing to note is to add the multi_agent key and to call the multi-agent model when the multi_agent key is True.
+When modifying the single-agent algorithm into a multi-agent algorithm, the policy part basically remains the same, the only thing to note is to add the multi_agent key in the config and it will call the multi-agent model when the multi_agent key is True.
 
-.. code:: 
+When you use the single-agent algorithm, multi_agent is default to False, you don't need to do anything. And when you use the multi-agent algorithm, you have to add the multi_agent key and set it to True.
 
-    MAPPO:
 
-    def default_model(self) -> Tuple[str, List[str]]:
-        if self._cfg.multi_agent:
-            return 'mappo', ['ding.model.template.mappo']
-        else:
-            return 'vac', ['ding.model.template.vac']
-
-    MASAC:
-
-    def default_model(self) -> Tuple[str, List[str]]:
-        if self._cfg.multi_agent:
-            return 'maqac', ['ding.model.template.maqac']
-        else:
-            return 'qac', ['ding.model.template.qac']
-
-- Action Mask: In multi-agent games, it is often the case that some actions cannot be executed due to game constraints. For example, in SMAC, an agent may have skills that cannot be performed frequently. So, when computing the logits for the softmax action probability, we mask out the unavailable actions in both the forward and backward pass so that the probabilities for unavailable actions are always zero. We find that this substantially accelerates training.
-- Death Mask: In multi-agent games, an agent may die before the game terminates, such as SAMC environment. Note that we can always access the game state to compute the agent-specific global state for those dead agents. Therefore, even if an agent dies and becomes inactive in the middle of a rollout, value learning can still be performed in the following timesteps using inputs containing information of other live agents. This is typical in many existing multi-agent PG implementations. Our suggestion is to simply use a zero vector with the agent’s ID as the input to the value function after an agent dies. We call this approach “Death Masking”.
 
 Config
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -182,3 +176,112 @@ The following are the parameters for each map of the SMAC environment.
 +------------------+---------------------+---------------------+---------------------+
 | 27m_vs_30m       | 348                 | 1454                | 36                  |
 +------------------+---------------------+---------------------+---------------------+
+
+-  SMAC environment 3s5z map training performance
+
+   - 3s5z + MAPPO/IPPO
+   .. image:: images/3s5z_mappo.png
+     :align: center
+
+For Developer
+--------------------------
+
+Model
+^^^^^^^^^^^^^^^^^^
+We need to change the signal agent to the multi agent model. In signal agent model, it only has a obs_shape key. In multi agent model, we need to divide the obs_shape key to agent_obs_shape and global_obs_shape, and in this way, we can train critic model by global obs and train actor model by agent obs.
+
+Policy
+^^^^^^^^^^^^^^^^^^
+We need to call the multi agent model in the following way.
+
+.. code:: 
+
+    MAPPO:
+
+    def default_model(self) -> Tuple[str, List[str]]:
+        if self._cfg.multi_agent:
+            return 'mappo', ['ding.model.template.mappo']
+        else:
+            return 'vac', ['ding.model.template.vac']
+
+    MASAC:
+
+    def default_model(self) -> Tuple[str, List[str]]:
+        if self._cfg.multi_agent:
+            return 'maqac', ['ding.model.template.maqac']
+        else:
+            return 'qac', ['ding.model.template.qac']
+
+rl_utils
+^^^^^^^^^^^^^^^^^^
+In the signal agent algorithm, the data dimension is (B, N), the B means batch_size, and the N means the action nums. But in the multi agent algorithm, the data dimension is (B, A, N), the A means action nums. So when we calculate the loss function, we need to change our codes.
+For example, when we calculate the PPO advantage, we need to modify the codes. For most time, we use unsqueeze to change the (B, N) to (B, 1, N), and it can operate with (B, A, N) data.
+
+
+.. code:: 
+
+    def gae(data: namedtuple, gamma: float = 0.99, lambda_: float = 0.97) -> torch.FloatTensor:
+        """
+        Overview:
+            Implementation of Generalized Advantage Estimator
+        """
+        value, next_value, reward, done = data
+        if done is None:
+            done = torch.zeros_like(reward, device=reward.device)
+        # In Multi-agent RL, the value's dimension is (B, A, N), but the reward's dimension is (B, N)
+        if len(value.shape) == len(reward.shape) + 1:
+            reward = reward.unsqueeze(-1)
+            done = done.unsqueeze(-1)
+        delta = reward + (1 - done) * gamma * next_value - value
+        factor = gamma * lambda_
+        adv = torch.zeros_like(value, device=value.device)
+        gae_item = torch.zeros_like(value[0])
+
+        for t in reversed(range(reward.shape[0])):
+            gae_item = delta[t] + factor * gae_item * (1 - done[t])
+            adv[t] += gae_item
+        return adv
+
+When we change your codes, we need to test our codes by the following way.
+You can just input (B, N) data to test signal agent rl utils codes and input (B, A, N) data to test multi agent rl utils codes.
+
+.. code:: 
+    def test_ppo():
+        B, N = 4, 32
+        logit_new = torch.randn(B, N).requires_grad_(True)
+        logit_old = logit_new + torch.rand_like(logit_new) * 0.1
+        action = torch.randint(0, N, size=(B, ))
+        value_new = torch.randn(B).requires_grad_(True)
+        value_old = value_new + torch.rand_like(value_new) * 0.1
+        adv = torch.rand(B)
+        return_ = torch.randn(B) * 2
+        data = ppo_data(logit_new, logit_old, action, value_new, value_old, adv, return_)
+        loss, info = ppo_error(data)
+        assert all([l.shape == tuple() for l in loss])
+        assert all([np.isscalar(i) for i in info])
+        assert logit_new.grad is None
+        assert value_new.grad is None
+        total_loss = sum(loss)
+        total_loss.backward()
+        assert isinstance(logit_new.grad, torch.Tensor)
+        assert isinstance(value_new.grad, torch.Tensor)
+
+    def test_mappo():
+        B, A, N = 4, 8, 32
+        logit_new = torch.randn(B, A, N).requires_grad_(True)
+        logit_old = logit_new + torch.rand_like(logit_new) * 0.1
+        action = torch.randint(0, N, size=(B, A))
+        value_new = torch.randn(B, A).requires_grad_(True)
+        value_old = value_new + torch.rand_like(value_new) * 0.1
+        adv = torch.rand(B, A)
+        return_ = torch.randn(B, A) * 2
+        data = ppo_data(logit_new, logit_old, action, value_new, value_old, adv, return_, None)
+        loss, info = ppo_error(data)
+        assert all([l.shape == tuple() for l in loss])
+        assert all([np.isscalar(i) for i in info])
+        assert logit_new.grad is None
+        assert value_new.grad is None
+        total_loss = sum(loss)
+        total_loss.backward()
+        assert isinstance(logit_new.grad, torch.Tensor)
+        assert isinstance(value_new.grad, torch.Tensor)
