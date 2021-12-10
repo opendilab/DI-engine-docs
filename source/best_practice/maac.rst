@@ -11,34 +11,34 @@ For User
 
 Environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Unlike single-agent environments that return a Tensor-type observation, our multi-agent environments will return a dict-type observation, which includes agent_state, global_state and action_mask.
+Unlike single-agent environments that return a Tensor-type observation, our multi-agent environments will return a dict-type observation, which includes ``agent_state``, ``global_state`` and ``action_mask``.
 
-.. code:: 
+.. code::python 
 
    return {
-         'agent_state': self.get_obs(),
-         'global_state': self.get_global_special_state(),
-         'action_mask': self.get_avail_actions(),
+         'agent_state': torch.randn(B, agent_num, agent_obs_shape),
+         'global_state': torch.randn(B, agent_num, global_obs_shape),
+         'action_mask': torch.randint(0, 2, size=(B, agent_num, action_shape))
    }
 
 - agent state: Agent state is ecah agent's local observation.
 - global state: Global state contains all global information that can't be seen by each agents.
-- action Mask: In multi-agent games, it is often the case that some actions cannot be executed due to game constraints. For example, in SMAC, an agent may have skills that cannot be performed frequently. So, when computing the logits for the softmax action probability, we mask out the unavailable actions in both the forward and backward pass so that the probabilities for unavailable actions are always zero. We find that this substantially accelerates training.
+- action Mask: In multi-agent games, it is often the case that some actions cannot be executed due to game constraints. For example, in SMAC, an agent may have skills that cannot be performed frequently. So, when computing the logits for the softmax action probability, we mask out the unavailable actions in both the forward and backward pass so that the probabilities for unavailable actions are always zero. We find that this substantially accelerates training. The data type is \ ``int``\.
 - death Mask: In multi-agent games, an agent may die before the game terminates, such as SAMC environment. Note that we can always access the game state to compute the agent-specific global state for those dead agents. Therefore, even if an agent dies and becomes inactive in the middle of a rollout, value learning can still be performed in the following timesteps using inputs containing information of other live agents. This is typical in many existing multi-agent PG implementations. Our suggestion is to simply use a zero vector with the agent’s ID as the input to the value function after an agent dies. We call this approach “Death Masking”.
 
 In our environments, it can return four different global states, they have different uses.
 
 - global obs: It contains all global information, default to return it.
-- agent specific global obs: Global observation that contains all global information and the necessary agent-specific features, such as agent id, available actions. If you want to use it, you have to set special_global_state to True in env config.
-- collaq obs: It contains agent_alone_state and agent_alone_padding_state, you can use it in Collaq alg. If you want to use it, you have to set obs_alone to True in env config.
-- independent obs: The global observation is as same as agent observation, we use it in independent PPO, independent SAC alg. If you want to use it, you have to set independent_obs to True in env config.
+- agent specific global obs: Global observation that contains all global information and the necessary agent-specific features, such as agent id, available actions. If you want to use it, you have to set ``special_global_state`` to ``True`` in env config.
+- collaq obs: It contains agent_alone_state and agent_alone_padding_state, you can use it in Collaq alg. If you want to use it, you have to set ``obs_alone`` to ``True`` in env config.
+- independent obs: The global observation is as same as agent observation, we use it in independent PPO, independent SAC alg. If you want to use it, you have to set ``independent_obs`` to ``True`` in env config.
 
 Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 - Centralized training and decentralized executed: Unlike single-agent environments that feed the same observation information to actor and critic networks, in multi-agent environments, we feed agent_state and action_mask information to the actor network to get each actions' logits and mask the invalid/inaccessible actions. At the same time, we feed global_state information to the critic network to gei the global critic value.
-- Action mask: We need to mask the invalid/inaccessible actions when we train or collect data. So we use logit[action_mask == 0.0] = -99999999 to make the inaccessible actions' probability to a very low value. So we can't choose this action when we collect data or train the model. If you don't want to use it, just delect logit[action_mask == 0.0] = -99999999.
+- Action mask: We need to mask the invalid/inaccessible actions when we train or collect data. So we use ``logit[action_mask == 0.0] = -99999999`` to make the inaccessible actions' probability to a very low value. So we can't choose this action when we collect data or train the model. If you don't want to use it, just delect ``logit[action_mask == 0.0] = -99999999``.
 
-.. code:: 
+.. code::python 
 
     def compute_actor(self, x: torch.Tensor) -> Dict:
         action_mask = x['action_mask']
@@ -59,7 +59,7 @@ Policy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 When modifying the single-agent algorithm into a multi-agent algorithm, the policy part basically remains the same, the only thing to note is to add the multi_agent key in the config and it will call the multi-agent model when the multi_agent key is True.
 
-When you use the single-agent algorithm, multi_agent is default to False, you don't need to do anything. And when you use the multi-agent algorithm, you have to add the multi_agent key and set it to True.
+When you use the single-agent algorithm, ``multi_agent`` is default to ``False``, you don't need to do anything. And when you use the multi-agent algorithm, you have to add the ``multi_agent`` key and set it to ``True``.
 
 
 
@@ -67,7 +67,7 @@ Config
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Open the multi-agent key and just change the environment to the one you want to run. 
 
-.. code:: 
+.. code::python 
 
    agent_num = 5
    collector_env_num = 8
@@ -195,7 +195,7 @@ Policy
 ^^^^^^^^^^^^^^^^^^
 We need to call the multi agent model in the following way.
 
-.. code:: 
+.. code::python 
 
     MAPPO:
 
@@ -219,7 +219,7 @@ In the signal agent algorithm, the data dimension is (B, N), the B means batch_s
 For example, when we calculate the PPO advantage, we need to modify the codes. For most time, we use unsqueeze to change the (B, N) to (B, 1, N), and it can operate with (B, A, N) data.
 
 
-.. code:: 
+.. code::python 
 
     def gae(data: namedtuple, gamma: float = 0.99, lambda_: float = 0.97) -> torch.FloatTensor:
         """
@@ -246,7 +246,7 @@ For example, when we calculate the PPO advantage, we need to modify the codes. F
 When we change your codes, we need to test our codes by the following way.
 You can just input (B, N) data to test signal agent rl utils codes and input (B, A, N) data to test multi agent rl utils codes.
 
-.. code:: 
+.. code::python
 
     def test_ppo():
         B, N = 4, 32
