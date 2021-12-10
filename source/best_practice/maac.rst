@@ -15,10 +15,14 @@ Unlike single-agent environments that return a Tensor-type observation, our mult
 
 .. code::python 
 
+   agent_num = 8
+   agent_obs_shape = 150
+   global_obs_shape = 295
+   action_shape = 14
    return {
-         'agent_state': torch.randn(B, agent_num, agent_obs_shape),
-         'global_state': torch.randn(B, agent_num, global_obs_shape),
-         'action_mask': torch.randint(0, 2, size=(B, agent_num, action_shape))
+         'agent_state': torch.randn(agent_num, agent_obs_shape),
+         'global_state': torch.randn(agent_num, global_obs_shape),
+         'action_mask': torch.randint(0, 2, size=(agent_num, action_shape))
    }
 
 - agent state: Agent state is ecah agent's local observation.
@@ -30,7 +34,7 @@ In our environments, it can return four different global states, they have diffe
 
 - global obs: It contains all global information, default to return it.
 - agent specific global obs: Global observation that contains all global information and the necessary agent-specific features, such as agent id, available actions. If you want to use it, you have to set ``special_global_state`` to ``True`` in env config.
-- collaq obs: It contains agent_alone_state and agent_alone_padding_state, you can use it in Collaq alg. If you want to use it, you have to set ``obs_alone`` to ``True`` in env config.
+- collaq obs: It contains agent_alone_state and agent_alone_padding_state, you can use it in Collaq alg. Agents_obs_alone means the agent can't observe the allies' information, agent_alone_padding_state means the agent's allies' information is zero. If you want to use it, you have to set ``obs_alone`` to ``True`` in env config.
 - independent obs: The global observation is as same as agent observation, we use it in independent PPO, independent SAC alg. If you want to use it, you have to set ``independent_obs`` to ``True`` in env config.
 
 Model
@@ -158,25 +162,25 @@ Open the multi-agent key and just change the environment to the one you want to 
 
 The following are the parameters for each map of the SMAC environment.
 
-+------------------+---------------------+---------------------+---------------------+
-| Map              | agent_obs_shape     | global_obs_shape    | action_shape        |
-+==================+=====================+=====================+=====================+
-| 3s5z             | 150                 | 295                 | 14                  |
-+------------------+---------------------+---------------------+---------------------+
-| 5m_vs_6m         | 72                  | 152                 | 12                  |
-+------------------+---------------------+---------------------+---------------------+
-| MMM              | 186                 | 389                 | 16                  |
-+------------------+---------------------+---------------------+---------------------+
-| MMM2             | 204                 | 431                 | 18                  |
-+------------------+---------------------+---------------------+---------------------+
-| 2c_vs_64zg       | 404                 | 671                 | 70                  |
-+------------------+---------------------+---------------------+---------------------+
-| 6h_vs_8z         | 98                  | 209                 | 14                  |
-+------------------+---------------------+---------------------+---------------------+
-| 3s5z_vs_3s6z     | 159                 | 314                 | 15                  |
-+------------------+---------------------+---------------------+---------------------+
-| 27m_vs_30m       | 348                 | 1454                | 36                  |
-+------------------+---------------------+---------------------+---------------------+
++------------------+---------------------+--------------------+--------------------------------+---------------------+
+| Map              | agent_obs_shape     | global_obs_shape   | agent_special_global_obs_shape | action_shape        |
++==================+=====================+====================+================================+=====================+
+| 3s5z             | 150                 | 216                |        295                     | 14                  |
++------------------+---------------------+-----------------------------------------------------+---------------------+
+| 5m_vs_6m         | 72                  | 98                 |        152                     | 12                  |
++------------------+---------------------+-----------------------------------------------------+---------------------+
+| MMM              | 186                 | 290                |        389                     | 16                  |
++------------------+---------------------+-----------------------------------------------------+---------------------+
+| MMM2             | 204                 | 322                |        431                     | 18                  |
++------------------+---------------------+-----------------------------------------------------+---------------------+
+| 2c_vs_64zg       | 404                 | -                  |        671                     | 70                  |
++------------------+---------------------+-----------------------------------------------------+---------------------+
+| 6h_vs_8z         | 98                  | -                  |        209                     | 14                  |
++------------------+---------------------+-----------------------------------------------------+---------------------+
+| 3s5z_vs_3s6z     | 159                 | -                  |        314                     | 15                  |
++------------------+---------------------+-----------------------------------------------------+---------------------+
+| 27m_vs_30m       | 348                 | -                  |        1454                    | 36                  |
++------------------+---------------------+-----------------------------------------------------+---------------------+
 
 -  SMAC environment 3s5z map training performance
 
