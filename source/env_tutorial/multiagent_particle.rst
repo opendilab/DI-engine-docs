@@ -4,12 +4,11 @@ Multi-Agent Particle
 概述
 ============
 
-Multi-Agent Particle Environment (MPE) 是由 OpenAI 开源的一款多智能体仿真环境，里面涵盖了多智能体的竞争/协作/通信的场景，可用来对各类多智能体强化学习算法进行验证测试。
-MPE 作为 NIPS2017 那篇著名的多智能体强化学习算法 MADDPG (https://arxiv.org/abs/1706.02275) 的实验环境，因而被人们广泛所知。
-MPE 以 OpenAI 的 gym 为基础，使用 python 编写而成。它构造了一系列简单的多智能体粒子环境（9个子环境），粒子们可以互相合作进行抓捕，碰撞等。
-其中，我们对环境比较关注的信息是：状态观测为连续空间，动作信息默认为离散控制 (可设置为连续控制)。
-另外，我们可以设置智能体的数量，选择要完成的任务。
-下图是 MPE 一个子任务环境\ ``Simple Tag``\ ，其中有两类智能体，红球表示捕食者 (predator) ，绿球表示猎物 (prey) ，黑球表示障碍物 (landmark) 。
+- Multi-Agent Particle Environment (MPE) 是由 OpenAI 开源的一款多智能体仿真环境，里面涵盖了多智能体的竞争/协作/通信的场景，可用来对各类多智能体强化学习算法进行验证测试。
+- MPE 作为 NIPS2017 那篇著名的多智能体强化学习算法 MADDPG (https://arxiv.org/abs/1706.02275) 的实验环境，因而被人们广泛所知。
+- MPE 以 OpenAI 的 gym 为基础，使用 python 编写而成。它构造了一系列简单的多智能体粒子环境（9个子环境），粒子们可以互相合作进行抓捕，碰撞等。
+- 其中，我们对环境比较关注的信息是：状态观测为连续空间，动作信息默认为离散控制 (可设置为连续控制)。另外，我们可以设置智能体的数量，选择要完成的任务。
+- 下图是 MPE 一个子任务环境\ ``Simple Tag``\ ，其中有两类智能体，红球表示捕食者 (predator) ，绿球表示猎物 (prey) ，黑球表示障碍物 (landmark) 。
 
 .. image:: ./images/mpe_simple_tag.gif
    :align: center
