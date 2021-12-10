@@ -5,11 +5,11 @@ Multi-Agent Particle
 ============
 
 Multi-Agent Particle Environment (MPE) 是由 OpenAI 开源的一款多智能体仿真环境，里面涵盖了多智能体的竞争/协作/通信的场景，可用来对各类多智能体强化学习算法进行验证测试。
-MPE 作为 NIPS2017 那篇著名的多智能体强化学习算法 MADDPG 的实验环境，因而被人们广泛所知。
+MPE 作为 NIPS2017 那篇著名的多智能体强化学习算法 MADDPG (https://arxiv.org/abs/1706.02275) 的实验环境，因而被人们广泛所知。
 MPE 以 OpenAI 的 gym 为基础，使用 python 编写而成。它构造了一系列简单的多智能体粒子环境（9个子环境），粒子们可以互相合作进行抓捕，碰撞等。
 其中，我们对环境比较关注的信息是：状态观测为连续空间，动作信息默认为离散控制 (可设置为连续控制)。
 另外，我们可以设置智能体的数量，选择要完成的任务。
-下图是 MPE 一个子任务环境 Simple Tag，其中有两类智能体，红球表示捕食者，绿球表示猎物，黑球表示障碍物。
+下图是 MPE 一个子任务环境\ ``Simple Tag``\ ，其中有两类智能体，红球表示捕食者 (predator) ，绿球表示猎物 (prey) ，黑球表示障碍物 (landmark) 。
 
 .. image:: ./images/mpe_simple_tag.gif
    :align: center
@@ -20,30 +20,29 @@ MPE 以 OpenAI 的 gym 为基础，使用 python 编写而成。它构造了一�
 安装方法
 ------------------------
 
-MPE 需要的依赖库：Python (3.5.4), OpenAI gym (0.10.5), numpy (1.14.5)。检查依赖库无误后，再安装 MPE 环境。
+MPE 已经被集成在 DI-engine/dizoo 仓库中，所以只要安装 DI-engine 就可以正常使用。另外，MPE 也可以通过安装 pettingzoo 实现，后续 DI-engine 也会进一步包含容纳 pettingzoo 里其他的多智体环境。 
 
 .. code:: shell
 
-   # Method1: Install Directly
-   pip install pettingzoo[mpe]
-   # Method2: Download and Compile
-   git clone https://github.com/openai/multiagent-particle-envs.git
-   cd multiagent-particle-envs
+   # Method1: Download and Compile from DI-engine, which integrates Multi-Agent Particle
+   git clone https://github.com/opendilab/DI-engine
    pip install -e .
+
+   # Method2: Install by pettingzoo
+   pip install pettingzoo[mpe]
 
 验证安装
 ------------------------
 
-安装完成后，可以通过在 Python 命令行运行如下命令验证是否安装成功，如果看到画面运行，则说明安装成功。
+安装完成后，可以通过在 Python 命令行运行如下命令验证是否安装成功，如果看到有相关环境信息打印出来，则说明安装成功。
 
 .. code:: python
 
-    import make_env
-    env = make_env.make_env('simple_tag')
-    for _ in range(50):
-        env.render()
+    from dizoo.multiagent_particle.envs import ParticleEnv, CooperativeNavigation
+    num_agent, num_landmark = 5, 5
+    env = CooperativeNavigation({'n_agents': num_agent, 'num_landmarks': num_landmark, 'max_step': 100})
+    print(env.info())
     env.close()
-
 
 .. _变换前的空间（原始环境）:
 
@@ -55,10 +54,19 @@ MPE 需要的依赖库：Python (3.5.4), OpenAI gym (0.10.5), numpy (1.14.5)。�
 观察空间
 ----------------------
 
--  每个智能体的观测状态是一个向量信息，包含当前智能体的位置和速度，其他智能体对于当前智能体的相对位置和相对速度，地标和智能体的类型，以及智能体之间的通信信息。注意：在特定环境中多智能体之间可能存在部分可观测的问题，因此对于当前智能体的观察空间是不断变化的。
+-  每个智能体的观测状态是一个向量信息，包含四个部分：
+  
+  -  当前智能体的位置和速度；
+  
+  -  其他智能体对于当前智能体的相对位置和相对速度；
+  
+  -  地标和智能体的类型；
+  
+  -  以及智能体之间的通信信息。
 
--  以 Simple Tag 环境为例，智能体的观测状态的物理意义为：\ ``[self_vel, self_pos, landmark_rel_positions, other_agent_rel_positions, other_agent_velocities]``\ ，单个智能体的观测状态 shape 为\ ``(14),(16)``\ ，观测向量中每个维度的大小范围是\ ``(-inf,inf)``\ 。智能体的全局观测状态是所有单智能体观测向量的拼接。
+-  以\ ``Simple Tag``\ 环境为例，智能体的观测状态的物理意义为：\ ``[self_vel, self_pos, landmark_rel_positions, other_agent_rel_positions, other_agent_velocities]``\ ，单个智能体的观测状态 shape 为\ ``(14),(16)``\ ，观测向量中每个维度的大小范围是\ ``(-inf,inf)``\ 。智能体的全局观测状态是所有单智能体观测向量的拼接。
 
+-  注意：多智能体之间会存在部分可观测的问题，因此对于当前智能体的观察空间是不断变化的。
 
 .. _动作空间-1:
 
@@ -67,23 +75,27 @@ MPE 需要的依赖库：Python (3.5.4), OpenAI gym (0.10.5), numpy (1.14.5)。�
 
 -  默认为离散动作空间，设置\ ``continuous_actions=True``\ 为连续动作空间。
 
--  以 Simple Tag 环境为例，智能体的动作空间的物理意义为：\ ``[no_action, move_left, move_right, move_down, move_up]``\ ，动作向量的 shape 为\ ``(5)``\ ，离散/连续动作向量的大小分别为\ ``Discrete(5)/Box(0.0, 1.0, (5))``\ 。
+-  以\ ``Simple Tag``\ 环境为例，智能体的动作空间的物理意义为：\ ``[no_action, move_left, move_right, move_down, move_up]``\ 。
+
+-  离散动作向量的大小为 \ ``Discrete(5)``\，表示在上下左右的方向是否采取动作。
+
+-  连续动作向量的大小为 \ ``Box(0.0, 1.0, (5))``\ ，将上面离散动作适配在连续空间，每一维的大小限制在\ ``[0,1]``\ 之间。
 
 .. _奖励空间-1:
 
 奖励空间
 -----------------
 
--  游戏得分，不同任务环境奖励设置略有不同，包括捕食者的奖励和猎物的奖励信息，另外可设置奖励的稀疏程度（默认稀疏奖励）。
+-  游戏得分，不同任务环境奖励设置略有不同，包括捕食者的奖励和猎物的奖励信息。
 
--  以 Simple Tag 环境为例，对猎物来说，当被捕捉时，奖励为\ ``-10``\ ；对捕食者来说，当捕捉到猎物时，奖励为\ ``10``\。
+-  以\ ``Simple Tag``\ 环境为例，对猎物来说，当被捕捉时，奖励为\ ``-10``\ ；对捕食者来说，当捕捉到猎物时，奖励为\ ``10``\。
 
 .. _终止信息-1:
 
 终止信息
 ----------
 
--  当游戏运行至\ ``max_cycles``\ 即为游戏结束，MPE 源码默认子环境\ ``max_cycles=25``\ 。
+-  当游戏运行至\ ``max_step``\ 即为游戏结束，MPE 源码默认子环境\ ``max_step=100``\ 。
 
 关键事实
 ==============
@@ -92,21 +104,20 @@ MPE 需要的依赖库：Python (3.5.4), OpenAI gym (0.10.5), numpy (1.14.5)。�
 
 2. 动作默认为离散动作，可设置为连续动作。
 
-3. 可设置奖励的稀疏程度。
 
 .. _变换后的空间rl环境）:
 
 变换后的空间（RL环境）
 ======================================================
 
-为了更好地适配 QTRAN 等多智体强化学习算法，我们对原始环境进行二次改造，以 Simple Tag 环境为例，修改后的环境命名为 Modified Predator Prey。
+为了更好地适配 QTRAN 等多智体强化学习算法，我们对原始环境进行二次改造，以\ ``Simple Tag``\ 环境为例，修改后的环境命名为\ ``Modified Predator Prey``\ 。
 
 .. _观察空间-2:
 
 观察空间
 --------------------------
 
--  根据自定义的智能体数量，对观察空间的状态向量进行维度适配。
+-  根据自定义的智能体数量，对观察空间的状态向量进行维度适配。例如，\ ``Modified Predator Prey``\ 默认有 2 个捕食者，1 个猎物，3 个障碍物，观测空间的向量表示\ ``[self_vel, self_pos, other_agent_rel_positions, landmark_rel_positions]``\ ，此时智能体观测状态 shape 为\ ``(14)``\。
 
 .. _动作空间-2:
 
@@ -120,7 +131,7 @@ MPE 需要的依赖库：Python (3.5.4), OpenAI gym (0.10.5), numpy (1.14.5)。�
 奖励空间
 -----------------
 
--  修改后的奖励规则设置：只有当所有的捕食者共同捕捉到猎物时，才有正向奖励；否则为负向奖励。
+-  为了在合作围捕等非单调 (non-monotonicity) 任务上，测试 QTRAN 和 QMIX 性能差异，因此修改奖励规则设置：只有当所有的捕食者共同捕捉到猎物时，才有正向奖励；否则为负向奖励。
 
 上述空间使用 gym 环境空间定义则可表示为：
 
@@ -287,8 +298,6 @@ For specific configuration file, e.g. ``modified_predator_prey_qtran_config.py``
 
         train(args)
 
-
-注：对于某些特殊的算法，比如QMIX，需要使用专门的入口函数，示例可以参考 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/multiagent_particle/config/modified_predator_prey_qmix_config.py>`__.
 
 基准算法性能
 =======================
