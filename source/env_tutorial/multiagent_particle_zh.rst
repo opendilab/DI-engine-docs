@@ -192,7 +192,7 @@ DI-zoo 代码示例
 =======================
 
 Complete training configuration is at `github
-link <https://github.com/opendilab/DI-engine/tree/main/dizoo/multiagent_particle/config>`__.
+link <https://github.com/opendilab/DI-engine/tree/main/dizoo/multiagent_particle/config>`_ .
 For specific configuration file, e.g. ``modified_predator_prey_qtran_config.py``, you can run the demo as shown below:
 
 .. code:: python

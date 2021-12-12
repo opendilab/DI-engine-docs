@@ -22,6 +22,7 @@
    smac_zh
    d4rl_zh
    gfootball_zh
+   multiagent_particle_zh
    
    
    gym_hybrid_zh

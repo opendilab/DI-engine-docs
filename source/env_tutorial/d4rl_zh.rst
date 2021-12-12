@@ -1,5 +1,5 @@
-Mujoco
-~~~~~~~
+D4RL (Mujoco)
+~~~~~~~~~~~~~
 
 概述
 =======
@@ -350,6 +350,8 @@ DI-zoo可运行代码示例
 -  Walker2d
 
    - walker2d-medium-expert-v0 + CQL
+
    .. image:: images/walker2d_medium_expert_cql.png
      :align: center
+
    - 一般迭代1M iteration需要9小时（NVIDIA V100）

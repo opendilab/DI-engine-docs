@@ -18,7 +18,7 @@ Mujoco是旨在促进机器人、生物力学、图形和动画等需要快速�
 安装gym和mujoco-py两个库即可，可以通过pip一键安装或结合DI-engine安装
 
 注：
-1. mujoco-py库目前已不再需要激活许可(`mujoco-py>=2.1.0`)，可以通过\ `pip install free-mujoco-py <https://github.com/openai/mujoco-py/pull/640>`__安装
+1. mujoco-py库目前已不再需要激活许可(`mujoco-py>=2.1.0`)，可以通过\ `pip install free-mujoco-py <https://github.com/openai/mujoco-py/pull/640>`_ 安装
 2. 如果安装 `mujoco-py>=2.1`, 可以通过如下方法:
 
 .. code:: shell
@@ -84,7 +84,7 @@ Mujoco是旨在促进机器人、生物力学、图形和动画等需要快速�
 ----
 
 DI-engine的镜像配备了框架本身和Mujoco环境，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜像
 
 .. _变换前的空间原始环境）:
 
@@ -229,7 +229,7 @@ DI-zoo可运行代码示例
 ====================
 
 完整的训练配置文件在 `github
-link <https://github.com/opendilab/DI-engine/tree/main/dizoo/mujoco/config/serial>`__
+link <https://github.com/opendilab/DI-engine/tree/main/dizoo/mujoco/config>`__
 内，对于具体的配置文件，例如\ ``hopper_sac_default_config.py``\ ，使用如下的demo即可运行：
 
 .. code:: python

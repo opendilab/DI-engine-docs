@@ -73,8 +73,8 @@ GCl 的默认 config 如下所示：
 
 其中使用的奖励模型接口如下所示：
 
-.. autoclass:: ding.reward_model.guided_cost_reward_model.GuidedCostModel
-   :members: __init__, train, estimate
+.. autoclass:: ding.reward_model.guided_cost_reward_model.GuidedCostRewardModel
+   :members: train, estimate
    :noindex:
 
 实验 Benchmark
