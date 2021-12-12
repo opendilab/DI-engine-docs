@@ -26,6 +26,7 @@
     collaq
 
     gail
+    ngu_zh
 
     vpn
     mcts
