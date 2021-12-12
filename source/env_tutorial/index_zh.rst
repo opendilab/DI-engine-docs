@@ -6,6 +6,8 @@
    :maxdepth: 1
    
    atari_zh
+   mujoco_zh
+   
    cartpole_zh
    pendulum_zh
    
