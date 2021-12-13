@@ -63,6 +63,9 @@ source_suffix = '.rst'
 # The master toctree document.
 master_doc = 'index'
 if os.environ.get('READTHEDOCS') == "True":
+    print("current dir", os.getcwd())
+    print(os.listdir('./'))
+    os.rename("index_zh.rst", "index.rst")
     if os.environ.get("READTHEDOCS_VERSION") in ["zh"]:
         lang = os.environ.get("READTHEDOCS_VERSION")
         os.rename("index_{}.rst".format(lang), "index.rst")
