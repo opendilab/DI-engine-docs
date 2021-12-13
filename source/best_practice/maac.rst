@@ -40,7 +40,7 @@ In our environments, it can return four different global states, they have diffe
 Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 - Centralized training and decentralized executed: Unlike single-agent environments that feed the same observation information to actor and critic networks, in multi-agent environments, we feed agent_state and action_mask information to the actor network to get each actions' logits and mask the invalid/inaccessible actions. At the same time, we feed global_state information to the critic network to gei the global critic value.
-- Action mask: We need to mask the invalid/inaccessible actions when we train or collect data. So we use ``logit[action_mask == 0.0] = -99999999`` to make the inaccessible actions' probability to a very low value. So we can't choose this action when we collect data or train the model. If you don't want to use it, just delect ``logit[action_mask == 0.0] = -99999999``.
+- Action mask: We need to mask the invalid/inaccessible actions when we train or collect data. So we use ``logit[action_mask == 0.0] = -99999999`` to make the inaccessible actions' probability to a very low value. So we can't choose this action when we collect data or train the model. If you don't want to use it, just delete ``logit[action_mask == 0.0] = -99999999``.
 
 .. code:: python 
 
