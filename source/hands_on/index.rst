@@ -12,6 +12,7 @@
     sqil
 
     a2c
+    acer
     ppo
     ppg
     impala
@@ -24,6 +25,8 @@
     coma
     atoc
     collaq
+
+    rnd
 
     gail
     guided_cost_zh

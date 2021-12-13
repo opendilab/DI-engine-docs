@@ -41,7 +41,7 @@ DI-engine是一个通用决策智能平台。它支持大多数常用的深度�
   * 支持大规模深度强化学习训练和评测
   * 多种效率优化组件：``DI-hpc`` 高性能算子库，``DI-store`` 多机共享内存商店，并行环境管理器，数据加载器
   * 支持k8s容器虚拟化，``DI-orchestrator`` 提供了一整套强化学习训练的相关支持服务，支持资源管理和动态调度
-   
+
 
 作为初学者，可以首先参考 `快速开始 <./quick_start/index.html>`_ 来完成第一个决策AI智能体的训练入门，并可查阅 `API documentation <./api_doc/index.html>`_ 了解具体模块信息。
 对于想了解强化学习算法原理和实现的使用者，建议详细阅读 `动手学RL <hands_on/index.html>`_ 部分了解更多细节。
@@ -54,9 +54,10 @@ DI-engine是一个通用决策智能平台。它支持大多数常用的深度�
    installation/index_zh
    quick_start/index_zh
    key_concept/index
-   intro_rl/index_zh
+   intro_rl/index
+   env_tutorial/index
    hands_on/index
-   env_tutorial/index_zh
+   env_tutorial/index
    best_practice/index
    api_doc/index
 
