@@ -7,11 +7,11 @@ Image Classification
 ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图像数据库，其中层次结构的每个节点都由成百上千的图像来描绘。 其在推进计算机视觉和深度学习研究方面发挥了重要作用。
 该数据集已手动注释了1400多万张图像，以指出图片中的对象，并在至少100万张图像中提供了边框。
 自2010 年以来，ImageNet项目举办了一年一度的竞赛，即ImageNet大规模视觉识别挑战赛(ILSVRC)，挑战赛使用1000个“整理”后的非重叠类, 通过竞赛来正确分类和检测对象和场景。
-常用的数据集是其子数据集，也是ISLVRC 2012(ImageNet Large Scale Visual Recognition Challenge)比赛采用的数据集，共有1000个类别。其中：
+常用的数据集是其子数据集，也是ISLVRC 2012(ImageNet Large Scale Visual Recognition Challenge)比赛采用的数据集，共有1000个类别。其中:
 
--  训练集：1,281,167张图片+标签
--  验证集：50,000张图片+标签
--  测试集：100,000张图片
+-  训练集:1,281,167张图片+标签
+-  验证集:50,000张图片+标签
+-  测试集:100,000张图片
 
 
 .. image:: ./images/imagenet.png
@@ -24,12 +24,12 @@ ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图
 --------
 
 下载链接 `ImageNet Datasets <http://www.image-net.org/>`_
-将用于验证的valid数据集移动到相应的子文件夹，`shell脚本下载链接 <https://raw.githubusercontent.com/soumith/imagenetloader.torch/master/valprep.sh/>`_
+将用于验证的valid数据集移动到相应的子文件夹，`数据集预处理shell脚本 <https://raw.githubusercontent.com/jkjung-avt/jkjung-avt.github.io/master/assets/2017-12-01-ilsvrc2012-in-digits/valprep.sh>`_。
 
 加载数据集
 ----------
 
-下载完成后，可以通过在Python命令行中运行如下命令对数据集进行加载和测试：
+下载完成后，可以通过在Python命令行中运行如下命令对数据集进行加载和测试:
 
 .. code:: python
 
@@ -56,7 +56,12 @@ ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图
 图片信息
 ---------
 
--  RGB三通道图片，具体尺寸为\ ``(224, 224, 3)``\ ，经过Dataloader后数据类型为\ ``torch.float32``
+RGB三通道图片，具体尺寸为\ ``(224, 224, 3)``\ ，经过Dataloader后数据类型为\ ``torch.float32``。
+在DI-engine中，ImageNet采用的数据转换方式有Resize, Normalize, Totensor, CenterCrop等等。
+Resize将输入图像调整为给定的大小。
+Normalize使用均值和标准差对张量图像进行归一化。
+CenterCrop将在中心裁剪给定的图像。
+ToTensor将变量转换为张量。
 
 
 标签信息
@@ -72,8 +77,8 @@ ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图
 
 -  全部标签信息请查看 `ImageNet Label <https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a/>`_
 
-适配强化学习框架
-=================
+使用DI-engine完成ImageNet上的监督学习训练
+===========================================
 
 1. 将监督学习适配于强化学习框架DI-engine中。
 
@@ -111,74 +116,12 @@ DP基于单机多卡，所有设备都负责计算和训练网络。
 -  DistributedDataParallel(DDP)
 
 DDP主要用于单机多卡和多机多卡，其采用多进程控制多gpu，并使用ring allreduce同步梯度。由于各个进程初始参数、更新梯度是相同的，采用同步后的梯度各自更新参数。
-DDP最佳推荐使用方法是每个进程一张卡，每张卡复制一份模型。由于dataloader使用了DistributedSampler，所以各个进程之间的数据是不会重复的。
+DDP最佳推荐使用方法是每个进程一张卡，每张卡复制一份模型。
 如果要确保DDP性能和单卡性能一致，需要保证在数据上，DDP模式下的一个epoch和单卡下的一个epoch是等效的。
-
-.. code:: python
-
-    import math
-    import torch
-    from torch.utils.data import Sampler
-    from ding.utils import get_rank, get_world_size
-
-
-    class DistributedSampler(Sampler):
-        """Sampler that restricts data loading to a subset of the dataset.
-        It is especially useful in conjunction with
-        :class:`torch.nn.parallel.DistributedDataParallel`. In such case, each
-        process can pass a DistributedSampler instance as a DataLoader sampler,
-        and load a subset of the original dataset that is exclusive to it.
-        .. note::
-            Dataset is assumed to be of constant size.
-        Arguments:
-            dataset: Dataset used for sampling.
-            world_size (optional): Number of processes participating in
-                distributed training.
-            rank (optional): Rank of the current process within world_size.
-        """
-
-        def __init__(self, dataset, world_size=None, rank=None, round_up=True):
-            if world_size is None:
-                world_size = get_world_size()
-            if rank is None:
-                rank = get_rank()
-            self.dataset = dataset
-            self.world_size = world_size
-            self.rank = rank
-            self.round_up = round_up
-            self.epoch = 0
-
-            self.num_samples = int(math.ceil(len(self.dataset) * 1.0 / self.world_size))
-            if self.round_up:
-                self.total_size = self.num_samples * self.world_size
-            else:
-                self.total_size = len(self.dataset)
-
-        def __iter__(self):
-            # deterministically shuffle based on epoch
-            g = torch.Generator()
-            g.manual_seed(self.epoch)
-            indices = list(torch.randperm(len(self.dataset), generator=g))
-
-            # add extra samples to make it evenly divisible
-            if self.round_up:
-                indices += indices[:(self.total_size - len(indices))]
-            assert len(indices) == self.total_size
-
-            # subsample
-            offset = self.num_samples * self.rank
-            indices = indices[offset:offset + self.num_samples]
-            if self.round_up or (not self.round_up and self.rank < self.world_size - 1):
-                assert len(indices) == self.num_samples
-
-            return iter(indices)
-
-        def __len__(self):
-            return self.num_samples
-
-        def set_epoch(self, epoch):
-            self.epoch = epoch
-
+在多机多卡情况下分布式训练数据的读取是一个重要的问题，不同的卡读取到的数据应该是不同的。
+DP将训练数据切分到不同的卡，但对于多机来说，多机之间直接进行数据传输会严重影响效率。
+于是利用 `DistributedSampler <https://github.com/opendilab/DI-engine/blob/main/dizoo/image_classification/data/sampler.py>`__
+确保每一个子进程划分出一部分数据集，以避免不同进程之间数据重复。
 
 
 训练集、测试集以及验证集的使用场景
@@ -189,7 +132,6 @@ DDP最佳推荐使用方法是每个进程一张卡，每张卡复制一份模�
 -  验证集，用于调整分类器的参数，例如分类器中隐藏单元的数量。
 
 -  测试集，仅用于评估分类器的性能以及泛化能力。
-
 
 
 评估方法
@@ -215,7 +157,7 @@ DI-zoo可运行代码示例
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/image_classification/entry/>`__
-内，对于具体的配置文件，例如\ ``imagenet_res18_config.py``\ ，使用如下的demo即可运行：
+内，对于具体的配置文件，例如\ ``imagenet_res18_config.py``\ ，使用如下的demo即可运行:
 
 .. code:: python
 
