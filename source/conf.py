@@ -64,7 +64,6 @@ source_suffix = '.rst'
 # The master toctree document.
 master_doc = 'index'
 if os.environ.get('READTHEDOCS') == "True":
-    copyfile("./index_zh.rst", "./index.rst")
     if os.environ.get("READTHEDOCS_VERSION") in ["zh"]:
         lang = os.environ.get("READTHEDOCS_VERSION")
         copyfile("index_{}.rst".format(lang), "index.rst")
