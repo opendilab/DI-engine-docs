@@ -1,12 +1,12 @@
 Multi-Agent Actor-Critic RL
 ============================================
-MARL algorithms can be divided into two broad categories: centralized learning and decentralized learning. Recent work has developed two lines of research to bridge the gap betewwn these two frameworks: centralized training and decentralized execution(CTDE) and value decomposition(VD).
+MARL algorithms can be divided into two broad categories: centralized learning and decentralized learning. Recent work has developed two lines of research to bridge the gap between these two frameworks: centralized training and decentralized execution(CTDE) and value decomposition(VD).
 VD such as Qmix typically represents the joint Q-function as a function of agents’ local Q-functions, which has been considered as the gold standard for many MARL benchmarks.
 CTDE methods such as MADDPG, MAPPO and COMA improve upon decentralized RL by adopting an actor-critic structure and learning a centralized critic. 
-In DI-engine, we introduced the multi-agent actor-critic framework to quickly convert a single-agent algorithm into a multi-agent algorithm.
+In DI-engine, we introduce the multi-agent actor-critic framework to quickly convert a single-agent algorithm into a multi-agent algorithm.
 
 
-For User
+For Users
 --------------------------
 
 Environment
@@ -26,9 +26,9 @@ Unlike single-agent environments that return a Tensor-type observation, our mult
    }
 
 - agent state: Agent state is ecah agent's local observation.
-- global state: Global state contains all global information that can't be seen by each agents.
+- global state: A global state contains all global information that can't be seen by each agents.
 - action Mask: In multi-agent games, it is often the case that some actions cannot be executed due to game constraints. For example, in SMAC, an agent may have skills that cannot be performed frequently. So, when computing the logits for the softmax action probability, we mask out the unavailable actions in both the forward and backward pass so that the probabilities for unavailable actions are always zero. We find that this substantially accelerates training. The data type is \ ``int``\.
-- death Mask: In multi-agent games, an agent may die before the game terminates, such as SAMC environment. Note that we can always access the game state to compute the agent-specific global state for those dead agents. Therefore, even if an agent dies and becomes inactive in the middle of a rollout, value learning can still be performed in the following timesteps using inputs containing information of other live agents. This is typical in many existing multi-agent PG implementations. Our suggestion is to simply use a zero vector with the agent’s ID as the input to the value function after an agent dies. We call this approach “Death Masking”.
+- death Mask: In multi-agent games, an agent may die before the game terminates, such as SAMC environment. Note that we can always access the game state to compute the agent-specific global state for those dead agents. Therefore, even if an agent dies and becomes inactive in the middle of a rollout, value learning can still be performed in the following timesteps using inputs containing information of other live agents. This is typical in many existing multi-agent PG implementations. Our suggestion is to simply use a zero vector with the agent’s ID as the input to the value function after an agent dies. We call this approach “Death Masking”. The idea was proposed in `The Surprising Effectiveness of PPO in Cooperative, Multi-Agent Games <https://arxiv.org/abs/2103.01955>`_
 
 In our environments, it can return four different global states, they have different uses.
 
@@ -188,12 +188,12 @@ The following are the parameters for each map of the SMAC environment.
    .. image:: images/3s5z_mappo.png
      :align: center
 
-For Developer
+For Developers
 --------------------------
 
 Model
 ^^^^^^^^^^^^^^^^^^
-We need to change the signal agent to the multi agent model. In signal agent model, it only has a obs_shape key. In multi agent model, we need to divide the obs_shape key to agent_obs_shape and global_obs_shape, and in this way, we can train critic model by global obs and train actor model by agent obs.
+We need to change the single agent to the multi agent model. In single agent model, it only has a obs_shape key. In multi agent model, we need to divide the obs_shape key to agent_obs_shape and global_obs_shape, and in this way, we can train critic model by global obs and train actor model by agent obs.
 
 Policy
 ^^^^^^^^^^^^^^^^^^
@@ -219,7 +219,7 @@ We need to call the multi agent model in the following way.
 
 rl_utils
 ^^^^^^^^^^^^^^^^^^
-In the signal agent algorithm, the data dimension is (B, N), the B means batch_size, and the N means the action nums. But in the multi agent algorithm, the data dimension is (B, A, N), the A means action nums. So when we calculate the loss function, we need to change our codes.
+In the single agent algorithm, the data dimension is (B, N), the B means batch_size, and the N means the action nums. But in the multi agent algorithm, the data dimension is (B, A, N), the A means action nums. So when we calculate the loss function, we need to change our codes.
 For example, when we calculate the PPO advantage, we need to modify the codes. For most time, we use unsqueeze to change the (B, N) to (B, 1, N), and it can operate with (B, A, N) data.
 
 
@@ -230,10 +230,11 @@ For example, when we calculate the PPO advantage, we need to modify the codes. F
         Overview:
             Implementation of Generalized Advantage Estimator
         """
-        value, next_value, reward, done = data
+        value, next_value, reward, done, traj_flag = data
         if done is None:
             done = torch.zeros_like(reward, device=reward.device)
-        # In Multi-agent RL, the value's dimension is (B, A, N), but the reward's dimension is (B, N)
+
+        # In Multi-agent RL, the value and next_value's dimension is (B, A), the reward and done's dimension is (B) not (B,N), we unsqueeze the reward and done to change their shape from (B) to (B, 1).
         if len(value.shape) == len(reward.shape) + 1:
             reward = reward.unsqueeze(-1)
             done = done.unsqueeze(-1)
@@ -243,12 +244,15 @@ For example, when we calculate the PPO advantage, we need to modify the codes. F
         gae_item = torch.zeros_like(value[0])
 
         for t in reversed(range(reward.shape[0])):
-            gae_item = delta[t] + factor * gae_item * (1 - done[t])
+            if traj_flag is None:
+                gae_item = delta[t] + factor * gae_item * (1 - done[t])
+            else:
+                gae_item = delta[t] + factor * gae_item * (1 - traj_flag[t].float())
             adv[t] += gae_item
         return adv
 
-When we change your codes, we need to test our codes by the following way.
-You can just input (B, N) data to test signal agent rl utils codes and input (B, A, N) data to test multi agent rl utils codes.
+When we change the code, we need to test our codes by the following way.
+You can just input (B, N) data to test single agent rl utils codes and input (B, A, N) data to test multi agent rl utils codes.
 
 .. code:: python
 
