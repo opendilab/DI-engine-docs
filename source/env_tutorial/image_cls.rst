@@ -342,4 +342,6 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/image_classificatio
 .. image:: ./images/imagenet-topk.png
    :align: center
 
+精度对比节选 `Meta pseudo labels <https://openaccess.thecvf.com/content/CVPR2021/html/Pham_Meta_Pseudo_Labels_CVPR_2021_paper.html>`__ 
+中Figure 4。
 
