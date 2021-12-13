@@ -17,6 +17,7 @@ diagrams:
 	@$(DIAGRAMS) build
 html: diagrams
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" ./source/**/*_zh.* $(SPHINXOPTS) $(O) -D master_doc=index_zh
 build: html
 clean:
 	@$(DIAGRAMS) clean
