@@ -14,6 +14,7 @@
    lunarlander_zh
 
    bipedalwalker_zh
+   bit_flip_zh
    
    minigrid_zh
 
@@ -27,3 +28,5 @@
    
    gym_hybrid_zh
    gym_soccer_zh
+
+   pybullet_zh

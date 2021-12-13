@@ -1,11 +1,11 @@
-Reinforcement learning algorithm cheat sheet
+强化学习算法攻略合集
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 
 .. toctree::
     :maxdepth: 3
 
-    dqn
+    dqn_zh
     c51_qrdqn_iqn
     rainbow
     sqn
@@ -30,6 +30,8 @@ Reinforcement learning algorithm cheat sheet
 
     gail
     guided_cost_zh
+
+    r2d3_zh
 
     vpn
     mcts
