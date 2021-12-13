@@ -11,7 +11,7 @@ For Users
 
 Environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Unlike single-agent environments that return a Tensor-type observation, our multi-agent environments will return a dict-type observation, which includes ``agent_state``, ``global_state`` and ``action_mask``.
+Unlike single-agent environments that return a tensor-type observation, our multi-agent environments will return a dict-type observation, which includes ``agent_state``, ``global_state`` and ``action_mask``.
 
 .. code:: python 
 
@@ -25,10 +25,10 @@ Unlike single-agent environments that return a Tensor-type observation, our mult
          'action_mask': torch.randint(0, 2, size=(agent_num, action_shape))
    }
 
-- agent state: Agent state is ecah agent's local observation.
-- global state: A global state contains all global information that can't be seen by each agents.
-- action Mask: In multi-agent games, it is often the case that some actions cannot be executed due to game constraints. For example, in SMAC, an agent may have skills that cannot be performed frequently. So, when computing the logits for the softmax action probability, we mask out the unavailable actions in both the forward and backward pass so that the probabilities for unavailable actions are always zero. We find that this substantially accelerates training. The data type is \ ``int``\.
-- death Mask: In multi-agent games, an agent may die before the game terminates, such as SAMC environment. Note that we can always access the game state to compute the agent-specific global state for those dead agents. Therefore, even if an agent dies and becomes inactive in the middle of a rollout, value learning can still be performed in the following timesteps using inputs containing information of other live agents. This is typical in many existing multi-agent PG implementations. Our suggestion is to simply use a zero vector with the agent’s ID as the input to the value function after an agent dies. We call this approach “Death Masking”. The idea was proposed in `The Surprising Effectiveness of PPO in Cooperative, Multi-Agent Games <https://arxiv.org/abs/2103.01955>`_
+- agent state: An agent state comprises of each agent's local observation.
+- global state: A global state contains all global information that can't be seen by each agent.
+- action mask: In multi-agent games, it is often the case that some actions cannot be executed due to game constraints. For example, in SMAC, an agent may have skills that cannot be performed frequently. So, when computing the logits for the softmax action probability, we mask out the unavailable actions in both the forward and backward pass so that the probabilities for unavailable actions are always zero. We find that this substantially accelerates training. The data type is \ ``int``\.
+- death mask: In multi-agent games, an agent may die before the game terminates, such as SAMC environment. Note that we can always access the game state to compute the agent-specific global state for those dead agents. Therefore, even if an agent dies and becomes inactive in the middle of a rollout, value learning can still be performed in the following timesteps using inputs containing information of other live agents. This is typical in many existing multi-agent PG implementations. Our suggestion is to simply use a zero vector with the agent’s ID as the input to the value function after an agent dies. We call this approach “Death Masking”. The idea was proposed in `The Surprising Effectiveness of PPO in Cooperative, Multi-Agent Games <https://arxiv.org/abs/2103.01955>`_
 
 In our environments, it can return four different global states, they have different uses.
 
