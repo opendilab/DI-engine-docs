@@ -8,7 +8,7 @@ Competitive RL 是由香港中文大学（CUHK）开发的一个对抗性游戏�
 
 Competitive RL 目前提供两种游戏环境：
 
-   - Competitive Pong (cPong): 是将 Atari 中的 Pong 修改为对抗式的环境，即允许对抗的双方均为玩家操控，且均都是可被训练的智能体agent。
+   - Competitive Pong (cPong): 是将 Atari 中的 Pong 修改为对抗式的环境，即允许对抗的双方均为玩家操控，且均都是可被训练的agent。
    - Competitive Car-Racing (cCarRacing): 赛车环境允许两辆车在同一个赛道地图中进行竞速。
   
 ================================= ======================================
@@ -17,7 +17,9 @@ cPong                              cCarRacing
 .. image:: ./images/c_pong.gif     .. image:: ./images/c_car_racing.gif 
 ================================= ======================================
 
-在每个环境中，都有 single agent 和 double agent 两个版本。single agent 版本的 pong 环境和 Atari pong 是一样的。
+在每个环境中，都有 single-agent 和 double-agent 两个版本。
+   - single-agent 即只有一个 agent 可以被玩家控制，另一个则由内置 bot 控制，single-agent 版本的 pong 环境和 Atari pong 是一样的
+   - double-agent 就是指两个 agent 都可以被玩家控制。
 
 安装
 ====
@@ -45,11 +47,17 @@ cPong                              cCarRacing
 
     competitive_rl.register_competitive_envs()
 
-    pong_single_env = gym.make("cPong-v0")
-    pong_double_env = gym.make("cPongDouble-v0")
+    pong_single_env = gym.make("cPong-v0")  # single-agent pong env
+    pong_double_env = gym.make("cPongDouble-v0")  # double-agent pong env
 
-    racing_single_env = gym.make("cCarRacing-v0")
-    racing_double_env = gym.make("cCarRacingDouble-v0")
+    racing_single_env = gym.make("cCarRacing-v0")  # single-agent car_racing env
+    racing_double_env = gym.make("cCarRacingDouble-v0")  # double-agent car_racing env
+
+    pong_single_env.reset()
+    pong_single_env.step(0)
+
+    pong_double_env.reset()
+    pong_double_env.step((0, 0))
 
 
 以下说明均以 **cPong** 为例。
@@ -107,7 +115,7 @@ cPong                              cCarRacing
 动作空间
 --------
 
--  基本无变换，但允许传回的双方动作为堆叠的 ``torch.Tensor`` 或 ``np.ndarry`` 或 ``list``
+-  基本无变换，但允许传回的双方动作为堆叠的 ``np.ndarry`` 或 ``list``
 -  任一方的动作依然是大小为3的离散动作空间，数据类型为\ ``int``
 
 
