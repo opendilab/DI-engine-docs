@@ -250,6 +250,10 @@ ctx 是一个 dict 对象，你可以将任意属性添加到 ctx 上，它负�
         task.use(evaluate(evaluator))
         ...
 
+.. note ::
+
+    我们使用协程来实现代码之间的异步，关于协程的官方实现可参考 `asyncio 文档 <https://docs.python.org/3/library/asyncio.html>`_
+
 异步与并行
 -------------------------------
 
