@@ -1,5 +1,5 @@
-Reinforcement learning algorithm cheat sheet
-~~~~~~~~~~~~~~~~~~~~~~~
+RL Algorithm Cheat Sheet
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 .. toctree::
@@ -29,10 +29,7 @@ Reinforcement learning algorithm cheat sheet
     rnd
 
     gail
-    guided_cost_zh
 
     vpn
     mcts
     alphago
-
-    icm_zh

@@ -32,3 +32,4 @@
    gym_soccer_zh
 
    pybullet_zh
+   image_cls_zh

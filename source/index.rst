@@ -1,6 +1,8 @@
 Welcome to DI-engine's documentation!
 =====================================
 
+`中文 <./index_zh.html>`_
+
 .. image::
    images/di_engine_logo.svg
    :width: 300
@@ -56,7 +58,6 @@ If you want to deeply customize your algorithm and application with DI-engine, a
    quick_start/index
    key_concept/index
    intro_rl/index
-   env_tutorial/index
    hands_on/index
    env_tutorial/index
    best_practice/index
@@ -72,4 +73,3 @@ If you want to deeply customize your algorithm and application with DI-engine, a
    guide/index
    tutorial_dev/index
    architecture/index
-

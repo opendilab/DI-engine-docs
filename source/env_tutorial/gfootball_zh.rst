@@ -57,7 +57,7 @@ API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入�
 
 **从github源码安装**
 
-.. code:: shell\
+.. code:: shell
 
    git clone https://github.com/google-research/football.git
    cd football
