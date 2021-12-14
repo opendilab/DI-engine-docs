@@ -4,5 +4,8 @@
 *.svg
 .DS_Store
 build/
+_build/
+.vscode/
+=======
 venv/
 .idea/

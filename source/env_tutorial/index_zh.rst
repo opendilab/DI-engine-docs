@@ -19,11 +19,13 @@
    minigrid_zh
 
    slime_volleyball_zh
+   competitive_rl_zh
    procgen_zh
    smac_zh
    d4rl_zh
    gfootball_zh
    multiagent_particle_zh
+   pybullet_zh
    
    
    gym_hybrid_zh
