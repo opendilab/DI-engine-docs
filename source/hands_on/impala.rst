@@ -120,6 +120,7 @@ need all training sample (sequences of training data) have the same length. This
 Once we execute this function in collector, the length of samples will equal to unroll-len in config. For details, please
 refer to doc of ``ding.rl_utils.adder``.
 
+.. _ref2other:
 .. code:: python
 
     def _get_train_sample(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -321,7 +322,7 @@ The network interface IMPALA used is defined as follows:
         :members: __init__, forward
         :noindex:
 
-The Benchmark result of IMPALA implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview_en.html>`_
+The Benchmark result of IMPALA implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
 
 
 Reference

@@ -47,7 +47,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 
 变换前的空间（原始环境）
 ========================
-注：这里以 ``SlimeVolley-v0`` 为例，因为对 ``self-play`` 系列算法做基准测试自然是简单优先。如要用到其他两个环境，可结合原仓库查看，并根据 `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview_en.html>`_ 进行相应适配。
+注：这里以 ``SlimeVolley-v0`` 为例，因为对 ``self-play`` 系列算法做基准测试自然是简单优先。如要用到其他两个环境，可结合原仓库查看，并根据 `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_ 进行相应适配。
 
 .. _观察空间-1:
 

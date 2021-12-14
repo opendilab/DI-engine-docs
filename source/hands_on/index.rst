@@ -1,17 +1,18 @@
-强化学习算法攻略合集
+Reinforcement learning algorithm cheat sheet
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 
 .. toctree::
     :maxdepth: 3
 
-    dqn_zh
+    dqn
     c51_qrdqn_iqn
     rainbow
     sqn
     sqil
 
     a2c
+    acer
     ppo
     ppg
     impala
@@ -25,10 +26,10 @@
     atoc
     collaq
 
+    rnd
+
     gail
     guided_cost_zh
-
-    r2d3_zh
 
     vpn
     mcts
