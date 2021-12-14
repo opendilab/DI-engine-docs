@@ -4,15 +4,16 @@
 
 [English Docs](https://di-engine-docs.readthedocs.io/en/latest/index.html)
 
-[中文文档](https://di-engine-docs.readthedocs.io/en/main-zh/index.html) (施工中）
+[中文文档](https://di-engine-docs.readthedocs.io/zh_CN/latest/index.html)
 
 # Local Docs Generation
 ```bash
 # step 1: install
 pip install -r requirements.txt
 # step 2: compile docs
-make html
-# step 3: open build/html/index.html in your browser, and explore it!
+make live
+# step 3: open http://127.0.0.1:8000 in your browser, and explore it!
 ```
+
 # Contact Us
 If you have any questions about documentation, please add a new issue or contact `opendilab.contact@gmail.com`
