@@ -342,5 +342,4 @@ DI-engine 会默认写入 `standalone`, `distributed`, `async`, 以进程顺序�
 .. toctree::
    :maxdepth: 1
 
-   gobigger
-   attach_mode
+   gobigger_zh
