@@ -1,4 +1,4 @@
-Hands on RL
+Reinforcement learning algorithm cheat sheet
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -29,7 +29,10 @@ Hands on RL
     rnd
 
     gail
+    guided_cost_zh
 
     vpn
     mcts
     alphago
+
+    icm_zh
