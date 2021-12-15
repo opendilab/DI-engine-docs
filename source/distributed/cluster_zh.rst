@@ -72,3 +72,11 @@
    $ xxx --n_workers 3 --entry main.py --topology star
 
 这个命令会帮助你自动执行上述的三条命令，即实现了和多机部署一模一样的效果，即三个 pod，以星型拓扑方式连接。
+
+此外，如果你希望在 pod 中挂载 gpu，可以增加需要的 gpu 数量，例如：
+
+.. code-block:: shell
+
+   $ xxx --n_workers 3 --n_gpus 2 --entry main.py --topology star
+
+这样就会按顺序给头部的 2 个 pod 挂载 gpu，并在 ``ding`` 任务中增加 ``gpu`` 标签，在主入口文件中就可以根据标签来决定是否训练等等了。
