@@ -24,3 +24,5 @@ Best Practice
     registry
     
     customization1_dynamic_update_step
+
+    ding_env_zh
