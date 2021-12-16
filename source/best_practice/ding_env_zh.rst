@@ -1,26 +1,62 @@
 如何将自己的环境迁移到DI-engine中
 ==============================================================
 
-虽然已经在 ``DI-zoo`` 中提供了大量的强化学习常用环境，但用户还是会需要将自己的环境迁移到 ``DI-engine`` 中。因此在本节中，将会介绍如何一步步进行上述迁移，以满足 ``BaseEnv`` 的规范，从而轻松应用在训练的 pipeline 中。
+虽然已经在 ``DI-zoo`` 中提供了大量的强化学习常用环境（ `简明表格链接 <https://github.com/opendilab/DI-engine#environment-versatility>`_ ），但用户还是会需要将自己的环境迁移到 ``DI-engine`` 中。因此在本节中，将会介绍如何一步步进行上述迁移，以满足 ``DI-engine`` 的基础环境基类 ``BaseEnv`` 的规范，从而轻松应用在训练的 pipeline 中。
 
-下面的介绍将分为 **基础** 和 **进阶** 两部分。
+下面的介绍将分为 **基础** 和 **进阶** 两部分。 **基础** 表明如果想跑通 pipeline 必须实现的功能和注意的细节； **进阶** 则表示一些拓展的功能。
 
 基础
 ~~~~~~~~~~~~~~
 
 本节将介绍迁移环境时，用户必须满足的规范约束、以及必须实现的功能。
 
-如果要在 DI-engine 中使用环境，需要实现一个继承自 ``BaseEnv`` 的子类环境，例如 ``YourEnv`` 。 ``YourEnv`` 和你自己的环境之间是聚合关系，即在一个 ``YourEnv`` 实例中，会持有一个你自己的环境的实例。
+如果要在 DI-engine 中使用环境，需要实现一个继承自 ``BaseEnv`` 的子类环境，例如 ``YourEnv`` 。 ``YourEnv`` 和你自己的环境之间是 `组合 <https://www.cnblogs.com/chinxi/p/7349768.html>`_ 关系，即在一个 ``YourEnv`` 实例中，会持有一个你自己的环境的实例。
 
-强化学习的环境有一些主要的、普遍被大多数环境实现的接口，如 ``reset()``, ``step()``, ``seed()`` 等。在 DI-engine 中， ``BaseEnv`` 将对这些接口进行进一步的封装，下面大部分情况下将以 Atari 为例进行说明。(in ``dizoo/atari/envs/atari_env.py`` 和 ``dizoo/atari/envs/atari_wrappers.py`` )
+强化学习的环境有一些主要的、普遍被大多数环境实现的接口，如 ``reset()``, ``step()``, ``seed()`` 等。在 DI-engine 中， ``BaseEnv`` 将对这些接口进行进一步的封装，下面大部分情况下将以 Atari 为例进行说明。具体代码可以参考 `Atari Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_env.py>`_ 和 `Atari Env Wrapper <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_wrappers.py>`_
 
-1. ``reset()``
+
+1. ``__init__()``
 
    一般情况下，可能会在 ``__init__`` 方法中将环境实例化，但是在 DI-engine 中，为了便于支持 ``EnvManager`` 中的"环境向量化"等并行操作，环境实例一般采用 **Lazy Init** 的方式，即 ``__init__`` 方法不初始化真正的原始环境实例，只是设置相关 **参数配置值** ，在第一次调用 ``reset`` 方法时，才会进行实际的环境初始化。
 
    以 Atari 为例。``__init__`` 中不实例化环境，只是设置配置项 ``self._cfg`` ，以及初始化变量 ``self._init_flag`` 用于记录是否是第一次调用 ``reset`` 方法（即环境是否还没有被初始化）。
 
-   ``reset`` 方法中会根据 ``self._init_flag`` 判断是否需要实例化实际环境，并进行随机种子的设置（将在3中详细讲解），然后调用原始环境的 ``reset`` 方法得到初始状态下的观测值，并转换为 ``np.ndarray`` 数据格式（将在5中详细讲解），并初始化 ``self._final_eval_reward`` 的值（将在4中详细讲解），在 Atari 中 ``self._final_eval_reward`` 指的是一整个 episode 所获得的全部 reward 的和，将在每一个时间步中累加当前的 reward，并在 episode 结束的时候返回累加值。
+   .. code:: python
+      
+      class AtariEnv(BaseEnv):
+
+         def __init__(self, cfg: dict) -> None:
+            self._cfg = cfg
+            self._init_flag = False
+
+2. ``seed()``
+
+   ``seed`` 用于设定环境中的随机种子，环境中有两部分随机种子需要设置，一是 **原始环境** 的随机种子，二是各种 **环境变换** 中调用随机库时的随机种子（例如 ``random``， ``np.random``）。如果你的环境完全没有任何随机性（包括“原始环境”与“环境变换”），那么也可以不实现这个方法。
+
+   随机库的种子的设置较为简单，直接在环境的 ``seed`` 方法中进行设置。
+
+   但原始环境的种子，在 ``seed`` 方法中只是进行了赋值，并没有真的设置；真正的设置是在调用环境的 ``reset`` 方法内部，具体的原始环境 ``reset`` 之前进行设置。
+
+   .. code:: python
+
+      class AtariEnv(BaseEnv):
+         
+         def seed(self, seed: int, dynamic_seed: bool = True) -> None:
+            self._seed = seed
+            self._dynamic_seed = dynamic_seed
+            np.random.seed(self._seed)
+
+   针对原始环境的种子，DI-engine 中有 **静态种子** 和 **动态种子** 的概念。
+   
+   **静态种子** 用于测试环境，保证每个 episode 的随机种子相同，即 ``reset`` 时只会采用 ``self._seed`` 这个固定的静态种子数值需要在。需要 ``seed`` 方法中手动传入 ``dynamic_seed`` 参数为 ``False`` 。
+
+   **动态种子** 用于训练环境，尽量使得每个 episode 的随机种子都不相同，它们都在 ``reset`` 方法中由一个随机数发生器 ``100 * np.random.randint(1, 1000)`` 产生（但这个随机数发生器的种子是通过环境的 ``seed`` 方法固定的）。需要在 ``seed`` 方法中不传入 ``dynamic_seed`` 参数，或者传入参数为 ``True``。
+
+3. ``reset()``
+
+   在 1. 中已经介绍了 DI-engine 的 **Lazy Init** 初始化方式，在第一次调用 ``reset`` 方法时，进行实际的环境初始化。
+
+   ``reset`` 方法中会根据 ``self._init_flag`` 判断是否需要实例化实际环境，并进行随机种子的设置，然后调用原始环境的 ``reset`` 方法得到初始状态下的观测值，并转换为 ``np.ndarray`` 数据格式（将在5中详细讲解），并初始化 ``self._final_eval_reward`` 的值（将在4中详细讲解），在 Atari 中 ``self._final_eval_reward`` 指的是一整个 episode 所获得的全部 reward 的和，将在每一个时间步中累加当前的 reward，并在 episode 结束的时候返回累加值。
 
    .. code:: python
       
@@ -44,7 +80,7 @@
             self._final_eval_reward = 0.
             return obs
 
-2. ``step()``
+4. ``step()``
 
    ``step`` 方法负责接收当前时刻的 ``action`` ，然后给出当前时刻的 ``reward`` 和 下一时刻的 ``obs``，在 DI-engine中，还需要给出：当前episode是否结束的标志 ``done``、字典形式的其它信息 ``info`` （比如 ``self._final_eval_reward`` ）。
 
@@ -53,6 +89,8 @@
    最终，将上述四个数据放入一个 ``BaseEnvTimestep`` 中并返回，其定义为一个 ``namedtuple`` ： ``BaseEnvTimestep = namedtuple('BaseEnvTimestep', ['obs', 'reward', 'done', 'info'])``
    
    .. code:: python
+
+      from ding.envs import BaseEnvTimestep
 
       class AtariEnv(BaseEnv):
          
@@ -67,30 +105,7 @@
                info['final_eval_reward'] = self._final_eval_reward
             return BaseEnvTimestep(obs, rew, done, info)
 
-3. ``seed()``
-
-   ``seed`` 用于设定环境中的随机种子，环境中有两部分随机种子需要设置，一是 **原始环境** 的随机种子，二是各种 **环境变换** 中调用随机库时的随机种子（例如 ``random``， ``np.random``）。如果你的环境完全没有任何随机性（包括“原始环境”与“环境变换”），那么也可以不实现这个方法。
-
-   随机库的种子的设置较为简单，直接在环境的 ``seed`` 方法中进行设置。
-
-   但原始环境的种子，在 ``seed`` 方法中只是进行了赋值，并没有真的设置；真正的设置是在调用环境的 ``reset`` 方法内部，具体的原始环境 ``reset`` 之前进行设置。
-
-   .. code:: python
-
-      class AtariEnv(BaseEnv):
-         
-         def seed(self, seed: int, dynamic_seed: bool = True) -> None:
-            self._seed = seed
-            self._dynamic_seed = dynamic_seed
-            np.random.seed(self._seed)
-
-   针对原始环境的种子，DI-engine 中有 **静态种子** 和 **动态种子** 的概念。
-   
-   **静态种子** 用于测试环境，保证每个 episode 的随机种子相同，即 ``reset`` 时只会采用 ``self._seed`` 这个固定的静态种子数值需要在。需要 ``seed`` 方法中手动传入 ``dynamic_seed`` 参数为 ``False`` 。
-
-   **动态种子** 用于训练环境，尽量使得每个 episode 的随机种子都不相同，它们都在 ``reset`` 方法中由一个随机数发生器 ``100 * np.random.randint(1, 1000)`` 产生（但这个随机数发生器的种子是通过环境的 ``seed`` 方法固定的）。需要在 ``seed`` 方法中不传入 ``dynamic_seed`` 参数，或者传入参数为 ``True``。
-
-4. ``self._final_eval_reward``
+5. ``self._final_eval_reward``
 
    在 Atari 环境中， ``self._final_eval_reward`` 是指一个 episode 的全部 reward 的累加和。
 
@@ -100,9 +115,10 @@
 
    但是，在其他的环境中，可能需要的不是一个 episode 的 reward 之和。例如，在 smac 中，需要当前 episode 的胜率，因此就需要在 修改第二步 ``step`` 方法中简单的累加，而是记录对局情况，最终在 episode 结束时返回计算得到的胜率。
 
-5. 数据规格
+6. 数据规格
 
-   DI-engine 中要求环境中每个方法的输入输出的数据必须为 ``np.ndarray`` 格式，精度为 ``np.float32`` 。包括：
+   DI-engine 中要求环境中每个方法的输入输出的数据必须为 ``np.ndarray`` 格式，数据类型dtype 需要是 ``np.int64`` (整数) 或 ``np.float32`` (浮点数)。包括：
+
       -  ``reset`` 方法返回的 ``obs``
       -  ``step`` 方法接收的 ``action``
       -  ``step`` 方法返回的 ``obs``
@@ -135,7 +151,7 @@
       - ``ObsNormEnv``: 利用 ``RunningMeanStd`` 将 observation 进行滑动窗口归一化
       - ``RewardNormEnv``: 利用 ``RunningMeanStd`` 将 reward 进行滑动窗口归一化
       - ``RamWrapper``: 将 Ram 类型的环境的 observation 的 shape 转换为类似图像的 (128, 1, 1)
-      - ``EpisodicLifeEnv``: TODO
+      - ``EpisodicLifeEnv``: 将内置多条生命的环境（例如Qbert），将每条生命看作一个 episode
       - ``FireResetEnv``: 在环境 reset 后立即执行动作1（开火）
 
    如果上述 wrapper 不能满足你的需要，也可以自行实现一个。
@@ -166,38 +182,43 @@
    例如，这个是 cartpole 的 ``info`` 方法：
 
    .. code:: python
+      
+      from ding.envs import BaseEnvInfo
+      from ding.envs.common.env_element import EnvElementInfo
+
+      class CartpoleEnv(BaseEnv):
          
-      def info(self) -> BaseEnvInfo:
-         obs_space = self._env.observation_space
-         act_space = self._env.action_space
-         return BaseEnvInfo(
-            agent_num=1,
-            obs_space=EnvElementInfo(
-               shape=obs_space.shape,
-               value={
-                  'min': obs_space.low,
-                  'max': obs_space.high,
-                  'dtype': np.float32
-               },
-            ),
-            act_space=EnvElementInfo(
-               shape=(act_space.n, ),
-               value={
-                  'min': 0,
-                  'max': act_space.n,
-                  'dtype': np.float32
-               },
-            ),
-            rew_space=EnvElementInfo(
-               shape=1,
-               value={
-                  'min': -1,
-                  'max': 1,
-                  'dtype': np.float32
-               },
-            ),
-            use_wrappers=None
-         )
+         def info(self) -> BaseEnvInfo:
+            obs_space = self._env.observation_space
+            act_space = self._env.action_space
+            return BaseEnvInfo(
+               agent_num=1,
+               obs_space=EnvElementInfo(
+                  shape=obs_space.shape,
+                  value={
+                     'min': obs_space.low,
+                     'max': obs_space.high,
+                     'dtype': np.float32
+                  },
+               ),
+               act_space=EnvElementInfo(
+                  shape=(act_space.n, ),
+                  value={
+                     'min': 0,
+                     'max': act_space.n,
+                     'dtype': np.float32
+                  },
+               ),
+               rew_space=EnvElementInfo(
+                  shape=1,
+                  value={
+                     'min': -1,
+                     'max': 1,
+                     'dtype': np.float32
+                  },
+               ),
+               use_wrappers=None
+            )
    
    其中， ``BaseEnvInfo`` 的定义为： ``BaseEnvInfo = namedlist('BaseEnvInfo', ['agent_num', 'obs_space', 'act_space', 'rew_space', 'use_wrappers'])`` ，用于指定数据的几个域（agent数量、observation、action、reward、wrapper等）； ``EnvElementInfo`` 的定义为： ``EnvElementInfo = namedlist('EnvElementInfo', ['shape', 'value'])`` ，用于指出 observation、action、reward 等域的 shape 和 dtype。
 
@@ -205,19 +226,21 @@
 
    .. code:: python
 
-      def info(self) -> BaseEnvInfo:
-         if self._cfg.env_id in ATARIENV_INFO_DICT:
-            info = copy.deepcopy(ATARIENV_INFO_DICT[self._cfg.env_id])
-            info.use_wrappers = self._make_env(only_info=True)
-            obs_shape, act_shape, rew_shape = update_shape(
-                  info.obs_space.shape, info.act_space.shape, info.rew_space.shape, info.use_wrappers.split('\n')
-            )
-            info.obs_space.shape = obs_shape
-            info.act_space.shape = act_shape
-            info.rew_space.shape = rew_shape
-            return info
-         else:
-            raise NotImplementedError('{} not found in ATARIENV_INFO_DICT [{}]'\
+      class AtariEnv(BaseEnv):
+
+         def info(self) -> BaseEnvInfo:
+            if self._cfg.env_id in ATARIENV_INFO_DICT:
+               info = copy.deepcopy(ATARIENV_INFO_DICT[self._cfg.env_id])
+               info.use_wrappers = self._make_env(only_info=True)
+               obs_shape, act_shape, rew_shape = update_shape(
+                     info.obs_space.shape, info.act_space.shape, info.rew_space.shape, info.use_wrappers.split('\n')
+               )
+               info.obs_space.shape = obs_shape
+               info.act_space.shape = act_shape
+               info.rew_space.shape = rew_shape
+               return info
+            else:
+               raise NotImplementedError('{} not found in ATARIENV_INFO_DICT [{}]'\
                   .format(self._cfg.env_id, ATARIENV_INFO_DICT.keys()))
 
    其中， ``updatet_shape`` 函数如下：
@@ -235,7 +258,11 @@
 
 3. ``enable_save_replay()``
 
-   如果想对游戏视频进行保存，那么就需要实现 ``enable_save_replay`` 方法。在该方法中指定录像存储的路径，并利用 ``gym`` 提供的装饰器封装环境，如代码所示：
+   如果想对游戏视频进行保存，那么就需要实现 ``enable_save_replay`` 方法。
+   
+   该方法在 ``reset`` 方法之前， ``seed`` 方法之后被调用，在该方法中指定录像存储的路径。需要注意的是，该方法并不直接存储录像，只是设置一个是否保存录像的 flag。真正存储录像的代码和逻辑需要自己实现。（由于可能会开启多个环境，每个环境运行多个 episode，因此我们建议在文件名中用 episode_id 和 env_id 进行区分）
+
+   此处，给出 DI-engine 中的一个例子，该例子利用 ``gym`` 提供的装饰器封装环境，如代码所示：
 
    .. code:: python
 
@@ -248,8 +275,6 @@
          self._env = gym.wrappers.Monitor(
             self._env, self._replay_path, video_callable=lambda episode_id: True, force=True
          )
-
-   TODO：什么样的环境可以用这个wrapper？
 
 4. 训练环境和测试环境使用使用不同 config
 
