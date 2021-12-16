@@ -50,13 +50,13 @@
    
    **静态种子** 用于测试环境，保证每个 episode 的随机种子相同，即 ``reset`` 时只会采用 ``self._seed`` 这个固定的静态种子数值需要在。需要 ``seed`` 方法中手动传入 ``dynamic_seed`` 参数为 ``False`` 。
 
-   **动态种子** 用于训练环境，尽量使得每个 episode 的随机种子都不相同，它们都在 ``reset`` 方法中由一个随机数发生器 ``100 * np.random.randint(1, 1000)`` 产生（但这个随机数发生器的种子是通过环境的 ``seed`` 方法固定的）。需要在 ``seed`` 方法中不传入 ``dynamic_seed`` 参数，或者传入参数为 ``True``。
+   **动态种子** 用于训练环境，尽量使得每个 episode 的随机种子都不相同，它们都在 ``reset`` 方法中由一个随机数发生器 ``100 * np.random.randint(1, 1000)`` 产生（但这个随机数发生器的种子是通过环境的 ``seed`` 方法固定的，因此能保证实验的可复现性）。需要在 ``seed`` 方法中不传入 ``dynamic_seed`` 参数，或者传入参数为 ``True``。
 
 3. ``reset()``
 
    在 1. 中已经介绍了 DI-engine 的 **Lazy Init** 初始化方式，在第一次调用 ``reset`` 方法时，进行实际的环境初始化。
 
-   ``reset`` 方法中会根据 ``self._init_flag`` 判断是否需要实例化实际环境，并进行随机种子的设置，然后调用原始环境的 ``reset`` 方法得到初始状态下的观测值，并转换为 ``np.ndarray`` 数据格式（将在5中详细讲解），并初始化 ``self._final_eval_reward`` 的值（将在4中详细讲解），在 Atari 中 ``self._final_eval_reward`` 指的是一整个 episode 所获得的全部 reward 的和，将在每一个时间步中累加当前的 reward，并在 episode 结束的时候返回累加值。
+   ``reset`` 方法中会根据 ``self._init_flag`` 判断是否需要实例化实际环境，并进行随机种子的设置，然后调用原始环境的 ``reset`` 方法得到初始状态下的观测值，并转换为 ``np.ndarray`` 数据格式（将在5中详细讲解），并初始化 ``self._final_eval_reward`` 的值（将在4中详细讲解），在 Atari 中 ``self._final_eval_reward`` 指的是一整个 episode 所获得的真实 reward 的累积和，用于评价 agent 在该环境上的性能，不用于训练。
 
    .. code:: python
       
@@ -84,7 +84,7 @@
 
    ``step`` 方法负责接收当前时刻的 ``action`` ，然后给出当前时刻的 ``reward`` 和 下一时刻的 ``obs``，在 DI-engine中，还需要给出：当前episode是否结束的标志 ``done``、字典形式的其它信息 ``info`` （比如 ``self._final_eval_reward`` ）。
 
-   在得到 ``reward`` ``obs`` ``done`` ``info`` 等数据后，需要进行处理，转化为 ``np.ndarray`` 格式，以保证符合 DI-engine 的规范。同时，记得累加 ``self._final_eval_reward``。
+   在得到 ``reward`` ``obs`` ``done`` ``info`` 等数据后，需要进行处理，转化为 ``np.ndarray`` 格式，以保证符合 DI-engine 的规范。在每一个时间步中 ``self._final_eval_reward`` 都会累加当前的真实 reward，并在 episode 结束（ ``done == True`` ）的时候返回该累加值。
 
    最终，将上述四个数据放入一个 ``BaseEnvTimestep`` 中并返回，其定义为一个 ``namedtuple`` ： ``BaseEnvTimestep = namedtuple('BaseEnvTimestep', ['obs', 'reward', 'done', 'info'])``
    
@@ -111,7 +111,7 @@
 
       - 在 ``reset`` 方法中，将当前 ``self._final_eval_reward`` 置0；
       - 在 ``step`` 方法中，将每个时间步获得的 reward 加到 ``self._final_eval_reward`` 中。
-      - 在 ``step`` 方法中，如果当前 episode 已经结束（ ``done == True `` ），那么就添加到 ``info`` 这个字典中并返回： ``info['final_eval_reward'] = self._final_eval_reward``
+      - 在 ``step`` 方法中，如果当前 episode 已经结束（ ``done == True `` 此处要求 ``done`` 必须是 ``bool`` 类型，不能是 ``np.bool`` ），那么就添加到 ``info`` 这个字典中并返回： ``info['final_eval_reward'] = self._final_eval_reward``
 
    但是，在其他的环境中，可能需要的不是一个 episode 的 reward 之和。例如，在 smac 中，需要当前 episode 的胜率，因此就需要在 修改第二步 ``step`` 方法中简单的累加，而是记录对局情况，最终在 episode 结束时返回计算得到的胜率。
 
@@ -130,7 +130,9 @@
 
 1. 环境预处理wrapper
 
-   很多环境如果要用于强化学习的训练中，都需要进行一些预处理，来达到增加随机性、数据归一化、易于训练等目的。这些预处理通过 wrapper 的形式实现，每个 wrapper 都是 ``gym.Wrapper`` 的一个子类。例如， ``NoopResetEnv`` 是在 episode 最开始时，执行随机数量的 No-Operation 动作，是增加随机性的一种手段，其使用方法是：
+   很多环境如果要用于强化学习的训练中，都需要进行一些预处理，来达到增加随机性、数据归一化、易于训练等目的。这些预处理通过 wrapper 的形式实现（wrapper 的介绍可以参考 `这里 <../feature/wrapper_hook_overview_zh.html#wrapper>`_ ）。
+   
+   环境预处理的每个 wrapper 都是 ``gym.Wrapper`` 的一个子类。例如， ``NoopResetEnv`` 是在 episode 最开始时，执行随机数量的 No-Operation 动作，是增加随机性的一种手段，其使用方法是：
    
    .. code:: python
       
@@ -142,11 +144,11 @@
    DI-engine 中已经实现了以下 env wrapper：(in ``ding/envs/env_wrappers/env_wrappers.py``)
 
       - ``NoopResetEnv``: 在 episode 最开始时，执行随机数量的 No-Operation 动作
-      - ``MaxAndSkipEnv``: 跳着返回几帧中的最大值，可认为是时间步上的一种 max pooling
-      - ``WarpFrame``: 将原始的图像画面利用 ``cv2`` 库的 ``cvtColor`` 转换为一定长宽的图像（一般为 84x84）
+      - ``MaxAndSkipEnv``: 返回几帧中的最大值，可认为是时间步上的一种 max pooling
+      - ``WarpFrame``: 将原始的图像画面利用 ``cv2`` 库的 ``cvtColor`` 转换颜色编码，并 resize 为一定长宽的图像（一般为 84x84）
       - ``ScaledFloatFrame``: 将 observation 归一化到 [0, 1] 区间内（保持 dtype 为 ``np.float32`` ）
       - ``ClipRewardEnv``: 将 reward 通过一个符号函数，变为 ``{+1, 0, -1}``
-      - ``FrameStack``: 将一定数量（一般为4）的 frame 堆叠在一起，作为新的 observation
+      - ``FrameStack``: 将一定数量（一般为4）的 frame 堆叠在一起，作为新的 observation，可被用于处理 POMDP 的情况，例如，单帧信息无法知道运动的速度方向
       - ``ObsTransposeWrapper``: 将 ``(H, W, C)`` 的图像转换为 ``(C, H, W)`` 的图像
       - ``ObsNormEnv``: 利用 ``RunningMeanStd`` 将 observation 进行滑动窗口归一化
       - ``RewardNormEnv``: 利用 ``RunningMeanStd`` 将 reward 进行滑动窗口归一化
@@ -177,7 +179,7 @@
 
 2. ``info()``
 
-   在 ``EnvManager`` 中，如果想使用 ``shared_memory`` 技术加快环境返回的大型矢量数据的传输速度，就需要在环境的 ``info`` 方法中给出 ``obs`` ``action`` ``reward`` 等数据的 **shape** 和 **dtype** 。
+   如果希望可以根据环境的维度自动创建神经网络，或是在 ``EnvManager`` 中使用 ``shared_memory`` 技术加快环境返回的大型张量数据的传输速度，就需要在环境的 ``info`` 方法中给出 ``obs`` ``action`` ``reward`` 等数据的 **shape** 和 **dtype** 。
 
    例如，这个是 cartpole 的 ``info`` 方法：
 
@@ -243,7 +245,7 @@
                raise NotImplementedError('{} not found in ATARIENV_INFO_DICT [{}]'\
                   .format(self._cfg.env_id, ATARIENV_INFO_DICT.keys()))
 
-   其中， ``updatet_shape`` 函数如下：
+   其中， ``update_shape`` 函数如下：
 
    .. code:: python
 
@@ -258,7 +260,7 @@
 
 3. ``enable_save_replay()``
 
-   如果想对游戏视频进行保存，那么就需要实现 ``enable_save_replay`` 方法。
+   ``DI-engine`` 并没有强制要求实现 ``render`` 方法，如果想完成可视化，我们推荐实现 ``enable_save_replay`` 方法，对游戏视频进行保存。
    
    该方法在 ``reset`` 方法之前， ``seed`` 方法之后被调用，在该方法中指定录像存储的路径。需要注意的是，该方法并不直接存储录像，只是设置一个是否保存录像的 flag。真正存储录像的代码和逻辑需要自己实现。（由于可能会开启多个环境，每个环境运行多个 episode，因此我们建议在文件名中用 episode_id 和 env_id 进行区分）
 
@@ -266,15 +268,17 @@
 
    .. code:: python
 
-      def enable_save_replay(self, replay_path: Optional[str] = None) -> None:
-         if replay_path is None:
-            replay_path = './video'
-         self._replay_path = replay_path
-         # this function can lead to the meaningless result
-         # disable_gym_view_window()
-         self._env = gym.wrappers.Monitor(
-            self._env, self._replay_path, video_callable=lambda episode_id: True, force=True
-         )
+      class AtariEnv(BaseEnv):
+
+         def enable_save_replay(self, replay_path: Optional[str] = None) -> None:
+            if replay_path is None:
+               replay_path = './video'
+            self._replay_path = replay_path
+            # this function can lead to the meaningless result
+            # disable_gym_view_window()
+            self._env = gym.wrappers.Monitor(
+               self._env, self._replay_path, video_callable=lambda episode_id: True, force=True
+            )
 
 4. 训练环境和测试环境使用使用不同 config
 
@@ -282,19 +286,29 @@
 
    .. code:: python
 
-      @staticmethod
-      def create_collector_env_cfg(cfg: dict) -> List[dict]:
-         collector_env_num = cfg.pop('collector_env_num')
-         cfg = copy.deepcopy(cfg)
-         cfg.is_train = True
-         return [cfg for _ in range(collector_env_num)]
+      class AtariEnv(BaseEnv):
 
-      @staticmethod
-      def create_evaluator_env_cfg(cfg: dict) -> List[dict]:
-         evaluator_env_num = cfg.pop('evaluator_env_num')
-         cfg = copy.deepcopy(cfg)
-         cfg.is_train = False
-         return [cfg for _ in range(evaluator_env_num)]
+         @staticmethod
+         def create_collector_env_cfg(cfg: dict) -> List[dict]:
+            collector_env_num = cfg.pop('collector_env_num')
+            cfg = copy.deepcopy(cfg)
+            cfg.is_train = True
+            return [cfg for _ in range(collector_env_num)]
+
+         @staticmethod
+         def create_evaluator_env_cfg(cfg: dict) -> List[dict]:
+            evaluator_env_num = cfg.pop('evaluator_env_num')
+            cfg = copy.deepcopy(cfg)
+            cfg.is_train = False
+            return [cfg for _ in range(evaluator_env_num)]
+
+   在实际使用时，可以对原始的配置项 ``cfg`` 进行转换：
+
+   .. code:: python
+
+      # env_fn is an env class
+      collector_env_cfg = env_fn.create_collector_env_cfg(cfg)
+      evaluator_env_cfg = env_fn.create_evaluator_env_cfg(cfg)
 
    设置 ``cfg.is_train`` 项，将相应地在 wrapper 中使用不同的修饰方式。例如，若 ``cfg.is_train == True`` ，则将对 reward 使用符号函数映射至 ``{+1, 0, -1}`` 方便训练，若 ``cfg.is_train == False`` 则将保留原 reward 值，方便测试时评估 agent 的性能。
 
@@ -307,3 +321,20 @@ DingEnvWrapper
 TBD
 
 
+Q & A
+~~~~~~~~~~~~~~
+
+1. MARL 环境应当如何迁移？
+   
+   可以参考 `Competitive RL <../env_tutorial/competitive_rl_zh.html>`_ 
+
+   - 如果环境既支持 single-agent，又支持 double-agent 甚至 multi-agent，那么要针对不同的模式分类考虑
+   - 在 multi-agent 环境中，action 和 observation 和 agent 个数匹配，但 reward 和 done 却不一定，需要搞清楚 reward 的定义
+   - 注意原始环境要求 action 和 observation 怎样组合在一起（元组、列表、字典、stacked array...）
+
+
+2. 混合动作空间的环境应当如何迁移？
+   
+   可以参考 `Gym-Hybrid <../env_tutorial/gym_hybrid_zh.html>`_
+
+   - Gym-Hybrid 中部分离散动作（Accelerate，Turn）是需要给出对应的 1 维连续参数的，以表示加速度和旋转角度，因此类似的环境需要主要关注其动作空间的定义
