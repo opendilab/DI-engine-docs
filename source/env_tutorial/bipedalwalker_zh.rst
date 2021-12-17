@@ -1,5 +1,5 @@
 BipedalWalker
-~~~~~~~
+~~~~~~~~~~~~~~~
 
 概述
 =======
@@ -64,7 +64,6 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\
 -  环境动作空间为4维的连续向量，每个维度的值在[-1,1]之间。
 
 -  这四维的连续向量分别控制机器人四个腿关节的扭矩。机器人共有2条腿，每条腿有两个关节(腰关节和膝关节), 一共4个关节需要控制。
-.. _奖励空间-1:
 
 奖励空间
 --------
@@ -193,5 +192,6 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/box2d/bipedalwalker
 -  平均奖励大于等于300视为较好的Agent
 
     - BipedalWalker + TD3
+
     .. image:: images/bipedalwalker_td3.png
      :align: center
