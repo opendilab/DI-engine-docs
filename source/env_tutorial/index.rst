@@ -1,4 +1,4 @@
-RL Environment Tutorial
+RL Environments Tutorial
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -6,3 +6,5 @@ RL Environment Tutorial
    :maxdepth: 1
 
    atari
+   overcooked
+   bsuite
