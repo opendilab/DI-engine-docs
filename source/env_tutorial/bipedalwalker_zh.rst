@@ -44,19 +44,16 @@ BipedalWalker
 DI-engine的镜像包含自有框架和Atari环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取. 如何获取更多镜像? 访问\ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\
 
-.. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
 ========================
 
-.. _观察空间-1:
 
 观察空间
 --------
 
 -  智能体的状态是24维连续向量，包括船体角速度(hull angle speed)、角速度、水平速度、垂直速度、关节位置和关节角速度、腿与地面的接触标记以及10次激光雷达测距仪的测量值。注意的是该状态向量中不包含机器人的坐标。
 
-.. _动作空间-1:
 
 动作空间
 --------

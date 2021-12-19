@@ -9,7 +9,7 @@ Please Reference ding/worker/collector/base_serial_evaluator.py for usage
 ISerialEvaluator
 ~~~~~~~~~~~~~~~~~~~~~~
 .. autoclass:: ding.worker.collector.base_serial_evaluator.ISerialEvaluator
-    :members: default_config, __init__, reset_env, reset_policy, reset, close, __del__, should_eval, eval
+    :members: default_config, __init__, reset_env, reset_policy, reset, close, should_eval, eval
 
 VectorEvalMonitor
 ~~~~~~~~~~~~~~~~~~~~~~
