@@ -1,7 +1,7 @@
 如何将自己的环境迁移到DI-engine中
 ==============================================================
 
-虽然已经在 ``DI-zoo`` 中提供了大量的强化学习常用环境（ `简明表格链接 <https://github.com/opendilab/DI-engine#environment-versatility>`_ ），但用户还是会需要将自己的环境迁移到 ``DI-engine`` 中。因此在本节中，将会介绍如何一步步进行上述迁移，以满足 ``DI-engine`` 的基础环境基类 ``BaseEnv`` 的规范，从而轻松应用在训练的 pipeline 中。
+虽然已经在 ``DI-zoo`` 中提供了大量的强化学习常用环境（ `已支持的环境 <https://github.com/opendilab/DI-engine#environment-versatility>`_ ），但用户还是会需要将自己的环境迁移到 ``DI-engine`` 中。因此在本节中，将会介绍如何一步步进行上述迁移，以满足 ``DI-engine`` 的基础环境基类 ``BaseEnv`` 的规范，从而轻松应用在训练的 pipeline 中。
 
 下面的介绍将分为 **基础** 和 **进阶** 两部分。 **基础** 表明如果想跑通 pipeline 必须实现的功能和注意的细节； **进阶** 则表示一些拓展的功能。
 
@@ -12,14 +12,15 @@
 
 如果要在 DI-engine 中使用环境，需要实现一个继承自 ``BaseEnv`` 的子类环境，例如 ``YourEnv`` 。 ``YourEnv`` 和你自己的环境之间是 `组合 <https://www.cnblogs.com/chinxi/p/7349768.html>`_ 关系，即在一个 ``YourEnv`` 实例中，会持有一个你自己的环境的实例。
 
-强化学习的环境有一些主要的、普遍被大多数环境实现的接口，如 ``reset()``, ``step()``, ``seed()`` 等。在 DI-engine 中， ``BaseEnv`` 将对这些接口进行进一步的封装，下面大部分情况下将以 Atari 为例进行说明。具体代码可以参考 `Atari Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_env.py>`_ 和 `Atari Env Wrapper <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_wrappers.py>`_
+强化学习的环境有一些普遍地、被大多数环境实现了的主要接口，如 ``reset()``, ``step()``, ``seed()`` 等。在 DI-engine 中， ``BaseEnv`` 将对这些接口进行进一步的封装，下面大部分情况下将以 Atari 为例进行说明。具体代码可以参考 `Atari Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_env.py>`_ 和 `Atari Env Wrapper <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_wrappers.py>`_
 
 
 1. ``__init__()``
 
    一般情况下，可能会在 ``__init__`` 方法中将环境实例化，但是在 DI-engine 中，为了便于支持 ``EnvManager`` 中的"环境向量化"等并行操作，环境实例一般采用 **Lazy Init** 的方式，即 ``__init__`` 方法不初始化真正的原始环境实例，只是设置相关 **参数配置值** ，在第一次调用 ``reset`` 方法时，才会进行实际的环境初始化。
 
-   以 Atari 为例。``__init__`` 中不实例化环境，只是设置配置项 ``self._cfg`` ，以及初始化变量 ``self._init_flag`` 用于记录是否是第一次调用 ``reset`` 方法（即环境是否还没有被初始化）。
+   以 Atari 为例。 ``__init__`` 并不实例化环境，只是设置配置项 ``self._cfg`` ，以及初始化变量 ``self._init_flag`` 用于记录是否是第一次调用 ``reset`` 方法（即环境是否还没有被初始化）。
+
 
    .. code:: python
       
@@ -48,13 +49,13 @@
 
    针对原始环境的种子，DI-engine 中有 **静态种子** 和 **动态种子** 的概念。
    
-   **静态种子** 用于测试环境，保证每个 episode 的随机种子相同，即 ``reset`` 时只会采用 ``self._seed`` 这个固定的静态种子数值需要在。需要 ``seed`` 方法中手动传入 ``dynamic_seed`` 参数为 ``False`` 。
+   **静态种子** 用于测试环境，保证每个 episode 的随机种子相同，即 ``reset`` 时只会采用 ``self._seed`` 这个固定的静态种子数值。需要在 ``seed`` 方法中手动传入 ``dynamic_seed`` 参数为 ``False`` 。
 
    **动态种子** 用于训练环境，尽量使得每个 episode 的随机种子都不相同，它们都在 ``reset`` 方法中由一个随机数发生器 ``100 * np.random.randint(1, 1000)`` 产生（但这个随机数发生器的种子是通过环境的 ``seed`` 方法固定的，因此能保证实验的可复现性）。需要在 ``seed`` 方法中不传入 ``dynamic_seed`` 参数，或者传入参数为 ``True``。
 
 3. ``reset()``
 
-   在 1. 中已经介绍了 DI-engine 的 **Lazy Init** 初始化方式，在第一次调用 ``reset`` 方法时，进行实际的环境初始化。
+   在 ``__init__`` 方法中已经介绍了 DI-engine 的 **Lazy Init** 初始化方式，即实际的环境初始化是在 **第一次调用** ``reset`` 方法时进行的。
 
    ``reset`` 方法中会根据 ``self._init_flag`` 判断是否需要实例化实际环境，并进行随机种子的设置，然后调用原始环境的 ``reset`` 方法得到初始状态下的观测值，并转换为 ``np.ndarray`` 数据格式（将在5中详细讲解），并初始化 ``self._final_eval_reward`` 的值（将在4中详细讲解），在 Atari 中 ``self._final_eval_reward`` 指的是一整个 episode 所获得的真实 reward 的累积和，用于评价 agent 在该环境上的性能，不用于训练。
 
@@ -86,7 +87,7 @@
 
    在得到 ``reward`` ``obs`` ``done`` ``info`` 等数据后，需要进行处理，转化为 ``np.ndarray`` 格式，以保证符合 DI-engine 的规范。在每一个时间步中 ``self._final_eval_reward`` 都会累加当前的真实 reward，并在 episode 结束（ ``done == True`` ）的时候返回该累加值。
 
-   最终，将上述四个数据放入一个 ``BaseEnvTimestep`` 中并返回，其定义为一个 ``namedtuple`` ： ``BaseEnvTimestep = namedtuple('BaseEnvTimestep', ['obs', 'reward', 'done', 'info'])``
+   最终，将上述四个数据放入定义为 ``namedtuple`` 的 ``BaseEnvTimestep`` 中并返回（定义为： ``BaseEnvTimestep = namedtuple('BaseEnvTimestep', ['obs', 'reward', 'done', 'info'])`` ）
    
    .. code:: python
 
@@ -111,9 +112,9 @@
 
       - 在 ``reset`` 方法中，将当前 ``self._final_eval_reward`` 置0；
       - 在 ``step`` 方法中，将每个时间步获得的 reward 加到 ``self._final_eval_reward`` 中。
-      - 在 ``step`` 方法中，如果当前 episode 已经结束（ ``done == True `` 此处要求 ``done`` 必须是 ``bool`` 类型，不能是 ``np.bool`` ），那么就添加到 ``info`` 这个字典中并返回： ``info['final_eval_reward'] = self._final_eval_reward``
+      - 在 ``step`` 方法中，如果当前 episode 已经结束（ ``done == True`` 此处要求 ``done`` 必须是 ``bool`` 类型，不能是 ``np.bool`` ），那么就添加到 ``info`` 这个字典中并返回： ``info['final_eval_reward'] = self._final_eval_reward``
 
-   但是，在其他的环境中，可能需要的不是一个 episode 的 reward 之和。例如，在 smac 中，需要当前 episode 的胜率，因此就需要在 修改第二步 ``step`` 方法中简单的累加，而是记录对局情况，最终在 episode 结束时返回计算得到的胜率。
+   但是，在其他的环境中，可能需要的不是一个 episode 的 reward 之和。例如，在 smac 中，需要当前 episode 的胜率，因此就需要修改第二步 ``step`` 方法中简单的累加，改为记录对局情况，并最终在 episode 结束时返回计算得到的胜率。
 
 6. 数据规格
 
@@ -156,7 +157,7 @@
       - ``EpisodicLifeEnv``: 将内置多条生命的环境（例如Qbert），将每条生命看作一个 episode
       - ``FireResetEnv``: 在环境 reset 后立即执行动作1（开火）
 
-   如果上述 wrapper 不能满足你的需要，也可以自行实现一个。
+   如果上述 wrapper 不能满足你的需要，也可以自行定制 wrapper。
 
    值得一提的是，每个 wrapper 都还实现了一个 ``new_shape`` 的静态方法，输入参数为使用 wrapper 前的 observation, action,  reward 的 shape，输出为使用 wrapper 后的三者的 shape，这个方法将在下一节 ``info`` 中被使用。
 
@@ -280,7 +281,7 @@
                self._env, self._replay_path, video_callable=lambda episode_id: True, force=True
             )
 
-4. 训练环境和测试环境使用使用不同 config
+4. 训练环境和测试环境使用不同 config
 
    用于训练的环境（collector_env）和用于测试的环境（evaluator_env）可能使用不同的配置项，可以在环境中实现一个静态方法来实现对于不同环境配置项的自定义配置，以 Atari 为例：
 
