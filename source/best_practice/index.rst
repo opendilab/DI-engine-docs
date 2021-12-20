@@ -25,4 +25,4 @@ Best Practice
     
     customization1_dynamic_update_step
 
-    ding_env_zh
+    ding_env
