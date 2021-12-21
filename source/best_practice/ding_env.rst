@@ -1,5 +1,5 @@
 How to migrate your environment to DI-engine
-================================================== ============
+==================================================
 
 Although a large number of commonly used Reinforcement Learning environments have been provided in ``DI-zoo`` (`DI-engine supported environments <https://github.com/opendilab/DI-engine#environment-versatility>`_ ), you may still need to migrate your environment to ``DI-engine``. Therefore, in this section, we will introduce how to perform the above migration step by step to meet the specifications of the ``DI-engine'' basic environment base class ``BaseEnv``, so that it can be easily applied in the training pipeline.
 
