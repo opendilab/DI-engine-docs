@@ -5,6 +5,7 @@ DIAGRAMS    := $(MAKE) -f "${DIAGRAMS_MK}"
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
+SPHINXLIVE    = sphinx-autobuild
 SOURCEDIR     = source
 BUILDDIR      = build
 
@@ -17,6 +18,9 @@ diagrams:
 	@$(DIAGRAMS) build
 html: diagrams
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" ./source/**/*_zh.* $(SPHINXOPTS) $(O) -D master_doc=index_zh
+live: diagrams
+	@$(SPHINXLIVE) "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 build: html
 clean:
 	@$(DIAGRAMS) clean

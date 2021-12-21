@@ -129,7 +129,7 @@ Model
 Here we provide examples of `QAC` model as default model for `DDPG`.
 
 .. autoclass:: ding.model.template.qac.QAC
-    :members: __init__, forward, compute_actor, compute_critic
+    :members: forward, compute_actor, compute_critic
 
 Train actor-critic model
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -242,7 +242,7 @@ We configure ``learn.target_theta`` to control the interpolation factor in avera
         update_kwargs={'theta': self._cfg.learn.target_theta}
     )
 
-The Benchmark result of DDPG implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview_en.html>`_
+The Benchmark result of DDPG implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
 
 Other Public Implementations
 ----------------------------

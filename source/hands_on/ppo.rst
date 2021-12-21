@@ -65,7 +65,7 @@ The default config is defined as follows:
 
 
     .. autoclass:: ding.model.template.vac.VAC
-        :members: __init__, forward, compute_actor, compute_critic, compute_actor_critic
+        :members: forward, compute_actor, compute_critic, compute_actor_critic
         :noindex:
 
 
@@ -91,7 +91,7 @@ The policy gradient and value update of PPO is implemented as follows:
 
         return ppo_loss(policy_output.policy_loss, value_loss, policy_output.entropy_loss), policy_info
 
-The Benchmark result of PPO implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview_en.html>`_.
+The Benchmark result of PPO implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_.
 
 
 References

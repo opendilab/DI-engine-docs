@@ -1,10 +1,10 @@
-*.png
 *.eps
 *.jpg
 *.svg
 .DS_Store
 build/
+source/_build
 _build/
+.vscode/
 venv/
 .idea/
-.vscode/

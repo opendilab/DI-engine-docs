@@ -47,7 +47,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 
 变换前的空间（原始环境）
 ========================
-注：这里以 ``SlimeVolley-v0`` 为例，因为对 ``self-play`` 系列算法做基准测试自然是简单优先。如要用到其他两个环境，可结合原仓库查看，并根据 `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview_en.html>`_ 进行相应适配。
+注：这里以 ``SlimeVolley-v0`` 为例，因为对 ``self-play`` 系列算法做基准测试自然是简单优先。如要用到其他两个环境，可结合原仓库查看，并根据 `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_ 进行相应适配。
 
 .. _观察空间-1:
 
@@ -55,7 +55,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 --------
 
 -  向量观察空间，是一个尺寸为 ``(12, )`` 的向量，包含了由连续两帧的数据拼接而成的自己，对手，球三者的绝对位置坐标，数据类型为\ ``float64``
-即（x_agent, y_agent, x_agent_next, y_agent_next, x_ball, y_ball, x_ball_next, y_ball_next, x_opponent, y_opponent, x_opponent_next, y_opponent_next）
+   即（x_agent, y_agent, x_agent_next, y_agent_next, x_ball, y_ball, x_ball_next, y_ball_next, x_opponent, y_opponent, x_opponent_next, y_opponent_next）
 
 .. _动作空间-1:
 
@@ -96,6 +96,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 ----
 
 -  游戏结束即为当前环境episode结束。游戏结束的条件有两种：
+
   - 每获得一次-1奖励生命值减一，对战任意一方所有生命值（默认生命值为5）耗尽，游戏结束；
   - 达到最大环境帧数，3000帧
 
@@ -307,11 +308,13 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/slime_volley/entry>
 -  SlimeVolley-v0（平均奖励大于等于1视为较好的Agent，评测指标都是使用智能体对战内置bot）
 
    - SlimeVolley-v0 + PPO + vs Bot
+
    .. image:: images/slime_volleyball_ppo_vsbot.png
      :align: center
 
 
    - SlimeVolley-v0 + PPO + self-play
+
    .. image:: images/slime_volleyball_ppo_selfplay.png
      :align: center
      :scale: 70%

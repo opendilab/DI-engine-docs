@@ -1,10 +1,9 @@
-开发者指南
+Developer Guide
 ===============================
 
 .. toctree::
    :maxdepth: 2
 
-   warmup
    git_guide
    doc_contribution
    code_comment
