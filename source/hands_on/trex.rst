@@ -38,14 +38,45 @@ Pseudo-code
    :align: center
    :scale: 110%
 
+Extensions
+----------
+TREX can be combined with the following methods：
+
+    - PPO `Proximal Policy Optimization <https://arxiv.org/pdf/1707.06347.pdf>`_
+
+    - SAC `Soft Actor-Critic <https://arxiv.org/pdf/1801.01290>`_
+
+    Given demonstrations generated from RL algorithms or human knowledge (only **observations** and **rankings** are needed), TREX will infer the reward function of the environment. Then the reward function can be applied to RL algorithms like PPO or SAC to estimate rewards while training.
+
 Implementations
 ----------------
-The default reward model is defined as follows:
+The input of the reward model is observations and its output is the predicted reward value. The default reward model is defined as follows:
 
-.. autoclass:: ding.reward_model.trex_reward_model
+.. autoclass:: ding.reward_model.TrexRewardModel
    :noindex:
+
+
+实验 Benchmark
+------------------
++---------------------+-----------------+-----------------------------------------------------+--------------------------+
+| environment         |best mean reward | evaluation results                                  | config link              |
++=====================+=================+=====================================================+==========================+
+|                     |                 |                                                     |`config_link_l <https://  |
+|                     |                 |                                                     |github.com/opendilab/     |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|
+|Lunarlander          |  2M env_step,   |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |
+|                     |  reward 200     |                                                     |lunarlander_trex_dqn_     |
+|                     |                 |                                                     |config.py>`_              |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+
+|                     |                 |                                                     |`config_link_h <https://  |
+|                     |                 |                                                     |github.com/opendilab/     |
+|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|
+|                     |  3M  env_step,  |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |
+|                     |  reward 2950    |                                                     |.py>`_                    |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+
+
 
 Reference
 ----------
 
-Daniel S. Brown, Wonjoon Goo, Prabhat Nagarajan, Scott Niekum: “Extrapolating Beyond Suboptimal Demonstrations via Inverse Reinforcement Learning from Observations”, 2019; arXiv:1509.06461. https://arxiv.org/abs/1509.06461
+Daniel S. Brown, Wonjoon Goo, Prabhat Nagarajan, Scott Niekum: “Extrapolating Beyond Suboptimal Demonstrations via Inverse Reinforcement Learning from Observations”, 2019; arXiv:1904.06387. https://arxiv.org/abs/1904.06387
