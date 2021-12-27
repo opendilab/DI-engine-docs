@@ -10,6 +10,7 @@ API Doc
     model/index
     reward_model/index
     league/index
+    framework/index
 
     worker/learner/index
     worker/collector/index
