@@ -16,6 +16,7 @@ API Doc
     worker/collector/index
     worker/replay_buffer/index
     worker/coordinator/index
+    worker/buffer/index
 
     rl_utils/index
     torch_utils/index
