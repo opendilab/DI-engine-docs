@@ -58,22 +58,16 @@ The input of the reward model is observations and its output is the predicted re
 
 实验 Benchmark
 ------------------
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+
-| environment         |best mean reward | evaluation results                                  | config link              |
-+=====================+=================+=====================================================+==========================+
-|                     |                 |                                                     |`config_link_l <https://  |
-|                     |                 |                                                     |github.com/opendilab/     |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|
-|Lunarlander          |  2M env_step,   |.. image:: images/benchmark/lunarlander_gcl.png      |box2d/lunarlander/config/ |
-|                     |  reward 200     |                                                     |lunarlander_trex_dqn_     |
-|                     |                 |                                                     |config.py>`_              |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+
-|                     |                 |                                                     |`config_link_h <https://  |
-|                     |                 |                                                     |github.com/opendilab/     |
-|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|
-|                     |  3M  env_step,  |.. image:: images/benchmark/Hopper_gcl.png           |mujoco/config/            |
-|                     |  reward 2950    |                                                     |.py>`_                    |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+
++---------------------+-----------------+-----------------------------------------------------+----------------+--------------------------------------------------------------+
+| environment         |best mean reward | PPO                                                 |                   TREX+PPO                         |    config link           |
++=====================+=================+=====================================================+===============================================================================+
+|                     |                 |                                                     |                                                    |`config_link_l <https://  |
+|                     |                 |                                                     |                                                    |github.com/opendilab/     |
+|                     |                 |                                                     |                                                    |DI-engine/tree/main/dizoo/|
+|Lunarlander          |  2M env_step,   |.. image:: images/benchmark/lunar_lander_ppo.png     |.. image:: images/benchmark/lunarlander_ppo_trex.png|box2d/lunarlander/config/ |
+|                     |  reward 200     |                                                     |                                                    |lunarlander_trex_dqn_     |
+|                     |                 |                                                     |                                                    |config.py>`_              |
++---------------------+-----------------+-----------------------------------------------------+-------------------------------------------------------------------------------+
 
 
 Reference
