@@ -3,7 +3,8 @@ TREX
 
 Overview
 ---------
-TREX (Trajectory-ranked Reward Extrapolation) was first proposed in `Extrapolating Beyond Suboptimal Demonstrations via Inverse Reinforcement Learning from Observations <https://arxiv.org/abs/1904.06387>`_, which uses ranked demonstrations to inference reward function. Different from previous methods, TREX seeks a reward function that explains the ranking over demonstrations, rather than justifying the demonstrations. Hence, this algorithm can learn good policies from highly suboptimal demostrations. In addition, the predicted reward only depends on observations, rather than actions.
+TREX (Trajectory-ranked Reward Extrapolation) was first proposed in `Extrapolating Beyond Suboptimal Demonstrations via Inverse Reinforcement Learning from Observations <https://arxiv.org/abs/1904.06387>`_, which uses ranked demonstrations to inference reward function. 
+Different from previous methods, TREX seeks a reward function that explains the ranking over demonstrations, rather than justifying the demonstrations. This approach is proved practically to have the potential of learning good policy from highly suboptimal demostrations. In addition, the predicted reward only depends on observations, without actions.
 
 Quick Facts
 -------------
@@ -15,9 +16,16 @@ Quick Facts
 
 4. TREX is able to infer a meaningful reward function even when noisy, time-based rankings are provided.
 
+Pseudo-code
+---------------
+.. image:: images/TREX.png
+   :align: center
+   :scale: 110%
+In the pseudo code, theta denotes the parameters of reward function and ti means a trajectory sampled in demonstrations. The functon L is the loss for training reward function, which is explained below.
+
 Key Equations or Key Graphs
 ---------------------------
-The loss for reward function:(what is the concrete symbols)
+The loss for reward function:
 
 .. math::
 
@@ -34,12 +42,6 @@ The final loss function is in cross entropy form:
 
 .. math::
    \mathcal{L}(\theta) = - \sum_{\tau_i \prec \tau_j} log \frac {exp \sum_{s \in \tau_j} \hat r_\theta(s)} {exp \sum_{s \in \tau_i} \hat r_\theta(s) + exp \sum_{s \in \tau_j} \hat r_\theta(s)}
-
-Pseudo-code
----------------
-.. image:: images/TREX.png
-   :align: center
-   :scale: 110%
 
 Extensions
 ----------
