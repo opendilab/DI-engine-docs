@@ -23,7 +23,7 @@ Quick Facts
 3. WQMIX accepts **DRQN** as individual value network.
 
 4. WQMIX represents the joint value function using an architecture consisting of agent networks, a **mixing network**.
-The mixing network is a feed-forward neural network that takes the agent network outputs as input and mixes them monotonically, producing joint action values.
+   The mixing network is a feed-forward neural network that takes the agent network outputs as input and mixes them monotonically, producing joint action values.
 
 Key Equations or Key Graphs
 ---------------------------
@@ -31,7 +31,7 @@ The overall WQMIX architecture including individual agent networks and the mixin
 
 .. image:: images/marl/wqmix_setup.png
    :align: center
-   :scale: 60%
+   :scale: 30%
 
 First, wqmix examine an operator that represents an idealised version of QMIX in a tabular setting.
 The purpose of this analysis is primarily to understand the fundamental limitations of QMIX that stem from its training objective and the restricted function class it uses.
@@ -53,7 +53,7 @@ where, the Bellman optimality operator is defined by:
    :align: center
    :scale: 30%
 
-Then define the corresponding projection operator :math:`T^{Qmix}`as follows:
+Then define the corresponding projection operator :math:`T^{Qmix}` as follows:
 
 .. image:: images/marl/wqmix_qmix_projection_operator.png
    :align: center
@@ -68,7 +68,7 @@ Properties of :math:`T_{*}^{Qmix}` :
 
 The WQMIX paper argue that this equal weighting over joint actions when performing the optimisation in qmix
 is responsible for the possibly incorrect argmax of the objective minimising solution.
-To prioritise estimating :math:`T_{tot}(u^{*)` well, while still anchoring down the value estimates for other joint actions,
+To prioritise estimating :math:`T_{tot}(u^{*}` well, while still anchoring down the value estimates for other joint actions,
 we can add a suitable weighting function w into the projection operator of QMIX:
 
 .. image:: images/marl/wqmix_operator.png
