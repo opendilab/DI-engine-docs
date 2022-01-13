@@ -21,9 +21,9 @@ Quick Facts
 1. GAIL consists of a generator and a discriminator, trained in an
    adversarial manner.
 
-2. The generator is optimized for a surrogate reward, usually by
-   policy-gradient reinforcement learning methods, like TRPO, for its
-   sampling nature.
+2. The generator is optimized for a surrogate reward provided by the
+   discriminator, usually by policy-gradient reinforcement learning
+   methods, like TRPO, for its sampling nature.
 
 3. The discriminator can be simply optimized by typical gradient descent
    methods, like Adam, to distinguish expert and generated data.
@@ -40,7 +40,9 @@ The objective function in GAIL's adversarial training is as below:
 where \pi is the generator policy, D is the discriminator policy,
 while :math:`H(\pi)` is the causal entropy of policy \pi. This is a
 min-max optimization process, and the objective is optimized in an
-iterative adversarial manner.
+iterative adversarial manner. During training, D has to
+maximize the objective, while \pi has to counter D by minimizing the
+objective.
 
 Pseudo-Code
 -----------
@@ -79,6 +81,46 @@ Extensions
    Models <https://arxiv.org/abs/1611.03852>`__ indicated GAIL's
    implicit connection to GAN, IRL, and energy-based probability
    estimation.
+
+Implementation
+---------------------------------
+The default config is defined as follows:
+
+.. autoclass:: ding.reward_model.gail_irl_model.GailRewardModel
+
+Benchmark
+-----------
+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_l <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|Lunarlander          |  200            |.. image:: images/benchmark/lunarlander_gail.png     |box2d/lunarlander/config/ |                      |
+|                     |                 |                                                     |lunarlander_dqn_gail_     |                      |
+|(LunarLander-v2)     |                 |                                                     |config.py>`_              |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_b <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Bipedalwalker        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  300            |.. image:: images/benchmark/bipedalwalker_gail.png   |box2d/bipdalwalker/config/|                      |
+|(BipedalWalker-v3)   |                 |                                                     |bipdalwalker_sac_gail_    |                      |
+|                     |                 |                                                     |config.py>`_              |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_h <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  3470           |.. image:: images/benchmark/hopper_gail.png          |mujoco/config/hopper_sac_ |                      |
+|                     |                 |                                                     |gail_default_config.py>`_ |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+
+
+P.S.：
+
+1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
+2. Mujoco environment is generally evaluated by the highest mean reward training 3M ``env_step``.
 
 Reference
 ---------
