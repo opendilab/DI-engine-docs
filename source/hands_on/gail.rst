@@ -105,9 +105,9 @@ Benchmark
 |                     |                 |                                                     |`config_link_b <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Bipedalwalker        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  300            |.. image:: images/benchmark/bipedalwalker_gail.png   |box2d/bipdalwalker/config/|                      |
-|(BipedalWalker-v3)   |                 |                                                     |bipdalwalker_sac_gail_    |                      |
-|                     |                 |                                                     |config.py>`_              |                      |
+|                     |  300            |.. image:: images/benchmark/bipedalwalker_gail.png   |box2d/bipedalwalker/      |                      |
+|(BipedalWalker-v3)   |                 |                                                     |config/bipedalwalker_sac_ |                      |
+|                     |                 |                                                     |gail_config.py>`_         |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_h <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
