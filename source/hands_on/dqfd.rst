@@ -60,15 +60,13 @@ Extensions
 -----------
 DeepMind has extended DQfD in several ways. Upon a literature search, it seems like two relevant follow-up works are:
 
-- Distributed Prioritized Experience Replay <https://arxiv.org/abs/1803.00933>
+- `Distributed Prioritized Experience Replay <https://arxiv.org/abs/1803.00933>`_
    
-   .. note::
-      The main idea of this paper is to scale up the experience replay data by having many actors collect experience. Their framework is called **Ape-X**, and they claim that Ape-X DQN achieves a new state of the art performance on Atari games. This paper is not that particularly relevant to DQfD, but we include it here mainly because a follow-up paper (see below) used this technique with DQfD.
+   The main idea of this paper is to scale up the experience replay data by having many actors collect experience. Their framework is called **Ape-X**, and they claim that Ape-X DQN achieves a new state of the art performance on Atari games. This paper is not that particularly relevant to DQfD, but we include it here mainly because a follow-up paper (see below) used this technique with DQfD.
 
-- Observe and Look Further: Achieving Consistent Performance on Atari
+- `Observe and Look Further: Achieving Consistent Performance on Atari <https://arxiv.org/abs/1805.11593>`_
 
-   .. note::
-      This paper proposes the **Ape-X DQfD** algorithm, which as one might expect combines DQfD with the distributed prioritized experience replay algorithm.
+   This paper proposes the **Ape-X DQfD** algorithm, which as one might expect combines DQfD with the distributed prioritized experience replay algorithm.
 
 
 Implementations
