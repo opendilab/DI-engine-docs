@@ -232,6 +232,34 @@ Finally, we should calculate the mean squared loss for Q values to update Q-Netw
         critic_loss=0.5*(q_retraces-q_values.gather(-1,actions)).pow(2)
         return critic_loss
 
+Benchmark
+-----------
+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_p <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|Pong                 |  20             |.. image:: images/benchmark/pong_acer.png            |atari/config/serial/      |                      |
+|                     |                 |                                                     |pong/pong_acer_config     |                      |
+|(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  4000(todo)     |.. image:: images/benchmark/qbert_acer.png           |atari/config/serial/      |                      |
+|(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_acer_config   |                      |
+|                     |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_s <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  1100           |.. image:: images/benchmark/spaceinvaders_acer.png   |atari/config/serial/      |                      |
+|(SpaceInvadersNoFrame|                 |                                                     |spaceinvaders/spaceinva   |                      |
+|skip-v4)             |                 |                                                     |ders_acer_config.py>`_    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
 Reference
