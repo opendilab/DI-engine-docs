@@ -4,7 +4,7 @@ DQfD
 Overview
 ---------
 
-- DQfD was proposed in `Deep Q-learning from Demonstrations <https://arxiv.org/abs/1704.03732>`_, which appeared at AAAI 2018.
+- DQfD was proposed in `Deep Q-learning from Demonstrations <https://arxiv.org/abs/1704.03732>`_ by DeepMind, which appeared at AAAI 2018.
 
 - DQfD works by combining temporal difference updates with supervised classiﬁcation of the demonstrator’s actions.
 
@@ -58,8 +58,17 @@ Pseudo-code
 
 Extensions
 -----------
-DQN can be combined with:
+DeepMind has extended DQfD in several ways. Upon a literature search, it seems like two relevant follow-up works are:
 
+- Distributed Prioritized Experience Replay <https://arxiv.org/abs/1803.00933>
+   
+   .. note::
+      The main idea of this paper is to scale up the experience replay data by having many actors collect experience. Their framework is called **Ape-X**, and they claim that Ape-X DQN achieves a new state of the art performance on Atari games. This paper is not that particularly relevant to DQfD, but we include it here mainly because a follow-up paper (see below) used this technique with DQfD.
+
+- Observe and Look Further: Achieving Consistent Performance on Atari
+
+   .. note::
+      This paper proposes the **Ape-X DQfD** algorithm, which as one might expect combines DQfD with the distributed prioritized experience replay algorithm.
 
 
 Implementations
@@ -84,6 +93,7 @@ todo
 Reference
 ----------
 
-Hester T, Vecerik M, Pietquin O, et al. Deep q-learning from demonstrations[C]//Thirty-second AAAI conference on artificial intelligence. 2018.
+- Hester T, Vecerik M, Pietquin O, et al. Deep q-learning from demonstrations[C]//Thirty-second AAAI conference on artificial intelligence. 2018.
 
+- Blog:  `Combining Imitation Learning and Reinforcement Learning Using DQfD <https://danieltakeshi.github.io/2019/04/30/il-and-rl/>`_ 
 
