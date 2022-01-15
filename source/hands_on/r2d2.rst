@@ -84,32 +84,26 @@ Benchmark
 | environment         |best mean reward | evaluation results                                  | config link              | comparison           |
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config_link_p <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(20)        |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
 |                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |Pong                 |  20             |.. image:: images/benchmark/pong_r2d2.png            |atari/config/serial/      |                      |
-|                     |                 |                                                     |pong/pong_r2d2_config     |  Sb3(20)             |
+|                     |                 |                                                     |pong/pong_r2d2_config     |                      |
 |(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_q <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(7307)      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
 |Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  17966          |.. image:: images/benchmark/qbert_r2d2.png            |atari/config/serial/      |  Rllib(7968)         |
+|                     |  6000           |.. image:: images/benchmark/qbert_r2d2.png           |atari/config/serial/      |                      |
 |(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_r2d2_config   |                      |
-|                     |                 |                                                     |_2.py>`_                  |  Sb3(9496)           |
+|                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_s <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(812)       |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
 |SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  2403           |.. image:: images/benchmark/spaceinvaders_r2d2.png   |atari/config/serial/space |  Rllib(1001)         |
+|                     |  1400           |.. image:: images/benchmark/spaceinvaders_r2d2.png   |atari/config/serial/space |                      |
 |(SpaceInvadersNoFrame|                 |                                                     |invaders/spaceinvaders    |                      |
-|skip-v4)             |                 |                                                     |_r2d2_config.py>`_        |  Sb3(622)            |
+|skip-v4)             |                 |                                                     |_r2d2_config.py>`_        |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-
-
-P.S.：
-
-1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
-2. For the discrete action space algorithm like DQN, the Atari environment set is generally used for testing (including sub-environments Pong), and Atari environment is generally evaluated by the highest mean reward training 10M ``env_step``. For more details about Atari, please refer to `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
 
 
 Reference
