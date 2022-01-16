@@ -202,6 +202,28 @@ The bellman updates of IQN used is defined in the function ``iqn_nstep_td_error`
 
 The Benchmark result of IQN implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
 
++---------------------+-----------------------------------------------------+
+| environment         | evaluation results                                  | 
++=====================+=====================================================+
+|                     |                                                     |
+|                     |                                                     |
+|                     |                                                     |
+|Pong                 |.. image:: images/benchmark/IQN_pong.png             |
+|                     |                                                     |
+|                     |                                                     |
++---------------------+-----------------------------------------------------+
+|                     |                                                     |
+|                     |                                                     |
+|Qbert                |                                                     |
+|                     |.. image:: images/benchmark/IQN_qbert.png            |
+|                     |                                                     |
++---------------------+-----------------------------------------------------+
+|                     |                                                     |
+|                     |                                                     |
+|Spaceinvader         |                                                     |
+|                     |.. image:: images/benchmark/IQN_spaceinvader.png     |
+|                     |                                                     |
++---------------------+-----------------------------------------------------+
 
 References
 ------------
