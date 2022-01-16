@@ -75,7 +75,7 @@ The equation (4) in above pseudo-code is:
 
 Implementations
 ----------------
-The default config of DQNPolicy is defined as follows:
+The default config of CQLPolicy is defined as follows:
 
 .. autoclass:: ding.policy.cql.CQLPolicy
    :noindex:
