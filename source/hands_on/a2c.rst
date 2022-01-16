@@ -94,7 +94,40 @@ The policy gradient and value update of A2C is implemented as follows:
         value_loss = (F.mse_loss(return_, value, reduction='none') * weight).mean()
         return a2c_loss(policy_loss, value_loss, entropy_loss)
 
-The Benchmark results of A2C implemented in DI-engine can be found in `Benchmark <../feature/algorithm_overview.html>`_.
+
+Benchmark
+-----------
+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_p <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|Pong                 |  20             |.. image:: images/benchmark/pong_a2c.png             |atari/config/serial/      |                      |
+|                     |                 |                                                     |pong/pong_a2c_config      |                      |
+|(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |                 |                                                     |atari/config/serial/      |                      |
+|(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_a2c_config    |                      |
+|                     |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_s <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  735            |.. image:: images/benchmark/spaceinvaders_a2c.png    |atari/config/serial/      |                      |
+|(SpaceInvadersNoFrame|                 |                                                     |spaceinvaders/space       |                      |
+|skip-v4)             |                 |                                                     |invaders_a2c_config.py>`_ |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+
+
+P.S.：
+
+1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
 
 References
 -----------

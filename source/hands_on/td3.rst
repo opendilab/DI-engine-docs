@@ -275,7 +275,41 @@ We configure ``learn.noise``, ``learn.noise_sigma``, and ``learn.noise_range`` t
 
 
 
-The Benchmark result of TD3 implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
+Benchmark
+-----------
+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_p <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|HalfCheetah          |  11077          |.. image:: images/benchmark/halfcheetah_td3.png      |mujoco/config/halfcheetah_|                      |
+|                     |                 |                                                     |td3_default_config.py>`_  |                      |
+|(HalfCheetah-v3)     |                 |                                                     |                          |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  3628           |.. image:: images/benchmark/hopper_td3.png           |mujoco/config/hopper_td3_ |                      |
+|(Hopper-v2)          |                 |                                                     |default_config.py>`_      |                      |
+|                     |                 |                                                     |                          |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_s <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  3614           |.. image:: images/benchmark/walker2d_td3.png         |atari/config/walker2d_td3_|                      |
+|(Walker2d-v2)        |                 |                                                     |default_configpy>`_       |                      |
+|                     |                 |                                                     |                          |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+
+
+P.S.：
+
+1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
+
+
 
 Other Public Implementations
 ----------------------------

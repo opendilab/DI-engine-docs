@@ -242,7 +242,40 @@ We configure ``learn.target_theta`` to control the interpolation factor in avera
         update_kwargs={'theta': self._cfg.learn.target_theta}
     )
 
-The Benchmark result of DDPG implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
+Benchmark
+-----------
+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_p <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|HalfCheetah          |  11114          |.. image:: images/benchmark/halfcheetah_ddpg.png     |mujoco/config/halfcheetah_|                      |
+|                     |                 |                                                     |ddpg_default_config.py>`_ |                      |
+|(HalfCheetah-v3)     |                 |                                                     |                          |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  3346           |.. image:: images/benchmark/hopper_ddpg.png          |mujoco/config/hopper_ddpg_|                      |
+|(Hopper-v2)          |                 |                                                     |default_config.py>`_      |                      |
+|                     |                 |                                                     |                          |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_s <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  2752           |.. image:: images/benchmark/walker2d_ddpg.png        |atari/config/walker2d_ddpg|                      |
+|(Walker2d-v2)        |                 |                                                     |_default_configpy>`_      |                      |
+|                     |                 |                                                     |                          |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+
+
+P.S.：
+
+1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
+
 
 Other Public Implementations
 ----------------------------
