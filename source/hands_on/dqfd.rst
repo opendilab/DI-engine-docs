@@ -88,20 +88,20 @@ Benchmark
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 | environment         |best mean reward |              evaluation results                     |       config link        |     comparison       |
 +=====================+=================+=====================================================+==========================+======================+
-|Pong                 |       20        |                                                     |`config_link_p <https://  |                      |
-|(PongNoFrameskip-v4) |                 |                                                     |github.com/opendilab/     |                      |
+|Pong                 |       20        |                                                     |`config_link_p <https://  |     Tianshou(20)     |
+|(PongNoFrameskip-v4) |                 |                                                     |github.com/opendilab/     |        Sb3(20)       |
 |                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
 |                     |                 |.. image:: images/benchmark/dqfd_pong.png            |atari/config/serial/pong/p|                      |
 |                     |                 |                                                     |ong_dqfd_config.py>`_     |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|Qbert                |      todo       |                                                     |`config_link_q <https://  |                      |
-|(QbertNoFrameskip-v4)|                 |                                                     |github.com/opendilab/     |                      |
+|Qbert                |      todo       |                                                     |`config_link_q <https://  |    Tianshou(7307)    |
+|(QbertNoFrameskip-v4)|                 |                                                     |github.com/opendilab/     |       Sb3(9496)      |
 |                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
 |                     |                 |.. image:: images/benchmark/dqfd_qbert.png           |atari/config/serial/qbert/|                      |
 |                     |                 |                                                     |qbert_dqfd_config.py>`_   |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|SpaceInvaders        |      todo       |                                                     |`config_link_s <https://  |                      |
-|(SpaceInvadersNoFrame|                 |                                                     |github.com/opendilab/     |                      |
+|SpaceInvaders        |      todo       |                                                     |`config_link_s <https://  |    Tianshou(812.2)   |
+|(SpaceInvadersNoFrame|                 |                                                     |github.com/opendilab/     |        Sb3(622)      |
 |skip-v4)             |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
 |                     |                 |.. image:: images/benchmark/dqfd_spaceinvaders.png   |atari/config/serial/spacei|                      |
 |                     |                 |                                                     |nvaders/spaceinvaders_dqfd|                      |
