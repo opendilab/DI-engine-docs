@@ -85,7 +85,28 @@ The network interface DQfD used is defined as follows:
 
 Benchmark
 ----------
-todo
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward |              evaluation results                     |       config link        |     comparison       |
++=====================+=================+=====================================================+==========================+======================+
+|Pong                 |       20        |                                                     |`config_link_p <https://  |                      |
+|(PongNoFrameskip-v4) |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
+|                     |                 |.. image:: images/benchmark/dqfd_pong.png            |atari/config/serial/pong/p|                      |
+|                     |                 |                                                     |ong_dqfd_config.py>`_     |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|Qbert                |      todo       |                                                     |`config_link_q <https://  |                      |
+|(QbertNoFrameskip-v4)|                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
+|                     |                 |.. image:: images/benchmark/dqfd_qbert.png           |atari/config/serial/qbert/|                      |
+|                     |                 |                                                     |qbert_dqfd_config.py>`_   |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|SpaceInvaders        |      todo       |                                                     |`config_link_s <https://  |                      |
+|(SpaceInvadersNoFrame|                 |                                                     |github.com/opendilab/     |                      |
+|skip-v4)             |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
+|                     |                 |.. image:: images/benchmark/dqfd_spaceinvaders.png   |atari/config/serial/spacei|                      |
+|                     |                 |                                                     |nvaders/spaceinvaders_dqfd|                      |
+|                     |                 |                                                     |_config.py>`_             |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
 Reference
