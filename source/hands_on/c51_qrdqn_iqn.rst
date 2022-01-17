@@ -61,9 +61,38 @@ The network interface C51 used is defined as follows:
    :members: forward
    :noindex:
 
-The bellman updates of C51 is implemented as:
 
-The Benchmark result of C51 implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
+Benchmark
+---------------------
+
+.. list-table:: Benchmark and comparison of c51 algorithm
+   :widths: 25 15 30 15 15
+   :header-rows: 1
+
+   * - environment
+     - best mean reward
+     - evaluation results
+     - config link
+     - comparison
+   * - | Pong
+       | (PongNoFrameskip-v4)
+     - 20.6
+     - .. image:: images/benchmark/c51_pong.png
+     - `config_link_p <https://github.com/opendilab/DI-engine/blob/09050dba6b569b47693f483e8c1e53f836a51d74/dizoo/atari/config/serial/pong/pong_c51_config.py>`_
+     - | Tianshou(20)
+   * - | Qbert
+       | (QbertNoFrameskip-v4)
+     - 20006
+     - .. image:: images/benchmark/c51_qbert.png
+     - `config_link_q <https://github.com/opendilab/DI-engine/blob/09050dba6b569b47693f483e8c1e53f836a51d74/dizoo/atari/config/serial/qbert/qbert_c51_config.py>`_
+     - | Tianshou(16245)
+   * - | SpaceInvaders
+       | (SpaceInvadersNoFrame skip-v4)
+     - 2766
+     - .. image:: images/benchmark/c51_spaceinvaders.png
+     - `config_link_s <https://github.com/opendilab/DI-engine/blob/02279cdb1fa6f191f4cc92b5f24899483e7de62a/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_c51_config.py>`_
+     - | Tianshou(988.5)
+
 
 QRDQN
 ^^^^^^^
