@@ -270,7 +270,35 @@ Auto alpha strategy
             self._alpha_optim.step()
             self._alpha = self._log_alpha.detach().exp()
 
-The Benchmark result of SAC implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
+
+Benchmark
+-----------
+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_ha <https:// |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/| Baselines(9535)      |
+|Halfcheetah          |  12900          |.. image:: images/benchmark/halfcheetah_sac.png      |mujoco/config/halfcheetah_|                      |
+|                     |                 |                                                     |sac_default_config.py>`_  | Tianshou(12138)      |
+|(Halfcheetah-v3)     |                 |                                                     |                          |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_w <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Walker2d             |                 |                                                     |DI-engine/blob/main/dizoo/| Baselines(3863)      |
+|                     |  5172           |.. image:: images/benchmark/walker2d_sac.png         |mujoco/config/walker2d_   |                      |
+|(Walker2d-v2)        |                 |                                                     |sac_default_config.py>`_  | Tianshou(5007)       |
+|                     |                 |                                                     |                          |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_ho <https:// |                      |
+|                     |                 |                                                     |github.com/opendilab/     | Baselines(2325)      |
+|Hopper               |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
+|(Hopper-v2)          |  3653           |.. image:: images/benchmark/hopper_sac.png           |mujoco/config/hopper_sac_ | Tianshou(3542)       |
+|                     |                 |                                                     |default_config.py>`_      |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+
 
 Other Public Implementations
 ----------------------------

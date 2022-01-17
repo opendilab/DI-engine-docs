@@ -93,34 +93,28 @@ Benchmark
 
 
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
+| environment         |best mean reward | evaluation results                                  | config link              | expert           |
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config_link_l <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/| DQN                  |
 |Lunarlander          |  200            |.. image:: images/benchmark/lunarlander_gail.png     |box2d/lunarlander/config/ |                      |
 |                     |                 |                                                     |lunarlander_dqn_gail_     |                      |
 |(LunarLander-v2)     |                 |                                                     |config.py>`_              |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_b <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|Bipedalwalker        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|Bipedalwalker        |                 |                                                     |DI-engine/tree/main/dizoo/| SAC                  |
 |                     |  300            |.. image:: images/benchmark/bipedalwalker_gail.png   |box2d/bipedalwalker/      |                      |
 |(BipedalWalker-v3)   |                 |                                                     |config/bipedalwalker_sac_ |                      |
 |                     |                 |                                                     |gail_config.py>`_         |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_h <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/| SAC                  |
 |(Hopper-v2)          |  3500           |.. image:: images/benchmark/hopper_gail.png          |mujoco/config/hopper_sac_ |                      |
 |                     |                 |                                                     |gail_default_config.py>`_ |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-
-
-P.S.：
-
-1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
-2. Mujoco environment is generally evaluated by the highest mean reward training 3M ``env_step``.
 
 Reference
 ---------
