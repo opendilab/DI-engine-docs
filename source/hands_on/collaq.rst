@@ -55,6 +55,37 @@ The network interface CollaQ used is defined as follows:
 
 The Benchmark result of CollaQ in SMAC (Samvelyan et al. 2019), for StarCraft micromanagement problems, implemented in DI-engine is shown.
 
+Benchmark
+-----------
+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_p <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/|     pymarl(0.8)      |
+|5m6m                 |        1        |.. image:: images/benchmark/smac_5m6m_collaq.png     |smac/config/smac_5m6m_coll|                      |
+|                     |                 |                                                     |aq_config.py>`_           |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/|     pymarl(1)        |
+|MMM                  |        0.7      |.. image:: images/benchmark/smac_MMM_collaq.png      |smac/config/smac_MMM_colla|                      |
+|                     |                 |                                                     |q_config.py>`_            |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_s <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |     pymarl(1)        |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
+|3s5z                 |         1       |.. image:: images/benchmark/smac_3s5z_collaq.png     |smac/config/smac_3s5z_coll|                      |
+|                     |                 |                                                     |aq_config.py>`_           |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+
+P.S.：
+
+The above results are obtained by running the same configuration on three different random seeds (0, 1, 2).
+
+
 References
 ----------------
 Tianjun Zhang, Huazhe Xu, Xiaolong Wang, Yi Wu, Kurt Keutzer, Joseph E. Gonzalez, Yuandong Tian. Multi-Agent Collaboration via Reward Attribution Decomposition. arXiv preprint arXiv:2010.08531, 2020.
