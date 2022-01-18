@@ -103,23 +103,23 @@ Benchmark
 | environment         |best mean reward | evaluation results                                  | config link              | comparison           |
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config_link_p <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Sb3(17)             |
 |                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |Pong                 |  20             |.. image:: images/benchmark/pong_a2c.png             |atari/config/serial/      |                      |
 |                     |                 |                                                     |pong/pong_a2c_config      |                      |
 |(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_q <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |                 |                                                     |atari/config/serial/      |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Sb3(3882)           |
+|Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|  Rllib(3620)         |
+|                     |  4819           |.. image:: images/benchmark/qbert_a2c.png            |atari/config/serial/      |                      |
 |(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_a2c_config    |                      |
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_s <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |`config_link_s <https://  |  Sb3(627)            |
+|                     |                 |                                                     |github.com/opendilab/     |  Rllib(692)         |
 |SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  735            |.. image:: images/benchmark/spaceinvaders_a2c.png    |atari/config/serial/      |                      |
+|                     |  826            |.. image:: images/benchmark/spaceinvaders_a2c.png    |atari/config/serial/      |                      |
 |(SpaceInvadersNoFrame|                 |                                                     |spaceinvaders/space       |                      |
 |skip-v4)             |                 |                                                     |invaders_a2c_config.py>`_ |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+

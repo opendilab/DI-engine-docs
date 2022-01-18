@@ -84,37 +84,52 @@ The default config of CQLPolicy is defined as follows:
 Benchmark
 -----------
 
-
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 | environment         |best mean reward | evaluation results                                  | config link              | comparison           |
 +=====================+=================+=====================================================+==========================+======================+
-|                     |                 |                                                     |`config_link_p <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(20)        |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|Pong                 |  20             |.. image:: images/benchmark/pong_dqn.png             |atari/config/serial/      |                      |
-|                     |                 |                                                     |pong/pong_dqn_config      |  Sb3(20)             |
-|(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
+|                     |                 |                                                     |`config_link_ha <https:// |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/| d3rlpy(1119)         |
+|Halfcheetah          |  11016          |.. image:: images/benchmark/halfcheetah_cql.png      |d4rl/config/halfcheetah_  |                      |
+|                     |                 |                                                     |cql_medium_expert         |                      |
+|(Medium Expert)      |                 |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_q <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(7307)      |
-|Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  17966          |.. image:: images/benchmark/qbert_dqn.png            |atari/config/serial/      |  Rllib(7968)         |
-|(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_dqn_config    |                      |
-|                     |                 |                                                     |.py>`_                    |  Sb3(9496)           |
+|                     |                 |                                                     |`config_link_w <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Walker2d             |                 |                                                     |DI-engine/blob/main/dizoo/| d3rlpy(3466)         |
+|                     |  5029           |.. image:: images/benchmark/walker2d_cql.png         |d4rl/config/walker2d_     |                      |
+|(Medium Expert)      |                 |                                                     |cql_medium_expert         |                      |
+|                     |                 |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_s <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(812)       |
-|SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  2403           |.. image:: images/benchmark/spaceinvaders_dqn.png    |atari/config/serial/      |  Rllib(1001)         |
-|(SpaceInvadersNoFrame|                 |                                                     |spaceinvaders/space       |                      |
-|skip-v4)             |                 |                                                     |invaders_dqn_config.py>`_ |  Sb3(622)            |
+|                     |                 |                                                     |`config_link_ho <https:// |                      |
+|                     |                 |                                                     |github.com/opendilab/     | d3rlpy(3234)         |
+|Hopper               |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
+|                     |  3678           |.. image:: images/benchmark/hopper_cql.png           |d4rl/config/hopper_sac_   |                      |
+|(Medium Expert)      |                 |                                                     |cql_medium_expert         |                      |
+|                     |                 |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
+Specifically for each dataset:
+
++---------------------+-----------------+----------------+---------------+----------+----------+
+| environment         |random           |medium replay   |medium expert  |medium    |expert    |
++=====================+=================+================+===============+==========+==========+
+|                     |                 |                |               |          |          |
+|Halfcheetah          |1426             |5478            |11016          |5707      |11609     |
+|                     |                 |                |               |          |          |
++---------------------+-----------------+----------------+---------------+----------+----------+
+|                     |                 |                |               |          |          |
+|Walker2d             |248              |3757            |5029           |3821      |5005      |
+|                     |                 |                |               |          |          |
++---------------------+-----------------+----------------+---------------+----------+----------+
+|                     |                 |                |               |          |          |
+|Hopper               |265              |3048            |3678           |2183      |3485      |
+|                     |                 |                |               |          |          |
++---------------------+-----------------+----------------+---------------+----------+----------+
 
 P.S.：
 
-1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3)
-
+1. The above results are obtained by running the same configuration on four different random seeds (5, 10, 20, 30)
 
 Reference
 ----------

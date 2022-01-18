@@ -33,3 +33,5 @@ RL Algorithm Cheat Sheet
     vpn
     mcts
     alphago
+
+    cql

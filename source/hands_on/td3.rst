@@ -283,23 +283,23 @@ Benchmark
 | environment         |best mean reward | evaluation results                                  | config link              | comparison           |
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config_link_p <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|HalfCheetah          |  11077          |.. image:: images/benchmark/halfcheetah_td3.png      |mujoco/config/halfcheetah_|                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(10201)     |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|  Spinning-up(9750)   |
+|HalfCheetah          |  11148          |.. image:: images/benchmark/halfcheetah_td3.png      |mujoco/config/halfcheetah_|  Baselines3(9656)    |
 |                     |                 |                                                     |td3_default_config.py>`_  |                      |
 |(HalfCheetah-v3)     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_q <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  3628           |.. image:: images/benchmark/hopper_td3.png           |mujoco/config/hopper_td3_ |                      |
-|(Hopper-v2)          |                 |                                                     |default_config.py>`_      |                      |
+|                     |                 |                                                     |github.com/opendilab/     |   Tianshou(3472)     |
+|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|   Spinning-up(3982)  |
+|                     |  3720           |.. image:: images/benchmark/hopper_td3.png           |mujoco/config/hopper_td3_ |   Baselines3(3606 for|
+|(Hopper-v2)          |                 |                                                     |default_config.py>`_      |   Hopper-v3)         |
 |                     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_s <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  3614           |.. image:: images/benchmark/walker2d_td3.png         |atari/config/walker2d_td3_|                      |
+|                     |                 |                                                     |`config_link_s <https://  |   Tianshou(3982)     |
+|                     |                 |                                                     |github.com/opendilab/     |   Spinning-up(3472)  |
+|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|   Baselines3(4718 for|
+|                     |  4386           |.. image:: images/benchmark/walker2d_td3.png         |atari/config/walker2d_td3_|   Walker2d-v2)       |
 |(Walker2d-v2)        |                 |                                                     |default_configpy>`_       |                      |
 |                     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+

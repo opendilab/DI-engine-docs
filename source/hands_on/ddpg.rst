@@ -250,23 +250,23 @@ Benchmark
 | environment         |best mean reward | evaluation results                                  | config link              | comparison           |
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config_link_p <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|HalfCheetah          |  11114          |.. image:: images/benchmark/halfcheetah_ddpg.png     |mujoco/config/halfcheetah_|                      |
+|                     |                 |                                                     |github.com/opendilab/     |    Tianshou(11719)   |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|    Spinning-up(11000)|
+|HalfCheetah          |  11334          |.. image:: images/benchmark/halfcheetah_ddpg.png     |mujoco/config/halfcheetah_|                      |
 |                     |                 |                                                     |ddpg_default_config.py>`_ |                      |
 |(HalfCheetah-v3)     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_q <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  3346           |.. image:: images/benchmark/hopper_ddpg.png          |mujoco/config/hopper_ddpg_|                      |
+|                     |                 |                                                     |github.com/opendilab/     |   Tianshou(2197)     |
+|Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|   Spinning-up(1800)  |
+|                     |  3516           |.. image:: images/benchmark/hopper_ddpg.png          |mujoco/config/hopper_ddpg_|                      |
 |(Hopper-v2)          |                 |                                                     |default_config.py>`_      |                      |
 |                     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_s <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  2752           |.. image:: images/benchmark/walker2d_ddpg.png        |atari/config/walker2d_ddpg|                      |
+|                     |                 |                                                     |github.com/opendilab/     |   Tianshou(1401)     |
+|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|   Spinning-up(1950)  |
+|                     |  3443           |.. image:: images/benchmark/walker2d_ddpg.png        |atari/config/walker2d_ddpg|                      |
 |(Walker2d-v2)        |                 |                                                     |_default_configpy>`_      |                      |
 |                     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
