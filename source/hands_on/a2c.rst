@@ -117,7 +117,7 @@ Benchmark
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_s <https://  |  Sb3(627)            |
-|                     |                 |                                                     |github.com/opendilab/     |  Rllib(692)         |
+|                     |                 |                                                     |github.com/opendilab/     |  Rllib(692)          |
 |SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |                     |  826            |.. image:: images/benchmark/spaceinvaders_a2c.png    |atari/config/serial/      |                      |
 |(SpaceInvadersNoFrame|                 |                                                     |spaceinvaders/space       |                      |
