@@ -74,11 +74,117 @@ The default config is defined as follows:
         :noindex:
 
 The network interface QMIX used is defined as follows:
+
     .. autoclass:: ding.model.template.QMix
         :members: forward
         :noindex:
 
-The Benchmark result of QMIX in SMAC (Samvelyan et al. 2019), for StarCraft micromanagement problems, implemented in DI-engine is shown.
+
+Benchmark
+-----------
+
+
+..
+    +---------------------+-----------------------------------------------------+----------------------------------+
+    | SMAC Map            | evaluation results                                  | config link                      ｜
+    +=====================+=====================================================+==================================+
+    |                     |                                                     |`config_link_MMM <https://        |
+    |                     |                                                     |github.com/opendilab/             |
+    |                     |                                                     | DI-engine/tree/main/dizoo/       |
+    |MMM                  |.. image:: images/benchmark/QMIX_MMM.png             |smac/config/smac_MMM_qmix         |
+    |                     |                                                     |_config.py>`_                     |
+    |                     |                                                     |                                  |
+    +---------------------+-----------------------------------------------------+----------------------------------+
+    |                     |                                                     |`config_link_3s5z <https://       |
+    |                     |                                                     |github.com/opendilab/             |
+    |3s5z                 |.. image:: images/benchmark/QMIX_3s5z.png            | DI-engine/tree/main/dizoo/       |
+    |                     |                                                     |smac/config/smac_3s5z_qmix        |
+    |                     |                                                     |_config.py>`_                     |
+    +---------------------+-----------------------------------------------------+----------------------------------+
+    |                     |                                                     |`config_link_MMM2 <https://       |
+    |                     |                                                     |github.com/opendilab/             |
+    |MMM2                 |.. image:: images/benchmark/QMIX_MMM2.png            | DI-engine/tree/main/dizoo/       |
+    |                     |                                                     |smac/config/smac_MMM2_qmix        |
+    |                     |                                                     |_config.py>`_                     |
+    +---------------------+-----------------------------------------------------+----------------------------------+
+    |                     |                                                     |`config_link_5m6m <https://       |
+    |                     |                                                     |github.com/opendilab/             |
+    |5m6m                 |.. image:: images/benchmark/QMIX_5m6m.png            | DI-engine/tree/main/dizoo/       |
+    |                     |                                                     |smac/config/smac_5m6m_qmix        |
+    |                     |                                                     |_config.py>`_                     |
+    +---------------------+-----------------------------------------------------+----------------------------------+
+    |                     |                                                     |`config_link_2c64zg <https://     |
+    |                     |                                                     |github.com/opendilab/             |
+    |2c_vs_64zg           |.. image:: images/benchmark/QMIX_2c_vs_64zg.png      | DI-engine/tree/main/dizoo/       |
+    |                     |                                                     |smac/config/smac_2c64zg_qmix      |
+    |                     |                                                     |_config.py>`_                     |
+    +---------------------+-----------------------------------------------------+----------------------------------+
+    |                     |                                                     |`config_link_3s5z3s6z <https://   |
+    |                     |                                                     |github.com/opendilab/             |
+    |3s5z_vs_3s6z         |.. image:: images/benchmark/QMIX_3s5z_vs_3s6z.png    | DI-engine/tree/main/dizoo/       |
+    |                     |                                                     |smac/config/smac_3s5z3s6z_qmix    |
+    |                     |                                                     |_config.py>`_                     |
+    +---------------------+-----------------------------------------------------+----------------------------------+
+
+
+
+.. list-table:: Benchmark and comparison of qmix algorithm
+   :widths: 25 15 30 15 15
+   :header-rows: 1
+
+   * - environment
+     - best mean reward
+     - evaluation results
+     - config link
+     - comparison
+   * - | MMM
+       |
+     - 1
+     - .. image:: images/benchmark/QMIX_MMM.png
+     - `config_link_MMM <https://github.com/opendilab/DI-engine/tree/main/dizoo/smac/config/smac_MMM_qmix_config.py>`_
+     - | Pymarl(1)
+   * - | 3s5z
+       |
+     - 1
+     - .. image:: images/benchmark/QMIX_3s5z.png
+     - `config_link_3s5z <https://github.com/opendilab/DI-engine/tree/main/dizoo/smac/config/smac_3s5z_qmix_config.py>`_
+     - | Pymarl(1)
+   * - | MMM2
+       |
+     - 0.8
+     - .. image:: images/benchmark/QMIX_MMM2.png
+     - `config_link_MMM2 <https://github.com/opendilab/DI-engine/tree/main/dizoo/smac/config/smac_MMM2_qmix_config.py>`_
+     - | Pymarl(0.7)
+   * - | 5m6m
+       |
+     - 0.6
+     - .. image:: images/benchmark/QMIX_5m6m.png
+     - `config_link_5m6m <https://github.com/opendilab/DI-engine/tree/main/dizoo/smac/config/smac_5m6m_qmix_config.py>`_
+     - | Pymarl(0.76)
+   * - | 2c_vs_64zg
+       |
+     - 1
+     - .. image:: images/benchmark/QMIX_2c_vs_64zg.png
+     - `config_link_2c_vs_64zg <https://github.com/opendilab/DI-engine/tree/main/dizoo/smac/config/smac_2c64zg_qmix_config.py>`_
+     - | Pymarl(1)
+   * - | 3s5z_vs_3s6z
+       |
+     - 0.03
+     - .. image:: images/benchmark/QMIX_3s5z_vs_3s6z.png
+     - `config_link_3s5z_vs_3s6z <https://github.com/opendilab/DI-engine/tree/main/dizoo/smac/config/smac_3s5z3s6z_qmix_config.py>`_
+     - | Pymarl(0.03)
+
+
+P.S.：
+
+
+1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2)
+
+2. For the multi-agent discrete action space algorithm like QMIX, the SMAC environment set is generally used for testing,
+   and is generally evaluated by the highest mean reward training 10M ``env_step``.
+   For more details about SMAC, please refer to `SMAC Env Tutorial <../env_tutorial/smac_zh.html>`_ .
+
+
 
 References
 ----------------
