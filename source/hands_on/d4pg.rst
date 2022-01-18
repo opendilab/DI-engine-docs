@@ -93,8 +93,8 @@ Benchmark
 |                     |                 |                                                     |`config_link_ho <https:// |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Hopper               |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
-|(Hopper-v2)          |  3500           |.. image:: images/benchmark/hopper_d4pg.png          |mujoco/config/hopper_d4pg_|                      |
-|                     |                 |                                                     |default_config.py>`_      |                      |
+|                     |  3500           |.. image:: images/benchmark/hopper_d4pg.png          |mujoco/config/hopper_d4pg_|                      |
+|(Hopper-v2)          |                 |                                                     |default_config.py>`_      |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 Other Public Implementations

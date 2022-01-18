@@ -295,8 +295,8 @@ Benchmark
 |                     |                 |                                                     |`config_link_ho <https:// |                      |
 |                     |                 |                                                     |github.com/opendilab/     | Baselines(2325)      |
 |Hopper               |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
-|(Hopper-v2)          |  3653           |.. image:: images/benchmark/hopper_sac.png           |mujoco/config/hopper_sac_ | Tianshou(3542)       |
-|                     |                 |                                                     |default_config.py>`_      |                      |
+|                     |  3653           |.. image:: images/benchmark/hopper_sac.png           |mujoco/config/hopper_sac_ | Tianshou(3542)       |
+|(Hopper-v2)          |                 |                                                     |default_config.py>`_      |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 

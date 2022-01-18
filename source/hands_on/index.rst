@@ -21,6 +21,7 @@ RL Algorithm Cheat Sheet
     td3
     sac
     d4pg
+    td3_bc
 
     qmix
     coma

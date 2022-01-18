@@ -93,7 +93,7 @@ Benchmark
 
 
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-| environment         |best mean reward | evaluation results                                  | config link              | expert           |
+| environment         |best mean reward | evaluation results                                  | config link              | expert               |
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config_link_l <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
@@ -112,8 +112,8 @@ Benchmark
 |                     |                 |                                                     |`config_link_h <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/| SAC                  |
-|(Hopper-v2)          |  3500           |.. image:: images/benchmark/hopper_gail.png          |mujoco/config/hopper_sac_ |                      |
-|                     |                 |                                                     |gail_default_config.py>`_ |                      |
+|                     |  3500           |.. image:: images/benchmark/hopper_gail.png          |mujoco/config/hopper_sac_ |                      |
+|(Hopper-v2)          |                 |                                                     |gail_default_config.py>`_ |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 Reference
