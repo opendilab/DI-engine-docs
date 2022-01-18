@@ -89,20 +89,20 @@ Benchmark
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config_link_ha <https:// |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|                     |                 |                                                     |DI-engine/blob/main/dizoo/| d3rlpy(1119)         |
-|Halfcheetah          |  11016          |.. image:: images/benchmark/halfcheetah_cql.png      |d4rl/config/halfcheetah_  |                      |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
+|HalfCheetah          |  11016          |.. image:: images/benchmark/halfcheetah_cql.png      |d4rl/config/halfcheetah_  |                      |
 |                     |                 |                                                     |cql_medium_expert         |                      |
 |(Medium Expert)      |                 |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_w <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|Walker2d             |                 |                                                     |DI-engine/blob/main/dizoo/| d3rlpy(3466)         |
+|Walker2d             |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
 |                     |  5029           |.. image:: images/benchmark/walker2d_cql.png         |d4rl/config/walker2d_     |                      |
 |(Medium Expert)      |                 |                                                     |cql_medium_expert         |                      |
 |                     |                 |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_ho <https:// |                      |
-|                     |                 |                                                     |github.com/opendilab/     | d3rlpy(3234)         |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
 |Hopper               |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
 |                     |  3678           |.. image:: images/benchmark/hopper_cql.png           |d4rl/config/hopper_sac_   |                      |
 |(Medium Expert)      |                 |                                                     |cql_medium_expert         |                      |
@@ -115,7 +115,7 @@ Specifically for each dataset:
 | environment         |random           |medium replay   |medium expert  |medium    |expert    |
 +=====================+=================+================+===============+==========+==========+
 |                     |                 |                |               |          |          |
-|Halfcheetah          |1426             |5478            |11016          |5707      |11609     |
+|HalfCheetah          |1426             |5478            |11016          |5707      |11609     |
 |                     |                 |                |               |          |          |
 +---------------------+-----------------+----------------+---------------+----------+----------+
 |                     |                 |                |               |          |          |
@@ -130,6 +130,7 @@ Specifically for each dataset:
 P.S.：
 
 1. The above results are obtained by running the same configuration on four different random seeds (5, 10, 20, 30)
+2. The above benchmark is for HalfCheetah-v2, Hopper-v2, Walker2d-v2. 
 
 Reference
 ----------
