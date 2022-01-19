@@ -30,7 +30,7 @@ The TD-loss used in DQN is:
    \mathrm{L}(w)=\mathbb{E}\left[(\underbrace{r+\gamma \max _{a^{\prime}} Q_{\text {target }}\left(s^{\prime}, a^{\prime}, \theta^{-}\right)}-Q(s, a, \theta))^{2}\right]
    
 
-where the target network :math:`Q_{\text {target }`, with parameters :math:`\theta^{-}`, is the same as the online network except that its parameters are copied every `target_update_freq` steps from the online network.
+where the target network :math:`Q_{\text {target }`, with parameters :math:`\theta^{-}`, is the same as the online network except that its parameters are copied every ``target_update_freq`` steps from the online network (The hyper-parameter ``target_update_freq`` can be modified in the configuration file. Please refer to `TargetNetworkWrapper <https://github.com/opendilab/DI-engine/blob/main/ding/model/wrapper/model_wrappers.py>`_ for more details).
 
 Pseudo-code
 ---------------
@@ -47,28 +47,29 @@ DQN can be combined with:
 
     - PER (`Prioritized Experience Replay <https://arxiv.org/abs/1511.05952>`_)
 
-      PER replaces the uniform sampling in a replay buffer with so-called ``priority`` defined by various metrics, such as absolute TD error, the novelty of observation and so on. By this priority sampling, the convergence speed and performance of DQN can be improved a lot.
+      PER replaces the uniform sampling in a replay buffer with so-called ``priority`` defined by various metrics, such as absolute TD error, the novelty of observation and so on. By this priority sampling, the convergence speed and performance of DQN can be improved significantly.
 
-      There are two kinds of implementation of PER. One of them is described below:
+      There are two ways to implement PER. One of them is described below:
 
       .. image:: images/PERDQN.png
          :align: center
          :scale: 55%
 
-      In DI-engine, PER can be enabled by modifying two fields ``priority`` and ``priority_IS_weight`` in the configuration file, and the concrete code can refer to `PER code <https://github.com/opendilab/DI-engine/blob/dev-treetensor/ding/worker/replay_buffer/advanced_buffer.py>`_ . For the specific example, users can refer to `PER example <../best_practice/priority.html>`_
+      In DI-engine, PER can be enabled by modifying two fields ``priority`` and ``priority_IS_weight`` in the configuration file, and the concrete code can refer to `PER code <https://github.com/opendilab/DI-engine/blob/dev-treetensor/ding/worker/replay_buffer/advanced_buffer.py>`_ . For a specific example, users can refer to `PER example <../best_practice/priority.html>`_
 
     - Multi-step TD-loss
  
-      In Single-step TD-loss, the update of Q-learning (Bellman equation) is described as:
+      In single-step TD-loss, the update of Q-learning (Bellman equation) is described as follows:
 
         .. math::
 
-          r(s,a)+\gamma \mathop{max}\limits_{a^*}Q(s',a^*)
+          r(s,a)+\gamma \max_{a^{'}}Q(s',a')
 
-      While in Multi-step TD-loss, it is overwritten by the following content:
+      While in multi-step TD-loss, it is replaced by the following formula:
 
         .. math::
-           \sum_{t=0}^{n-1}\gamma^t r(s_t,a_t) + \gamma^n \mathop{max}\limits_{a^*}Q(s_n,a^*)
+      
+         \sum_{t=0}^{n-1}\gamma^t r(s_t,a_t) + \gamma^n \max_{a^{'}}Q(s_n,a')
 
       .. note::
          An issue about n-step for Q-learning is that, when epsilon greedy is adopted, the q value estimation is biased because the :math:`r(s_t,a_t)` at t>=1 are sampled under epsilon greedy rather than the policy itself. However, multi-step along with epsilon greedy generally improves DQN practically.
@@ -77,9 +78,10 @@ DQN can be combined with:
 
     - Double DQN
 
-      Double DQN, proposed in `Deep Reinforcement Learning with Double Q-learning <https://arxiv.org/abs/1509.06461>`_, is a common variant of DQN. This method maintains another Q-network, named target network, which is updated by the current network by a fixed frequency (update times/training iterations).
+      Double DQN, proposed in `Deep Reinforcement Learning with Double Q-learning <https://arxiv.org/abs/1509.06461>`_, is a common variant of DQN. The idea of Double Q-learning is to reduce overestimations of the values of the actions by decomposing the max operation in the target into action
+      selection and action evaluation
 
-      And the target Q in Double DQN is:
+      The target Q in Double DQN is:
 
         .. image:: images/doubleDQN.png
            :align: center
@@ -87,12 +89,11 @@ DQN can be combined with:
 
       Double DQN doesn't select the maximum q_value in the total discrete action space from the current network, but **first finds the action whose q_value is highest in the current network, then gets the q_value from the target network according to this selected action**. This variant can surpass the overestimation problem of target q_value, and reduce upward bias.
 
-      Double DQN can suppress the over-estimation of Q value to reduce related negative impact.
+      In summary, Double Q-learning can suppress the over-estimation of Q value to reduce related negative impact.
 
       .. note::
             The overestimation can be caused by the error of function approximation(neural network for q table), environment noise, numerical instability and other reasons.
 
-      DQN in DI-engine enables Double DQN by default, users can modify ``target_update_freq`` to control the update speed of target network, and code implementation is shown in ``TargetNetworkWrapper`` in `Double DQN code <https://github.com/opendilab/DI-engine/blob/main/ding/model/wrapper/model_wrappers.py>`_ .
 
     - Dueling head
 
