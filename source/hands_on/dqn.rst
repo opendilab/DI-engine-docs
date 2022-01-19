@@ -3,7 +3,7 @@ DQN
 
 Overview
 ---------
-DQN was proposed in `Human-level control through deep reinforcement learning <https://arxiv.org/abs/1312.5602>`_. Traditional Q-learning maintains an \ ``M*N`` \ Q value table (where M represents the number of states and N represents the number of actions), and iteratively updates the Q-value through the Bellman equation. This kind of algorithm will have the problem of dimensionality disaster when the state/action space becomes extremely large. 
+DQN was proposed in `Human-level control through deep reinforcement learning <https://www.nature.com/articles/nature14236>`_. Traditional Q-learning maintains an \ ``M*N`` \ Q value table (where M represents the number of states and N represents the number of actions), and iteratively updates the Q-value through the Bellman equation. This kind of algorithm will have the problem of dimensionality disaster when the state/action space becomes extremely large. 
 
 DQN is different from traditional reinforcement learning methods. It combines Q-learning with deep neural networks, uses deep neural networks to estimate the Q value, calculates the temporal-difference loss, and perform a gradient descent step to make an update. Two tricks that make the standard online Q-learning suitable for training large neural networks without diverging are experience replay and fixed target Q-targets. The DQN agent is able to reach a level comparable to or even surpass human players in decision-making problems in high-dimensional spaces (such as Atari games). 
 
