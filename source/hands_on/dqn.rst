@@ -105,7 +105,7 @@ DQN can be combined with:
            :align: center
            :height: 300
 
-      In DI-engine, users can enable Dueling head by modifying the ``dueling`` field in the model part of the configuration file, and the detailed code class ``DuelingHead`` is located in `Dueling Head <https://github.com/opendilab/DI-engine/blob/main/ding/model/common/head.py>`_.
+      In DI-engine, users can enable Dueling head by modifying the ``dueling`` field in the model part of the configuration file. The detailed code class ``DuelingHead`` is located in `Dueling Head <https://github.com/opendilab/DI-engine/blob/main/ding/model/common/head.py>`_.
 
     - RNN (DRQN, R2D2)
 
