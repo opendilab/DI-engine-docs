@@ -69,7 +69,7 @@ DQN can be combined with:
 
         .. math::
       
-         \sum_{t=0}^{n-1}\gamma^t r(s_t,a_t) + \gamma^n \max_{a^{'}}Q(s_n,a')
+          \sum_{t=0}^{n-1}\gamma^t r(s_t,a_t) + \gamma^n \max_{a^{'}}Q(s_n,a')
 
       .. note::
          An issue about n-step for Q-learning is that, when epsilon greedy is adopted, the q value estimation is biased because the :math:`r(s_t,a_t)` at t>=1 are sampled under epsilon greedy rather than the policy itself. However, multi-step along with epsilon greedy generally improves DQN practically.
