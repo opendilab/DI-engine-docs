@@ -81,15 +81,9 @@ DQN can be combined with:
       Double DQN, proposed in `Deep Reinforcement Learning with Double Q-learning <https://arxiv.org/abs/1509.06461>`_, is a common variant of DQN. The max operator in standard Q-learning and DQN when computing the target network uses the same Q values both to select and to evaluate an action. This makes it more likely to select overestimated values, resulting in overoptimistic value estimates. To
       prevent this, we can decouple the selection from the evaluation. More concretely, the difference is shown the the following two formula:
 
-      The target in Q-learning is:
+      The targets in Q-learning labelled by (1) and Double DQN labelled by (2) are illustrated as follows:
 
-        .. image:: images/DQN_target_action.png
-           :align: center
-           :scale: 20%
-
-      The target in Double DQN is:
-
-        .. image:: images/doubleDQN.png
+        .. image:: images/DQN_and_DDQN.png
            :align: center
            :scale: 20%
 
