@@ -5,7 +5,7 @@ Overview
 ---------
 DQN was proposed in `Human-level control through deep reinforcement learning <https://www.nature.com/articles/nature14236>`_. Traditional Q-learning maintains an \ ``M*N`` \ Q value table (where M represents the number of states and N represents the number of actions), and iteratively updates the Q-value through the Bellman equation. This kind of algorithm will have the problem of dimensionality disaster when the state/action space becomes extremely large. 
 
-DQN is different from traditional reinforcement learning methods. It combines Q-learning with deep neural networks, uses deep neural networks to estimate the Q value, calculates the temporal-difference loss, and perform a gradient descent step to make an update. Two tricks that make the standard online Q-learning suitable for training large neural networks without diverging are experience replay and fixed target Q-targets. The DQN agent is able to reach a level comparable to or even surpass human players in decision-making problems in high-dimensional spaces (such as Atari games). 
+DQN is different from traditional reinforcement learning methods. It combines Q-learning with deep neural networks, uses deep neural networks to estimate the Q value, calculates the temporal-difference loss, and perform a gradient descent step to make an update. Two tricks that improves the training stability for large neural networks are experience replay and fixed target Q-targets. The DQN agent is able to reach a level comparable to or even surpass human players in decision-making problems in high-dimensional spaces (such as Atari games). 
 
 Quick Facts
 -------------
@@ -78,16 +78,22 @@ DQN can be combined with:
 
     - Double DQN
 
-      Double DQN, proposed in `Deep Reinforcement Learning with Double Q-learning <https://arxiv.org/abs/1509.06461>`_, is a common variant of DQN. The idea of Double Q-learning is to reduce overestimations of the values of the actions by decomposing the max operation in the target into action
-      selection and action evaluation
+      Double DQN, proposed in `Deep Reinforcement Learning with Double Q-learning <https://arxiv.org/abs/1509.06461>`_, is a common variant of DQN. The max operator in standard Q-learning and DQN when computing the target network uses the same Q values both to select and to evaluate an action. This makes it more likely to select overestimated values, resulting in overoptimistic value estimates. To
+      prevent this, we can decouple the selection from the evaluation. More concretely, the difference is shown the the following two formula:
 
-      The target Q in Double DQN is:
+      The target in Q-learning is:
+
+        .. image:: images/DQN_target_action.png
+           :align: center
+           :scale: 20%
+
+      The target in Double DQN is:
 
         .. image:: images/doubleDQN.png
            :align: center
            :scale: 20%
 
-      Double DQN doesn't select the maximum q_value in the total discrete action space from the current network, but **first finds the action whose q_value is highest in the current network, then gets the q_value from the target network according to this selected action**. This variant can surpass the overestimation problem of target q_value, and reduce upward bias.
+      Namely, the target network in Double DQN doesn't select the maximum action according to itself but **first finds the action whose q_value is highest in the online network, then gets the q_value from the target network according to this selected action**. This variant can surpass the overestimation problem of target q_value, and reduce upward bias.
 
       In summary, Double Q-learning can suppress the over-estimation of Q value to reduce related negative impact.
 
