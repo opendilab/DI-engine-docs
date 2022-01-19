@@ -3,9 +3,9 @@ DQN
 
 Overview
 ---------
-DQN was first proposed in `Playing Atari with Deep Reinforcement Learning <https://arxiv.org/abs/1312.5602>`_. Traditional Q-learning maintains an \ ``M*N`` \ Q value table (where M represents the number of states and N represents the number of actions), and iteratively updates the Q-value through the Bellman equation. This kind of algorithm will have the problem of dimensionality disaster when the state/action space becomes extremely large. 
+DQN was proposed in `Human-level control through deep reinforcement learning <https://arxiv.org/abs/1312.5602>`_. Traditional Q-learning maintains an \ ``M*N`` \ Q value table (where M represents the number of states and N represents the number of actions), and iteratively updates the Q-value through the Bellman equation. This kind of algorithm will have the problem of dimensionality disaster when the state/action space becomes extremely large. 
 
-DQN is different from traditional reinforcement learning methods. It combines Q-learning with deep neural networks, uses deep neural networks to estimate the Q value, and calculates the temporal-difference loss, and uses the gradient descent algorithm to update, thus reaching a level comparable to or even surpassing human players in problem decision-making in high-dimensional spaces (such as Atari games).
+DQN is different from traditional reinforcement learning methods. It combines Q-learning with deep neural networks, uses deep neural networks to estimate the Q value, calculates the temporal-difference loss, and perform a gradient descent step to make an update. Two tricks that make the standard online Q-learning suitable for training large neural networks without diverging are experience replay and fixed target Q-targets. The DQN agent is able to reach a level comparable to or even surpass human players in decision-making problems in high-dimensional spaces (such as Atari games). 
 
 Quick Facts
 -------------
@@ -27,7 +27,10 @@ The TD-loss used in DQN is:
 
 .. math::
 
-   L(w)=\mathbb{E}\left[(\underbrace{r+\gamma \max _{a^{\prime}} Q\left(s^{\prime}, a^{\prime}, w\right)}_{\text {Target }}-Q(s, a, w))^{2}\right]
+   \mathrm{L}(w)=\mathbb{E}\left[(\underbrace{r+\gamma \max _{a^{\prime}} Q_{\text {target }}\left(s^{\prime}, a^{\prime}, \theta^{-}\right)}-Q(s, a, \theta))^{2}\right]
+   
+
+where the target network :math:`Q_{\text {target }`, with parameters :math:`\theta^{-}`, is the same as the online network except that its parameters are copied every `target_update_freq` steps from the online network.
 
 Pseudo-code
 ---------------
@@ -35,14 +38,8 @@ Pseudo-code
    :align: center
    :scale: 55%
 
-The equation (3) in above pseudo-code is:
-
-.. image:: images/eq3.png
-   :align: center
-   :scale: 40%
-
 .. note::
-   Compared with the vanilla version, DQN has been dramatically modified in both algorithm and implementation aspects. In the algorithm parts, **n-step TD-loss, PER, target network** and **dueling head** are widely used, interested users can refer to the paper `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_ . For the implementation details, the value of epsilon anneals from a high value (e.g.: 0.95) to a low value (0.05) during the training rather than keeps constant, according to env steps (the number of policy interaction with env).
+   Compared with the version published in Nature, DQN has been dramatically modified. In the algorithm parts, **n-step TD-loss, PER** and **dueling head** are widely used, interested users can refer to the paper `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_ . 
 
 Extensions
 -----------
@@ -78,7 +75,7 @@ DQN can be combined with:
 
       In DI-engine, Multi-step TD-loss can be enabled by the ``nstep`` field in the configuration file, and the loss function is described in ``q_nstep_td_error`` in `nstep code <https://github.com/opendilab/DI-engine/blob/dev-treetensor/ding/rl_utils/td.py>`_.
 
-    - Double DQN (target network)
+    - Double DQN
 
       Double DQN, proposed in `Deep Reinforcement Learning with Double Q-learning <https://arxiv.org/abs/1509.06461>`_, is a common variant of DQN. This method maintains another Q-network, named target network, which is updated by the current network by a fixed frequency (update times/training iterations).
 
@@ -166,7 +163,7 @@ P.S.：
 Reference
 ----------
 
-- Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Alex Graves, Ioannis Antonoglou, Daan Wierstra, Martin Riedmiller: “Playing Atari with Deep Reinforcement Learning”, 2013; arXiv:1312.5602.
+- Mnih, Volodymyr, et al. "Human-level control through deep reinforcement learning." nature 518.7540 (2015): 529-533.
 
 - Wang, Z., Schaul, T., Hessel, M., Hasselt, H., Lanctot, M., & Freitas, N. (2016, June). Dueling network architectures for deep reinforcement learning. In International conference on machine learning (pp. 1995-2003). PMLR.
 
