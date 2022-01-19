@@ -87,7 +87,7 @@ DQN can be combined with:
            :align: center
            :scale: 20%
 
-      Namely, the target network in Double DQN doesn't select the maximum action according to itself but **first finds the action whose q_value is highest in the online network, then gets the q_value from the target network according to this selected action**. This variant can surpass the overestimation problem of target q_value, and reduce upward bias.
+      Namely, the target network in Double DQN doesn't select the maximum action according to the target network but **first finds the action whose q_value is highest in the online network, then gets the q_value from the target network computed by the selected action**. This variant can surpass the overestimation problem of target q_value, and reduce upward bias.
 
       In summary, Double Q-learning can suppress the over-estimation of Q value to reduce related negative impact.
 
