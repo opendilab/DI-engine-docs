@@ -90,6 +90,8 @@ DQN can be combined with:
       Namely, the target network in Double DQN doesn't select the maximum action according to the target network but **first finds the action whose q_value is highest in the online network, then gets the q_value from the target network computed by the selected action**. This variant can surpass the overestimation problem of target q_value, and reduce upward bias.
 
       In summary, Double Q-learning can suppress the over-estimation of Q value to reduce related negative impact.
+      
+      In DI-engine, Double DQN is implemented by default without an option to switch off.
 
       .. note::
             The overestimation can be caused by the error of function approximation(neural network for q table), environment noise, numerical instability and other reasons.
