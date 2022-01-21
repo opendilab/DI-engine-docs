@@ -24,7 +24,7 @@ Pseudo-code
    :scale: 30%
 
 .. note::
-   C51 models the value distribution using a discrete distribution, whose support set are N atoms: :math:`z_i = V_min + i * delta, i = 0,1,...,N-1` and :math:`delta = (V_\max - V_\min) / N`. Each atom :math:`z_i` has a parameterized probability :math:`p_i`. The Bellman update of C51 projects the distribution of :math:`r + \gamma * z_j^(t+1)` onto the distribution :math:`z_i^t`.
+   C51 models the value distribution using a discrete distribution, whose support set are N atoms: :math:`z_i = V_\min + i * delta, i = 0,1,...,N-1` and :math:`delta = (V_\max - V_\min) / N`. Each atom :math:`z_i` has a parameterized probability :math:`p_i`. The Bellman update of C51 projects the distribution of :math:`r + \gamma * z_j^{\left(t+1\right)}` onto the distribution :math:`z_i^t`.
 
 Key Equations or Key Graphs
 ----------------------------
