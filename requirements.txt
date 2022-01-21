@@ -5,4 +5,4 @@ enum_tools
 sphinx-toolbox
 plantumlcli>=0.0.2
 sphinx-autobuild
-# git+http://github.com/opendilab/DI-engine@main
+git+http://github.com/opendilab/DI-engine@main
