@@ -228,31 +228,30 @@ The r2d2 baseline algorithm setting is recorded as r2d2_n5_bs2_ul40_upc8_tut0.00
 See `r2d2 pong config <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_r2d2_config.py>`_ for details .
 
 ..
-+---------------------+-----------------+--------- --------------------------------------------+----- -------------------------------------------------- --+
-| environment |best mean reward | evaluation results | Legend and Analysis|
-+======================+==================+========== =============================================+===== ===================================================== ==+
-| | | |Observation 1: pho needs to be moderate, take 1/4 |
-| | | |Blue line pong_r2d2_rbs1e4 |
-| | | |Orange line pong_r2d3_r2d2expert_k0_pho1-4_rbs1e4_1td_l2_ds5e3 |
-|Pong|20|.. image:: images/r2d3_pong_pho.png |Grey line pong_r2d3_r2d2expert_k0_pho1-16_rbs1e4_1td_l2_ds5e3|
-| | | |Red line pong_r2d3_r2d2expert_k0_pho1-2_rbs1e4_1td_l2_ds5e3 |
-|(PongNoFrameskip-v4) | | | |
-+---------------------+-----------------+--------- --------------------------------------------+----- -------------------------------------------------- --+
-| | | |Observation 2: The demo size needs to be moderate, take 5e3 |
-| | | | |
-| | | |Orange line pong_r2d2_rbs2e4 |
-|Pong|20|.. image:: images/r2d3_pong_demosize.png |azure line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3|
-| | | |Blue line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3 |
-|(PongNoFrameskip-v4) | | | Green line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e4 |
-+---------------------+-----------------+--------- --------------------------------------------+----- -------------------------------------------------- --+
-| | | |Observation 3: Pre-training and l2 regularization have little effect demo size 1e3 seed0 |
-| | | |Orange line r2d2_rbs2e4_rbs2e4 |
-| | | |Blue line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2 |
-|Pong | 20 |.. image:: images/r2d3_pong_l2_pretrain.png | pink line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2 |
-| | | | Crimson line pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2 |
-|(PongNoFrameskip-v4) | | | Green line pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2 |
-+---------------------+-----------------+--------- --------------------------------------------+----- -------------------------------------------------- --+
-
+    +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
+    | environment         |best mean reward | evaluation results                                  | Legend and Analysis                                       |
+    +=====================+=================+=====================================================+=========================================================+
+    |                     |                 |                                                     |Observation 1: pho needs to be moderate, take 1/4          |
+    |                     |                 |                                                     |blue pong_r2d2_rbs1e4                                      |
+    |                     |                 |                                                     |orange pong_r2d3_r2d2expert_k0_pho1-4_rbs1e4_1td_l2_ds5e3  |
+    |Pong                 |  20             |.. image:: images/r2d3_pong_pho.png                  |grey pong_r2d3_r2d2expert_k0_pho1-16_rbs1e4_1td_l2_ds5e3   |
+    |                     |                 |                                                     |red pong_r2d3_r2d2expert_k0_pho1-2_rbs1e4_1td_l2_ds5e3     |
+    |(PongNoFrameskip-v4) |                 |                                                     |                                                           |
+    +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
+    |                     |                 |                                                     |Observation 2: The demo size needs to be moderate, take 5e3|
+    |                     |                 |                                                     |                                                           |
+    |                     |                 |                                                     |orange pong_r2d2_rbs2e4                                    |
+    |Pong                 |  20             |.. image:: images/r2d3_pong_demosize.png             |sky blue pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3|
+    |                     |                 |                                                     |blue pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3    |
+    |(PongNoFrameskip-v4) |                 |                                                     |green pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e4   |
+    +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
+    |                     |                 |                                                     |Observation 3: Pre-training and l2 regularization have     |     |                     |                 |                                                     |little effect demo size 1e3 seed0                          |
+    |                     |                 |                                                     |orange r2d2_rbs2e4_rbs2e4                                  |
+    |                     |                 |                                                     |blue pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2          |
+    |Pong                 |  20             |.. image:: images/r2d3_pong_l2_pretrain.png          |pink red pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2    |
+    |                     |                 |                                                     |dark red pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2    |
+    |(PongNoFrameskip-v4) |                 |                                                     |green pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2     |
+    +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
 - Test the effect of the proportion of expert samples in a mini-batch used for training. Observation 1: pho needs to be moderate, take 1/4
 - blue line pong_r2d2_rbs1e4
 - orange line pong_r2d3_r2d2expert_k0_pho1-4_rbs1e4_1td_l2_ds5e3
