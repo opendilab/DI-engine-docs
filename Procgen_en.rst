@@ -149,7 +149,7 @@ The above space can be expressed as:
 other
 ----
 
-\ `` step`` \\ ``info`` \ returned by the method must contain \ ` `final_eval_reward`` \ key - value pair, representing the evaluation metrics of the entire episode, and the cumulative sum of the rewards for the entire episode in Procgen
+ \ ``info``\returned by the method \ ``step``\ must contain\ ``final_eval_reward``\ key - value pair, representing the evaluation metrics of the entire episode, and the cumulative sum of the rewards for the entire episode in Procgen
 
 .._other-3:
 
