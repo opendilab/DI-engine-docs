@@ -90,7 +90,6 @@ Bonus space
 
 - The game score will vary according to the specific game content. Generally, it is a \ ``float`` \ value. For example, in the Coinrun environment, if you eat coins, you will be rewarded 10.0 points, and there are no other rewards.
 
-.._other-1:
 
 other
 ----
@@ -101,7 +100,7 @@ key facts
 ========
 
 1. 2D
-RGB three-channel image input, three-dimensional np array, size \ ``(3, 64, 64)`` \ , data type \ ``np.float32`` \ , value \ ``[0, 255] `` \
+RGB three-channel image input, three-dimensional np array, size \ ``(3, 64, 64)`` \ , data type \ ``np.float32`` \ , value  \ ``[0, 255]``\
 
 2. Discrete action space
 
