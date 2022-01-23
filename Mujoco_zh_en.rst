@@ -142,8 +142,7 @@ observation space
 action space
 --------
 
-- Basically no transformation, it is still a continuous action space of size N, the value range is \ ``[-1, 1]``\, the size is \ ``(N, )``\ , and the data type is \ `` np.float32``
-
+- Basically no transformation, it is still a continuous action space of size N, the value range is \ ``[-1, 1]``\, the size is \ ``(N, )``\ , and the data type is \ ``np.float32``
 
 Bonus space
 --------
