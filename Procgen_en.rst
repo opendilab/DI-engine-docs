@@ -131,19 +131,20 @@ action space
 Bonus space
 --------
 
--Basically no transformation
+-  Basically no transformation
 
 The above space can be expressed as:
 
 .. code:: python
 
-import gym
+   import gym
 
-obs_space = gym.spaces.Box(low=0, high=255, shape=(3, 64, 64), dtype=np.float32)
-act_space = gym.spaces.Discrete(5)
-rew_space = gym.spaces.Box(low=0, high=10, shape=(1, ), dtype=np.float32)
 
-.._other-2:
+   obs_space = gym.spaces.Box(low=0, high=255, shape=(3, 64, 64), dtype=np.float32)
+   act_space = gym.spaces.Discrete(5)
+   rew_space = gym.spaces.Box(low=0, high=10, shape=(1, ), dtype=np.float32)
+
+
 
 other
 ----
