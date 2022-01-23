@@ -76,11 +76,12 @@ By adding this loss, the Q-values of actions not encountered in the expert data 
 
 Our specific implementation in DI-engine is as follows:
 
-  ..code::
+  .. code::
 
-l = margin_function * torch.ones_like(q)
-l.scatter_ (1, action.unsqueeze (1).long(), torch.zeros_like(q))
-JE = is_expert * (torch.max(q + l.to(device), dim=1)[0] - q_s_a)
+     l = margin_function * torch.ones_like(q)
+     l.scatter_(1, action.unsqueeze(1).long(), torch.zeros_like(q))
+     JE = is_expert * (torch.max(q + l.to(device), dim=1)[0] - q_s_a)
+
 
 The overall loss that is ultimately used to update the Q-network is a linear combination of all four of the above losses:
 
