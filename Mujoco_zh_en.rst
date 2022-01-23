@@ -103,16 +103,14 @@ action space
 
 - A vector (torque etc.) composed of physical information, generally a continuous action space of size N (N varies with the specific sub-environment), the data type is \ ``np.float32``\, and an np array needs to be passed in (for example, The action is \ ``array([-0.9266078 , -0.4958926 , 0.46242517], dtype =np.float32)``\ )
 
-- For example, in the Hopper environment, the size of N is 3, and the action takes the value in \``[-1, 1]``\
+- For example, in the Hopper environment, the size of N is 3, and the action takes the value in\ ``[-1, 1]``\
 
-.. _BONUS SPACE-1:
 
 Bonus space
 --------
 
 - The game score will vary greatly depending on the specific game content. Generally, it is a \ ``float``\ value. For the specific value, please refer to the benchmark algorithm performance section at the bottom.
 
-.._other-1:
 
 other
 ----
@@ -130,27 +128,22 @@ key facts
 
 4. The scale of reward value varies greatly
 
-.._transformed spatial rl environment):
 
 Transformed space (RL environment)
 =======================
 
 
-.._ObservationSpace-2:
 
 observation space
 --------
 
 - Basically no transformation
 
-.. _Action Space-2:
-
 action space
 --------
 
 - Basically no transformation, it is still a continuous action space of size N, the value range is \ ``[-1, 1]``\, the size is \ ``(N, )``\ , and the data type is \ `` np.float32``
 
-.. _Bonus Space-2:
 
 Bonus space
 --------
@@ -168,14 +161,12 @@ import gym
    act_space = gym.spaces.Box (low=-1, high=1, shape=(3, ), dtype = np.float32 )
    rew_space = gym.spaces .Box (low=-np.inf, high=np.inf, shape=(1, ), dtype =np.float32)
 
-.._other-2:
 
 other
 ----
 
 - The \ ``info``\ returned by the environment \ ``step``\ method must contain \ `` final_eval_reward ``\ key-value pair, indicating the evaluation index of the entire episode, and the cumulative sum of the rewards of the entire episode in Mujoco
 
-.._other-3:
 
 other
 ====
