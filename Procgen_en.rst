@@ -71,7 +71,8 @@ action space
 
 - The game operation button space, generally a discrete action space of size N (N varies with the specific sub-environment), the data type is \ ``int``\ , you need to pass in python values (or 0-dimensional np arrays, such as actions 3 is\ ``np.array(3)``\ )
 
-- For example, in the Coinrun environment, the size of N is 5, that is, the action takes a value from 0 to 4. The specific meaning is:
+
+-  For example, in the Coinrun environment, the size of N is 5, that is, the action takes a value from 0 to 4. The specific meaning is:
 
    -  0：NOOP
 
@@ -82,7 +83,6 @@ action space
    -  3：UP
 
    -  4：DOWN
-
 
 
 Bonus space
