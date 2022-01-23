@@ -85,7 +85,7 @@ After the installation is complete, you can verify that the installation was suc
 mirror
 ----
 
-The image of the DI-engine comes with the framework itself and the Mujoco environment, available via \``docker pull opendilab / ding:nightly-mujoco`` \, or by accessing \`docker
+The image of the DI-engine comes with the framework itself and the Mujoco environment, available via \ ``docker pull opendilab/ding:nightly-mujoco``\ , or by accessing\ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`_ Get more images
 
 .._spatial original environment before transformation):
