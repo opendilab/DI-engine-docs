@@ -51,7 +51,7 @@ The loss function setting of r2d3 is described below, which is the same as DQfD,
 One-step temporal difference loss, n-step temporal difference loss, supervised large interval classification loss, L2 regularization loss for neural network parameters (optional).
 A temporal difference loss ensures that the network satisfies the Bellman equation, a supervised loss is used to make the expert presenter's action Q-value at least one interval (a constant value) higher than the Q-value of other actions, and an L2 regularization loss for network weights and biases is used to prevent The Q-network overfits on a relatively small number of expert demo datasets.
 
--In addition to the usual 1-step turn, R2D3 also adds n-step return, which helps to propagate the Q-value of the expert trajectory to all early states for better learning.
+- In addition to the usual 1-step turn, R2D3 also adds n-step return, which helps to propagate the Q-value of the expert trajectory to all early states for better learning.
 The n-step return is:
 
 .. image:: images/r2d3_nstep_return.png
