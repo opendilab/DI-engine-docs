@@ -198,8 +198,7 @@ of dqfd's loss function ``nstep_td_error_with_rescale`` is defined as follows:
    :noindex:
 
 .. note::
-The input of the network in our current r2d3 policy implementation is only the state observation at time t, not including the action and reward at time t-1, nor the extra information vector : math: `f_{t}` .
-
+    The input of the network in our current r2d3 policy implementation is only the state observation at time t, not including the action and reward at time t-1, nor the extra information vector :math:`f_{t}` .
 ..
 Note: ``...`` represents an omitted code snippet.
 
