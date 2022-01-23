@@ -70,7 +70,7 @@ And the network will propagate these errors through the Q function throughout th
      :align: center
      :scale: 40 %
 
-Where : math: `a_{E}` represents the action performed by the expert. :math: `l(a_{E}, a)` is a marginal function, 0 when :math: `a = a_{E}` , and a positive constant otherwise.
+Where :math:`a_{E}` represents the action performed by the expert. :math:`l(a_{E}, a)`  is a marginal function, 0 when :math:`a = a_{E}` , and a positive constant otherwise.
 Minimizing this supervision loss forces the Q-value of actions other than those performed by the expert presenter to be at least one interval lower than the Q-value of the expert presenter's action .
 By adding this loss, the Q-values of actions not encountered in the expert data set are changed into values within a reasonable range, and the greedy policy derived from the learned value function is made to mimic the policy of the expert demonstrator.
 
