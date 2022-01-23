@@ -59,11 +59,12 @@ The n-step return is:
    :scale: 40 %
 
 - Supervision loss is critical to the performance of training. Due to the following conditions:
-1. Expert demonstration data may only cover a small part of the complete state space,
-2. The data does not contain, (a specific state, all possible actions) state-action pairs,
+  1.Expert demonstration data may only cover a small part of the complete state space,
+  2.The data does not contain, (a specific state, all possible actions) state-action pairs,
   Therefore many *state-action pairs* never appear in the expert sample. If we only use the Q-learning loss to update the Q network towards the maximum Q value of the next state, the network will tend to update towards the highest of those inaccurate Q values,
 And the network will propagate these errors through the Q function throughout the learning process, causing the accumulation of errors to cause overestimation problems. Here the `supervised large margin classification loss <https://arxiv.org/pdf/1606.01128.pdf>`_ is adopted to alleviate this problem,
-Its calculation formula is:
+  Its calculation formula is:
+
 
   .. image:: images/r2d3_slmcl.png
      :align: center
