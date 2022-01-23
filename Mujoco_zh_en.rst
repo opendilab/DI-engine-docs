@@ -92,12 +92,11 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_ Get more images
 space before transformation (original environment)
 =========================
 
-.._ObservationSpace-1:
 
 observation space
 --------
 
-- A vector composed of physical information (3D position, orientation, and joint angles etc. ), the specific size is \ ``(N, )``\ , where \ ``N``\ is determined according to the environment, and the data type is \ ` `float64`
+- A vector composed of physical information (3D position, orientation, and joint angles etc. ), the specific size is \ ``(N, )``\ , where \ ``N``\ is determined according to the environment, and the data type is\ ``float64``
 
 .._actionspace-1:
 
