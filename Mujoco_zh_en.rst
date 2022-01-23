@@ -98,8 +98,6 @@ observation space
 
 - A vector composed of physical information (3D position, orientation, and joint angles etc. ), the specific size is \ ``(N, )``\ , where \ ``N``\ is determined according to the environment, and the data type is\ ``float64``
 
-.._actionspace-1:
-
 action space
 --------
 
