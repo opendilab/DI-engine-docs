@@ -110,30 +110,28 @@ Important Implementation Details
 1. The mini-batch used to calculate the loss function is sampled from the expert demonstration buffer and the agent experience buffer. The mini-batch contains <batch_size> sequence samples, sampled from the expert demonstration buffer with the probability of pho, Sample from the agent experience buffer with 1-pho probability.
 The specific implementation method is as follows. By sampling from the uniform distribution of [0, 1] of size <batch_size>, if the sampling value is greater than pho, an expert demonstration trajectory is selected.
 The number of sample values greater than pho in the <batch_size> sample values is the number of expert demonstrations in this mini-batch.
+.. code::
 
-..code::
-
-# The hyperparameter pho, the demo ratio, control the propotion of data coming
-# from expert demonstrations versus from the agent's own experience.
-expert_batch_size = int(
-np.float32(np.random.rand(learner.policy.get_attribute('batch_size')) < cfg.policy.collect.pho
-).sum()
-)
-agent_batch_size = (learner.policy.get_attribute('batch_size')) - expert_batch_size
-train_data_agent = replay_buffer.sample(agent_batch_size, learner.train_iter)
-train_data_expert = expert_buffer.sample(expert_batch_size, learner.train_iter)
+   # The hyperparameter pho, the demo ratio, control the propotion of data coming
+   # from expert demonstrations versus from the agent's own experience.
+   expert_batch_size = int(
+       np.float32(np.random.rand(learner.policy.get_attribute('batch_size')) < cfg.policy.collect.pho
+                  ).sum()
+   )
+   agent_batch_size = (learner.policy.get_attribute('batch_size')) - expert_batch_size
+   train_data_agent = replay_buffer.sample(agent_batch_size, learner.train_iter)
+   train_data_expert = expert_buffer.sample(expert_batch_size, learner.train_iter)
 
 2. Since the baseline algorithm R2D2 adopts priority sampling, for a sequence sample, the TD error at each moment is the absolute value of the sum of the 1-step TD error and the n-step TD error, and the TD error is experienced at all times in this sequence. weighted sum of mean and max on
 as the priority for the entire sequence of samples. Since the loss functions corresponding to expert data and experience data are different, we set up two independent replay_buffers in R2D2, ``expert_buffer`` for expert demonstration , and ``replay_buffer`` for agent experience ,
 And separate the priority sampling and the update of the relevant parameters in the buffer.
+.. code::
 
-..code::
-
-# using the mixture of max and mean absolute n-step TD-errors as the priority of the sequence
-td_error_per_sample = 0.9 * torch.max(
-torch.stack(td_error), dim=0
-)[0] + (1 - 0.9) * (torch.sum(torch.stack(td_error), dim=0) / (len(td_error) + 1e-8))
-# td_error shape list(<self._unroll_len_add_burnin_step-self._burnin_step-self._nstep>, B), for example, (75,64)
+   # using the mixture of max and mean absolute n-step TD-errors as the priority of the sequence
+   td_error_per_sample = 0.9 * torch.max(
+       torch.stack(td_error), dim=0
+   )[0] + (1 - 0.9) * (torch.sum(torch.stack(td_error), dim=0) / (len(td_error) + 1e-8))
+   # td_error shape list(<self._unroll_len_add_burnin_step-self._burnin_step-self._nstep>, B), for example, (75,64)
    # torch.sum(torch.stack(td_error), dim=0) can also be replaced with sum(td_error)
    ...
    if learner.policy.get_attribute('priority'):
@@ -156,11 +154,10 @@ torch.stack(td_error), dim=0
        # Expert data and demo data update their priority separately.
        replay_buffer.update(learner.priority_info_agent)
        expert_buffer.update(learner.priority_info_expert)
-
 3. For expert demonstration samples and agent experience samples, we add a key ``is_expert`` to the original data to distinguish them. If it is an expert demonstration sample, this key value is 1.
 If it is an agent experience sample, this key value is 0,
 
-..code::
+.. code::
 
 # If it is an expert demonstration sample, this key value is 1,
 for i in range(len(expert_data)):
@@ -173,7 +170,7 @@ new_data[i]['is_expert'] = [0] * expert_cfg.policy.collect.unroll_len
 
 4. Pre-training. Before the agent interacts with the environment, we can use the expert demo samples to pre-train the Q network, hoping to get a good initialization parameter to speed up the subsequent training process.
 
-..code::
+.. code::
 
 for _ in range(cfg.policy.learn.per_train_iter_k): # pretrain
 if evaluator.should_eval(learner.train_iter):
