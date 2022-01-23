@@ -111,7 +111,6 @@ RGB three-channel image input, three-dimensional np array, size \ ``(3, 64, 64)`
 Transformed space (RL environment)
 =======================
 
-.._ObservationSpace-2:
 
 observation space
 --------
@@ -125,7 +124,7 @@ observation space
 action space
 --------
 
-- Basically no transformation, it is still a discrete action space of size N, but generally a one-dimensional np array, the size is \ ``(1, )`` \ , the data type is \ ``np.int64``
+-  Basically no transformation, it is still a discrete action space of size N, but generally a one-dimensional np array, the size is \ ``(1, )`` \ , the data type is \ ``np.int64``
 
 .. _Bonus Space-2:
 
