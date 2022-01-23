@@ -76,10 +76,11 @@ After the installation is complete, you can verify that the installation was suc
 
 .. code:: python
 
-import gym
-env = gym.make ('Hopper-v3')
-    obs = env.reset ()
-print( obs.shape ) # (11, )
+    import gym
+    env = gym.make('Hopper-v3')
+    obs = env.reset()
+    print(obs.shape)  # (11, )
+
 
 mirror
 ----
