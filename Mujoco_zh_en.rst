@@ -25,8 +25,8 @@ Note:
 
 .. code:: shell
     
-# Installation for Linux
-# Download the MuJoCo version 2.1 binaries for Linux.
+    # Installation for Linux
+    # Download the MuJoCo version 2.1 binaries for Linux.
     wget https://mujoco.org/download/mujoco210-linux-x86_64.tar.gz
     # Extract the downloaded mujoco210 directory into ~/.mujoco/mujoco210.
     tar xvf mujoco210-linux-x86_64.tar.gz && mkdir -p ~/.mujoco && mv mujoco210 ~/.mujoco/mujoco210
@@ -47,12 +47,12 @@ Note:
 
 .. code:: shell
 
-# Installation for Linux
-# Download the MuJoCo version 2.0 binaries for Linux.
+    # Installation for Linux
+    # Download the MuJoCo version 2.0 binaries for Linux.
     wget https://www.roboti.us/download/mujoco200_linux.zip
-    # Extract the downloaded mujoco200 directory into ~ /.mujoco/mujoco200 .
-unzip mujoco200_linux.zip && mkdir -p ~ / .mujoco && mv mujoco200_linux ~/ .mujoco /mujoco200
-# Download unlocked activation key.
+    # Extract the downloaded mujoco200 directory into ~/.mujoco/mujoco200.
+    unzip mujoco200_linux.zip && mkdir -p ~/.mujoco && mv mujoco200_linux ~/.mujoco/mujoco200
+    # Download unlocked activation key.
     wget https://www.roboti.us/file/mjkey.txt -O  ~/.mujoco/mjkey.txt 
     # Install and use mujoco-py
     pip install gym
@@ -68,7 +68,6 @@ unzip mujoco200_linux.zip && mkdir -p ~ / .mujoco && mv mujoco200_linux ~/ .mujo
     # Install and use mujoco-py
     pip install gym
     pip install -U 'mujoco-py<2.1'
-
 
 Verify installation
 --------
