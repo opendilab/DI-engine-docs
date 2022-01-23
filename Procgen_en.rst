@@ -73,17 +73,17 @@ action space
 
 - For example, in the Coinrun environment, the size of N is 5, that is, the action takes a value from 0 to 4. The specific meaning is:
 
-- 0: NOOP
+   - 0: NOOP
 
-- 1: LEFT
+   - 1: LEFT
 
-- 2: RIGHT
+   - 2: RIGHT
 
-- 3: UP
+   - 3: UP
 
-- 4: DOWN
+   - 4: DOWN
 
-.. _BONUS SPACE-1:
+
 
 Bonus space
 --------
