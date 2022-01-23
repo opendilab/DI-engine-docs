@@ -194,7 +194,7 @@ The difference between training and testing environments
 Store video
 --------
 
-After the environment is created, but before reset, call the \`` enable_save_replay`` \ method to specify the path to save the game replay. The environment will automatically save the local video files after each episode ends. (The default call \ `` gym.wrapper.Monitor ``\ implementation, depends on \ `` ffmpeg ``\ ), the code shown below will run an environment episode, and save the result of this episode in the form \ `` ./video/xxx.mp4``\ in a file like this:
+After the environment is created, but before reset, call the\ ``enable_save_replay``\ method to specify the path to save the game replay. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor``\ implementation, depends on\ ``ffmpeg``\ ), the code shown below will run an environment episode, and save the result of this episode in the form\ ``./video/xxx.mp4``\ in a file like this:
 
 .. code:: python
 
