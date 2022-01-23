@@ -149,9 +149,8 @@ The above space can be expressed as:
 other
 ----
 
- \ ``info``\returned by the method \ ``step``\ must contain\ ``final_eval_reward``\ key - value pair, representing the evaluation metrics of the entire episode, and the cumulative sum of the rewards for the entire episode in Procgen
+\ ``info``\returned by the method \ ``step``\ must contain\ ``final_eval_reward``\ key - value pair, representing the evaluation metrics of the entire episode, and the cumulative sum of the rewards for the entire episode in Procgen
 
-.._other-3:
 
 other
 ====
@@ -159,7 +158,7 @@ other
 lazy initialization
 ------------
 
-In order to support parallel operations such as environment vectorization, environment instances generally implement lazy initialization, that is, the \ ``__init__`` \ method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. In the first call \ `` The reset`` \ method initializes the concrete original environment instance.
+In order to support parallel operations such as environment vectorization, environment instances generally implement lazy initialization, that is, the \ ``__init__`` \ method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. In the first call\ ``reset``\  method initializes the concrete original environment instance.
 
 random seed
 --------
