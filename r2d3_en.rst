@@ -270,7 +270,7 @@ See `r2d2 pong config <https://github.com/opendilab/DI-engine/blob/main/dizoo/at
 - Test if pretrained and the effect of L2 regularization. Observation 3: Pre-training and L2 regularization have little effect
    - Orange line r2d2_rbs2e4_rbs2e4
    - blue line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2
-   -pink line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2
+   - pink line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2
    - Crimson line pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2
    - Green line pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2
 
