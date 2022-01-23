@@ -237,43 +237,42 @@ See `r2d2 pong config <https://github.com/opendilab/DI-engine/blob/main/dizoo/at
     |                     |                 |                                                     |Observation 2: The demo size needs to be moderate, take 5e3|
     |                     |                 |                                                     |                                                           |
     |                     |                 |                                                     |orange pong_r2d2_rbs2e4                                    |
-    |Pong                 |  20             |.. image:: images/r2d3_pong_demosize.png             |sky blue pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3|
-    |                     |                 |                                                     |blue pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3    |
+    |Pong                 |  20             |.. image:: images/r2d3_pong_demosize.png             |azure pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3|  |                               |                 |                                                     |blue pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3    |
     |(PongNoFrameskip-v4) |                 |                                                     |green pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e4   |
     +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
-    |                     |                 |                                                     |Observation 3: Pre-training and l2 regularization have     |     |                     |                 |                                                     |little effect demo size 1e3 seed0                          |
+    |                     |                 |                                                     |Observation 3: Pre-training and l2 regularization have     |     |                         |                 |                                                     |little effect demo size 1e3 seed0                          |
     |                     |                 |                                                     |orange r2d2_rbs2e4_rbs2e4                                  |
     |                     |                 |                                                     |blue pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2          |
-    |Pong                 |  20             |.. image:: images/r2d3_pong_l2_pretrain.png          |pink red pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2    |
-    |                     |                 |                                                     |dark red pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2    |
+    |Pong                 |  20             |.. image:: images/r2d3_pong_l2_pretrain.png          |pink pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2        |
+    |                     |                 |                                                     |crimson pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2     |
     |(PongNoFrameskip-v4) |                 |                                                     |green pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2     |
     +---------------------+-----------------+-----------------------------------------------------+---------------------------------------------------------+
 - Test the effect of the proportion of expert samples in a mini-batch used for training. Observation 1: pho needs to be moderate, take 1/4
-- blue line pong_r2d2_rbs1e4
-- orange line pong_r2d3_r2d2expert_k0_pho1-4_rbs1e4_1td_l2_ds5e3
-- grey line pong_r2d3_r2d2expert_k0_pho1-16_rbs1e4_1td_l2_ds5e3
-- red line pong_r2d3_r2d2expert_k0_pho1-2_rbs1e4_1td_l2_ds5e3
+   - blue line pong_r2d2_rbs1e4
+   - orange line pong_r2d3_r2d2expert_k0_pho1-4_rbs1e4_1td_l2_ds5e3
+   - grey line pong_r2d3_r2d2expert_k0_pho1-16_rbs1e4_1td_l2_ds5e3
+   - red line pong_r2d3_r2d2expert_k0_pho1-2_rbs1e4_1td_l2_ds5e3
 
    .. image:: images/r2d3_pong_pho.png
      :align: center
      :scale: 50 %
 
 - Test the effect of the size of the total expert sample pool. Observation 2: The demo size needs to be moderate, take 5e3
-- orange line pong_r2d2_rbs2e4
-- azure line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3
-- blue line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3
-- Green line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e4
+   - orange line pong_r2d2_rbs2e4
+   - azure line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds5e3
+   - blue line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e3
+   - Green line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2_ds1e4
 
    .. image:: images/r2d3_pong_demosize.png
      :align: center
      :scale: 50 %
 
 - Test if pretrained and the effect of L2 regularization. Observation 3: Pre-training and L2 regularization have little effect
-- Orange line r2d2_rbs2e4_rbs2e4
-- blue line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2
--pink line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2
-- Crimson line pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2
-- Green line pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2
+   - Orange line r2d2_rbs2e4_rbs2e4
+   - blue line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_l2
+   -pink line pong_r2d3_r2d2expert_k0_pho1-4_rbs2e4_1td_nol2
+   - Crimson line pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_l2
+   - Green line pong_r2d3_r2d2expert_k100_pho1-4_rbs2e4_1td_nol2
 
    .. image:: images/r2d3_pong_l2_pretrain.png
      :align: center
