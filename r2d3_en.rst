@@ -188,13 +188,13 @@ Implementations
 
 of r2d3's policy ``R2D3Policy`` is defined as follows:
 
-..autoclass:: ding.policy.r2d3.R2D3Policy
+.. autoclass:: ding.policy.r2d3.R2D3Policy
    :members: _forward_learn
    :noindex:
 
 of dqfd's loss function ``nstep_td_error_with_rescale`` is defined as follows:
 
-..autofunction:: ding.rl_utils.td.dqfd_nstep_td_error_with_rescale
+.. autofunction:: ding.rl_utils.td.dqfd_nstep_td_error_with_rescale
    :noindex:
 
 .. note::
