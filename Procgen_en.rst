@@ -265,17 +265,17 @@ Inside, for specific configuration files, such as \ ``coinrun_dqn_config.py`` \ 
 Benchmark Algorithm Performance
 ===========
 
-- Coinrun (Average reward equal to 10 is considered a better Agent)
 
-- Coinrun + DQN
+-  Coinrun（Average reward equal to 10 is considered a better Agent）
+
+   - Coinrun + DQN
 
    .. image:: images/coinrun_dqn.svg
      :align: center
 
-- Maze (Average reward equal to 10 is considered a better Agent)
+-  Maze（Average reward equal to 10 is considered a better Agent）
 
-- Maze + DQN
+   - Maze + DQN
 
    .. image:: images/maze_dqn.svg
      :align: center
-
