@@ -153,13 +153,12 @@ The above space can be expressed as:
 
 .. code:: python
 
-import gym
+   import gym
 
 
-   obs_space = gym.spaces .Box (low=-np.inf, high=np.inf, shape=(11, ), dtype =np.float64)
-   act_space = gym.spaces.Box (low=-1, high=1, shape=(3, ), dtype = np.float32 )
-   rew_space = gym.spaces .Box (low=-np.inf, high=np.inf, shape=(1, ), dtype =np.float32)
-
+   obs_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(11, ), dtype=np.float64)
+   act_space = gym.spaces.Box(low=-1, high=1, shape=(3, ), dtype=np.float32)
+   rew_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(1, ), dtype=np.float32)
 
 other
 ----
