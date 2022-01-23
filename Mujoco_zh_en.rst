@@ -172,7 +172,7 @@ other
 lazy initialization
 ------------
 
-In order to facilitate parallel operations such as environment vectorization, environment instances generally implement lazy initialization, that is, the \ `` __init__`` \ method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. The ``reset``\ method initializes the concrete original environment instance.
+In order to facilitate parallel operations such as environment vectorization, environment instances generally implement lazy initialization, that is, the \ `` __init__`` \ method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. The\ ``reset``\ method initializes the concrete original environment instance.
 
 random seed
 --------
