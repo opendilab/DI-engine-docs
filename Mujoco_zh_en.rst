@@ -301,8 +301,8 @@ You can also use serial_pipeline_onpolicy to enter with one click
 Benchmark Algorithm Performance
 ===========
 
-- Hopper-v3
+-  Hopper-v3
 
    - Hopper-v3 + SAC
    .. image:: images/mujoco.png
-:align: center
+     :align: center
