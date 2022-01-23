@@ -303,6 +303,6 @@ Benchmark Algorithm Performance
 
 - Hopper-v3
 
-- Hopper-v3 + SAC
+   - Hopper-v3 + SAC
    .. image:: images/mujoco.png
 :align: center
