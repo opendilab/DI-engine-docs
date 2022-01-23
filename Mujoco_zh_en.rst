@@ -163,7 +163,7 @@ The above space can be expressed as:
 other
 ----
 
-- The \ ``info``\ returned by the environment \ ``step``\ method must contain \ `` final_eval_reward ``\ key-value pair, indicating the evaluation index of the entire episode, and the cumulative sum of the rewards of the entire episode in Mujoco
+- The \ ``info``\ returned by the environment \ ``step``\ method must contain\ ``final_eval_reward``\ key-value pair, indicating the evaluation index of the entire episode, and the cumulative sum of the rewards of the entire episode in Mujoco
 
 
 other
