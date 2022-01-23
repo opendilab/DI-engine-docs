@@ -57,19 +57,19 @@ After the installation is complete, you can verify that the installation was suc
 space before transformation (original environment)
 =========================
 
-.._ObservationSpace-1:
+
 
 observation space
 --------
 
-- The actual game screen, RGB three-channel image, the specific size is \ ``(64, 3, 3)`` \ , the data type is \ ``float32`` \
+- The actual game screen, RGB three-channel image, the specific size is\ ``(64, 3, 3)``\ , the data type is\ ``float32``\
 
-.._actionspace-1:
+
 
 action space
 --------
 
-- The game operation button space, generally a discrete action space of size N (N varies with the specific sub-environment), the data type is \ ``int`` \ , you need to pass in python values (or 0-dimensional np arrays, such as actions 3 is \ ``np.array(3)`` \ )
+- The game operation button space, generally a discrete action space of size N (N varies with the specific sub-environment), the data type is \ ``int``\ , you need to pass in python values (or 0-dimensional np arrays, such as actions 3 is\ ``np.array(3)``\ )
 
 - For example, in the Coinrun environment, the size of N is 5, that is, the action takes a value from 0 to 4. The specific meaning is:
 
