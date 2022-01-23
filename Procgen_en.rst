@@ -163,11 +163,11 @@ In order to support parallel operations such as environment vectorization, envir
 random seed
 --------
 
-- There are two parts of the random seed in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as \ ``random`` \ , \ ``np.random` ` \ )
+- There are two parts of the random seed in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as\ ``random``\ ，\ ``np.random``\ )
 
 - For the environment caller, just set these two seeds through the \ ``seed`` \ method of the environment, no need to care about the specific implementation details
 
-- Concrete implementation inside the environment: For the seed of the original environment, set before calling the \ ``reset`` \ method of the environment, the concrete original environment \ `` reset`` \
+- Concrete implementation inside the environment: For the seed of the original environment, set before calling the\ ``reset``\ method of the environment, the concrete original environment\ ``reset``\ 
 
 - Concrete implementation inside the environment: For random library seeds, the value is set directly in the \ ``seed`` \ method of the environment
 
@@ -179,23 +179,24 @@ The difference between training and testing environments
 Store video
 --------
 
-After the environment is created, but before reset, call the \ ``enable_save_replay`` \ method, specifying the path to save the game replay. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor`` \ implementation, depends on \ ``ffmpeg`` \ ), the code shown below will run an environment episode and save the result of this episode in the form \ `` ./video/xxx.mp4`` \ in a file like this:
+After the environment is created, but before reset, call the \ ``enable_save_replay`` \ method, specifying the path to save the game replay. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor`` \ implementation, depends on \ ``ffmpeg`` \ ), the code shown below will run an environment episode and save the result of this episode in the form\ ``./video/xxx.mp4``\ in a file like this:
 
 .. code:: python
 
-from easydict import EasyDict
-from dizoo.procgen.coinrun.envs import CoinRunEnv
+   from easydict import EasyDict
+   from dizoo.procgen.coinrun.envs import CoinRunEnv
 
-env = CoinRunEnv(EasyDict({'env_id': 'procgen:procgen-coinrun-v0'}))
-env.enable_save_replay(replay_path='./video')
-obs = env.reset()
+   env = CoinRunEnv(EasyDict({'env_id': 'procgen:procgen-coinrun-v0'}))
+   env.enable_save_replay(replay_path='./video')
+   obs = env.reset()
 
-while True:
-action = env.random_action()
-timestep = env.step(action)
-if timestep.done:
-print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
-break
+   while True:
+       action = env.random_action()
+       timestep = env.step(action)
+       if timestep.done:
+           print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
+           break
+
 
 DI-zoo runnable code example
 =====================
@@ -206,60 +207,60 @@ Inside, for specific configuration files, such as \ ``coinrun_dqn_config.py`` \ 
 
 .. code:: python
 
-from easydict import EasyDict
+   from easydict import EasyDict
 
-coinrun_dqn_default_config = dict(
-env=dict(
-collector_env_num=4,
-evaluator_env_num=4,
-n_evaluator_episode=4,
-stop_value=10,
-),
-policy=dict(
-cuda=False,
-model=dict(
-obs_shape=[3, 64, 64],
-action_shape=5,
-encoder_hidden_size_list=[128, 128, 512],
-dueling=False,
-),
-discount_factor=0.99,
-learn=dict(
-update_per_collect=20,
-batch_size=32,
-learning_rate=0.0005,
-target_update_freq=500,
-),
-collect=dict(n_sample=100, ),
-eval=dict(evaluator=dict(eval_freq=5000, )),
-other=dict(
-eps=dict(
-type='exp',
-start=1.,
-end=0.05,
-decay=250000,
-),
-replay_buffer=dict(replay_buffer_size=100000, ),
-),
-),
-)
-coinrun_dqn_default_config = EasyDict(coinrun_dqn_default_config)
-main_config = coinrun_dqn_default_config
+   coinrun_dqn_default_config = dict(
+       env=dict(
+           collector_env_num=4,
+           evaluator_env_num=4,
+           n_evaluator_episode=4,
+           stop_value=10,
+       ),
+       policy=dict(
+           cuda=False,
+           model=dict(
+               obs_shape=[3, 64, 64],
+               action_shape=5,
+               encoder_hidden_size_list=[128, 128, 512],
+               dueling=False,
+           ),
+           discount_factor=0.99,
+           learn=dict(
+               update_per_collect=20,
+               batch_size=32,
+               learning_rate=0.0005,
+               target_update_freq=500,
+           ),
+           collect=dict(n_sample=100, ),
+           eval=dict(evaluator=dict(eval_freq=5000, )),
+           other=dict(
+               eps=dict(
+                   type='exp',
+                   start=1.,
+                   end=0.05,
+                   decay=250000,
+               ),
+               replay_buffer=dict(replay_buffer_size=100000, ),
+           ),
+       ),
+   )
+   coinrun_dqn_default_config = EasyDict(coinrun_dqn_default_config)
+   main_config = coinrun_dqn_default_config
 
-coinrun_dqn_create_config = dict(
-env=dict(
-type='coinrun',
-import_names=['dizoo.procgen.coinrun.envs.coinrun_env'],
-),
-env_manager=dict(type='subprocess', ),
-policy=dict(type='dqn'),
-)
-coinrun_dqn_create_config = EasyDict(coinrun_dqn_create_config)
-create_config = coinrun_dqn_create_config
+   coinrun_dqn_create_config = dict(
+       env=dict(
+           type='coinrun',
+           import_names=['dizoo.procgen.coinrun.envs.coinrun_env'],
+       ),
+       env_manager=dict(type='subprocess', ),
+       policy=dict(type='dqn'),
+   )
+   coinrun_dqn_create_config = EasyDict(coinrun_dqn_create_config)
+   create_config = coinrun_dqn_create_config
 
-if __name__ == ' __main__ ':
-from ding.entry import serial_pipeline
-serial_pipeline((main_config, create_config), seed=0)
+   if __name__ == '__main__':
+       from ding.entry import serial_pipeline
+       serial_pipeline((main_config, create_config), seed=0)
 
 Benchmark Algorithm Performance
 ===========
