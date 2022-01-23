@@ -159,30 +159,29 @@ If it is an agent experience sample, this key value is 0,
 
 .. code::
 
-# If it is an expert demonstration sample, this key value is 1,
-for i in range(len(expert_data)):
-# for rnn/sequence-based alg.
-expert_data[i]['is_expert'] = [1] * expert_cfg.policy.collect.unroll_len
-...
-# If it is an agent experience sample, this key value is 0
-for i in range(len(new_data)):
-new_data[i]['is_expert'] = [0] * expert_cfg.policy.collect.unroll_len
-
+   # If it is an expert demonstration sample, this key value is 1,
+   for i in range(len(expert_data)):
+       # for rnn/sequence-based alg.
+       expert_data[i]['is_expert'] = [1] * expert_cfg.policy.collect.unroll_len
+   ...
+   # If it is an agent experience sample, this key value is 0
+   for i in range(len(new_data)):
+       new_data[i]['is_expert'] = [0] * expert_cfg.policy.collect.unroll_len
 4. Pre-training. Before the agent interacts with the environment, we can use the expert demo samples to pre-train the Q network, hoping to get a good initialization parameter to speed up the subsequent training process.
 
 .. code::
 
-for _ in range(cfg.policy.learn.per_train_iter_k): # pretrain
-if evaluator.should_eval(learner.train_iter):
-stop, reward = evaluator.eval(learner.save_checkpoint, learner.train_iter, collector.envstep)
-if stop:
-break
-# Learn policy from collected demo data
-# Expert_learner will train ``update_per_collect == 1`` times in one iteration.
-train_data = expert_buffer.sample(learner.policy.get_attribute('batch_size'), learner.train_iter)
-learner.train(train_data, collector.envstep)
-if learner.policy.get_attribute('priority'):
-expert_buffer.update(learner.priority_info)
+    for _ in range(cfg.policy.learn.per_train_iter_k):  # pretrain
+        if evaluator.should_eval(learner.train_iter):
+            stop, reward = evaluator.eval(learner.save_checkpoint, learner.train_iter, collector.envstep)
+            if stop:
+                break
+        # Learn policy from collected demo data
+        # Expert_learner will train ``update_per_collect == 1`` times in one iteration.
+        train_data = expert_buffer.sample(learner.policy.get_attribute('batch_size'), learner.train_iter)
+        learner.train(train_data, collector.envstep)
+        if learner.policy.get_attribute('priority'):
+            expert_buffer.update(learner.priority_info)
 
 Implementations
 ====
