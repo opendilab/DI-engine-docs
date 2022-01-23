@@ -29,12 +29,12 @@ It can be installed by one-click pip or combined with DI-engine. It only needs t
 
 .. code:: shell
 
-# Method1: Install Directly
-pip install gym
-pip install gym[procgen]
-# Method2: Install with DI-engine requirements
-cd DI-engine
-pip install ".[procgen_env]"
+   # Method1: Install Directly
+   pip install gym
+   pip install gym[procgen]
+   # Method2: Install with DI-engine requirements
+   cd DI-engine
+   pip install ".[procgen_env]"
 
 Verify installation
 --------
@@ -43,14 +43,16 @@ After the installation is complete, you can verify that the installation was suc
 
 .. code:: python
 
-import gym
-env = gym.make('procgen:procgen-maze-v0', start_level=0, num_levels=1)
-# num_levels=0 - The number of unique levels that can be generated. Set to 0 to use unlimited levels.
-# start_level=0 - The lowest seed that will be used to generated levels. 'start_level' and 'num_levels' fully specify the set of possible levels.
-obs = env.reset()
-print(obs.shape) # (64, 64, 3)
+.. code:: python
 
-.._spatial original environment before transformation):
+   import gym
+   env = gym.make('procgen:procgen-maze-v0', start_level=0, num_levels=1)
+   # num_levels=0 - The number of unique levels that can be generated. Set to 0 to use unlimited levels.
+   # start_level=0 - The lowest seed that will be used to generated levels. 'start_level' and 'num_levels' fully specify the set of possible levels.
+   obs = env.reset()
+   print(obs.shape)  # (64, 64, 3)
+
+
 
 space before transformation (original environment)
 =========================
