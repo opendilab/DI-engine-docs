@@ -216,13 +216,14 @@ After the environment is created, but before reset, call the\ ``enable_save_repl
 DI-zoo runnable code example
 =====================
 
-The full training configuration file is at ` github
+The full training configuration file is at `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/mujoco/config>`__
-Inside, for specific configuration files, such as \ ``hopper_sac_default_config.py``\ , use the following demo to run:
+Inside, for specific configuration files, such as\ ``hopper_sac_default_config.py``\ , use the following demo to run:
+
 
 .. code:: python
 
-from easydict import EasyDict
+   from easydict import EasyDict
 
     hopper_sac_default_config = dict(
         env=dict(
@@ -284,14 +285,14 @@ from easydict import EasyDict
             import_names=['ding.policy.sac'],
         ),
         replay_buffer=dict(type='naive', ),
-)
-    hopper_sac_default_create_config = EasyDict ( hopper_sac_default_create_config )
+    )
+    hopper_sac_default_create_config = EasyDict(hopper_sac_default_create_config)
     create_config = hopper_sac_default_create_config
 
 
-if __name__ == '__main__':
-from ding.entry import serial_pipeline
-       serial_ pipeline ( ( main_config , create_config ), seed=0)
+   if __name__ == '__main__':
+       from ding.entry import serial_pipeline
+       serial_pipeline((main_config, create_config), seed=0)
 
 Note: For some special algorithms, such as PPO, special entry functions need to be used. For examples, please refer to
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/mujoco/entry/mujoco_ppo_main.py>`__
