@@ -6,9 +6,12 @@ Overview
 
 GAIL (Generative Adversarial Imitation Learning) was first proposed in
 `Generative Adversarial Imitation
-Learning <https://arxiv.org/abs/1606.03476>`__, which deduced the
-optimization objective of GAIL from the perspective of occupancy
-measure. Compared to other learning methods, GAIL neither suffers from
+Learning <https://arxiv.org/abs/1606.03476>`__, is a general framework
+for directly extracting policy from data, as if it were obtained by
+reinforcement learning following inverse reinforcement learning.
+The authors deduced the optimization objective of GAIL from the
+perspective of occupancy measure.
+Compared to other learning methods, GAIL neither suffers from
 the compounding error problem in imitation learning, nor needs to
 expensively learn the inter-mediate reward function as in inverse
 reinforcement learning. But similar to other methods, GAIL is also
