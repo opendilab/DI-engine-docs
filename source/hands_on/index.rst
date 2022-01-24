@@ -32,6 +32,8 @@ RL Algorithm Cheat Sheet
 
     gail
 
+    trex
+
     vpn
     mcts
     alphago
