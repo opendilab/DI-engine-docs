@@ -20,11 +20,11 @@ Quick Facts
 
 4. D4PG is a **model-free** and **actor-critic** RL algorithm, which optimizes actor network and critic network, respectively.
 
-5. Usually, D4PG use **Ornstein-Uhlenbeck process** or **Gaussian process** (default in our implementation) for exploration.
+5. Usually, D4PG uses **Ornstein-Uhlenbeck process** or **Gaussian process** (default in our implementation) for exploration.
 
 Key Equations or Key Graphs
 ---------------------------
-The D4PG algorithm maintains a distributional critic :math:`Z_\pi(x, a)` and the loss used to learn the distribution parameters is defined as :math:`L(\pi) = \mathbb{E}[d(\mathcal{T}_{\mu_\theta}, Z_{pi'}(s, a), Z_\pi(s, a)]`, where :math:`\mathcal{T}_{\mu_\theta}` si the Bellman operator. The implemented distribution is usually a Categorical distribution.
+The D4PG algorithm maintains a distributional critic :math:`Z_\pi(x, a)` and the loss used to learn the distribution parameters is defined as :math:`L(\pi) = \mathbb{E}[d(\mathcal{T}_{\mu_\theta}, Z_{pi'}(s, a), Z_\pi(s, a)]`, where :math:`\mathcal{T}_{\mu_\theta}` is the Bellman operator. The implemented distribution is usually a Categorical distribution.
 
 The **action-value distribution** inside the actor update is done by taking the expectation with respect to the action-value distribution:
 
