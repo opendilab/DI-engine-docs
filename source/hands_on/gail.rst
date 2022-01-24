@@ -113,7 +113,7 @@ Benchmark
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/| SAC                  |
 |                     |  3500           |.. image:: images/benchmark/hopper_gail.png          |mujoco/config/hopper_sac_ |                      |
-|(Hopper-v2)          |                 |                                                     |gail_default_config.py>`_ |                      |
+|(Hopper-v3)          |                 |                                                     |gail_default_config.py>`_ |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 Reference
