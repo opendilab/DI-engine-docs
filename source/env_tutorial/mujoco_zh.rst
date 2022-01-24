@@ -98,7 +98,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
 观察空间
 --------
 
--  物理信息组成的向量(3D position, orientation, and joint angles etc. )，具体尺寸为\ ``(N, )``\ ，其中\ ``N``\ 根据环境决定，数据类型为\ ``float64``
+-  物理信息组成的向量(3D position, orientation, and joint angles etc. )，具体尺寸为\ ``(N, )``\ ，其中\ ``N``\ 根据环境决定，数据类型为\ ``float32``
 
 .. _动作空间-1:
 
@@ -122,6 +122,133 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
 ----
 
 -  游戏结束即为当前环境episode结束
+
+
+.. list-table:: Mujoco Sub-env's space
+   :widths: 25 30 30 30
+   :header-rows: 1
+
+   * - environment
+     - observation_space
+     - action_space
+     - reward_range
+   * - | Ant
+       | (Ant-v3)
+     - | low: np.float32("-inf")
+       | high: np.float32("inf")
+       | shape: (111, )
+       | dtype: np.float32
+     - | low: -1.0
+       | high: 1.0
+       | shape: (8, )
+       | dtype: np.float32
+     - | low: np.float32("-inf"),
+       | high: np.float32("inf")
+       | dtype: np.float32
+   * - | Hopper
+       | (Hopper-v2)
+     - | low: np.float32("-inf")
+       | high: np.float32("inf")
+       | shape: (11, )
+       | dtype: np.float32
+     - | low: -1.0
+       | high: 1.0
+       | shape: (3, )
+       | dtype: np.float32
+     - | low: np.float32("-inf"),
+       | high: np.float32("inf")
+       | dtype: np.float32
+   * - | Walker2d
+       | (Walker2d-v2)
+     - | low: np.float32("-inf")
+       | high: np.float32("inf")
+       | shape: (17, )
+       | dtype: np.float32
+     - | low: -1.0
+       | high: 1.0
+       | shape: (6, )
+       | dtype: np.float32
+     - | low: np.float32("-inf"),
+       | high: np.float32("inf")
+       | dtype: np.float32
+   * - | Walker2d
+       | (Walker2d-v3)
+     - | low: np.float32("-inf")
+       | high: np.float32("inf")
+       | shape: (17, )
+       | dtype: np.float32
+     - | low: -1.0
+       | high: 1.0
+       | shape: (6, )
+       | dtype: np.float32
+     - | low: np.float32("-inf"),
+       | high: np.float32("inf")
+       | dtype: np.float32
+   * - | HalfCheetah
+       | (HalfCheetah-v3)
+     - | low: np.float32("-inf")
+       | high: np.float32("inf")
+       | shape: (17, )
+       | dtype: np.float32
+     - | low: -1.0
+       | high: 1.0
+       | shape: (6, )
+       | dtype: np.float32
+     - | low: np.float32("-inf"),
+       | high: np.float32("inf")
+       | dtype: np.float32
+   * - | Hopper
+       | (Hopper-v3)
+     - | low: np.float32("-inf")
+       | high: np.float32("inf")
+       | shape: (11, )
+       | dtype: np.float32
+     - | low: -1.0
+       | high: 1.0
+       | shape: (3, )
+       | dtype: np.float32
+     - | low: np.float32("-inf"),
+       | high: np.float32("inf")
+       | dtype: np.float32
+   * - | Reacher
+       | (Reacher-v2)
+     - | low: np.float32("-inf")
+       | high: np.float32("inf")
+       | shape: (11, )
+       | dtype: np.float32
+     - | low: -1.0
+       | high: 1.0
+       | shape: (2, )
+       | dtype: np.float32
+     - | low: np.float32("-inf"),
+       | high: np.float32("inf")
+       | dtype: np.float32
+   * - | InvertedPendulum
+       | (InvertedPendulum-v2)
+     - | low: np.float32("-inf")
+       | high: np.float32("inf")
+       | shape: (4, )
+       | dtype: np.float32
+     - | low: -1.0
+       | high: 1.0
+       | shape: (1, )
+       | dtype: np.float32
+     - | low: np.float32("-inf"),
+       | high: np.float32("inf")
+       | dtype: np.float32
+   * - | InvertedDoublePendulum
+       | (InvertedDoublePendulum-v3)
+     - | low: np.float32("-inf")
+       | high: np.float32("inf")
+       | shape: (11, )
+       | dtype: np.float32
+     - | low: -1.0
+       | high: 1.0
+       | shape: (1, )
+       | dtype: np.float32
+     - | low: np.float32("-inf"),
+       | high: np.float32("inf")
+       | dtype: np.float32
 
 关键事实
 ========
@@ -168,7 +295,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
    import gym
 
 
-   obs_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(11, ), dtype=np.float64)
+   obs_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(11, ), dtype=np.float32)
    act_space = gym.spaces.Box(low=-1, high=1, shape=(3, ), dtype=np.float32)
    rew_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(1, ), dtype=np.float32)
 

@@ -89,6 +89,81 @@ Others
 
 -  A game ending is an episode ending.
 
+.. list-table:: Sub-env's space
+   :widths: 25 30 30 30
+   :header-rows: 1
+
+   * - environment
+     - observation_space
+     - action_space
+     - reward_range
+   * - | Pong
+       | (PongNoFrameskip-v4)
+     - | low: 0
+       | high: 255
+       | shape: (210, 160, 3)
+       | dtype: np.float32
+     - | low: 0
+       | high: 6
+       | shape: (1, )
+       | dtype: np.int64
+     - | low: -1,
+       | high: 1
+       | dtype: np.float32
+   * - | Qbert
+       | (QbertNoFrameskip-v4)
+     - | low: 0
+       | high: 255
+       | shape: (210, 160, 3)
+       | dtype: np.float32
+     - | low: 0
+       | high: 6
+       | shape: (1, )
+       | dtype: np.int64
+     - | low: -1,
+       | high: 1
+       | dtype: np.float32
+   * - | SpaceInvaders
+       | (SpaceInvadersNoFrameskip-v4)
+     - | low: 0
+       | high: 255
+       | shape: (210, 160, 3)
+       | dtype: np.float32
+     - | low: 0
+       | high: 6
+       | shape: (1, )
+       | dtype: np.int64
+     - | low: -1,
+       | high: 1
+       | dtype: np.float32
+   * - | Enduro
+       | (EnduroNoFrameskip-v4)
+     - | low: 0
+       | high: 255
+       | shape: (210, 160, 3)
+       | dtype: np.float32
+     - | low: 0
+       | high: 9
+       | shape: (1, )
+       | dtype: np.int64
+     - | low: -1,
+       | high: 1
+       | dtype: np.float32
+   * - | MontezumaRevenge
+       | (MontezumaRevengeDeterministic-v4)
+     - | low: 0
+       | high: 255
+       | shape: (210, 160, 3)
+       | dtype: np.float32
+     - | low: 0
+       | high: 18
+       | shape: (1, )
+       | dtype: np.int64
+     - | low: -1,
+       | high: 1
+       | dtype: np.float32
+
+
 Key Facts
 ==============
 
