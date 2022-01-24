@@ -11,9 +11,9 @@ Quick Facts
 -------------
 1. HER is not a seperate algorithm, it can be **combined with any off-policy** algorithm.
 
-2. HER needs to define rewards after changing the desired goal, but it does not neet to be the same as the env's reward function.
+2. HER needs to define rewards after changing the desired goal, but it does not need to be the same as the env's reward function.
 
-3. In DI-engine's implementation, HER collects episode data and push into buffer, then samples episodes and modifies the reward, which will be exaplained in detail in Pseudo-code part.
+3. In DI-engine's implementation, HER collects episode data and push into buffer, then samples episodes and modifies the reward, which will be explained in detail in Pseudo-code part.
 
 4. HER has different strategies to create a virtual goal. They all come from the same episode as the transition being replayed, but differ as follows:
 
@@ -31,7 +31,7 @@ Pseudo-code
 .. note::
    Compared with psuedo code proposed in the original paper, DI-engine adopts a slightly different way to implement HER. In original paper, before the transition is pushed into buffer, it will be used to create several transitions with different goals. However there are two disadvantages: 1) Memory waste. All transitions(Original one and virtual ones) are all stored in the buffer. 2) Fixed dataset. Once the transitions are pushed into buffer, they will not be changed.
 
-   Thus, in DI-engine, we first push original transitions(in whole episode format) in the buffer. After episodes are sampled out, will we start to create more transitions based on virtual goals. Goals are randomly created at very sampling, so even if the same episode is sampled out several times, the created new training data will not be the same.
+   Thus, in DI-engine, we first push original transitions(in whole episode format) in the buffer. After episodes are sampled out, we will start to create more transitions based on virtual goals. Goals are randomly created at every sampling, so even if the same episode is sampled out several times, the created new training data will not be the same.
 
 
 Implementations
@@ -53,17 +53,14 @@ Benchmark
      - best mean reward
      - evaluation results
      - config link
-   ..   - comparison
    * - BitFLip-15bit
      - 0.9
      - .. image:: images/benchmark/bitflip15bit-herdqn.png
      - `config_link <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/bitflip/config/bitflip_her_dqn_config.py>`_
-   ..   - | Tianshou(20)
    * - BitFLip-20bit
      - 0.9
      - .. image:: images/benchmark/bitflip20bit-herdqn.png
      - `config_link <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/bitflip/config/bitflip_her_dqn_config.py>`_
-   ..   - | Tianshou(16245)
 
 
 P.S.
