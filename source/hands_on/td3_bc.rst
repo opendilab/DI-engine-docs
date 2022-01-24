@@ -7,7 +7,7 @@ Overview
 TD3BC, proposed in the 2021 paper `A Minimalist Approach to Offline Reinforcement Learning <https://arxiv.org/abs/2106.06860>`_,
 is a simple approach to offline RL where only two changes are made to TD3: a weighted behavior cloning loss is added to the policy update and the states are normalized.
 Unlike competing methods there are no changes to architecture or underlying hyperparameters.
-The resulting algorithm is a simple to implement and tune baseline, while more than halving the overall run time by removing the additional computational overhead of previous methods.
+The resulting algorithm is a simple baseline that is easy to implement and tune, while more than halving the overall run time by removing the additional computational overhead of previous methods.
 
 Quick Facts
 -----------
