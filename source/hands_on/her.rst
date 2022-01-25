@@ -56,11 +56,11 @@ Benchmark
    * - BitFLip-15bit
      - 0.9
      - .. image:: images/benchmark/bitflip15bit-herdqn.png
-     - `config_link <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/bitflip/config/bitflip_her_dqn_config.py>`_
+     - `config_link <https://github.com/opendilab/DI-engine/blob/main/dizoo/bitflip/config/bitflip_her_dqn_config.py>`_
    * - BitFLip-20bit
      - 0.9
      - .. image:: images/benchmark/bitflip20bit-herdqn.png
-     - `config_link <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/bitflip/config/bitflip_her_dqn_config.py>`_
+     - `config_link <https://github.com/opendilab/DI-engine/blob/main/dizoo/bitflip/config/bitflip_her_dqn_config.py>`_
 
 
 P.S.
@@ -71,4 +71,4 @@ The above results are obtained by running the same configuration on 3 different 
 Reference
 ----------
 
-Marcin Andrychowicz, Filip Wolski, Alex Ray, Jonas Schneider, Rachel Fong, Peter Welinder, Bob McGrew, Josh Tobin, Pieter Abbeel, Wojciech Zaremba: “Hindsight Experience Replay”, 2017; arXiv:1707.01495 [cs.LG]. https://arxiv.org/abs/1707.01495
+- Andrychowicz M, Wolski F, Ray A, et al. Hindsight experience replay[J]. arXiv preprint arXiv:1707.01495, 2017.
