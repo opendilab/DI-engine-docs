@@ -5,14 +5,14 @@ Overview
 ---------
 Soft Q imitation learning (SQIL) is an off-policy maximum entropy Q learning algorithm together with imitation learning. SQIL was first proposed in `SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards <https://arxiv.org/abs/1905.11108>`_, which combines soft Q-learning with imitation learning. In the domain of discrete action spaces, soft Q learning proposed in `Reinforcement Learning with Deep Energy-Based Policies<https://arxiv.org/abs/1702.08165>` learns stochastic (maximum entropy) policies instead of determistic policies comparing to the deep Q learning algorithm.
 
-SQIL and SQL can be easily generalised to continuous action spaces
+Both SQIL and SQL can be easily generalised to continuous action spaces.
 
 
 Quick Facts
 -------------
 1. SQIL is a **model-free** and **value-based** RL algorithm.
 
-2. SQIL is SQL incorporated with Imitation learning
+2. SQIL is SQL incorporated with Imitation learning.
 
 3. SQIL supports both **discrete** and **continuous** action spaces.
 
@@ -22,7 +22,7 @@ Quick Facts
 
 6. The DI-engine implementation of SQIL only supports **discrete** action spaces for now.
 
-7. The advantages for SQIL include more robustness in the face of uncertain dynamics and Naturally incorporation with exploration.
+7. The advantages of SQIL include: i. More robustness in the face of uncertain dynamics; ii. A natural incorporation with exploration.
 
 Key Equations or Key Graphs
 ---------------------------
@@ -30,7 +30,7 @@ SQL considers a more general maximum entropy policy, such that the optimal polic
 
 .. image:: images/policy_sqil_2.png
 
-where :math:`{\alpha}`   is an optional but convenient parameter that can be used to determine the relative importance of entropy and reward. In practice, :math:`{\alpha}`  is a hyperparameter that has to be tuned (This is not a parameter to learn).
+where :math:`{\alpha}`   is an optional but convenient parameter that can be used to determine the relative importance of entropy and reward. In practice, :math:`{\alpha}`  is a hyperparameter that has to be tuned (not one to be learned during training).
 
 With respect to discrete action spaces, one can write down the Bellman's equation for action-value function:
 
@@ -40,11 +40,11 @@ Therefore, the value function is given by:
 
 .. image:: images/V_sqil.png
 
-By defining policy to be proportional to an exponential function of some energy function (In this context, the energy function is Q), one can write down the (normalised) optimal policy in the form of Boltzmann distribution over actions,:
+By defining the policy to be proportional to an exponential function of some energy function (in this context, the energy function is Q), one can write down the (normalised) optimal policy in the form of Boltzmann distribution over actions:
 
 .. image:: images/pi_sqil.png
 
-Therefore, the Q values with the best action is of the following form:
+Therefore, the Q value with the best action is of the following form:
 
 .. image:: images/ul_V_sqil_2.png
 
@@ -54,10 +54,10 @@ SQIL performs SQL with three small but important, modifications:
    to a constant r = +1.
 
 
-2. As the agent interacts with the environment and accumulates new experiences, it adds them to the replay buffer, and sets the rewards for these new experiences to a constant r = 0
+2. As the agent interacts with the environment and accumulates new experiences, it adds them to the replay buffer, and sets the rewards for these new experiences to a constant r = 0.
 
 
-3. It balances the number of demonstration experiences and new experiences (50% each) in each sample from the replay buffer
+3. It balances the number of demonstration experiences and new experiences (50% each) in each sample from the replay buffer.
 
 BC is a simple approach that seeks to imitate the expert’s actions using supervised learning – in particular, greedily maximizing the conditional likelihood of the demonstrated actions given the demonstrated states, without reasoning about the consequences of actions.
 Theoretically, It can be shown that SQIL is equivalent to augmenting BC with a regularization term that incorporates information about the state transition dynamics into the imitation policy, and thus enables long-horizon imitation.
@@ -79,7 +79,7 @@ The default config is defined as follows:
 .. autoclass:: ding.policy.sql.SQLPolicy
 
 
-The bellman updates of SQIL/SQL and the Q-value function updates are defined in the function ``q_nstep_sql_td_error`` of ``ding/rl_utils/td.py``:
+The Bellman update of SQIL/SQL and the Q-value function update are defined in the function ``q_nstep_sql_td_error`` of ``ding/rl_utils/td.py``:
 
 .. code-block:: python
 
@@ -214,9 +214,9 @@ We also need to modify rewards for new data and demonstration data. Taking the C
             device = new_data[i]['obs'].device
             new_data[i].reward = torch.tensor([0.]).to(device)
 
-Regrading the demonstration data, we can leave these rewards as they were. For a general reward modification, please refer to ``ding//entry/serial_entry_sqil.py``.
+Regarding the demonstration data, we can leave these rewards unchanged. For a general reward modification, please refer to ``ding//entry/serial_entry_sqil.py``.
 
-Regrading its performance, we drew a table below to compare with DQN, SQL in lunarlander and pong environments
+The table below shows a benchmark of the performance of DQN, SQL, and SQIL in Lunarlander and Pong environments.
 
 +-------------+---------------------------------+-----------------------------------+------------------------------------+--------+
 | env / method| DQN                             |SQL                                | SQIL                               | alpha  |
@@ -239,7 +239,7 @@ Regrading its performance, we drew a table below to compare with DQN, SQL in lun
 
 .. image:: images/pong.png
 
-The  above tensorboard diagram corresponds to the convergence of SQIL in the pong environment when alpha = 0.12, as shown in the above table.
+The  above tensorboard diagram corresponds to the convergence of SQIL in the Pong environment when alpha = 0.12, as shown in the above table.
 
 References
 -----------
