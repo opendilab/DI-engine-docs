@@ -101,13 +101,13 @@ Benchmark
 |                     |                 |                                                     |`config_link_l <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |                     |                 |                                                     |DI-engine/tree/main/dizoo/| DQN                  |
-|Lunarlander          |  200            |.. image:: images/benchmark/lunarlander_gail.png     |box2d/lunarlander/config/ |                      |
+|LunarLander          |  200            |.. image:: images/benchmark/lunarlander_gail.png     |box2d/lunarlander/config/ |                      |
 |                     |                 |                                                     |lunarlander_dqn_gail_     |                      |
 |(LunarLander-v2)     |                 |                                                     |config.py>`_              |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_b <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|Bipedalwalker        |                 |                                                     |DI-engine/tree/main/dizoo/| SAC                  |
+|BipedalWalker        |                 |                                                     |DI-engine/tree/main/dizoo/| SAC                  |
 |                     |  300            |.. image:: images/benchmark/bipedalwalker_gail.png   |box2d/bipedalwalker/      |                      |
 |(BipedalWalker-v3)   |                 |                                                     |config/bipedalwalker_sac_ |                      |
 |                     |                 |                                                     |gail_config.py>`_         |                      |
@@ -121,14 +121,8 @@ Benchmark
 
 Reference
 ---------
+- Ho, Jonathan, and Stefano Ermon. Making efficient use of demonstrations to solve hard exploration problems. [https://arxiv.org/abs/1606.03476 arXiv:1606.03476], 2019.
 
-1. Ho, Jonathan, and Stefano Ermon. "Generative adversarial imitation
-   learning." Advances in neural information processing systems 29
-   (2016): 4565-4573.
+- Song, Jiaming, et al. Multi-agent generative adversarial imitation learning. [https://arxiv.org/abs/1807.09936 arXiv:1807.09936], 2018.
 
-2. Song, Jiaming, et al. "Multi-agent generative adversarial imitation
-   learning." arXiv preprint arXiv:1807.09936 (2018).
-
-3. Finn, Chelsea, et al. "A connection between generative adversarial
-   networks, inverse reinforcement learning, and energy-based models."
-   arXiv preprint arXiv:1611.03852 (2016).
+- Finn, Chelsea, et al. A connection between generative adversarial networks, inverse reinforcement learning, and energy-based models. [https://arxiv.org/abs/1611.03852 arXiv:1611.03852], 2016.
