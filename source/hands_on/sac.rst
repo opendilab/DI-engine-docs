@@ -326,3 +326,9 @@ Other Public Implementations
 .. _`rllib (Ray)`: https://github.com/ray-project/ray/tree/master/python/ray/rllib/agents/sac
 .. _Spinningup: https://github.com/openai/spinningup/tree/master/spinup/algos/pytorch/sac
 .. _tianshou: https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/sac.py
+
+Reference
+---------
+- Haarnoja, et al. Soft Actor-Critic Algorithms and Applications. [https://arxiv.org/abs/1812.05905 arXiv:1812.05905], 2019.
+
+- Haarnoja, et al. Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor. [https://arxiv.org/abs/1801.01290 arXiv:1801.01290], 2018.
