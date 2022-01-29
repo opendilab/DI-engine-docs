@@ -111,6 +111,7 @@ SAC can be combined with:
         Extensive experiments conducted by `Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor <https://arxiv.org/abs/1801.01290>`_ demonstrate Soft actor-critic is sensitive to reward scaling since it is related to the temperature of the optimal policy. The optimal reward scale varies between environments, and should be tuned for each task separately.
         Since we implement auto alpha strategy depending on maximum entropy through configuring ``learn.is_auto_alpha`` and ``learn.alpha``.
 
+
 Implementation
 ---------------------------------
 The default config is defined as follows:
@@ -190,17 +191,25 @@ Entropy-Regularized Reinforcement Learning as follows:
 
         # target q value. SARSA: first predict next action, then calculate next q value
         with torch.no_grad():
-            next_data = {'obs': next_obs}
-            next_action = self._learn_model.forward(data['obs'], mode='compute_actor', deterministic_eval=False)
-            next_data['action'] = next_action['action']
-            next_data['log_prob'] = next_action['log_prob']
+            (mu, sigma) = self._learn_model.forward(next_obs, mode='compute_actor')['logit']
+
+            dist = Independent(Normal(mu, sigma), 1)
+            pred = dist.rsample()
+            next_action = torch.tanh(pred)
+            y = 1 - next_action.pow(2) + 1e-6
+            # keep dimension for loss computation (usually for action space is 1 env. e.g. pendulum)
+            next_log_prob = dist.log_prob(pred).unsqueeze(-1)
+            next_log_prob = next_log_prob - torch.log(y).sum(-1, keepdim=True)
+
+            next_data = {'obs': next_obs, 'action': next_action}
+            target_q_value = self._target_model.forward(next_data, mode='compute_critic')['q_value']
             # the value of a policy according to the maximum entropy objective
-            if self._twin_q:
+            if self._twin_critic:
                 # find min one as target q value
                 target_q_value = torch.min(target_q_value[0],
-                                           target_q_value[1]) - self._alpha * next_data['log_prob'].squeeze(-1)
+                                           target_q_value[1]) - self._alpha * next_log_prob.squeeze(-1)
             else:
-                target_q_value = target_q_value - self._alpha * next_data['log_prob'].squeeze(-1)
+                target_q_value = target_q_value - self._alpha * next_log_prob.squeeze(-1)
 
     Soft Q value network update.
 
@@ -232,11 +241,9 @@ Entropy-Regularized Reinforcement Learning as follows:
     .. code-block:: python
 
         # compute policy loss
-        if not self._reparameterization:
-            target_log_policy = new_q_value - v_value
-            policy_loss = (log_prob * (log_prob - target_log_policy.unsqueeze(-1))).mean()
-        else:
-            policy_loss = (self._alpha * log_prob - new_q_value.unsqueeze(-1)).mean()
+        policy_loss = (self._alpha * log_prob - new_q_value.unsqueeze(-1)).mean()
+
+        loss_dict['policy_loss'] = policy_loss
 
         # update policy network
         self._optimizer_policy.zero_grad()
