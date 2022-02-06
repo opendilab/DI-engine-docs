@@ -8,7 +8,7 @@ challenging environments, including the discrete 57-game Atari domain and severa
 the sample efficiency and decreases the data correlation by using the following tricks:
 
 -  **Truncated importance sampling with bias correction**, which controls the stability of the off-policy estimator
--  **Retrace Q-value estimation**, which is an off-policy, low variance, and return-based algorithm, and has been proven to converge
+-  **Retrace Q value estimation**, which is an off-policy, low variance, and return-based algorithm, and has been proven to converge
 -  **Efficient TRPO (Trust Region Policy Optimization)**, which scales well to large problems
 -  **Stochastic Dueling Networks (SDNs)**, which is designed to estimate both :math:`V^\pi` and :math:`Q^\pi` off-policy while maintaining consistency between the two estimates
 
@@ -86,7 +86,7 @@ to be samples from :math:`\pi_\theta(·|x_t)`.
    :align: center
    :scale: 45%
 
-Pseudocode
+Pseudo-code
 ----------
 
 There are a few changes between ACER applied to discrete action spaces and that applied to continuous action space.
@@ -99,7 +99,12 @@ There are a few changes between ACER applied to discrete action spaces and that 
    :align: center
    :scale: 50%
 
-In continuous action space, it is impossible to enumerate all actions q value. So ACER uses sampled actions to replace the expectation.
+In continuous action space, it is impossible to enumerate Q values for every action.
+So ACER uses the sampled actions to approximate the expected value.
+
+..
+So ACER uses sampled actions to replace the expectation.
+
 
 .. image:: images/ACER_algo2.png
    :align: center
@@ -262,6 +267,7 @@ Benchmark
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
-Reference
+References
 ----------
-Ziyu Wang, Victor Bapst, Nicolas Heess, Volodymyr Mnih, Remi Munos, Koray Kavukcuoglu, Nando de Freitas: "Sample Efficient Actor-Critic with Experience Replay", 2016; [https://arxiv.org/abs/1611.01224 arxiv:1611.01224].
+
+- Ziyu Wang, Victor Bapst, Nicolas Heess, Volodymyr Mnih, Remi Munos, Koray Kavukcuoglu, Nando de Freitas: "Sample Efficient Actor-Critic with Experience Replay", 2016; [https://arxiv.org/abs/1611.01224 arxiv:1611.01224].
