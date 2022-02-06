@@ -7,19 +7,20 @@ R2D2 was first proposed in `Recurrent experience replay in distributed reinforce
 In RNN training with experience replay, the RL algorithms usually face the problem of representational drift and recurrent state staleness.
 R2D2 utilize two approaches: stored states and burn-in to mitigate the aforementioned effects.
 R2D2 agent integrates these findings to achieve significant advances in the state of the art on Atari-57 and matches the state of the art on DMLab-30.
-They claims that, Recurrent Replay Distributed DQN (R2D2), is the first agent to achieve this using a single network architecture and fixed set of hyper-parameters.
+The authors claim that, Recurrent Replay Distributed DQN (R2D2), is the first agent to achieve this using a single network architecture and fixed set of hyper-parameters.
 
 
 Quick Facts
 -------------
-1. R2D2 is a **off-policy**, **model-free** and **value-based** RL algorithm, essentially a DQN-based algorithm using distributed framework, double q Networks, dueling architecture,
-   n-step TD loss, and prioritized experience replay.
+1. R2D2 is an **off-policy**, **model-free** and **value-based** RL algorithm,
 
-2. R2D2 now only support **discrete** action spaces and uses **eps-greedy** for exploration same as DQN.
+2. R2D2 is essentially a DQN-based algorithm using a distributed framework, double Q networks, dueling architecture, n-step TD loss, and prioritized experience replay.
 
-3. R2D2 uses the **stored state** and **burn_in** techniques to mitigate the effects of representational drift and recurrent state staleness.
+3. R2D2 now only supports **discrete** action spaces and uses **eps-greedy** for exploration same as DQN.
 
-4. The DI-engine implementation of R2D2 provide **res_link** key to support residual link in recurrent Q network.
+4. R2D2 uses the **stored state** and **burn_in** techniques to mitigate the effects of representational drift and recurrent state staleness.
+
+5. The DI-engine implementation of R2D2 provides **res_link** key to support residual link in recurrent Q network.
 
 Key Equations or Key Graphs
 ---------------------------
@@ -36,10 +37,10 @@ In R2D2, we use the mixture of max and mean absolute n-step TD-errors as priorit
    :scale: 30%
 
 .. note::
-   Now in our DI-engine implementation, we don't use the reward and one-hot action as the input of LSTM q network.
+   Now in our DI-engine implementation, the input to the LSTM-based Q network does not include rewards and one-hot actions.
 
-For the more details about how to use RNN in DI-engine, you can refer to `How to use RNN <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html>`_. For
-Data Arrangement process in r2d2, users can refer to `data-arrangement <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#data-arrangement>`_,
+For more details on how to use RNN in DI-engine, you can refer to `How to use RNN <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html>`_,
+for data arrangement process in r2d2, users can refer to `data-arrangement <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#data-arrangement>`_,
 for the burn-in technique in R2D2, users can refer to `burn-in-in-r2d2 <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#burn-in-in-r2d2>`_.
 
 ..
@@ -53,18 +54,19 @@ R2D2 can be combined with:
 
     - learning from demonstrations
 
-      you can refer to `R2D3 paper <https://arxiv.org/abs/1909.01387>`_ and `R2D3 doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d3_zh.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d3.py>`_.
+      You can refer to `R2D3 paper <https://arxiv.org/abs/1909.01387>`_ and `R2D3 doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d3_zh.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d3.py>`_.
       R2D3 is an agent that makes efficient use of demonstrations to solve hard exploration problems in partially observable environments with highly variable initial conditions.
 
 
-    - transformers
+    - Transformers
 
-      you can refer to `GTrXL paper <https://arxiv.org/abs/1910.06764>`_ and `r2d2_gtrxl doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d2_gtrxl.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2_gtrxl.py>`_.
+      Transformers-based agents take advantage of their powerful attention mechanism to learn better policies in those environments where long-term memory can be beneficial.
+      You can refer to `GTrXL paper <https://arxiv.org/abs/1910.06764>`_ and `r2d2_gtrxl doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d2_gtrxl.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2_gtrxl.py>`_.
 
 
 Implementations
 ----------------
-The default config of R2D2Policy is defined as follows:
+The default config of ``R2D2Policy`` is defined as follows:
 
 .. autoclass:: ding.policy.r2d2.R2D2Policy
    :noindex:
@@ -79,34 +81,64 @@ The network interface R2D2 used is defined as follows:
 Benchmark
 -----------
 
+..
+    +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+    | environment         |best mean reward | evaluation results                                  | config link              | comparison           |
+    +=====================+=================+=====================================================+==========================+======================+
+    |                     |                 |                                                     |`config_link_p <https://  |                      |
+    |                     |                 |                                                     |github.com/opendilab/     |                      |
+    |                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+    |Pong                 |  20             |.. image:: images/benchmark/pong_r2d2.png            |atari/config/serial/      |                      |
+    |                     |                 |                                                     |pong/pong_r2d2_config     |                      |
+    |(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
+    +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+    |                     |                 |                                                     |`config_link_q <https://  |                      |
+    |                     |                 |                                                     |github.com/opendilab/     |                      |
+    |Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+    |                     |  6000           |.. image:: images/benchmark/qbert_r2d2_cfg2.png      |atari/config/serial/      |                      |
+    |(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_r2d2_config_2 |                      |
+    |                     |                 |                                                     |.py>`_                    |                      |
+    +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+    |                     |                 |                                                     |`config_link_s <https://  |                      |
+    |                     |                 |                                                     |github.com/opendilab/     |                      |
+    |SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+    |                     |  1400           |.. image:: images/benchmark/spaceinvaders_r2d2.png   |atari/config/serial/space |                      |
+    |(SpaceInvadersNoFrame|                 |                                                     |invaders/spaceinvaders    |                      |
+    |skip-v4)             |                 |                                                     |_r2d2_config.py>`_        |                      |
+    +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
-+=====================+=================+=====================================================+==========================+======================+
-|                     |                 |                                                     |`config_link_p <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|Pong                 |  20             |.. image:: images/benchmark/pong_r2d2.png            |atari/config/serial/      |                      |
-|                     |                 |                                                     |pong/pong_r2d2_config     |                      |
-|(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_q <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  6000           |.. image:: images/benchmark/qbert_r2d2.png           |atari/config/serial/      |                      |
-|(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_r2d2_config   |                      |
-|                     |                 |                                                     |.py>`_                    |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_s <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  1400           |.. image:: images/benchmark/spaceinvaders_r2d2.png   |atari/config/serial/space |                      |
-|(SpaceInvadersNoFrame|                 |                                                     |invaders/spaceinvaders    |                      |
-|skip-v4)             |                 |                                                     |_r2d2_config.py>`_        |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
-Reference
+.. list-table:: Benchmark and comparison of r2d2 algorithm
+   :widths: 25 15 30 15 15
+   :header-rows: 1
+
+   * - environment
+     - best mean reward
+     - evaluation results
+     - config link
+     - comparison
+   * - | Pong (PongNoFrameskip-v4)
+       |
+     - 20
+     - .. image:: images/benchmark/pong_r2d2.png
+     - `config_link_p <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial/pong/pong_r2d2_config.py>`_
+     - |
+   * - | Qbert (QbertNoFrameskip-v4)
+       |
+     - 6000
+     - .. image:: images/benchmark/qbert_r2d2_cfg2.png
+     - `config_link_q <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial/qbert/qbert_r2d2_config_2.py>`_
+     - |
+   * - | SpaceInvaders (SpaceInvadersNoFrameskip-v4)
+       |
+     -1400
+     - .. image:: images/benchmark/spaceinvaders_r2d2.png
+     - `config_link_s <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_r2d2_config.py>`_
+     - |
+
+
+References
 ----------
 
 - Kapturowski S, Ostrovski G, Quan J, et al. Recurrent experience replay in distributed reinforcement learning[C]//International conference on learning representations. 2018.
