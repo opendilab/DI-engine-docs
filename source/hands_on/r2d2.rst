@@ -39,7 +39,7 @@ In R2D2, we use the mixture of max and mean absolute n-step TD-errors as priorit
 .. note::
    Now in our DI-engine implementation, the input to the LSTM-based Q network does not include rewards and one-hot actions.
 
-For more details on how to use RNN in DI-engine, you can refer to `How to use RNN <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html>`_,
+For more details on how to use RNN in DI-engine, users can refer to `How to use RNN <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html>`_,
 for data arrangement process in r2d2, users can refer to `data-arrangement <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#data-arrangement>`_,
 for the burn-in technique in R2D2, users can refer to `burn-in-in-r2d2 <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#burn-in-in-r2d2>`_.
 
@@ -52,16 +52,16 @@ Extensions
 -----------
 R2D2 can be combined with:
 
-    - learning from demonstrations
+    - Learning from demonstrations
 
-      You can refer to `R2D3 paper <https://arxiv.org/abs/1909.01387>`_ and `R2D3 doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d3_zh.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d3.py>`_.
+      Users can refer to `R2D3 paper <https://arxiv.org/abs/1909.01387>`_ and `R2D3 doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d3_zh.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d3.py>`_.
       R2D3 is an agent that makes efficient use of demonstrations to solve hard exploration problems in partially observable environments with highly variable initial conditions.
 
 
     - Transformers
 
       Transformers-based agents take advantage of their powerful attention mechanism to learn better policies in those environments where long-term memory can be beneficial.
-      You can refer to `GTrXL paper <https://arxiv.org/abs/1910.06764>`_ and `r2d2_gtrxl doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d2_gtrxl.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2_gtrxl.py>`_.
+      Users can refer to `GTrXL paper <https://arxiv.org/abs/1910.06764>`_ and `r2d2_gtrxl doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d2_gtrxl.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2_gtrxl.py>`_.
 
 
 Implementations
@@ -109,7 +109,7 @@ Benchmark
 
 
 
-.. list-table:: Benchmark and comparison of r2d2 algorithm
+.. list-table:: Benchmark and comparison of R2D2 algorithm
    :widths: 25 15 30 15 15
    :header-rows: 1
 
