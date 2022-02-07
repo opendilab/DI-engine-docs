@@ -9,7 +9,7 @@ TD3 is an actor-critic, model-free algorithm based on the deep deterministic pol
 
 Quick Facts
 -----------
-1. TD3 is only used for environments with **continuous action spaces**.(i.e. MuJoCo)
+1. TD3 is only used for environments with **continuous action spaces** (e.g., MuJoCo).
 
 2. TD3 is an **off-policy** algorithm.
 
@@ -94,7 +94,7 @@ Pseudocode
     \end{algorithmic}
     \end{algorithm}
 
-.. image:: images/td3.jpg
+.. image:: images/TD3.jpg
    :scale: 80%
    :align: center
 
@@ -123,7 +123,7 @@ TD3 can be combined with:
 
     - Replay Buffers
 
-        DDPG/TD3 random-collect-size is set to 25000 by default, while it is 25000 for SAC.
+        DDPG/TD3 random-collect-size is set to 25000 by default, while it is 10000 for SAC.
         We only simply follow SpinningUp default setting and use random policy to collect initialization data.
         We configure ``random_collect_size`` for data collection.
 
@@ -323,7 +323,7 @@ Other Public Implementations
 
 .. _Baselines: https://github.com/openai/baselines/tree/master/baselines/ddpg
 .. _rllab: https://github.com/rll/rllab/blob/master/rllab/algos/ddpg.py
-.. _`rllib (Ray)`: https://github.com/ray-project/ray/tree/master/python/ray/rllib/agents/ddpg
+.. _`rllib (Ray)`: https://github.com/ray-project/ray/tree/master/rllib/agents/ddpg
 .. _`TD3 release repo`: https://github.com/sfujim/TD3
 .. _Spinningup: https://github.com/openai/spinningup/tree/master/spinup/algos/pytorch/ddpg
 .. _tianshou: https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/ddpg.py
