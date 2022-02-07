@@ -3,32 +3,32 @@ A2C
 
 Overview
 ---------
-A2C (advantage actor critic) is an actor-critic RL algorithm, where the policy gradient algorithm is combined with an advantage function to reduce variance.
+A3C(Asynchronous advantage actor-critic) algorithm is simple and lightweight framework for deep reinforcement learning that uses asynchronous gradient descent for optimization of deep neural network controllers. A2C(advantage actor-critic), on the other hand, is the synchronous version of A3C where where the policy gradient algorithm is combined with an advantage function to reduce variance.
 
 Quick Facts
 -----------
 1. A2C is a **model-free** and **policy-based** RL algorithm.
 
-2. A2C supports both **discrete** and **continuous** action spaces.
-
-3. A2C supports both **off-policy** and **on-policy** modes.
+2. A2C is an **on-policy** algorithm.
+   
+3. A2C supports both **discrete** and **continuous** action spaces.
 
 4. A2C can be equipped with Recurrent Neural Network (RNN).
 
 Key Equations or Key Graphs
 ----------------------------
-A2C uses advantage estimation in the policy gradient:
+A2C uses advantage estimation in the policy gradient. We implement the advantage by Generalized Advantage Estimation (GAE):
 
 .. math::
 
-   \nabla_{\theta^{\prime}} \log \pi\left(a_{t} \mid {s}_{t} ; \theta^{\prime}\right) A\left(s_{t}, {a}_{t} ; \theta, \theta_{v}\right)
+   \nabla_{\theta} \log \pi\left(a_{t} \mid {s}_{t} ; \theta\right) \hat{A}^{\pi}\left(s_{t}, {a}_{t} ; \phi \right)
 
 
-where the n-step advantage function is defined:
+where the k-step advantage function is defined:
 
 .. math::
 
-   \sum_{i=0}^{k-1} \gamma^{i} r_{t+i}+\gamma^{k} V\left(s_{t+k} ; \theta_{v}\right)-V\left(s_{t} ; \theta_{v}\right)
+   \sum_{i=0}^{k-1} \gamma^{i} r_{t+i}+\gamma^{k} \hat{V}^{\pi}\left(s_{t+k} ; \phi\right)-\hat{V}^{\pi}\left(s_{t} ; \phi\right)
 
 Pseudo-code
 -----------
