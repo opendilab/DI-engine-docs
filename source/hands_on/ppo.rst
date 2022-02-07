@@ -24,7 +24,6 @@ PPO use clipped probability ratios in the policy gradient to prevent the policy 
 .. math::
 
     L^{C L I P}(\theta)=\hat{\mathbb{E}}_{t}\left[\min \left(r_{t}(\theta) \hat{A}_{t}, \operatorname{clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right)\right]
-    L^{C L I P}(\theta)=\hat{E}{t}\left[\min \left(r{t}(\theta) \hat{A}{t}, \operatorname{clip}\left(r{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right)\right]
 
 with the probability ratio :math:`r_t(\theta)` defined as:
 
@@ -97,15 +96,12 @@ Some concrete implementation details:
 - Recompute advantage: recompute the advantage of historical transitions before the beginning of each training epoch, to keep the estimation
   of advantage close to current policy.
 
-..
-For how we compute advantage,
-
-- Value/advantage normalization: we standardize the targets of the value function by using running estimates of the average and standard deviation of the value targets.
-  For more implementation details about, users can refer to this discussion
-  `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
+- Value/advantage normalization: we standardize the targets of the value/advantage function by using running estimates of the average and standard deviation of the value/advantage targets.
+  For more implementation details about, users can refer to this discussion `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
 
 ..
 The Benchmark result of PPO implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_.
+
 
 Benchmark
 -----------
@@ -155,7 +151,7 @@ off policy PPO Benchmark:
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Halfcheetah          |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |                     |  2000           |.. image:: images/benchmark/halfcheetah_offppo.png   |mujoco/config/serial/     |                      |
-|(Halfcheetah-v3)    |                 |                                                     |halfcheetah/halfcheetah   |                      |
+|(Halfcheetah-v3)     |                 |                                                     |halfcheetah/halfcheetah   |                      |
 |                     |                 |                                                     |_offppo_config.py>`_      |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
