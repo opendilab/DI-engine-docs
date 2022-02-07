@@ -15,7 +15,7 @@ Quick Facts
 
 4. PPO can be equipped with RNN.
 
-5. PPO on-policy implementation use double loop(epoch loop and minibatch loop)
+5. PPO on-policy implementation use double loop(epoch loop and minibatch loop).
 
 Key Equations or Key Graphs
 ------------------------------
@@ -24,6 +24,7 @@ PPO use clipped probability ratios in the policy gradient to prevent the policy 
 .. math::
 
     L^{C L I P}(\theta)=\hat{\mathbb{E}}_{t}\left[\min \left(r_{t}(\theta) \hat{A}_{t}, \operatorname{clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right)\right]
+    L^{C L I P}(\theta)=\hat{E}{t}\left[\min \left(r{t}(\theta) \hat{A}{t}, \operatorname{clip}\left(r{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right)\right]
 
 with the probability ratio :math:`r_t(\theta)` defined as:
 
@@ -90,6 +91,19 @@ The policy gradient and value update of PPO is implemented as follows:
         value_loss = ppo_value_error(value_data, clip_ratio, use_value_clip)
 
         return ppo_loss(policy_output.policy_loss, value_loss, policy_output.entropy_loss), policy_info
+
+Some concrete implementation details:
+
+- Recompute advantage: recompute the advantage of historical transitions before the beginning of each training epoch, to keep the estimation
+  of advantage close to current policy.
+
+..
+For how we compute advantage,
+
+- Value/advantage normalization: we standardize the targets of the value function by using running estimates of the average and standard deviation of the value targets.
+  For more implementation details about, users can refer to this discussion
+  `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
+
 ..
 The Benchmark result of PPO implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_.
 
@@ -154,21 +168,21 @@ on policy PPO Benchmark:
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config_link_p <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|    RLlib(20)         |
 |Pong                 |  20             |.. image:: images/benchmark/pong_onppo.png           |atari/config/serial/      |                      |
 |                     |                 |                                                     |pong/pong_onppo_config    |                      |
 |(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_q <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|    RLlib(11085)      |
 |                     |  10000          |.. image:: images/benchmark/qbert_onppo.png          |atari/config/serial/      |                      |
 |(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_onppo_config  |                      |
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_s <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|    RLlib(671)        |
 |                     |  400            |.. image:: images/benchmark/spaceinvaders_onppo.png  |atari/config/serial/      |                      |
 |(SpaceInvadersNoFrame|                 |                                                     |spaceinvaders/spacein     |                      |
 |skip-v4)             |                 |                                                     |vaders_onppo_config.py>`_ |                      |
@@ -177,27 +191,32 @@ on policy PPO Benchmark:
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |                     |                 |                                                     |DI-engine/tree/main/dizoo/|   Tianshou(2700)     |
 |Hopper               |  3000           |.. image:: images/benchmark/hopper_onppo.png         |mujoco/config/serial/     |      Sb3(1567)       |
-|                     |                 |                                                     |hopper/hopper_onppo_config|                      |
+|                     |                 |                                                     |hopper/hopper_onppo_config|    spinningup(2500)  |
 |(Hopper-v3)          |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_w <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|   Tianshou(4500)     |
 |                     |  3000           |.. image:: images/benchmark/walker2d_onppo.png       |mujoco/config/serial/     |     Sb3(1230)        |
-|(Walker2d-v3)        |                 |                                                     |walker2d/walker2d_        |                      |
+|(Walker2d-v3)        |                 |                                                     |walker2d/walker2d_        |    spinningup(2500)  |
 |                     |                 |                                                     |onppo_config.py>`_        |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_ha <https:// |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Halfcheetah          |                 |                                                     |DI-engine/tree/main/dizoo/|   Tianshou(7194)     |
 |                     |  3500           |.. image:: images/benchmark/halfcheetah_onppo.png    |mujoco/config/serial/     |     Sb3(1976)        |
-|(Halfcheetah-v3)     |                 |                                                     |halfcheetah/halfcheetah   |                      |
+|(Halfcheetah-v3)     |                 |                                                     |halfcheetah/halfcheetah   |   spinningup(3000)   |
 |                     |                 |                                                     |_onppo_config.py>`_       |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
 References
 -----------
-John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, Oleg Klimov: “Proximal Policy Optimization Algorithms”, 2017; [http://arxiv.org/abs/1707.06347 arXiv:1707.06347].
 
-Logan Engstrom, Andrew Ilyas, Shibani Santurkar, Dimitris Tsipras, Firdaus Janoos, Larry Rudolph, Aleksander Madry: “Implementation Matters in Deep Policy Gradients: A Case Study on PPO and TRPO”, 2020; [http://arxiv.org/abs/2005.12729 arXiv:2005.12729].
+- John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, Oleg Klimov: “Proximal Policy Optimization Algorithms”, 2017; [http://arxiv.org/abs/1707.06347 arXiv:1707.06347].
+
+- Logan Engstrom, Andrew Ilyas, Shibani Santurkar, Dimitris Tsipras, Firdaus Janoos, Larry Rudolph, Aleksander Madry: “Implementation Matters in Deep Policy Gradients: A Case Study on PPO and TRPO”, 2020; [http://arxiv.org/abs/2005.12729 arXiv:2005.12729].
+
+- Andrychowicz M, Raichuk A, Stańczyk P, et al. What matters in on-policy reinforcement learning? a large-scale empirical study[J]. arXiv preprint arXiv:2006.05990, 2020.
+
+- Ye D, Liu Z, Sun M, et al. Mastering complex control in moba games with deep reinforcement learning[C]//Proceedings of the AAAI Conference on Artificial Intelligence. 2020, 34(04): 6672-6679.
