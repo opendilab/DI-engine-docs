@@ -3,7 +3,7 @@ COMA
 
 Overview
 ---------
-COMA (Foerster et al. 2018), `counterfactual multi-agent policy gradients <https://arxiv.org/abs/1312.5602>`_, is a multi-agent actor critic based approach to learn a fully centralized state action function and use it to guide the optimization of decentralized policies. COMA uses a centralized critic to train decentralized actors for individual agents, estimating a counterfactual advantage function for each agent in order to address multi-agent credit assignment. A counterfactual baseline is used in COMA to marginalizes out a single agent’s action, while keeping the other agents’ actions fixed, and the centralized critic representation allows the counterfactual baseline to be computed efficiently.
+COMA (Foerster et al. 2018), `counterfactual multi-agent policy gradients <https://arxiv.org/abs/1705.08926>`_, is a multi-agent actor critic based approach to learn a fully centralized state action function and use it to guide the optimization of decentralized policies. COMA uses a centralized critic to train decentralized actors for individual agents, estimating a counterfactual advantage function for each agent in order to address multi-agent credit assignment. A counterfactual baseline is used in COMA to marginalizes out a single agent’s action, while keeping the other agents’ actions fixed, and the centralized critic representation allows the counterfactual baseline to be computed efficiently.
 
 Quick Facts
 -------------
@@ -75,15 +75,15 @@ The Benchmark result of COMA in SMAC (Samvelyan et al. 2019), for StarCraft micr
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 | smac map            |best mean reward | evaluation results                                  | config link              | comparison           |
 +=====================+=================+=====================================================+==========================+======================+
-|                     |                 |                                                     |`config_link_p <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(20)        |
+|                     |                 |                                                     |`config_link <https://    |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Pymarl(0.1)         |
 |                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |MMM                  |  1.00           |.. image:: images/benchmark/COMA_MMM.png             |smac/config/              |                      |
 |                     |                 |                                                     |smac_MMM_coma_config      |                      |
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_q <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(15520)     |
+|                     |                 |                                                     |`config_link <https://    |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Pymarl(0.0)         |
 |3s5z                 |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |                     |  1.00           |.. image:: images/benchmark/COMA_3s5z.png            |smac/config/              |                      |
 |                     |                 |                                                     |smac_3s5z_coma_config     |                      |

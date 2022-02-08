@@ -75,21 +75,21 @@ The Benchmark result of QTRAN in SMAC (Samvelyan et al. 2019), for StarCraft mic
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 | smac map            |best mean reward | evaluation results                                  | config link              | comparison           |
 +=====================+=================+=====================================================+==========================+======================+
-|                     |                 |                                                     |`config_link_p <https://  |                      |
+|                     |                 |                                                     |`config_link <https://    |                      |
 |                     |                 |                                                     |github.com/opendilab/     |  Pymarl(1.0)         |
 |                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |MMM                  |  1.00           |.. image:: images/benchmark/QTran_MMM.png            |smac/config/              |                      |
 |                     |                 |                                                     |smac_MMM_qtran_config     |                      |
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |`config_link <https://    |                      |
 |                     |                 |                                                     |github.com/opendilab/     |  Pymarl(0.1)         |
 |3s5z                 |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |                     |  0.95           |.. image:: images/benchmark/QTran_3s5z.png           |smac/config/              |                      |
 |                     |                 |                                                     |smac_3s5z_qtran_config    |                      |
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |`config_link <https://    |                      |
 |                     |                 |                                                     |github.com/opendilab/     |  Pymarl(0.7)         |
 |5m6m                 |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |                     |  0.55           |.. image:: images/benchmark/QTran_5m6m.png           |smac/config/              |                      |
