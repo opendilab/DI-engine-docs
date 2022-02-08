@@ -25,6 +25,8 @@ RL Algorithm Cheat Sheet
     coma
     atoc
     collaq
+    qtran
+    wqmix
 
     rnd
 

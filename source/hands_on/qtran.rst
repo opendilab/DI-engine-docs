@@ -3,9 +3,9 @@ QTRAN
 
 Overview
 ---------
-QTRAN is proposed by Kyunghwan et al.(2019). QTRAN is a factorization method for MARL, which is free from such structural constraints and takes on a new approach to transforming the original joint action-value function into an easily factorizable one, with the same optimal actions.
+QTRAN is proposed by Kyunghwan et al.(2019). QTRAN is a factorization method for MARL, which is free from such structural constraints and takes on a new approach to transform the original joint action-value function into an easily factorizable one, with the same optimal actions.
 
-Compared to VDN(Sunehag et al. 2017), QMIX(Rashid et al. 2018), QTRAN guarantees more general factorization than VDN or QMIX, thus covering a much wider class of MARL tasks than does previous methods.
+Compared to VDN(Sunehag et al. 2017), QMIX(Rashid et al. 2018), QTRAN guarantees more general factorization than VDN or QMIX, thus covering a much wider class of MARL tasks than does previous methods, and it performs better than QMIX in 5m_vs_6m and MMM2 maps.
 
 Quick Facts
 -------------
@@ -28,6 +28,8 @@ Key Equations or Key Graphs
 The overall QTRAN architecture including individual agent networks and the mixing network structure:
 
 .. image:: images/marl/Qtran_net.png
+   :align: center
+   :width: 600
 
 QTRAN trains the mixing network via minimizing the following loss:
 
@@ -69,28 +71,33 @@ The network interface QTRAN used is defined as follows:
 
 The Benchmark result of QTRAN in SMAC (Samvelyan et al. 2019), for StarCraft micromanagement problems, implemented in DI-engine is shown.
 
-+---------------------+-----------------------------------------------------+
-| SMAC Map            | evaluation results                                  | 
-+=====================+=====================================================+
-|                     |                                                     |
-|                     |                                                     |
-|                     |                                                     |
-|MMM                  |.. image:: images/benchmark/QTran_MMM.png            |
-|                     |                                                     |
-|                     |                                                     |
-+---------------------+-----------------------------------------------------+
-|                     |                                                     |
-|                     |                                                     |
-|3s5z                 |                                                     |
-|                     |.. image:: images/benchmark/QTran_3s5z.png           |
-|                     |                                                     |
-+---------------------+-----------------------------------------------------+
-|                     |                                                     |
-|                     |                                                     |
-|5m6m                 |                                                     |
-|                     |.. image:: images/benchmark/QTran_5m6m.png           |
-|                     |                                                     |
-+---------------------+-----------------------------------------------------+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| smac map            |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_p <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Pymarl(1.0)         |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|MMM                  |  1.00           |.. image:: images/benchmark/QTran_MMM.png            |smac/config/              |                      |
+|                     |                 |                                                     |smac_MMM_qtran_config     |                      |
+|                     |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Pymarl(0.1)         |
+|3s5z                 |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  0.95           |.. image:: images/benchmark/QTran_3s5z.png           |smac/config/              |                      |
+|                     |                 |                                                     |smac_3s5z_qtran_config    |                      |
+|                     |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Pymarl(0.7)         |
+|5m6m                 |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  0.55           |.. image:: images/benchmark/QTran_5m6m.png           |smac/config/              |                      |
+|                     |                 |                                                     |smac_3s5z_qtran_config    |                      |
+|                     |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+
+
 
 References
 ----------------

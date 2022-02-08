@@ -4,25 +4,27 @@ WQMIX
 Overview
 ---------
 WQMIX was first proposed in `Weighted QMIX: Expanding Monotonic Value Function Factorisation for Deep Multi-Agent Reinforcement Learning <https://arxiv.org/abs/2006.10800>`_.
-Their focus of study is the unique properties of the particular function space represented by monotonic structure of Q functions in Qmix,
+Their focus of study is the unique properties of the particular function space represented by monotonic structure of Q functions in QMIX,
 and the tradeoffs in representation quality across different joint actions induced by projection into that space.
 They show that the projection in QMIX can fail to recover the optimal policy,
 which primarily stems from the equal weighting placed on each joint action.
 WQMIX rectify this by introducing a weighting into the projection, in order to place more importance on the better joint actions.
+
 WQMIX propose two weighting schemes and prove that they recover the correct maximal action for any joint action Q-values.
-WQMIX introduce two scalable versions,
+
+WQMIX introduce two scalable versions:
 Centrally-Weighted (CW) QMIX and Optimistically-Weighted (OW) QMIX and demonstrate improved performance on both predator-prey and challenging multi-agent StarCraft benchmark tasks.
 
 Quick Facts
 -------------
 1. WQMIX is an **off-policy model-free value-based multi-agent** RL algorithm using the paradigm of **centralized training with decentralized execution**.
-   and only support **discrete** action spaces.
+   And only support **discrete** action spaces.
 
 2. WQMIX considers a **partially observable** scenario in which each agent only obtains individual observations.
 
 3. WQMIX accepts **DRQN** as individual value network.
 
-4. WQMIX represents the joint value function using an architecture consisting of agent networks, a **mixing network**.
+4. WQMIX represents the joint value function using an architecture consisting of agent networks and a **mixing network**.
    The mixing network is a feed-forward neural network that takes the agent network outputs as input and mixes them monotonically, producing joint action values.
 
 Key Equations or Key Graphs
@@ -33,7 +35,7 @@ The overall WQMIX architecture including individual agent networks and the mixin
    :align: center
    :scale: 30%
 
-First, wqmix examine an operator that represents an idealised version of QMIX in a tabular setting.
+First, WQMIX examine an operator that represents an idealised version of QMIX in a tabular setting.
 The purpose of this analysis is primarily to understand the fundamental limitations of QMIX that stem from its training objective and the restricted function class it uses.
 This is the space of all :math:`Q_{tot}` that can be represented by monotonic funtions of tabular :math:`Q_{a}(s,u)` :
 
@@ -59,12 +61,12 @@ Properties of :math:`T_{*}^{Qmix}` :
 
 - :math:`T_{*}^{Qmix}` is not a contraction.
 - QMIX’s argmax is not always correct.
-- QMIX can underestimate the value of the optimal joint action
+- QMIX can underestimate the value of the optimal joint action.
 
 
-The WQMIX paper argue that this equal weighting over joint actions when performing the optimisation in qmix
+The WQMIX paper argues that this equal weighting over joint actions when performing the optimisation in QMIX.
 is responsible for the possibly incorrect argmax of the objective minimising solution.
-To prioritise estimating :math:`T_{tot}(u^{*}` well, while still anchoring down the value estimates for other joint actions,
+To prioritise estimating :math:`T_{tot}(u^{*})` well, while still anchoring down the value estimates for other joint actions,
 we can add a suitable weighting function w into the projection operator of QMIX:
 
 .. math::
@@ -72,17 +74,17 @@ we can add a suitable weighting function w into the projection operator of QMIX:
 
 
 The choice of weighting is crucial to ensure that WQMIX can overcome the limitations of QMIX.
-WQMIX consider two different weightings and proved that
+WQMIX considers two different weightings and proved that
 these choices of w ensure that the :math:`Q_{tot}` returned from the projection has the correct argmax.
 
-Idealised Central Weighting:
-imply down-weight every suboptimal action. However, this weighting requires computing the maximum across the joint action space, which is often infeasible.
+**Idealised Central Weighting**:
+It implies down-weight every suboptimal action. However, this weighting requires computing the maximum across the joint action space, which is often infeasible.
 In implementation WQMIX takes an approximation to this weighting in the deep RL setting.
 
 .. math::
    w(s, \mathbf{u})=\left\{\begin{array}{ll} 1 & \mathbf{u}=\mathbf{u}^{*}=\operatorname{argmax}_{\mathbf{u}} Q(s, \mathbf{u}) \\ \alpha & \text { otherwise } \end{array}\right.
 
-Optimistic Weighting:
+**Optimistic Weighting**:
 This weighting assigns a higher weighting to those joint actions that are underestimated relative to Q,
 and hence could be the true optimal actions (in an optimistic outlook).
 
@@ -101,6 +103,7 @@ The default config is defined as follows:
         :noindex:
 
 The network interface WQMIX used is defined as follows:
+
     .. autoclass:: ding.model.template.WQMix
         :members: forward
         :noindex:
@@ -111,35 +114,30 @@ Benchmark
 
 The Benchmark result of WQMIX in SMAC (Samvelyan et al. 2019), for StarCraft micromanagement problems, implemented in DI-engine is shown.
 
-+---------------------+-----------------------------------------------------+
-| SMAC Map            | evaluation results                                  | 
-+=====================+=====================================================+
-|                     |                                                     |
-|                     |                                                     |
-|                     |                                                     |
-|MMM                  |.. image:: images/benchmark/WQMIX_MMM.png            |
-|                     |                                                     |
-|                     |                                                     |
-+---------------------+-----------------------------------------------------+
-|                     |                                                     |
-|                     |                                                     |
-|3s5z                 |                                                     |
-|                     |.. image:: images/benchmark/WQMIX_3s5z.png           |
-|                     |                                                     |
-+---------------------+-----------------------------------------------------+
-|                     |                                                     |
-|                     |                                                     |
-|5m6m                 |                                                     |
-|                     |.. image:: images/benchmark/WQMIX_5m6m.png           |
-|                     |                                                     |
-+---------------------+-----------------------------------------------------+
-
-Author's PyTorch Implementation
--------------------------------------
-
-- WQMIX_
-
-.. _WQMIX: https://github.com/oxwhirl/wqmix.
++---------------------+-----------------+-----------------------------------------------------+--------------------------+--------------------------+
+| smac map            |best mean reward | evaluation results                                  | config link              | comparison               |
++=====================+=================+=====================================================+==========================+==========================+
+|                     |                 |                                                     |`config_link_p <https://  |                          |
+|                     |                 |                                                     |github.com/opendilab/     |`wqmix(Tabish)<https://   |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|github.com/oxwhirl/       |
+|MMM                  |  1.00           |.. image:: images/benchmark/WQMIX_MMM.png            |smac/config/              |wqmix>`_                  |
+|                     |                 |                                                     |smac_MMM_wqmix_config     | (1.0)                    |
+|                     |                 |                                                     |.py>`_                    |                          |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+--------------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                          |
+|                     |                 |                                                     |github.com/opendilab/     |`wqmix(Tabish)<https://   |
+|3s5z                 |                 |                                                     |DI-engine/tree/main/dizoo/|github.com/oxwhirl/       |
+|                     |  0.72           |.. image:: images/benchmark/WQMIX_3s5z.png           |smac/config/              |wqmix>`_                  |
+|                     |                 |                                                     |smac_3s5z_wqmix_config    | (0.94)                   |
+|                     |                 |                                                     |.py>`_                    |                          |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+--------------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                          |
+|                     |                 |                                                     |github.com/opendilab/     |`wqmix(Tabish)<https://   |
+|5m6m                 |                 |                                                     |DI-engine/tree/main/dizoo/|github.com/oxwhirl/       |
+|                     |  0.45           |.. image:: images/benchmark/WQMIX_5m6m.png           |smac/config/              |wqmix>`_                  |
+|                     |                 |                                                     |smac_3s5z_wqmix_config    | (0.9)                    |
+|                     |                 |                                                     |.py>`_                    |                          |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+--------------------------+
 
 References
 ----------------
