@@ -4,7 +4,7 @@ DQN
 综述
 ---------
 DQN最初在论文 `Playing Atari with Deep Reinforcement Learning <https://arxiv.org/abs/1312.5602>`_ 中被提出。
-传统的 Q-learning 维护一张 \ ``M*N`` \的Q值表（其中 M表示状态个数，N表示动作个数），通过贝尔曼方程（Bellman equation）来迭代更新 Q-value。这种算法在状态/动作空间变得很大的时候就会出现维度灾难的问题。而DQN与传统强化学习方法不同，它将 Q-learning 与深度神经网络相结合，使用深度神经网络来估计 Q 值，并通过计算时序差分（TD, Temporal-Difference） 损失，利用梯度下降算法进行更新，从而在高维空间的问题决策中（例如Atari游戏）达到了媲美甚至超过人类玩家的水平。
+传统的 Q-learning 维护一张 \ ``M*N`` \的Q值表（其中 M 表示状态个数，N表示动作个数），通过贝尔曼方程（Bellman equation）来迭代更新 Q-value。这种算法在状态/动作空间变得很大的时候就会出现维度灾难的问题。而DQN与传统强化学习方法不同，它将 Q-learning 与深度神经网络相结合，使用深度神经网络来估计 Q 值，并通过计算时序差分（TD, Temporal-Difference） 损失，利用梯度下降算法进行更新，从而在高维空间的问题决策中（例如Atari游戏）达到了媲美甚至超过人类玩家的水平。
 
 快速了解
 -------------
@@ -34,12 +34,6 @@ DQN 中的 TD-loss 是：
 .. image:: images/DQN.png
    :align: center
    :scale: 55%
-
-伪代码中的 equation（3） 指的是：
-
-.. image:: images/eq3.png
-   :align: center
-   :scale: 60%
 
 .. note::
    DQN在发展过程中变更出了许多版本。与原始版本相比，现代的 DQN 在算法和实现方面都得到了显著改进。譬如，在算法部分，**TD-loss, PER, n-step, target network** and **dueling head** 等技巧被广泛使用，感兴趣的读者可参考论文 `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_。在实现部分，探索所用的 epsilon 并非在整个训练流程保持不变，而是根据环境步数（envstep，意为策略与环境的交互次数），在训练期间，探索所用的 epsilon 从一个较高的初始值（比如，0.95）退火到一个较低值（比如，0.05）。
@@ -82,12 +76,6 @@ DQN 可以和以下方法相结合：
     - 目标网络（target network/Double DQN）
 
       Double DQN, 在 `Deep Reinforcement Learning with Double Q-learning <https://arxiv.org/abs/1509.06461>`_ 中被提出，是 DQN 的一种常见变种。此方法维护另一个 Q 网络，称为目标网络，该网络由当前网络按固定频率更新。
-
-      Double DQN 中的 target Q 可以表示为：
-
-        .. image:: images/doubleDQN.png
-           :align: center
-           :scale: 20%
 
       区别于传统DQN，Double DQN不会选择当前网络中离散动作空间中的最大Q值，而是首先查找  **当前网络**  中Q值最大的动作（对应上面公式中的  :math:`argmax_a Q(S_{t+1},a;\theta_t)`），然后根据该动作从 **目标网络**  获取Q值
       (对应上面公示中的  :math:`Q(S_{t+1},argmax_a Q(S_{t+1},a;\theta_t);\theta'_t)`）。
