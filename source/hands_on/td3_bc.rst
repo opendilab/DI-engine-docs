@@ -5,9 +5,16 @@ Overview
 ---------
 
 TD3BC, proposed in the 2021 paper `A Minimalist Approach to Offline Reinforcement Learning <https://arxiv.org/abs/2106.06860>`_,
-is a simple approach to offline RL where only two changes are made to TD3: a weighted behavior cloning loss is added to the policy update and the states are normalized.
+is a simple approach to offline RL where **only two changes** are made to TD3: a weighted behavior cloning loss is added to the policy update and the states are normalized.
 Unlike competing methods there are no changes to architecture or underlying hyperparameters.
 The resulting algorithm is a simple baseline that is easy to implement and tune, while more than halving the overall run time by removing the additional computational overhead of previous methods.
+
+.. figure:: images/td3bc_paper_table1.png
+   :align: center
+
+   Implementation changes offline RL algorithms make to the underlying base RL algorithm. † corresponds
+   to details that add additional hyperparameter(s), and ‡ corresponds to ones that add a computational cost.
+   `Ref <https://arxiv.org/abs/2106.06860>`_
 
 Quick Facts
 -----------
@@ -24,7 +31,7 @@ TD3BC simply consists to add a behavior cloning term to TD3 in order to regulari
     \pi = \arg\max_{\pi} \mathbb{E}_{(s, a) \sim D} [ \lambda Q(s, \pi(s)) - (\pi(s)-a)^2 ]
     \end{aligned}
 
-Additionally, all the states in the dataset are normalized, such that they have mean 0 and standard deviation 1.
+Additionally, all the states in each mini-batch are normalized, such that they have mean 0 and standard deviation 1.
 This normalization improves the stability of the learned policy.
 
 
@@ -89,6 +96,7 @@ Benchmark
 |                     |                 |                |               |          |          |
 +---------------------+-----------------+----------------+---------------+----------+----------+
 
+**Note**: the D4RL environment used in this benchmark can be found `here <https://github.com/rail-berkeley/d4rl>`_.
 
 Other Public Implementations
 ----------------------------
