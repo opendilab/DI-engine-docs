@@ -361,13 +361,13 @@ Benchmark
      - 13175
      - .. image:: images/benchmark/impala_qbert.png
      - `config_link_q <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/qbert/qbert_impala_config.py>`_
-     - | MPALA paper shallow 200M (18901)
+     - | IMPALA paper shallow 200M (18901)
    * - | SpaceInvaders
        | (SpaceInvadersNoFrame skip-v4)
      - 977
      - .. image:: images/benchmark/impala_spaceinvaders.png
      - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_impala_config.py>`_
-     - | MPALA paper shallow 200M (1726)
+     - | IMPALA paper shallow 200M (1726)
 
 P.S.：
 
