@@ -14,7 +14,7 @@ Quick Facts
 
 2. Impala can support both **discrete** action spaces and **continuous** action spaces.
 
-3. Impala is a actor-critic RL algorithm with value network, which optimizes actor network and critic (value) network, respectively.
+3. Impala is an actor-critic RL algorithm with value network, which optimizes actor network and critic (value) network, respectively.
 
 4. Impala can take advantages of the old off-policy data with corresponding **off-policy correction**  to stabilize learning.
 
@@ -24,7 +24,7 @@ Quick Facts
 
 Key Equations
 ---------------------------
-Loss used in Impala is similar to that in PPO, A2C and other value function actor-critic model. All of them comes from ``policy_loss``,\
+Loss used in Impala is similar to that in PPO, A2C and other value function actor-critic models. All of them come from ``policy_loss``,\
 ``value_loss`` and ``entropy_loss``, with respect to some carefully chosen weights, i.e.:
 
 .. math::
@@ -82,7 +82,7 @@ Therefore, loss functions are
     loss_{policy} &= -\rho_s \log \pi_\phi(a_s \vert x_s)  \big(r_s + \gamma v_{s+1} - V_\theta(x_s)\big) \\
     loss_{entropy} &= -H(\pi_\phi) = \sum_a \pi_\phi(a\vert x_s)\log \pi_\phi(a\vert x_s)
 
-where :math:`H(\pi_{\phi})`, entropy of policy :math:`\phi`, is an bonus to encourage exploration.
+where :math:`H(\pi_{\phi})`, entropy of policy :math:`\phi`, is a bonus to encourage exploration.
 
 Value function parameter is updated in the direction of:
 
@@ -142,7 +142,7 @@ Data Processing
 
 Usually, we hope to compute everything as a batch to improve efficiency. Especially, when computing vtrace, we
 need all training sample (sequences of training data) have the same length. This is done in ``policy._get_train_sample``.
-Once we execute this function in collector, the length of samples will equal to unroll-len in config. For details, please
+Once we execute this function in collector, the length of samples will equal to ``unroll_len`` in config. For details, please
 refer to doc of ``ding.rl_utils.adder``.
 
 .. _ref2other:
@@ -209,7 +209,7 @@ refer to doc of ``ding.rl_utils.adder``.
     with length smaller than ``unroll_len``. This method is kind of naive and usually is not a good choice. Since in
     Reinforcement Learning, the last few data in an episode is usually very important, we can't just throw away them.
 
-    2. The second method is ``last``, which means if the total length trajectory is smaller than ``unrollen_len``,
+    2. The second method is ``last``, which means if the total length trajectory is smaller than ``unroll_len``,
     we will use zero padding. Else, we will use data from previous piece to pad residual piece. This method is set as
     default and recommended.
 
@@ -218,7 +218,7 @@ refer to doc of ``ding.rl_utils.adder``.
 Optimization
 ==============
 
-Now, we introduce the computation of vtrace-value.
+Now, we introduce the computation of ``vtrace-value``.
 First, we use the following functions to compute importance_weights.
 
 .. code:: python
@@ -272,12 +272,12 @@ value function :math:`V(x_s)` in vtrace definition.
 
 .. note::
     1. Bootstrap_values in this part need to have size (T+1,B), where T is timestep, B is batch size. The reason is that
-    we need a sequence of training data with same-length vtrace value (this length is just the unroll_len in config).
+    we need a sequence of training data with same-length vtrace value (this length is just the ``unroll_len`` in config).
     And in order to compute the last vtrace value in the sequence, we need at least one more target value. This is
-    done using the next_obs of the last transition in training data sequence.
+    done using the next obs of the last transition in training data sequence.
 
     2. Here we introduce a parameter ``lambda_``, following the implementation in AlphaStar. The parameter, between 0
-    and 1,can give a subtle control on vtrace off-policy correction. Usually, we will choose this parameter close to 1.
+    and 1, can give a subtle control on vtrace off-policy correction. Usually, we will choose this parameter close to 1.
 
 Once we get vtrace value, or ``vtrace_nstep_return``, the computation of loss functions are straightforward. The whole
 process is as follows.
