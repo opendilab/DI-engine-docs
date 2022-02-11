@@ -13,9 +13,9 @@ Quick Facts
 
 3. PPG supports **off-policy** mode and **on-policy** mode.
 
-4. There is two value networks in PPG.
+4. There are two value networks in PPG.
 
-5. In the implementation of DI-engine, we use two buffers for off-policy PPG.
+5. In the implementation of DI-engine, we use two buffers for off-policy PPG, which are only different from maximum data usage limit (data ``max_use`` ).
 
 Key Graphs
 ----------
@@ -68,7 +68,10 @@ Extensions
     * GAE or other advantage estimation method
     * Multi-buffer, different ``max_use``
 
-- PPG + DrAC + PLR is one of the most powerful methods in procgen environment.
+- PPO (or PPG) + UCB-DrAC + PLR is one of the most powerful methods in procgen environment.
+
+    * `PLR github repo <https://github.com/facebookresearch/level-replay>`_
+    * `UCB-DrAC repo <https://github.com/rraileanu/auto-drac>`_
 
 Implementation
 ---------------
@@ -102,19 +105,19 @@ Benchmark
      - 20
      - .. image:: images/benchmark/ppg_pong.png
      - `config_link_p <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_ppg_config.py>`_
-     - | 
+     - | DI-engine PPO off-policy(20)
    * - | Qbert
        | (QbertNoFrameskip-v4)
      - 17775
      - .. image:: images/benchmark/ppg_qbert.png
      - `config_link_q <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/qbert/qbert_ppg_config.py>`_
-     - | 
+     - | DI-engine PPO off-policy(16400)
    * - | SpaceInvaders
        | (SpaceInvadersNoFrame skip-v4)
      - 1213
      - .. image:: images/benchmark/ppg_spaceinvaders.png
      - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_ppg_config.py>`_
-     - | 
+     - | DI-engine PPO off-policy(1200)
 
 References
 -----------
