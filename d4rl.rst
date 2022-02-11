@@ -1,5 +1,5 @@
 D4RL (Mujoco)
-~~~~~~~~~~~~~
+~~~~~~~~
 
 Overview
 =======
@@ -248,7 +248,7 @@ Store Video
 
 After the environment is created, but before reset, use the \``enable_save_replay``\ method to specify the path to save the game recording. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor``\ implementation, depends on \ ``ffmpeg``\), the code shown below will run an environment episode and save the result of this episode in the form \ `` ./video/xxx.mp4``\ in a file like this:
 
-.. code::python
+.. code :: python
 
    from easydict import EasyDict
    from dizoo.mujoco.envs import MujocoEnv
@@ -270,7 +270,7 @@ DI-zoo runnable code example
 The complete training configuration file is at `github link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
 Inside, for specific configuration files, such as \ ``https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/config/hopper_medium_cql_default_config.py``\ , use the following demo to run :
 
-.. code::python
+.. code :: python
 
     from easydict import EasyDict
 
