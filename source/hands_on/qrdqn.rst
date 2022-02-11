@@ -3,7 +3,7 @@ QRDQN
 
 Overview
 ---------
-QR (Quantile Regression) DQN was proposed in `Distributional Reinforcement Learning with Quantile Regression <https://arxiv.org/pdf/1710.10044>`_ and inherits the idea of learning the distribution of a q-value. Instead of approximate the distribution density function with discrete atoms, QRDQN, direct regresses a **discrete set of quantiles** of a q-value. 
+QR (Quantile Regression) DQN was proposed in `Distributional Reinforcement Learning with Quantile Regression <https://arxiv.org/pdf/1710.10044>`_ and inherits the idea of learning the distribution of a q-value. Instead of approximate the distribution density function with discrete atoms, QRDQN, directly regresses a **discrete set of quantiles** of a q-value. 
 
 
 Quick Facts
@@ -23,7 +23,7 @@ Key Equations or Key Graphs
 C51 uses N fixed locations for its approximation distribution and adjusts their probabilities, while QRDQN assigns fixed, uniform probabilities to N adjustable locations. Based on this, QRDQN uses quantile regression to stochastically adjust the distributions’ locations so as to minimize
 the Wasserstein distance to a target distribution.
 
-The quantile regression loss, for a quantile tau in :math:`[0, 1]`, is an asymmetric convex loss function that penalizes ``overestimation errors`` with weight :math:`\tau` and ``underestimation errors`` with weight :math:`1−\tau`. For a distribution :math:`Z`, and a given quantile :math:`\tau`, the value of the quantile function :math:`F_Z^−1(\tau)` may be characterized as the minimizer of the quantile regression loss:
+The quantile regression loss, for a quantile :math:`\tau \in [0, 1]`, is an asymmetric convex loss function that penalizes **overestimation errors** with weight :math:`\tau` and **underestimation errors** with weight :math:`1−\tau`. For a distribution :math:`Z`, and a given quantile :math:`\tau`, the value of the quantile function :math:`F_Z^{−1}(\tau)` may be characterized as the minimizer of the quantile regression loss:
 
 .. math::
 
@@ -42,7 +42,7 @@ Where :math:`L_{\kappa}` is Huber Loss.
 
 .. note::
 
-   The differences of QRDQN between DQN:
+   Compared with DQN, QRDQN has these differences:
 
      1. Neural network architecture, the output layer of QRDQN is of size M x N, where M is the size of discrete action space and N is a hyper-parameter giving the number of quantile targets.
      2. Replace DQN loss with the quantile huber loss.
