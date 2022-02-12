@@ -94,13 +94,13 @@ Benchmark
 |                     |                 |.. image:: images/benchmark/dqfd_pong.png            |atari/config/serial/pong/p|                      |
 |                     |                 |                                                     |ong_dqfd_config.py>`_     |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|Qbert                |      todo       |                                                     |`config_link_q <https://  |    Tianshou(7307)    |
+|Qbert                |      1228       |                                                     |`config_link_q <https://  |    Tianshou(7307)    |
 |(QbertNoFrameskip-v4)|                 |                                                     |github.com/opendilab/     |       Sb3(9496)      |
 |                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
 |                     |                 |.. image:: images/benchmark/dqfd_qbert.png           |atari/config/serial/qbert/|                      |
 |                     |                 |                                                     |qbert_dqfd_config.py>`_   |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|SpaceInvaders        |      todo       |                                                     |`config_link_s <https://  |    Tianshou(812.2)   |
+|SpaceInvaders        |      1514       |                                                     |`config_link_s <https://  |    Tianshou(812.2)   |
 |(SpaceInvadersNoFrame|                 |                                                     |github.com/opendilab/     |        Sb3(622)      |
 |skip-v4)             |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
 |                     |                 |.. image:: images/benchmark/dqfd_spaceinvaders.png   |atari/config/serial/spacei|                      |
