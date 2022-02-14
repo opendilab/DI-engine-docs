@@ -19,16 +19,21 @@ Quick Facts
 
 6. The DI-engine implementation of Rainbow supports **multi-discrete** action space.
 
+Key Equations or Key Graphs
+---------------------------
+
 Double Q-learning
-------------------
-Double Q-learning maintains a target q network, which is periodically updated with the current q network. Double Q-learning decouples the over-estimation of q-value by selects action with the current q network but estimate the q-value with the target network, formally:
+>>>>>>>>>>>>>>>>>
+Double Q-learning maintains a target q network, which is periodically updated with the current q network. Double Q-learning addresses the overestimation of q-value by decoupling. It selects action with the current q network but estimates the q-value with the target network, formally:
 
 .. math::
 
-   \left(R_{t+1}+\gamma_{t+1} q_{\bar{\theta}}\left(S_{t+1}, \underset{a^{\prime}}{\operatorname{argmax}} q_{\theta}\left(S_{t+1}, a^{\prime}\right)\right)-q_{0}\left(S_{t}, A_{t}\right)\right)^{2}
+   \left(R_{t+1}+\gamma_{t+1} q_{\bar{\theta}}\left(S_{t+1}, \underset{a^{\prime}}{\operatorname{argmax}} q_{\theta}\left(S_{t+1}, a^{\prime}\right)\right)-q_{\theta}\left(S_{t}, A_{t}\right)\right)^{2}
+
 
 Prioritized Experience Replay(PER)
-----------------------------------
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 DQN samples uniformly from the replay buffer. Ideally, we want to sample more frequently those transitions from which there is much to learn. As a proxy for learning potential, prioritized experience replay samples transitions with probabilities relative to the last encountered absolute TD error, formally:
 
 .. math::
@@ -39,7 +44,7 @@ DQN samples uniformly from the replay buffer. Ideally, we want to sample more fr
 In the original paper of PER, the authors show that PER achieve improvements on most of the 57 Atari games, especially on Gopher, Atlantis, James Bond 007, Space Invaders, etc.
 
 Dueling Network
----------------
+>>>>>>>>>>>>>>>
 The dueling network is a neural network architecture designed for value based RL. It features two streams of computation, the value and advantage
 streams, sharing a convolutional encoder, and merged by a special aggregator. This corresponds to the following factorization of action values:
 
@@ -57,7 +62,7 @@ The network architecture of Rainbow is a dueling network architecture adapted fo
   \end{array}
 
 Multi-step Learning
--------------------
+>>>>>>>>>>>>>>>>>>>
 A multi-step variant of DQN is then defined by minimizing the alternative loss:
 
 
@@ -70,12 +75,12 @@ where the truncated n-step return is defined as:
 
 .. math::
 
-   `R_{t}^{(n)} \equiv \sum^{n-1} \gamma_{t}^{(k)} R_{t+k+1}
+   `R_{t}^{(n)} \equiv \sum_{k=0}^{n-1} \gamma_{t}^{(k)} R_{t+k+1}
 
 In the paper `Revisiting Fundamentals of Experience Replay <https://acsweb.ucsd.edu/~wfedus/pdf/replay.pdf>`_, the authors analyze that a greater capacity of replay buffer substantially increases the performance when multi-step learning is used, and they think the reason is that multi-step learning brings larger variance, which is compensated by a larger replay buffer.
 
 Noisy Net
----------
+>>>>>>>>>
 Noisy Nets use a noisy linear layer that combines a deterministic and noisy stream:
 
 .. math::
@@ -103,9 +108,39 @@ The network interface Rainbow used is defined as follows:
    :members: forward
    :noindex:
 
-The Benchmark result of Rainbow implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
+Benchmark
+-----------
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_p <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(21)        |
+|                     |     21          |                                                     |DI-engine/tree/main/dizoo/|                      |
+|Pong                 |                 |.. image:: images/benchmark/pong_rainbow.png         |atari/config/serial/      |                      |
+|                     |                 |                                                     |pong/pong_rainbow_config  |                      |
+|(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_q <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(16192.5)   |
+|Qbert                |      20600      |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |                 |.. image:: images/benchmark/qbert_rainbow.png        |atari/config/serial/      |                      |
+|(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_rainbow_config|                      |
+|                     |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_s <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |  Tianshou(1794.5)    |
+|SpaceInvaders        |     2168        |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |                 |.. image:: images/benchmark/spaceinvaders_rainbow.png|atari/config/serial/      |                      |
+|(SpaceInvadersNoFrame|                 |                                                     |spaceinvaders/spaceinvad  |                      |
+|skip-v4)             |                 |                                                     |ers_rainbow_config.py>`_  |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
+P.S.：
+
+1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
+2. For the discrete action space algorithm, the Atari environment set is generally used for testing (including sub-environments Pong), and Atari environment is generally evaluated by the highest mean reward training 10M ``env_step``. For more details about Atari, please refer to `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
 
 Experiments on Rainbow Tricks
 -----------------------------
