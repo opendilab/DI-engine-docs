@@ -3,7 +3,7 @@ Rainbow
 
 Overview
 ---------
-Rainbow was proposed in `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_. It combines many independent improvements to DQN, including: target network(double DQN), priority, dueling head, multi-step TD-loss, C51 and noisy net.
+Rainbow was proposed in `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_. It combines many independent improvements to DQN, including: target network(double DQN), priority, dueling head, multi-step TD-loss, C51 (distributional RL) and noisy net.
 
 Quick Facts
 -----------
@@ -75,9 +75,19 @@ where the truncated n-step return is defined as:
 
 .. math::
 
-   `R_{t}^{(n)} \equiv \sum_{k=0}^{n-1} \gamma_{t}^{(k)} R_{t+k+1}
+   R_{t}^{(n)} \equiv \sum_{k=0}^{n-1} \gamma_{t}^{(k)} R_{t+k+1}
 
 In the paper `Revisiting Fundamentals of Experience Replay <https://acsweb.ucsd.edu/~wfedus/pdf/replay.pdf>`_, the authors analyze that a greater capacity of replay buffer substantially increases the performance when multi-step learning is used, and they think the reason is that multi-step learning brings larger variance, which is compensated by a larger replay buffer.
+
+Distribution RL
+>>>>>>>>>>>>>>>
+Distributional RL was first proposed in `A Distributional Perspective on Reinforcement Learning <https://arxiv.org/abs/1707.06887>`_. It learns to approximate the distribution of returns instead of the expected return using a discrete distribution, whose support is :math:`\boldsymbol{z}`, a vector with :math:`N_{\text {atoms }} \in \mathbb{N}^{+}atoms`, defined by :math:`z^{i}=v_{\min }+(i-1) \frac{v_{\max }-v_{\min }}{N_{\text {atoms }}-1}` for :math:`i \in\left\{1, \ldots, N_{\text {atoms }}\right\}`. The approximate distribution :math:`d_{t}` at time t is defined on this support, with the probability :math:`p_{\theta}^{i}\left(S_{t}, A_{t}\right)` on each atom :math:`i`, such that :math:`d_{t}=\left(z, p_{\theta}\left(S_{t}, A_{t}\right)\right)`. A distributinal variant of Q-learning is then derived by minimizing the Kullbeck-Leibler divergence between the distribution :math:`d_{t}` and the target distribution :math:`d_{t}^{\prime} \equiv\left(R_{t+1}+\gamma_{t+1} z, \quad p_{\bar{\theta}}\left(S_{t+1}, \bar{a}_{t+1}^{*}\right)\right)`, formally:
+
+.. math::
+
+   D_{\mathrm{KL}}\left(\Phi_{\boldsymbol{z}} d_{t}^{\prime} \| d_{t}\right)
+
+Here :math:`\Phi_{\boldsymbol{z}}` is a L2-projection of the target distribution onto the fixed support :math:`\boldsymbol{z}`.
 
 Noisy Net
 >>>>>>>>>
