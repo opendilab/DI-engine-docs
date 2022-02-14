@@ -72,3 +72,10 @@ Reference
 ----------
 
 - Andrychowicz M, Wolski F, Ray A, et al. Hindsight experience replay[J]. arXiv preprint arXiv:1707.01495, 2017.
+
+
+
+Other Public Implementations
+--------------------------------------
+
+- `StableBaselines3 <https://github.com/DLR-RM/stable-baselines3/tree/master/stable_baselines3/her>`_
