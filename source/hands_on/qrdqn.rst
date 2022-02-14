@@ -119,3 +119,9 @@ References
 ------------
 
 (QRDQN) Will Dabney, Mark Rowland, Marc G. Bellemare, Rémi Munos: “Distributional Reinforcement Learning with Quantile Regression”, 2017; arXiv:1710.10044. https://arxiv.org/pdf/1710.10044
+
+
+Other Public Implementations
+-------------------------------
+
+- [Tianshou](https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/qrdqn.py)
