@@ -66,6 +66,34 @@ of an expectation via importance sampling:
 where :math:`q_{a'}` can be an arbitrary distribution over the action
 space.
 
+By noting the identity :math:`g_{1}(x)=g_{2}(x) \forall x \in \mathbb{X} \Leftrightarrow  \mathbb{E}_{x\sim q}[((g_{1}(x)-g_{2}(x))^{2}]=0` , where q can be any strictly positive density function on :math:`\mathbb{X}`, we can express the
+soft Q-iteration in an equivalent form as minimizing
+
+.. image:: images/SQL_sto_Q.png
+
+where :math:`q_{s_{t}}` and :math:`q_{a_{t}}` are positive over :math:`\mathrm{S}` and :math:`\mathrm{A}` respectively.
+
+.. image:: images/SQL_sto_Q_tar.png
+
+is a target Q-value, with :math:`V^{\bar{\theta}}_{\text{soft}}` given by the equation 10 and :math:`\theta` being replaced by the target parameters, :math:`\bar{\theta}`.
+
+While the sampling distributions :math:`q_{s_{t}}`, :math:`q_{a_{t}}` and :math:`q_{a'}` can be arbitrary, we typically use real samples from rollouts of the current policy :math:`\pi(a_{t}|s_{t}) \propto exp(\frac{1}{\alpha} Q_{\text{soft}}^{\theta}(s_{t},a_{t}))`.
+
+However, in continuous spaces, Since the form of the policy is so
+general, sampling from it is intractable - We still need a tractable way to sample from the policy. Here is where SVGD comes in.
+
+Formally, we want to learn a state-conditioned stochastic neural network :math:`a_{t}=f^{\phi}(\xi,s_{t})` parametrized by :math:`\phi`, that
+maps noise samples :math:`\xi` drawn from a normal Gaussian, or other arbitrary distribution, into unbiased action samples. We denote
+the induced distribution of the actions as :math:`\pi^{\phi}(a_{t}|s_{t})` and we want tp find parameters :math:`\phi` so that the induced distribution approximates the energy-based distribution in terms of the
+KL divergence. 
+
+.. image:: images/SQL_sto_pi12.png
+
+Practically, we optimise the policy by the following two equations:
+
+.. image:: images/SQL_sto_pi13.png
+.. image:: images/SQL_sto_pi14.png
+
 Pseudo-code
 ---------------
 The pseudo code is as follows:
