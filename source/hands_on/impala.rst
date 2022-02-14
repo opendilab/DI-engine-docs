@@ -379,3 +379,8 @@ Reference
 ----------
 Lasse Espeholt, Hubert Soyer, Remi Munos, Karen Simonyan, Volodymir Mnih, Tom Ward, Yotam Doron, Vlad Firoiu, Tim Harley, Iain Dunning, Shane Legg, Koray Kavukcuoglu: “IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures”, 2018; arXiv:1802.01561.  https://arxiv.org/abs/1802.01561
 
+Other Public Implementations
+------------------------------
+
+- [Official](https://github.com/deepmind/scalable_agent)
+- [Facebook torchbeast](https://github.com/facebookresearch/torchbeast)
