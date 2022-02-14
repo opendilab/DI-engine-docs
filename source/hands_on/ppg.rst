@@ -123,3 +123,9 @@ References
 -----------
 
 Karl Cobbe, Jacob Hilton, Oleg Klimov, John Schulman: “Phasic Policy Gradient”, 2020; arXiv:2009.04416.
+
+
+Other Public Implementations
+------------------------------
+
+- [openai](https://github.com/openai/phasic-policy-gradient)
