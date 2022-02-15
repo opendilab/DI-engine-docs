@@ -271,3 +271,13 @@ References
 ----------
 
 - Ziyu Wang, Victor Bapst, Nicolas Heess, Volodymyr Mnih, Remi Munos, Koray Kavukcuoglu, Nando de Freitas: "Sample Efficient Actor-Critic with Experience Replay", 2016; [https://arxiv.org/abs/1611.01224 arxiv:1611.01224].
+
+
+Other Public Implementations
+----------------------------
+
+- ACER_
+- chainerrl_
+
+.. _ACER: https://github.com/Kaixhin/ACER
+.. _chainerrl: https://github.com/chainer/chainerrl/blob/master/chainerrl/agents/acer.py
