@@ -96,7 +96,7 @@ Some concrete implementation details:
 - Recompute advantage: recompute the advantage of historical transitions before the beginning of each training epoch, to keep the estimation
   of advantage close to current policy.
 
-- Value/advantage normalization: we standardize the targets of the value/advantage function by using running estimates of the average and standard deviation of the value/advantage targets.
+- Value/Advantage normalization: we standardize the targets of the value/advantage function by using running estimates of the average and standard deviation of the value/advantage targets.
   For more implementation details about, users can refer to this discussion `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
 
 ..
@@ -216,3 +216,17 @@ References
 - Andrychowicz M, Raichuk A, Stańczyk P, et al. What matters in on-policy reinforcement learning? a large-scale empirical study[J]. arXiv preprint arXiv:2006.05990, 2020.
 
 - Ye D, Liu Z, Sun M, et al. Mastering complex control in moba games with deep reinforcement learning[C]//Proceedings of the AAAI Conference on Artificial Intelligence. 2020, 34(04): 6672-6679.
+
+
+Other Public Implementations
+----------------------------
+
+- spinningup_
+- `RLlib (Ray)`_
+- `SB3 (StableBaselines3)`_
+- Tianshou_
+
+.. _spinningup: https://github.com/openai/spinningup/blob/master/spinup/algos/pytorch/ppo/ppo.py
+.. _`RLlib (Ray)`: https://github.com/ray-project/ray/tree/master/python/ray/rllib/agents/ppo
+.. _`SB3 (StableBaselines3)`: https://github.com/DLR-RM/stable-baselines3/blob/master/stable_baselines3/ppo/ppo.py
+.. _Tianshou: https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/ppo.py
