@@ -38,7 +38,7 @@ The picture below shows one of the Hopper games.
 Install
 ====
 
-installation method
+Installation method
 --------
 Just install the d4rl, gym and mujoco-py libraries, in which d4rl can be installed with one click through pip or through clone
 
@@ -81,7 +81,7 @@ Mujoco only needs the gym and mujoco-py two libraries, which can be installed by
     pip install gym
     pip install -U 'mujoco-py<2.2,>=2.1'
     
-3. If you want to install `mujoco-py<2.1`, you can do the following:
+3. If you want to install ``mujoco-py<2.1``, you can do the following:
 
 .. code :: shell
 
@@ -135,32 +135,32 @@ After the installation is complete, you can verify that the installation was suc
     dataset = d4rl.qlearning_dataset(env)
 
 Image
-----
+-------
 
 DI-engine has prepared an mirror ready with the framework, available via \ ``docker pull opendilab/ding:nightly-mujoco``\, or by accessing \ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ for more mirror
+hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ for more image
 
 .._spatial original environment before transformation):
 
 Gym-MuJoco space before transformation (original environment)
-=====================================
+===============================================================
 
 .._ObservationSpace-1:
 
 Observation space
---------
+---------------------
 
-- A vector composed of physical information (3D position, orientation, and joint angles etc. ), the specific size is \ ``(N, )``\ , where \ ``N``\ is determined according to the environment, and the data type is \ ` `float64`
+- A vector composed of physical information (3D position, orientation, and joint angles etc. ), the specific size is \ ``(N, )``\ , where \ ``N``\ is determined according to the environment, and the data type is \ ``float64``\
 - `Fujimoto <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__ mentioned that doing obs norm for d4rl dataset will improve offline training stability sex
 
 .._actionspace-1:
 
 Action space
---------
+----------------
 
 - A vector composed of physical information (torque etc.), generally a continuous action space of size N (N varies with the specific sub-environment), the data type is \ ``float32``\, and an np array needs to be passed in (for example, the action is \ ``array([-0.9266078 , -0.4958926 , 0.46242517], dtype=float32)``\ )
 
-- For example, in the Hopper environment, the size of N is 3, and the action takes the value in \``[-1, 1]``\
+- For example, in the Hopper environment, the size of N is 3, and the action takes the value in  \ ``[-1, 1]``\
 
 .. _BONUS SPACE-1:
 
@@ -205,7 +205,7 @@ observation space
 Action space
 --------
 
-- Basically no transformation, it is still a continuous action space of size N, the value range is \ ``[-1, 1]``\, the size is \ ``(N, )``\ , and the data type is \ `` np.float32``
+- Basically no transformation, it is still a continuous action space of size N, the value range is \ ``[-1, 1]``\, the size is \ ``(N, )``\ , and the data type is  \ ``np.float32``\
 
 .. _Bonus Space-2:
 
@@ -246,7 +246,7 @@ In order to facilitate parallel operations such as environment vectorization, en
 Store Video
 --------
 
-After the environment is created, but before reset, use the \``enable_save_replay``\ method to specify the path to save the game recording. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor``\ implementation, depends on \ ``ffmpeg``\), the code shown below will run an environment episode and save the result of this episode in the form \ `` ./video/xxx.mp4``\ in a file like this:
+After the environment is created, but before reset, use the  \ ``enable_save_replay``\ method to specify the path to save the game recording. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor``\ implementation, depends on \ ``ffmpeg``\), the code shown below will run an environment episode and save the result of this episode in the form  \ ``./video/xxx.mp4``\ in a file like this:
 
 .. code :: python
 
