@@ -3,7 +3,10 @@ PPO
 
 Overview
 ---------
-PPO(Proximal Policy Optimization) was proposed in `Proximal Policy Optimization Algorithms <https://arxiv.org/pdf/1707.06347.pdf>`_. PPO follows the idea of TRPO, which restricts the step of policy update by KL-divergence, and uses clipped probability ratios of the new and old policies to replace the direct KL-divergence restriction. This adaptation is simpler to implement and avoid the calculation of the Hessian matrix in TRPO.
+PPO(Proximal Policy Optimization) was proposed in `Proximal Policy Optimization Algorithms <https://arxiv.org/pdf/1707.06347.pdf>`_.
+The key question to answer is that how can we utilize the existing data to take the most possible improvement step for the policy without accidentally leading to performance collapse.
+PPO follows the idea of TRPO, which restricts the step of policy update by KL-divergence,
+and uses clipped probability ratios of the new and old policies to replace the direct KL-divergence restriction. This adaptation is simpler to implement and avoid the calculation of the Hessian matrix in TRPO.
 
 Quick Facts
 -----------
@@ -46,6 +49,11 @@ Pseudo-code
 
 .. note::
    This is the on-policy version of PPO.
+
+In DI-engine, we also have the off-policy version of PPO, which is almost same as on-policy PPO except that
+we maintain a replay buffer that stored the recent experience, the data used to calculate the policy and value loss is sampled from the replay buffer,
+so they are able to reuse old data very efficiently but potentially brittle and unstable.
+
 
 Extensions
 -----------
@@ -91,16 +99,24 @@ The policy gradient and value update of PPO is implemented as follows:
 
         return ppo_loss(policy_output.policy_loss, value_loss, policy_output.entropy_loss), policy_info
 
+The interface of ``ppo_policy_error`` and ``ppo_value_error`` is defined as follows:
+
+    .. autofunction:: ding.rl_utils.ppo.ppo_policy_error
+
+    .. autofunction:: ding.rl_utils.ppo.ppo_value_error
+
+
 Some concrete implementation details:
 
 - Recompute advantage: recompute the advantage of historical transitions before the beginning of each training epoch, to keep the estimation
   of advantage close to current policy.
 
 - Value/Advantage normalization: we standardize the targets of the value/advantage function by using running estimates of the average and standard deviation of the value/advantage targets.
-  For more implementation details about, users can refer to this discussion `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
+
+For more implementation details about recompute and normalization, users can refer to this discussion `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
 
 ..
-The Benchmark result of PPO implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_.
+ The Benchmark result of PPO implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_.
 
 
 Benchmark
