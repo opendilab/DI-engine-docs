@@ -197,5 +197,10 @@ Kyunghwan Son, Daewoo Kim, Wan Ju Kang, David Earl Hostallero, Yung Yi. QTRAN: L
 Mikayel Samvelyan, Tabish Rashid, Christian Schroeder de Witt, Gregory Farquhar, Nantas Nardelli, Tim G. J. Rudner, Chia-Man Hung, Philip H. S. Torr, Jakob Foerster, Shimon Whiteson. The StarCraft Multi-Agent Challenge. arXiv preprint arXiv:1902.04043, 2019.
 
 
+Other Public Implementations
+----------------------------
 
+- pymarl_
+
+.. _pymarl: https://github.com/oxwhirl/pymarl/blob/master/src/config/algs/qmix.yaml
 
