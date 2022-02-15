@@ -3,11 +3,12 @@ SQL
 
 Overview
 ---------
-Soft Q Learning (SQL) is an off-policy maximum entropy Q learning algorithm that first proposed in `Reinforcement Learning with Deep Energy-Based Policies <https://arxiv.org/abs/1702.08165>`_. This purpose of this algorithm is to learn
-maximum entropy policies and the optimal policy is expressed via a Boltzmann distribution. The amortized
-Stein variational gradient descent (SVGD) has been utilized to learn
+Soft Q Learning (SQL) is an off-policy maximum entropy Q learning algorithm that first proposed in `Reinforcement Learning with Deep Energy-Based Policies <https://arxiv.org/abs/1702.08165>`_. 
+The energy based model is used in Soft Q-Learning, where the optimal policy expressed via a Boltzmann distribution is learned through maximizing the expectation of the cumulative reward added by an entropy term.
+In this way, the resulting policies gain the advantages to try to learn all of the ways of performing the task, instead of only learning the best way to perform the task as the other traditional RL algorithms do.
+The amortized Stein variational gradient descent (SVGD) has been utilized to learn
 a stochastic sampling network that approximates
-samples from this distribution. The benefits of
+samples from this distribution. The features of
 the algorithm include improved exploration via the maximum entropy formulation
 and compositionality that allows transferring
 skills between tasks.
