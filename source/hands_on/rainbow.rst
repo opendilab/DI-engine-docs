@@ -3,7 +3,7 @@ Rainbow
 
 Overview
 ---------
-Rainbow was proposed in `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_. It combines many independent improvements to DQN, including: target network(double DQN), priority, dueling head, multi-step TD-loss, C51 (distributional RL) and noisy net.
+Rainbow was proposed in `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_. It combines many independent improvements to DQN, including: Double DQN, priority, dueling head, multi-step TD-loss, C51 (distributional RL) and noisy net.
 
 Quick Facts
 -----------
@@ -22,9 +22,9 @@ Quick Facts
 Key Equations or Key Graphs
 ---------------------------
 
-Double Q-learning
+Double DQN
 >>>>>>>>>>>>>>>>>
-Double Q-learning maintains a target q network, which is periodically updated with the current q network. Double Q-learning addresses the overestimation of q-value by decoupling. It selects action with the current q network but estimates the q-value with the target network, formally:
+Double DQN, proposed in `Deep Reinforcement Learning with Double Q-learning <https://arxiv.org/abs/1509.06461>`_, is a common variant of DQN. Conventional DQN maintains a target q network, which is periodically updated with the current q network. Double DQN addresses the overestimation of q-value by decoupling. It selects action with the current q network but estimates the q-value with the target network, formally:
 
 .. math::
 
@@ -97,8 +97,8 @@ Noisy Nets use a noisy linear layer that combines a deterministic and noisy stre
 
    \boldsymbol{y}=(\boldsymbol{b}+\mathbf{W} \boldsymbol{x})+\left(\boldsymbol{b}_{\text {noisy }} \odot \epsilon^{b}+\left(\mathbf{W}_{\text {noisy }} \odot \epsilon^{w}\right) \boldsymbol{x}\right)
 
-Over time, the network can learn to ignore the noisy stream, but at different rates in different parts of the state space, allowing state-conditional exploration with a form of self-annealing. It usually achieves improvements against epsilon-greedy when the action space is large, e.g. Montezuma's Revenge, because epsilon-greedy tends to quickly converge to a one-hot distribution before the rewards of the large numbers of actions are collected enough.
-In our implementation, the noises are resampled before each forward both during data collection and training. When double Q-learning is used, the target network also resamples the noises before each forward. During the noise sampling, the noises are first sampled form N(0,1), then their magnitudes are modulated via a sqrt function with their signs preserved, i.e. x -> x.sign() * x.sqrt().
+Over time, the network can learn to ignore the noisy stream, but at different rates in different parts of the state space, allowing state-conditional exploration with a form of self-annealing. It usually achieves improvements against :math:`\epsilon`-greedy when the action space is large, e.g. Montezuma's Revenge, because :math:`\epsilon`-greedy tends to quickly converge to a one-hot distribution before the rewards of the large numbers of actions are collected enough.
+In our implementation, the noises are resampled before each forward both during data collection and training. When double Q-learning is used, the target network also resamples the noises before each forward. During the noise sampling, the noises are first sampled from :math:`N(0,1)`, then their magnitudes are modulated via a sqrt function with their signs preserved, i.e. :math:`x \rightarrow x.sign() * x.sqrt()`.
 
 Extensions
 -----------
@@ -148,9 +148,8 @@ Benchmark
 
 
 P.S.：
-
-1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
-2. For the discrete action space algorithm, the Atari environment set is generally used for testing (including sub-environments Pong), and Atari environment is generally evaluated by the highest mean reward training 10M ``env_step``. For more details about Atari, please refer to `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
+    1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4).
+    2. For the discrete action space algorithm, the Atari environment set is generally used for testing (including sub-environments Pong), and Atari environment is generally evaluated by the highest mean reward training 10M ``env_step``. For more details about Atari, please refer to `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
 
 Experiments on Rainbow Tricks
 -----------------------------
@@ -224,6 +223,36 @@ The result is shown in the figure below. As we can see, with tricks on, the spee
 
 References
 -----------
-Matteo Hessel, Joseph Modayil, Hado van Hasselt, Tom Schaul, Georg Ostrovski, Will Dabney, Dan Horgan, Bilal Piot, Mohammad Azar, David Silver: “Rainbow: Combining Improvements in Deep Reinforcement Learning”, 2017; [http://arxiv.org/abs/1710.02298 arXiv:1710.02298].
+**(DQN)** Mnih, Volodymyr, et al. "Human-level control through deep reinforcement learning." 2015; [https://www.nature.com/articles/nature14236?wm=book_wap_0005]
+
+**(Rainbow)** Matteo Hessel, Joseph Modayil, Hado van Hasselt, Tom Schaul, Georg Ostrovski, Will Dabney, Dan Horgan, Bilal Piot, Mohammad Azar, David Silver: “Rainbow: Combining Improvements in Deep Reinforcement Learning”, 2017; [http://arxiv.org/abs/1710.02298 arXiv:1710.02298].
+
+**(Double DQN)** Van Hasselt, Hado, Arthur Guez, and David Silver: "Deep reinforcement learning with double q-learning.", 2016; [https://arxiv.org/abs/1509.06461 arXiv:1509.06461]
+
+**(PER)** Schaul, Tom, et al.: "Prioritized Experience Replay.", 2016; [https://arxiv.org/abs/1511.05952 arXiv:1511.05952]
 
 William Fedus, Prajit Ramachandran, Rishabh Agarwal, Yoshua Bengio, Hugo Larochelle, Mark Rowland, Will Dabney: “Revisiting Fundamentals of Experience Replay”, 2020; [http://arxiv.org/abs/2007.06700 arXiv:2007.06700].
+
+**(Dueling network)** Wang, Z., Schaul, T., Hessel, M., Hasselt, H., Lanctot, M., & Freitas: "Dueling network architectures for deep reinforcement learning", 2016; [https://arxiv.org/abs/1511.06581 arXiv:1511.06581]
+
+**(Multi-step)** Sutton, R. S., and Barto, A. G.: "Reinforcement Learning: An Introduction". The MIT press, Cambridge MA. 1998; 
+
+**(Distibutional RL)** Bellemare, Marc G., Will Dabney, and Rémi Munos.: "A distributional perspective on reinforcement learning.", 2017; [https://arxiv.org/abs/1707.06887 arXiv:1707.06887]
+
+**(Noisy net)** Fortunato, Meire, et al.: "Noisy networks for exploration.", 2017; [https://arxiv.org/abs/1706.10295 arXiv:1706.10295]
+
+Other Public Implement
+>>>>>>>>>>>>>>>>>>>>>>
+
+`Tianshou <https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/rainbow.py>`_
+
+`RLlib <https://github.com/ray-project/ray/blob/master/rllib/agents/dqn/dqn.py>`_
+
+
+
+
+
+
+
+
+
