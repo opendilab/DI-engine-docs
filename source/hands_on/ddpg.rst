@@ -267,7 +267,7 @@ Benchmark
 |                     |                 |                                                     |github.com/opendilab/     |   Tianshou(1401)     |
 |Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|   Spinning-up(1950)  |
 |                     |  3443           |.. image:: images/benchmark/walker2d_ddpg.png        |mujoco/config/walker2d_   |                      |
-|(Walker2d-v2)        |                 |                                                     |ddpg_default_configpy>`_  |                      |
+|(Walker2d-v2)        |                 |                                                     |ddpg_default_config.py>`_ |                      |
 |                     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 

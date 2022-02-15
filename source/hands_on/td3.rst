@@ -94,7 +94,7 @@ Pseudocode
     \end{algorithmic}
     \end{algorithm}
 
-.. image:: images/TD3.jpg
+.. image:: images/TD3.png
    :scale: 80%
    :align: center
 
@@ -123,7 +123,7 @@ TD3 can be combined with:
 
     - Replay Buffers
 
-        DDPG/TD3 random-collect-size is set to 25000 by default, while it is 10000 for SAC.
+        DDPG/TD3 ``random_collect_size`` is set to 25000 by default, while it is 10000 for SAC.
         We only simply follow SpinningUp default setting and use random policy to collect initialization data.
         We configure ``random_collect_size`` for data collection.
 

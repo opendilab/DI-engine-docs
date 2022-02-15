@@ -3,10 +3,10 @@ CQL
 
 Overview
 ---------
-Conservative Q-learning (CQL) was first proposed in `Conservative Q-Learning for Offline Reinforcement Learning <https://arxiv.org/abs/2006.04779>`_. Recent advances in reinforcement learning (RL), especially when combined with expressive deep network
+Conservative Q-learning (CQL) was first proposed in `Conservative Q-Learning for Offline Reinforcement Learning <https://arxiv.org/abs/2006.04779>`_. Recent advances in Reinforcement Learning (RL), especially when combined with expressive deep network
 function approximators, have produced promising results. However, applying RL to real-world
 problems consistently poses practical challenges: in contrast to the kinds of data-driven methods
-that have been successful in supervised learning, RL is classically regarded as an active
+that have been successful used in supervised learning, RL is classically regarded as an active
 learning process, where each training run requires active interaction with the environment. Interaction
 with the real world can be costly and dangerous, and the quantities of data that can be gathered
 online are substantially lower than the offline datasets that are used in supervised learning,
@@ -14,7 +14,7 @@ which only need to be collected once. Offline RL algorithms instead learn from l
 datasets, without interaction.
 
 However, directly utilizing existing value-based off-policy RL algorithms in an offline setting generally results
-in poor performance, due to issues with bootstrapping from out-of-distribution actions and overfitting. Thus CQL is proposed as a novel method for learning a conservative Q functions of which the expected value is lower-bounded
+in poor performance, due to issues with bootstrapping from out-of-distribution actions and overfitting. Thus, many constrain techniques are added to basic online RL algorithm. CQL is one of them which learns conservative Q functions of which the expected value is lower-bounded
 via a simple modification to standard value-based RL algorithms.
 
 Quick Facts
@@ -45,19 +45,19 @@ If this policy evaluation step in CQL is integrated into a complete offline RL a
    :align: center
    :scale: 55%
 
-where :math:`CQL(R)` is characterized by a particular choice of regularizer :math:`R(\mu)`. If :math:`R(\mu)` is chosen to be the KL-divergence against a prior distribution, :math:`\rho(a|s)`, then we get :math:`\mu(a|s)\approx \rho(a|s)exp(Q(s,a))`. Frist, if :math:`\rho(a|s)` = Unif(a), then the first term above corresponds to a soft-maximum
+where :math:`CQL(R)` is characterized by a particular choice of regularizer :math:`R(\mu)`. If :math:`R(\mu)` is chosen to be the KL-divergence against a prior distribution, :math:`\rho(a|s)`, then we get :math:`\mu(a|s)\approx \rho(a|s)exp(Q(s,a))`. Firstly, if :math:`\rho(a|s)` = Unif(a), then the first term above corresponds to a soft-maximum
 of the Q-values at any state s and gives rise to the following variant, called CQL(H):
 
 .. image:: images/cql_general_4.png
    :align: center
    :scale: 55%
 
-Second, if :math:`\rho(a|s)` is chosen to be the previous policy :math:`\hat{\pi}^{k-1}`, the first term in Equation 4 is replaced by
+Secondly, if :math:`\rho(a|s)` is chosen to be the previous policy :math:`\hat{\pi}^{k-1}`, the first term in Equation (4) （Please refer to the section below) is replaced by
 an exponential weighted average of Q-values of actions from the chosen :math:`\hat{\pi}^{k-1}(a|s)`.
 
 Pseudo-code
 ---------------
-Pseudocode is shown in Algorithm 1, with differences from conventional actor critic algorithms (e.g., SAC) and deep Q-learning algorithms (e.g.,DQN) in red
+The pseudo-code is shown in Algorithm 1, with differences from conventional actor critic algorithms (e.g., SAC) and deep Q-learning algorithms (e.g.,DQN) in red
 
 .. image:: images/cql.png
    :align: center
@@ -76,6 +76,10 @@ Implementations
 The default config of CQLPolicy is defined as follows:
 
 .. autoclass:: ding.policy.cql.CQLPolicy
+   :noindex:
+
+
+.. autoclass:: ding.policy.cql.CQLDiscretePolicy
    :noindex:
 
 
@@ -134,3 +138,13 @@ Reference
 ----------
 
 - Kumar, Aviral, et al. "Conservative q-learning for offline reinforcement learning." arXiv preprint arXiv:2006.04779 (2020).
+
+
+
+Other Public Implementations
+----------------------------
+
+- `CQL release repo`_
+
+
+.. _`CQL release repo`: https://github.com/aviralkumar2907/CQL
