@@ -151,3 +151,10 @@ References
 
 - Wang, Z., Schaul, T., Hessel, M., Hasselt, H., Lanctot, M., & Freitas, N. (2016, June). Dueling network architectures for deep reinforcement learning. In International conference on machine learning (pp. 1995-2003). PMLR.
 
+
+Other Public Implementations
+----------------------------
+
+- seed_rl_
+
+.. _seed_rl: https://github.com/google-research/seed_rl/tree/master/agents/r2d2
