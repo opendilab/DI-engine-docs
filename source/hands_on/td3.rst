@@ -285,20 +285,20 @@ Benchmark
 |                     |                 |                                                     |`config_link_p <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |  Tianshou(10201)     |
 |                     |                 |                                                     |DI-engine/tree/main/dizoo/|  Spinning-up(9750)   |
-|HalfCheetah          |  11148          |.. image:: images/benchmark/halfcheetah_td3.png      |mujoco/config/halfcheetah_|  Baselines3(9656)    |
+|HalfCheetah          |  11148          |.. image:: images/benchmark/halfcheetah_td3.png      |mujoco/config/halfcheetah_|  Sb3(9656)           |
 |                     |                 |                                                     |td3_default_config.py>`_  |                      |
 |(HalfCheetah-v3)     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_q <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |   Tianshou(3472)     |
 |Hopper               |                 |                                                     |DI-engine/tree/main/dizoo/|   Spinning-up(3982)  |
-|                     |  3720           |.. image:: images/benchmark/hopper_td3.png           |mujoco/config/hopper_td3_ |   Baselines3(3606 for|
+|                     |  3720           |.. image:: images/benchmark/hopper_td3.png           |mujoco/config/hopper_td3_ |   sb3(3606 for       |
 |(Hopper-v2)          |                 |                                                     |default_config.py>`_      |   Hopper-v3)         |
 |                     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_s <https://  |   Tianshou(3982)     |
 |                     |                 |                                                     |github.com/opendilab/     |   Spinning-up(3472)  |
-|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|   Baselines3(4718 for|
+|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|   sb3(4718 for       |
 |                     |  4386           |.. image:: images/benchmark/walker2d_td3.png         |atari/config/walker2d_td3_|   Walker2d-v2)       |
 |(Walker2d-v2)        |                 |                                                     |default_configpy>`_       |                      |
 |                     |                 |                                                     |                          |                      |
@@ -311,24 +311,23 @@ P.S.：
 
 
 
+References
+-----------
+Scott Fujimoto, Herke van Hoof, David Meger: “Addressing Function Approximation Error in Actor-Critic Methods”, 2018; [http://arxiv.org/abs/1802.09477 arXiv:1802.09477].
+
 Other Public Implementations
 ----------------------------
 
-- Baselines_
-- rllab_
+- `sb3`_
 - `rllib (Ray)`_
 - `TD3 release repo`_
 - Spinningup_
 - tianshou_
 
-.. _Baselines: https://github.com/openai/baselines/tree/master/baselines/ddpg
-.. _rllab: https://github.com/rll/rllab/blob/master/rllab/algos/ddpg.py
-.. _`rllib (Ray)`: https://github.com/ray-project/ray/tree/master/rllib/agents/ddpg
+
+.. _sb3: https://github.com/DLR-RM/stable-baselines3/tree/master/stable_baselines3/td3
+.. _`rllib (Ray)`: https://github.com/ray-project/ray/blob/master/rllib/agents/ddpg/td3.py
 .. _`TD3 release repo`: https://github.com/sfujim/TD3
-.. _Spinningup: https://github.com/openai/spinningup/tree/master/spinup/algos/pytorch/ddpg
-.. _tianshou: https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/ddpg.py
+.. _Spinningup: https://github.com/openai/spinningup/tree/master/spinup/algos/pytorch/td3
+.. _tianshou: https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/td3.py
 
-
-References
------------
-Scott Fujimoto, Herke van Hoof, David Meger: “Addressing Function Approximation Error in Actor-Critic Methods”, 2018; [http://arxiv.org/abs/1802.09477 arXiv:1802.09477].

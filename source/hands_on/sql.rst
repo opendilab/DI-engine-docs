@@ -163,3 +163,10 @@ References
 - Ziebart, B. D. Modeling purposeful adaptive behavior with
   the principle of maximum causal entropy. PhD thesis,
   2010.
+ 
+
+Other Public Implementations
+----------------------------
+- `SQL release repo`_
+
+.. _`SQL release repo`: https://github.com/rail-berkeley/softlearning

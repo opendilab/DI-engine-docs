@@ -69,8 +69,6 @@ The equation (4) in above pseudo-code is:
    :align: center
    :scale: 40%
 
-.. note::
-   Compared with the vanilla version, DQN has been dramatically modified in both algorithm and implementation aspects. In the algorithm parts, **n-step TD-loss, PER, target network** and **dueling head** are widely used, interested users can refer to the paper `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_ . For the implementation details, the value of epsilon anneals from a high value (e.g.: 0.95) to a low value (0.05) during the training rather than keeps constant, according to env steps (the number of policy interaction with env).
 
 
 Implementations

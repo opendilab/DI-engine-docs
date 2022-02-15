@@ -266,8 +266,8 @@ Benchmark
 |                     |                 |                                                     |`config_link_s <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |   Tianshou(1401)     |
 |Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|   Spinning-up(1950)  |
-|                     |  3443           |.. image:: images/benchmark/walker2d_ddpg.png        |atari/config/walker2d_ddpg|                      |
-|(Walker2d-v2)        |                 |                                                     |_default_configpy>`_      |                      |
+|                     |  3443           |.. image:: images/benchmark/walker2d_ddpg.png        |mujoco/config/walker2d_   |                      |
+|(Walker2d-v2)        |                 |                                                     |ddpg_default_configpy>`_  |                      |
 |                     |                 |                                                     |                          |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
@@ -277,10 +277,15 @@ P.S.：
 1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
 
 
+References
+-----------
+Timothy P. Lillicrap, Jonathan J. Hunt, Alexander Pritzel, Nicolas Heess, Tom Erez, Yuval Tassa, David Silver, Daan Wierstra: “Continuous control with deep reinforcement learning”, 2015; [http://arxiv.org/abs/1509.02971 arXiv:1509.02971].
+
 Other Public Implementations
 ----------------------------
 
 - Baselines_
+- `sb3`_
 - rllab_
 - `rllib (Ray)`_
 - `TD3 release repo`_
@@ -288,13 +293,10 @@ Other Public Implementations
 - tianshou_
 
 .. _Baselines: https://github.com/openai/baselines/tree/master/baselines/ddpg
+.. _sb3: https://github.com/DLR-RM/stable-baselines3/blob/master/stable_baselines3/ddpg
 .. _rllab: https://github.com/rll/rllab/blob/master/rllab/algos/ddpg.py
 .. _`rllib (Ray)`: https://github.com/ray-project/ray/tree/master/rllib/agents/ddpg
 .. _`TD3 release repo`: https://github.com/sfujim/TD3
 .. _Spinningup: https://github.com/openai/spinningup/tree/master/spinup/algos/pytorch/ddpg
 .. _tianshou: https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/ddpg.py
 
-
-References
------------
-Timothy P. Lillicrap, Jonathan J. Hunt, Alexander Pritzel, Nicolas Heess, Tom Erez, Yuval Tassa, David Silver, Daan Wierstra: “Continuous control with deep reinforcement learning”, 2015; [http://arxiv.org/abs/1509.02971 arXiv:1509.02971].

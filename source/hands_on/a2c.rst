@@ -3,7 +3,7 @@ A2C
 
 Overview
 ---------
-A3C(Asynchronous advantage actor-critic) algorithm is simple and lightweight framework for deep reinforcement learning that uses asynchronous gradient descent for optimization of deep neural network controllers. A2C(advantage actor-critic), on the other hand, is the synchronous version of A3C where where the policy gradient algorithm is combined with an advantage function to reduce variance.
+A3C (Asynchronous advantage actor-critic) algorithm is simple and lightweight framework for deep reinforcement learning that uses asynchronous gradient descent for optimization of deep neural network controllers. A2C(advantage actor-critic), on the other hand, is the synchronous version of A3C where where the policy gradient algorithm is combined with an advantage function to reduce variance.
 
 Quick Facts
 -----------
@@ -133,3 +133,18 @@ References
 -----------
 
 Volodymyr Mnih, Adrià Puigdomènech Badia, Mehdi Mirza, Alex Graves, Timothy P. Lillicrap, Tim Harley, David Silver, Koray Kavukcuoglu: “Asynchronous Methods for Deep Reinforcement Learning”, 2016, ICML 2016; arXiv:1602.01783. https://arxiv.org/abs/1602.01783
+
+
+Other Public Implementations
+----------------------------
+
+- Baselines_
+- `sb3`_
+- `rllib (Ray)`_
+- tianshou_
+
+.. _Baselines: https://github.com/openai/baselines/tree/master/baselines/a2c
+.. _sb3: https://github.com/DLR-RM/stable-baselines3/tree/master/stable_baselines3/a2c
+.. _`rllib (Ray)`: https://github.com/ray-project/ray/blob/master/rllib/agents/a3c/a2c.py
+.. _tianshou: https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/a2c.py
+
