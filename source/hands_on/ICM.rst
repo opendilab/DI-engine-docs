@@ -54,14 +54,14 @@ The overall training and calculation process of the ICM algorithm is as follows:
    :align: center
    :scale: 70%
 
-1. As shown in the figure on the left, the agent samples the action a in the state :math:`s_t` through the current policy :math:`\pi` and executes it, and finally obtains the state :math:`s_{t+1}`. The total reward is the sum of two partial rewards, one part is the external reward: math:`r_t^e`, that is, the sparse reward obtained in the environment; the other part is the intrinsic reward obtained by the ICM: math:`r_t^i ` (The specific calculation process is given in step 4), the final strategy needs to achieve the purpose of training by optimizing the total reward.
+1. As shown in the figure on the left, the agent samples the action a in the state :math:`s_t` through the current policy :math:`\pi` and executes it, and finally obtains the state :math:`s_{t+1}`. The total reward is the sum of two partial rewards, one part is the external reward: math:`r_t^e`, that is, the sparse reward obtained in the environment; the other part is the intrinsic reward obtained by the ICM :math:`r_t^i` (The specific calculation process is given in step 4), the final strategy needs to achieve the purpose of training by optimizing the total reward.
 The specific formula is as follows:
 
  :math:`r_t=r_t^i + r_t^e`
 
  :math:`{\max}_{\theta_p}\mathbb{E}_{\pi(s_t;\theta_p)}[\Sigma_t r_t]`
 
-2. In the reward module of ICM, it first extracts the eigenvectors after characterization by :math:`s_t` and :math:`s_{t+1}`: math:`\Phi(s_t; \theta_E)` and :math:`\Phi(s_{t+1}; \theta_E)` as input (reduce them to :math:`\Phi(s_t)` and :math:`\Phi(s_{t+1 })`), and output the predicted action value: math:`a_t`.
+2. In the reward module of ICM, it first extracts the eigenvectors after characterization by :math:`s_t` and :math:`s_{t+1}`,:math:`Phi(s_t; \theta_E)` and :math:`\Phi(s_{t+1}; \theta_E)` as input (reduce them to :math:`\Phi(s_t)` and :math:`\Phi(s_{t+1 })`), and output the predicted action value :math:`a_t`
 
  :math:`\hat{a_t}=g(\Phi(s_t),\Phi(s_{t+1}) ; \theta_I)`
 
@@ -70,7 +70,7 @@ The specific formula is as follows:
 Here :math:`\hat{a_t}` is the predicted value of :math:`a_t` and :math:`L_I` describes the difference between the two (cross entropy loss). The smaller the difference, the more accurate the estimation of the current action, and the better the representation of the environmental elements that the agent can control.
 
 
-3. The forward model of ICM will take: math:`\Phi(s_t)` and action value: math:`a_t` as input, and output the predicted value of the feature vector of the state at the next moment: math:`\hat{\Phi} (s_{t+1})` .
+3. The forward model of ICM will take :math:`Phi(s_t)`  and action value :math:`a_t` as input, and output the predicted value of the feature vector of the state at the next moment :math:`hat{\Phi} (s_{t+1})`
 The error between the predicted feature vector at the next moment and the real feature vector is used as the intrinsic reward.
 
  :math:`\hat{\phi(s_{t+1})}=f(\Phi(s_t),a_t) ; \theta_F)`
