@@ -2,20 +2,20 @@ SMAC
 ~~~~~~~
 
 Overview
-=======
+==========
 
 SMAC is an environment for multi-agent collaborative reinforcement learning (MARL) on Blizzard StarCraft II. SMAC uses Blizzard StarCraft 2's machine learning API and DeepMind's PySC2 to provide a friendly interface for the interaction between agents and StarCraft 2, which is convenient for developers to observe and execute actions.
 Compared to PySC2, SMAC focuses on a decentralized micro-operation scheme, where each agent of the game is controlled by a separate RL agent.
 
 
 .. image:: ./images/smac.gif
-   :align: center
+   :align : center
 
 Install
 ====
 
-installation method
---------
+Installation method
+---------------------
 
 StarCraft 2 game and PySC2 library is needed , the installation method can refer to \ `DI-star installation <https://github.com/opendilab/DI-star>`__
 
@@ -27,20 +27,20 @@ For Windows system users, please refer to \ `<https://starcraft2.com>`__ for ins
 
 2. Install PySC2 compatible with DI-engine
 
-.. code:: shell
+.. code :: shell
 
    git clone https://github.com/opendilab/DI-star.git
    cd DI-star
    pip install -e .
 
 Verify installation
---------
+--------------------
 
 After the installation is complete, you can confirm that the environment variable is set successfully by ``echo $SC2PATH`` after the installation is successful
 
 
-mirror
-----
+Image
+------
 
 DI-engine's mirror is equipped with the framework itself and the Smac environment, which can be obtained by \ ``docker pull opendilab/ding:nightly-smac``\, or by accessing \ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ for more mirror
@@ -52,15 +52,15 @@ space before transformation (original environment)
 
 .._ObservationSpace-1:
 
-observation space
---------
+Observation space
+------------------
 
 - You can obtain fragmentary information such as whether each agent is alive, the remaining HP of each agent, allies or enemies within the vision range of each agent.
 
 .._actionspace-1:
 
-action space
---------
+Action space
+---------------
 
 - The game operation button space, generally a discrete action space of size N (N varies with the specific sub-environment), the data type is \ ``int``\ , you need to pass in python values ​​(or 0-dimensional np arrays, such as actions 3 is \``np.array(3)``\)
 
@@ -89,7 +89,7 @@ Bonus space
 
 .._other-1:
 
-other
+Other
 ----
 
 - The end of the game is the end of the current environment episode
@@ -111,7 +111,7 @@ Transformed space (RL environment)
 
 .._ObservationSpace-2:
 
-observation space
+Observation space
 --------
 
 - Transformation content: splicing various discrete information seen by each agent, and using the spliced ​​information as the agent_state seen by each agent and the global global_state
@@ -120,7 +120,7 @@ observation space
 
 .. _Action Space-2:
 
-action space
+Action space
 --------
 
 - Basically no transformation, still a discrete action space of size N
@@ -137,7 +137,7 @@ Bonus space
 
 .._other-2:
 
-other
+Other
 ----
 
 - Turn on \ ``special_global_state``\ and the returned global_state is the information spliced ​​into each global information + each agent's special information. If it is not turned on, only the global information will be returned
@@ -150,15 +150,15 @@ other
 
 .._other-3:
 
-other
+Other
 ====
 
-lazy initialization
+Lazy initialization
 ------------
 
-In order to facilitate parallel operations such as environment vectorization, environment instances generally implement lazy initialization, that is, the \ ``__init__``\ method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. The concrete original environment instance is initialized when the reset``\ method is used.
+In order to facilitate parallel operations such as environment vectorization, environment instances generally implement lazy initialization, that is, the \ ``__init__``\ method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. The concrete original environment instance is initialized when the ``reset``\ method is used.
 
-random seed
+Random seed
 --------
 
 - There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as \ ``random``\ , \ ``np.random` `\)
@@ -180,7 +180,7 @@ Store video
 
 Use the method provided by \`<https://github.com/opendilab/DI-engine/blob/main/dizoo/smac/utils/eval.py>`_ to store the video and play the store in the StarCraft 2 game 's video.
 
-.. code::python
+.. code :: python
 
     from typing import Union, Optional, List, Any, Callable, Tuple
     import pickle
@@ -241,13 +241,13 @@ Use the method provided by \`<https://github.com/opendilab/DI-engine/blob/main/d
 
 
 DI-zoo runnable code example
-=====================
+=============================
 
 The full training configuration file is at `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/smac/config>`__
 Inside, for specific configuration files, such as \ ``smac_3s5z_mappo_config.py``\ , use the following demo to run:
 
-.. code::python
+.. code :: python
 
     import sys
     from copy import deepcopy
@@ -355,25 +355,25 @@ Benchmark Algorithm Performance
    - MMM + MAPPO
 
    .. image:: images/MMM_mappo.png
-     :align: center
+     :align : center
 
 - 3s5z (1 win rate under 3M env step is considered better performance)
 
    - 3s5z + MAPPO
 
    .. image:: images/3s5z_mappo.png
-     :align: center
+     :align : center
 
 - 5m_vs_6m (0.75 win rate under 5M env step is considered as good performance)
 
    - 5m_vs_6m + MAPPO
 
    .. image:: images/5m6m_mappo.png
-     :align: center
+     :align : center
 
 - MMM2 (1 win rate under 5M env step is considered better performance)
 
    - MMM2 + MAPPO
 
    .. image:: images/MMM2_mappo.png
-     :align: center
+     :align : center
