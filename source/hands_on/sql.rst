@@ -113,7 +113,7 @@ SQL can be combined with:
       Gradient algorithms such as `Equivalence Between Policy Gradients and
       Soft Q-Learning <https://arxiv.org/abs/1704.06440>`__.
     
-    - SQL can be combined with demonstration data to propose an imitation learning algorithm: SQIL proposed in `SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards <https://arxiv.org/abs/1905.11108>`_.  Please also refer to `SQIL code <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sqil.py>` for a DI-engine implementation.
+    - SQL can be combined with demonstration data to propose an imitation learning algorithm: SQIL proposed in `SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards <https://arxiv.org/abs/1905.11108>`_.  Please also refer to `SQIL code <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sql.py>` for a DI-engine implementation.
 
 
 

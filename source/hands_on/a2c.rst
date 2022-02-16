@@ -3,7 +3,7 @@ A2C
 
 Overview
 ---------
-A3C (Asynchronous advantage actor-critic) algorithm is simple and lightweight framework for deep reinforcement learning that uses asynchronous gradient descent for optimization of deep neural network controllers. A2C(advantage actor-critic), on the other hand, is the synchronous version of A3C where where the policy gradient algorithm is combined with an advantage function to reduce variance.
+A3C (Asynchronous advantage actor-critic) algorithm is a simple and lightweight framework for deep reinforcement learning that uses asynchronous gradient descent for optimization of deep neural network controllers. A2C(advantage actor-critic), on the other hand, is the synchronous version of A3C where where the policy gradient algorithm is combined with an advantage function to reduce variance.
 
 Quick Facts
 -----------
@@ -94,6 +94,10 @@ The policy gradient and value update of A2C is implemented as follows:
         value_loss = (F.mse_loss(return_, value, reduction='none') * weight).mean()
         return a2c_loss(policy_loss, value_loss, entropy_loss)
 
+.. note::
+
+    we apply GAE to calculate the advantage when update the actor network with the GAE default parameter `gae_lambda` =0.95. 
+    The target for the update for the value network is obtained by the value function at the current time step plus the advantage function calculated in collectors. 
 
 Benchmark
 -----------
