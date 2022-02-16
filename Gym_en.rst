@@ -1,4 +1,4 @@
-Gym-Hybrid
+gym_hybrid_en.rst
 ~~~~~~~~~~~~~~~~~~~
 
 Overview
@@ -30,7 +30,7 @@ Method 1: Run the following command, if the version information can be displayed
 
 Method 2: Run the following Python program, if no error is reported, the installation is successful.
 
-.. code::python
+.. code:: python
 
     import gym
     import gym_hybrid
@@ -104,7 +104,7 @@ The termination condition for each episode of the Gym-hybrid environment is any 
   
 
 built-in environment
--------------
+------------
 There are two built-in environments, \``"Moving-v0"``\ and \``"Sliding-v0"``\. The former does not consider conservation of inertia, while the latter does (so is more practical). The two environments are consistent in state space, action space, and reward space.
 
 other
