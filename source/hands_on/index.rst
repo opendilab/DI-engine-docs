@@ -9,6 +9,7 @@ RL Algorithm Cheat Sheet
     c51_qrdqn_iqn
     rainbow
     sqn
+    sql
     sqil
 
     a2c
