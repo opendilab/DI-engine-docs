@@ -110,53 +110,62 @@ Benchmark
 |                     |                 |                                                     |`config_link_ha <https:// |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
-|HalfCheetah          |  11016          |.. image:: images/benchmark/halfcheetah_cql.png      |d4rl/config/halfcheetah_  |                      |
-|                     |                 |                                                     |cql_medium_expert         |                      |
-|(Medium Expert)      |                 |                                                     |_config.py>`_             |                      |
+|HalfCheetah          |  57.6           |.. image:: images/benchmark/halfcheetah_cql.png      |d4rl/config/halfcheetah_  |   CQL Repo (75.6     |
+|                     |  :math:`\pm`    |                                                     |cql_medium_expert         |   :math:`\pm` 25.7)  |
+|(Medium Expert)      |  3.7            |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_w <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Walker2d             |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
-|                     |  5029           |.. image:: images/benchmark/walker2d_cql.png         |d4rl/config/walker2d_     |                      |
-|(Medium Expert)      |                 |                                                     |cql_medium_expert         |                      |
-|                     |                 |                                                     |_config.py>`_             |                      |
+|                     |  109.7          |.. image:: images/benchmark/walker2d_cql.png         |d4rl/config/walker2d_     |   CQL Repo (107.9    |
+|(Medium Expert)      |  :math:`\pm`    |                                                     |cql_medium_expert         |   :math:`\pm` 1.6)   |
+|                     |  0.8            |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_ho <https:// |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Hopper               |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
-|                     |  3678           |.. image:: images/benchmark/hopper_cql.png           |d4rl/config/hopper_sac_   |                      |
-|(Medium Expert)      |                 |                                                     |cql_medium_expert         |                      |
-|                     |                 |                                                     |_config.py>`_             |                      |
+|                     |  85.4           |.. image:: images/benchmark/hopper_cql.png           |d4rl/config/hopper_sac_   |    CQL Repo (105.6   |
+|(Medium Expert)      |  :math:`\pm`    |                                                     |cql_medium_expert         |    :math:`\pm` 12.9) |
+|                     |  14.8           |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
-Specifically for each dataset:
+Specifically for each dataset, our implementation results are as follows:
 
-+---------------------+-----------------+----------------+---------------+----------+----------+
-| environment         |random           |medium replay   |medium expert  |medium    |expert    |
-+=====================+=================+================+===============+==========+==========+
-|                     |                 |                |               |          |          |
-|HalfCheetah          |1426             |5478            |11016          |5707      |11609     |
-|                     |                 |                |               |          |          |
-+---------------------+-----------------+----------------+---------------+----------+----------+
-|                     |                 |                |               |          |          |
-|Walker2d             |248              |3757            |5029           |3821      |5005      |
-|                     |                 |                |               |          |          |
-+---------------------+-----------------+----------------+---------------+----------+----------+
-|                     |                 |                |               |          |          |
-|Hopper               |265              |3048            |3678           |2183      |3485      |
-|                     |                 |                |               |          |          |
-+---------------------+-----------------+----------------+---------------+----------+----------+
++---------------------+-----------------+----------------+-----------------+-----------------+----------------------+
+| environment         |random           |medium replay   |medium expert    |medium           |expert                |
++=====================+=================+================+=================+=================+======================+
+|                     |                 |                |                 |                 |                      |
+|HalfCheetah          |18.7 :math:`\pm` |47.1 :math:`\pm`|57.6 :math:`\pm` |49.7 :math:`\pm` |75.1 :math:`\pm`      |
+|                     |1.2              |0.3             |3.7              |0.4              |18.4                  |
++---------------------+-----------------+----------------+-----------------+-----------------+----------------------+
+|                     |                 |                |                 |                 |                      |
+|Walker2d             |22.0 :math:`\pm` |82.6 :math:`\pm`|109.7 :math:`\pm`|82.4 :math:`\pm` |109.2 :math:`\pm`     |
+|                     |0.0              |3.4             |0.8              |1.9              |0.3                   |
++---------------------+-----------------+----------------+-----------------+-----------------+----------------------+
+|                     |                 |                |                 |                 |                      |
+|Hopper               |3.1 :math:`\pm`  |98.3 :math:`\pm`|85.4 :math:`\pm` |79.6 :math:`\pm` |105.4  :math:`\pm`    |
+|                     |2.6              |1.8             |14.8             |8.5              |7.2                   |
++---------------------+-----------------+----------------+-----------------+-----------------+----------------------+
 
 P.S.：
 
 1. The above results are obtained by running the same configuration on four different random seeds (5, 10, 20, 30)
 2. The above benchmark is for HalfCheetah-v2, Hopper-v2, Walker2d-v2. 
+3. The comparison results above is obtained via the paper `Pessimistic Bootstrapping for Uncertainty-Driven Offline Reinforcement Learning  <https://openreview.net/pdf?id=Y4cs1Z3HnqL>`_.
+   The complete table is depicted below 
+
+   .. image:: images/cql_official.png
+      :align: center
+      :scale: 40%  
+
+
+4. The above Tensorboard results illustrate the unnormalized results 
 
 Reference
 ----------
 
 - Kumar, Aviral, et al. "Conservative q-learning for offline reinforcement learning." arXiv preprint arXiv:2006.04779 (2020).
-
+- Chenjia Bai, et al. "Pessimistic Bootstrapping for Uncertainty-Driven Offline Reinforcement Learning."
 
 
 Other Public Implementations
