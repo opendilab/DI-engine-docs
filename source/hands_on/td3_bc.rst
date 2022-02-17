@@ -98,6 +98,10 @@ Benchmark
 
 **Note**: the D4RL environment used in this benchmark can be found `here <https://github.com/rail-berkeley/d4rl>`_.
 
+References
+-----------
+Scott Fujimoto, Shixiang Shane Gu: “A Minimalist Approach to Offline Reinforcement Learning”, 2021; [https://arxiv.org/abs/2106.06860 arXiv:2106.06860].
+
 Other Public Implementations
 ----------------------------
 
@@ -106,7 +110,3 @@ Other Public Implementations
 
 .. _`Official implementation`: https://github.com/sfujim/TD3_BC
 .. _d3rlpy: https://github.com/takuseno/d3rlpy
-
-References
------------
-Scott Fujimoto, Shixiang Shane Gu: “A Minimalist Approach to Offline Reinforcement Learning”, 2021; [https://arxiv.org/abs/2106.06860 arXiv:2106.06860].
