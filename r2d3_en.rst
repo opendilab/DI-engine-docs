@@ -110,6 +110,7 @@ Important Implementation Details
 1. The mini-batch used to calculate the loss function is sampled from the expert demonstration buffer and the agent experience buffer. The mini-batch contains <batch_size> sequence samples, sampled from the expert demonstration buffer with the probability of pho, Sample from the agent experience buffer with 1-pho probability.
 The specific implementation method is as follows. By sampling from the uniform distribution of [0, 1] of size <batch_size>, if the sampling value is greater than pho, an expert demonstration trajectory is selected.
 The number of sample values greater than pho in the <batch_size> sample values is the number of expert demonstrations in this mini-batch.
+
 .. code::
 
    # The hyperparameter pho, the demo ratio, control the propotion of data coming
