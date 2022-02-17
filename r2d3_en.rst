@@ -125,6 +125,7 @@ The number of sample values greater than pho in the <batch_size> sample values i
 2. Since the baseline algorithm R2D2 adopts priority sampling, for a sequence sample, the TD error at each moment is the absolute value of the sum of the 1-step TD error and the n-step TD error, and the TD error is experienced at all times in this sequence. weighted sum of mean and max on
 as the priority for the entire sequence of samples. Since the loss functions corresponding to expert data and experience data are different, we set up two independent replay_buffers in R2D2, ``expert_buffer`` for expert demonstration , and ``replay_buffer`` for agent experience ,
 And separate the priority sampling and the update of the relevant parameters in the buffer.
+
 .. code::
 
    # using the mixture of max and mean absolute n-step TD-errors as the priority of the sequence
