@@ -93,3 +93,12 @@ Reference
 3. Finn, Chelsea, et al. "A connection between generative adversarial
    networks, inverse reinforcement learning, and energy-based models."
    arXiv preprint arXiv:1611.03852 (2016).
+
+Other Public Implementations
+----------------------------
+
+- Baselines_
+- PyTorch-RL_
+
+.. _Baselines: https://stable-baselines.readthedocs.io/en/master/modules/gail.html
+.. _PyTorch-RL: https://github.com/Khrylx/PyTorch-RL
