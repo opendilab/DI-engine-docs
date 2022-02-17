@@ -12,7 +12,7 @@ Mujoco is a physics engine designed to facilitate research and development in ar
 Install
 ====
 
-installation method
+Installation method
 --------
 
 install the gym and mujoco-py libraries, which can be installed by one-click pip or combined with DI-engine
@@ -82,7 +82,7 @@ After the installation is complete, you can verify that the installation was suc
     print(obs.shape)  # (11, )
 
 
-mirror
+Image
 ----
 
 The image of the DI-engine comes with the framework itself and the Mujoco environment, available via \ ``docker pull opendilab/ding:nightly-mujoco``\ , or by accessing\ `docker
