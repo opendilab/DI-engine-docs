@@ -60,22 +60,38 @@ Benchmark
 
 
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+<<<<<<< HEAD
 | Environment         |Best mean reward | Evaluation results                                  | Config link              | Comparison           |
 +=====================+=================+=====================================================+==========================+======================+
 |                     |                 |                                                     |`config_link_p <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |                     |                 |                                                     |DI-engine/blob/main/dizoo/|     Pymarl(0.8)      |
+=======
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_p <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/|     pymarl(0.8)      |
+>>>>>>> 7b070a204461d5409a3dfe1490c9a8c67e0a9b33
 |5m6m                 |        1        |.. image:: images/benchmark/smac_5m6m_collaq.png     |smac/config/smac_5m6m_coll|                      |
 |                     |                 |                                                     |aq_config.py>`_           |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_q <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
+<<<<<<< HEAD
 |                     |                 |                                                     |DI-engine/blob/main/dizoo/|     Pymarl(1)        |
+=======
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/|     pymarl(1)        |
+>>>>>>> 7b070a204461d5409a3dfe1490c9a8c67e0a9b33
 |MMM                  |        0.7      |.. image:: images/benchmark/smac_MMM_collaq.png      |smac/config/smac_MMM_colla|                      |
 |                     |                 |                                                     |q_config.py>`_            |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_s <https://  |                      |
+<<<<<<< HEAD
 |                     |                 |                                                     |github.com/opendilab/     |     Pymarl(1)        |
+=======
+|                     |                 |                                                     |github.com/opendilab/     |     pymarl(1)        |
+>>>>>>> 7b070a204461d5409a3dfe1490c9a8c67e0a9b33
 |                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
 |3s5z                 |         1       |.. image:: images/benchmark/smac_3s5z_collaq.png     |smac/config/smac_3s5z_coll|                      |
 |                     |                 |                                                     |aq_config.py>`_           |                      |
