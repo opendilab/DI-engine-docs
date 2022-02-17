@@ -3,8 +3,11 @@ Bit-flip
 
 概述
 =======
-Bit-flip (翻硬币）是一个非常简单的小游戏。假设有n个硬币，每个硬币具有正面和反面两个状态，正面记为0，反面记为1。动作空间是一个长度为n的向量，执行第n个动作类型表示将第n个硬币翻转。
+BitFlip (翻硬币）是一个非常简单的小游戏。假设有n个硬币，每个硬币具有正面和反面两个状态，正面记为0，反面记为1。动作空间是一个长度为n的向量，执行第n个动作类型表示将第n个硬币翻转。
 对于每一个epsode，我们随机初始化硬币状态和目标状态。如果硬币状态和目标状态不一样，reward为-1，否则为1。
+
+.. image:: ./images/bitflip.gif
+   :align: center
 
 安装
 ====
@@ -12,7 +15,7 @@ Bit-flip (翻硬币）是一个非常简单的小游戏。假设有n个硬币，
 安装方法
 --------
 
-bit-flip环境无需安装，内置在DI-engine中。
+BitFlip环境无需安装，内置在DI-engine中。
 
 DI-zoo 可运行代码示例
 =====================
@@ -113,8 +116,7 @@ DI-zoo 可运行代码示例
                     her_episodes = []
                     for e in train_episode:
                         her_episodes.extend(her_model.estimate(e))
-                    train_episode.extend(her_episodes)
-                for e in train_episode:
+                for e in her_episodes:
                     train_data.extend(policy.collect_mode.get_train_sample(e))
                 learner.train(train_data, collector.envstep)
 
@@ -126,7 +128,7 @@ DI-zoo 可运行代码示例
 
 参考资料
 =====================
-- bit-flip `源码 <https://github.com/NervanaSystems/gym-bit-flip/blob/master/gym_bit_flip/bit_flip.py>`__
+- BitFlip `源码 <https://github.com/NervanaSystems/gym-bit-flip/blob/master/gym_bit_flip/bit_flip.py>`__
 
 
 

@@ -29,6 +29,7 @@ RL Algorithm Cheat Sheet
     collaq
 
     rnd
+    her
 
     gail
 
