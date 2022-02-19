@@ -213,4 +213,4 @@ Q5: What are expolration and expolitation？What methods do we use to balance ex
    There are many ways to balance exploration and exploitation. There are also different ways of implementations in different algorithms. With respect to sampling in discrete action spaces, one can follow a probability distribution or select randomly. With respect to sampling in continuous action spaces, one can follow a coutinuous distribution or add NOISE.
 
 Q6: Why do we use replay buffer？ why do we neew experience replay？
- - AnswerBy using the replay buffer, we can store the experiences in the buffer and sample the experiences in the buffer during subsequent training. Experience replay is a technique that saves samples from the system's exploration of the environment and then samples them to update the model parameters.
+ - Answer: By using the replay buffer, we can store the experiences in the buffer and sample the experiences in the buffer during subsequent training. Experience replay is a technique that saves samples from the system's exploration of the environment and then samples them to update the model parameters.
