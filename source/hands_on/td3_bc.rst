@@ -31,6 +31,22 @@ TD3BC simply consists to add a behavior cloning term to TD3 in order to regulari
     \pi = \arg\max_{\pi} \mathbb{E}_{(s, a) \sim D} [ \lambda Q(s, \pi(s)) - (\pi(s)-a)^2 ]
     \end{aligned}
 
+:math:`(\pi(s)-a)^2` is the behavior cloning term acts as a regularizer and aims to push the policy towards favoring
+actions contained in the dataset. The hyperparameter :math:`\lambda` is used to control the strength of the
+regularizer.
+
+Assuming an action range of [−1, 1], the BC term is at most 4, however the range of Q will be a function of the scale of
+the reward. Consequently, the scalar :math:`\lambda` can be defined as:
+
+.. math::
+    \begin{aligned}
+    \lambda = \frac{\alpha}{\frac{1}{N}\sum_{s_i, a_i}|Q(s_i, a_i)|}
+    \end{aligned}
+
+which is simply a normalization term based on the average absolute value of Q over mini-batches. This formulation has
+also the benefit of normalizing the learning rate across tasks since it is dependent on the scale of Q. The default
+value for :math:`\alpha` is 2.5.
+
 Additionally, all the states in each mini-batch are normalized, such that they have mean 0 and standard deviation 1.
 This normalization improves the stability of the learned policy.
 
@@ -100,7 +116,9 @@ Benchmark
 
 References
 -----------
-Scott Fujimoto, Shixiang Shane Gu: “A Minimalist Approach to Offline Reinforcement Learning”, 2021; [https://arxiv.org/abs/2106.06860 arXiv:2106.06860].
+- Scott Fujimoto, Shixiang Shane Gu: “A Minimalist Approach to Offline Reinforcement Learning”, 2021; [https://arxiv.org/abs/2106.06860 arXiv:2106.06860].
+
+- Scott Fujimoto, Herke van Hoof, David Meger: “Addressing Function Approximation Error in Actor-Critic Methods”, 2018; [http://arxiv.org/abs/1802.09477 arXiv:1802.09477].
 
 Other Public Implementations
 ----------------------------
