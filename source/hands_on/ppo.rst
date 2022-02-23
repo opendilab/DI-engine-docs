@@ -146,23 +146,30 @@ The interface of ``ppo_policy_error`` and ``ppo_value_error`` is defined as foll
 
    * - trick
      - explanation
-   * - | `Generalized Advantage Estimator <https://github.com/opendilab/DI-engine/blob/e89d8fdc4b7340c708b48f987a8e9f312cd0f7a2/ding/rl_utils/gae.py#L26>`__
+   * - | Generalized Advantage Estimator
+       |
+     - Utilizing `Generalized Advantage Estimator <https://github.com/opendilab/DI-engine/blob/e89d8fdc4b7340c708b48f987a8e9f312cd0f7a2/ding/rl_utils/gae.py#L26>`__ to balance bias and variance in value learning.
    * - | Dual Clip
-     - In the paper `Mastering Complex Control in MOBA Games with Deep Reinforcement Learning <https://arxiv.org/abs/1912.09729>`_, the authors claim that when :math:`\hat{A}_t < 0`, a too large :math:`r_t(\theta)` should also be clipped, which introduces dual clip: .. math:: \max \left(\min \left(r_{t}(\theta) \hat{A}_{t}, \operatorname{clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right), c \hat{A}_{t}\right)
+       |
+     - In the paper `Mastering Complex Control in MOBA Games with Deep Reinforcement Learning <https://arxiv.org/abs/1912.09729>`_, the authors claim that when :math:`\hat{A}_t < 0`, a too large :math:`r_t(\theta)` should also be clipped, which introduces dual clip: .. math:: \max \left(\min \left(r_{t}(\theta) \hat{A}_{t}, {clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right), c \hat{A}_{t}\right)
    * - | Recompute Advantage
+       |
      - In on-policy PPO, each time we collect a batch data, to improve data efficiency, we will train many epochs, before the beginning of each training epoch, we recompute the advantage of historical transitions, to keep the estimation of advantage close to current policy.
    * - | Value/Advantage Normalization
+       |
      - We standardize the targets of the value/advantage function by using running estimates of the average and standard deviation of the value/advantage targets to.
        For more implementation details about recompute advantage and normalization, users can refer to this discussion `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
    * - | Value Clipping
+       |
      - Value is clipped around the previous value estimates and use the clip_ratio same as that used to clip probability ratios in the PPO policy loss function.
-     .. code:: python
-        if use_value_clip:
-            value_clip = value_old + (value_new - value_old).clamp(-clip_ratio, clip_ratio)
-            v1 = (return_ - value_new).pow(2)
-            v2 = (return_ - value_clip).pow(2)
-            value_loss = 0.5 * (torch.max(v1, v2) * weight).mean()
+         .. code:: python
+            if use_value_clip:
+                value_clip = value_old + (value_new - value_old).clamp(-clip_ratio, clip_ratio)
+                v1 = (return_ - value_new).pow(2)
+                v2 = (return_ - value_clip).pow(2)
+                value_loss = 0.5 * (torch.max(v1, v2) * weight).mean()
    * - | Orthogonal initialization
+       |
      - Using an orthogonal initialization scheme for the policy and value networks.
 
 
