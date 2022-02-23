@@ -3,14 +3,17 @@ PPO
 
 Overview
 ---------
-PPO(Proximal Policy Optimization) was proposed in `Proximal Policy Optimization Algorithms <https://arxiv.org/pdf/1707.06347.pdf>`_.
-The key question to answer is that how can we utilize the existing data to take the most possible improvement step for the policy without accidentally leading to performance collapse.
-PPO follows the idea of TRPO, which restricts the step of policy update by KL-divergence,
-and uses clipped probability ratios of the new and old policies to replace the direct KL-divergence restriction. This adaptation is simpler to implement and avoid the calculation of the Hessian matrix in TRPO.
+PPO (Proximal Policy Optimization) was proposed in `Proximal Policy Optimization Algorithms <https://arxiv.org/pdf/1707.06347.pdf>`_.
+The key question to answer is that how can we utilize the existing data to take the most possible improvement step for the policy
+without accidentally leading to performance collapse.
+PPO follows the idea of TRPO (which restricts the step of policy update by explicit KL-divergence constraint),
+but doesn’t have a KL-divergence term in the objective,
+instead utilizing a specialized clipped objective to remove incentives for the new policy to get far from the old policy.
+PPO avoids the calculation of the Hessian matrix in TRPO, thus is simpler to implement and empirically performs at least as well as TRPO.
 
 Quick Facts
 -----------
-1. PPO is a **model-free** and **policy-based** RL algorithm.
+1. PPO is a **model-free** and **policy-gradient** RL algorithm.
 
 2. PPO supports both **discrete** and **continuous action spaces**.
 
@@ -18,52 +21,84 @@ Quick Facts
 
 4. PPO can be equipped with RNN.
 
-5. PPO on-policy implementation use double loop(epoch loop and minibatch loop).
+5. PPO is a first-order gradient method that use a few tricks to keep new policies close to old.
 
 Key Equations or Key Graphs
 ------------------------------
-PPO use clipped probability ratios in the policy gradient to prevent the policy from too rapid changes:
+PPO use clipped probability ratios in the policy gradient to prevent the policy from too rapid changes, specifically the
+optimizing objective is:
 
 .. math::
+    L_{\theta_{k}}^{C L I P}(\theta) \doteq {\mathrm{E}}_{s, a \sim \theta_{k}}\left[\min \left(\frac{\pi_{\theta}(a \mid s)}{\pi_{\theta_{k}}(a \mid s)} A^{\theta_{k}}(s, a), {clip}\left(\frac{\pi_{\theta}(a \mid s)}{\pi_{\theta_{k}}(a \mid s)}, 1-\epsilon, 1+\epsilon\right) A^{\theta_{k}}(s, a)\right)\right]
 
-    L^{C L I P}(\theta)=\hat{\mathbb{E}}_{t}\left[\min \left(r_{t}(\theta) \hat{A}_{t}, \operatorname{clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right)\right]
+where :math:`\frac{\pi_{\theta}(a \mid s)}{\pi_{\theta_{k}}(a \mid s)}` is denoted as the probability ratio :math:`r_t(\theta)`,
+:math:`\theta` are the policy parameters to be optimized at the current time, :math:`\theta_k` are the parameters of the policy at iteration k and :math:`\gamma` is a small hyperparameter control that controls the maximum update step size of the policy parameters.
 
-with the probability ratio :math:`r_t(\theta)` defined as:
+..
+    .. math::
+        r_{t}(\theta)=\frac{\pi_{\theta}\left(a_{t} \mid s_{t}\right)}{\pi_{\theta_{\text {old }}}\left(a_{t} \mid s_{t}\right)}
+    When :math:`\hat{A}_t > 0`, :math:`r_t(\theta) > 1 + \epsilon` will be clipped. While when :math:`\hat{A}_t < 0`, :math:`r_t(\theta) < 1 - \epsilon` will be clipped.
+
+According to this `note <https://drive.google.com/file/d/1PDzn9RPvaXjJFZkGeapMHbHGiWWW20Ey/view?usp=sharing>`__, the PPO-Clip objective can be simplified to:
 
 .. math::
-
-    r_{t}(\theta)=\frac{\pi_{\theta}\left(a_{t} \mid s_{t}\right)}{\pi_{\theta_{\text {old }}}\left(a_{t} \mid s_{t}\right)}
-
-When :math:`\hat{A}_t > 0`, :math:`r_t(\theta) > 1 + \epsilon` will be clipped. While when :math:`\hat{A}_t < 0`, :math:`r_t(\theta) < 1 - \epsilon` will be clipped. However, in the paper `Mastering Complex Control in MOBA Games with Deep Reinforcement Learning <https://arxiv.org/abs/1912.09729>`_, the authors claim that when :math:`\hat{A}_t < 0`, a too large :math:`r_t(\theta)` should also be clipped, which introduces dual clip:
+    L_{\theta_{k}}^{C L I P}(\theta)={\mathrm{E}}_{s, a \sim \theta_{k}}\left[\min \left(\frac{\pi_{\theta}(a \mid s)}{\pi_{\theta_{k}}(a \mid s)} A^{\theta_{k}}(s, a), g\left(\epsilon, A^{\theta_{k}}(s, a)\right)\right)\right]
+where,
 
 .. math::
+    g(\epsilon, A)= \begin{cases}(1+\epsilon) A & A \geq 0 \\ (1-\epsilon) A & \text { otherwise }\end{cases}
 
-    \max \left(\min \left(r_{t}(\theta) \hat{A}_{t}, \operatorname{clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right), c \hat{A}_{t}\right)
+Usually we don't access to the true advantage value of the sampled state-action pair :math:`(s,a)`, but luckily we can calculate a approximate value :math:`\hat{A}_t`.
+The idea behind this clipping objective is: for :math:`(s,a)`, if :math:`\hat{A}_t < 0`, maximizing :math:`L^{C L I P}(\theta)` means make :math:`\pi_{\theta}(a_{t} \mid s_{t})` smaller, but no additional benefit to the objective function is gained
+by making :math:`\pi_{\theta}(a_{t} \mid s_{t})` smaller than :math:`(1-\epsilon)\pi_{\theta}(a_{t} \mid s_{t})`
+. Analogously, if :math:`\hat{A}_t > 0`, maximizing :math:`L^{C L I P}(\theta)` means make :math:`\pi_{\theta}(a_{t} \mid s_{t})` larger, but no additional benefit is gained by making :math:`\pi_{\theta}(a_{t} \mid s_{t})`
+larger than :math:`(1+\epsilon)\pi_{\theta}(a_{t} \mid s_{t})`.
+Empirically, by optimizing this objective function, the update step of the policy network can be controlled within a reasonable range.
 
+For the value function, in order to balance the bias and variance in value learning, PPO adopts the `Generalized Advantage Estimator <https://arxiv.org/abs/1506.02438>`__ to compute the advantages,
+which is a exponentially-weighted sum of Bellman residual terms.  that is analogous to TD(λ):
+
+.. math::
+    \hat{A}_{t}=\delta_{t}+(\gamma \lambda) \delta_{t+1}+\cdots+\cdots+(\gamma \lambda)^{T-t+1} \delta_{T-1}
+
+where V is an approximate value function, :math:`\delta_{t}=r_{t}+\gamma V\left(s_{t+1}\right)-V\left(s_{t}\right)` is the Bellman residual terms, or called TD-error at timestep t.
+
+The value target is calculated as: :math:`V_{t}^{target}=V_{t}+\hat{A}_{t}`,
+and the value loss is defined as a squared-error: :math:`\frac{1}{2}*\left(V_{\theta}\left(s_{t}\right)-V_{t}^{\mathrm{target}}\right)^{2}`,
+To ensure adequate exploration, PPO further enhances the objective by adding a policy entropy bonus.
+
+The total PPO loss is a weighted sum of policy loss, value loss and policy entropy regularization term:
+
+.. math::
+    L_{t}^{total}=\hat{\mathbb{E}}_{t}\left[L_{t}^{C L I P}(\theta)+c_{1} L_{t}^{V F}(\phi)-c_{2} H\left(a_t|s_{t}\right;\pi_{\theta})\right]
+
+where c1 and c2 are coefficients that control the relative importance of different terms.
+
+.. note::
+    The standard implementation of PPO contains the many additional optimizations which are not described in the paper. Further details can be found in `IMPLEMENTATION MATTERS IN DEEP POLICY GRADIENTS: A CASE STUDY ON PPO AND TRPO <https://arxiv.org/abs/2005.12729>`_.
 
 Pseudo-code
 -----------
-.. image:: images/PPO.png
+.. image:: images/PPO_onpolicy.png
    :align: center
    :width: 700
 
 .. note::
-   This is the on-policy version of PPO.
+    This is the on-policy version of PPO.
 
-In DI-engine, we also have the off-policy version of PPO, which is almost same as on-policy PPO except that
-we maintain a replay buffer that stored the recent experience, the data used to calculate the policy and value loss is sampled from the replay buffer,
-so they are able to reuse old data very efficiently but potentially brittle and unstable.
+In DI-engine, we also have the off-policy version of PPO, which is almost the same as on-policy PPO except that
+we maintain a replay buffer that stored the recent experience,
+and the data used to calculate the PPO loss is sampled from the replay buffer not the recently collected batch,
+so off-policy PPO are able to reuse old data very efficiently, but potentially brittle and unstable.
 
 
 Extensions
 -----------
-PPO can be combined with:
-    - Multi-step learning
-    - RNN
-    - GAE
 
-    .. note::
-      Indeed, the standard implementation of PPO contains the many additional optimizations which are not described in the paper. Further details can be found in `IMPLEMENTATION MATTERS IN DEEP POLICY GRADIENTS: A CASE STUDY ON PPO AND TRPO <https://arxiv.org/abs/2005.12729>`_.
+PPO can be combined with:
+    - `Multi-step learning <https://di-engine-docs.readthedocs.io/en/latest/best_practice/nstep_td.html>`__
+    - `RNN <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html>`__
+
 
 Implementation
 -----------------
@@ -77,7 +112,7 @@ The default config is defined as follows:
         :noindex:
 
 
-The policy gradient and value update of PPO is implemented as follows:
+The policy loss and value loss of PPO is implemented as follows:
 
 .. code:: python
 
@@ -105,15 +140,31 @@ The interface of ``ppo_policy_error`` and ``ppo_value_error`` is defined as foll
 
     .. autofunction:: ding.rl_utils.ppo.ppo_value_error
 
+.. list-table:: Some implementation details that matter
+   :widths: 25 15 30 15 15
+   :header-rows: 1
 
-Some concrete implementation details:
+   * - trick
+     - explanation
+   * - | `Generalized Advantage Estimator <https://github.com/opendilab/DI-engine/blob/e89d8fdc4b7340c708b48f987a8e9f312cd0f7a2/ding/rl_utils/gae.py#L26>`__
+   * - | Dual Clip
+     - In the paper `Mastering Complex Control in MOBA Games with Deep Reinforcement Learning <https://arxiv.org/abs/1912.09729>`_, the authors claim that when :math:`\hat{A}_t < 0`, a too large :math:`r_t(\theta)` should also be clipped, which introduces dual clip: .. math:: \max \left(\min \left(r_{t}(\theta) \hat{A}_{t}, \operatorname{clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right), c \hat{A}_{t}\right)
+   * - | Recompute Advantage
+     - In on-policy PPO, each time we collect a batch data, to improve data efficiency, we will train many epochs, before the beginning of each training epoch, we recompute the advantage of historical transitions, to keep the estimation of advantage close to current policy.
+   * - | Value/Advantage Normalization
+     - We standardize the targets of the value/advantage function by using running estimates of the average and standard deviation of the value/advantage targets to.
+       For more implementation details about recompute advantage and normalization, users can refer to this discussion `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
+   * - | Value Clipping
+     - Value is clipped around the previous value estimates and use the clip_ratio same as that used to clip probability ratios in the PPO policy loss function.
+     .. code:: python
+        if use_value_clip:
+            value_clip = value_old + (value_new - value_old).clamp(-clip_ratio, clip_ratio)
+            v1 = (return_ - value_new).pow(2)
+            v2 = (return_ - value_clip).pow(2)
+            value_loss = 0.5 * (torch.max(v1, v2) * weight).mean()
+   * - | Orthogonal initialization
+     - Using an orthogonal initialization scheme for the policy and value networks.
 
-- Recompute advantage: recompute the advantage of historical transitions before the beginning of each training epoch, to keep the estimation
-  of advantage close to current policy.
-
-- Value/Advantage normalization: we standardize the targets of the value/advantage function by using running estimates of the average and standard deviation of the value/advantage targets.
-
-For more implementation details about recompute and normalization, users can refer to this discussion `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
 
 ..
  The Benchmark result of PPO implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_.
@@ -233,6 +284,7 @@ References
 
 - Ye D, Liu Z, Sun M, et al. Mastering complex control in moba games with deep reinforcement learning[C]//Proceedings of the AAAI Conference on Artificial Intelligence. 2020, 34(04): 6672-6679.
 
+- https://spinningup.openai.com/en/latest/algorithms/ppo.html
 
 Other Public Implementations
 ----------------------------
