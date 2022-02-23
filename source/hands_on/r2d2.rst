@@ -155,6 +155,6 @@ References
 Other Public Implementations
 ----------------------------
 
-- seed_rl_
+`seed_rl <https://github.com/google-research/seed_rl/tree/master/agents/r2d2>`_
 
-.. _seed_rl: https://github.com/google-research/seed_rl/tree/master/agents/r2d2
+`ray <https://github.com/ray-project/ray/blob/master/rllib/agents/dqn/r2d2.py>`_
