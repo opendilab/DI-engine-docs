@@ -158,20 +158,21 @@ The interface of ``ppo_policy_error`` and ``ppo_value_error`` is defined as foll
    * - | Value/Advantage Normalization
        |
      - We standardize the targets of the value/advantage function by using running estimates of the average and standard deviation of the value/advantage targets to.
-       For more implementation details about recompute advantage and normalization, users can refer to this discussion `<https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`_.
-   * - | Value Clipping
+       For more implementation details about recompute advantage and normalization, users can refer to this `discussion <https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`__.
+   * - | `Value Clipping <https://github.com/opendilab/DI-engine/blob/e6cc06043b479b164b41189ac99c9315c0c938de/ding/rl_utils/ppo.py#L202>`_
        |
      - Value is clipped around the previous value estimates and use the clip_ratio same as that used to clip probability ratios in the PPO policy loss function.
-         .. code:: python
-            if use_value_clip:
-                value_clip = value_old + (value_new - value_old).clamp(-clip_ratio, clip_ratio)
-                v1 = (return_ - value_new).pow(2)
-                v2 = (return_ - value_clip).pow(2)
-                value_loss = 0.5 * (torch.max(v1, v2) * weight).mean()
    * - | Orthogonal initialization
        |
      - Using an orthogonal initialization scheme for the policy and value networks.
 
+..
+    .. code:: python
+        if use_value_clip:
+            value_clip = value_old + (value_new - value_old).clamp(-clip_ratio, clip_ratio)
+            v1 = (return_ - value_new).pow(2)
+            v2 = (return_ - value_clip).pow(2)
+            value_loss = 0.5 * (torch.max(v1, v2) * weight).mean()
 
 ..
  The Benchmark result of PPO implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_.
