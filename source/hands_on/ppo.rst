@@ -70,7 +70,7 @@ To ensure adequate exploration, PPO further enhances the objective by adding a p
 The total PPO loss is a weighted sum of policy loss, value loss and policy entropy regularization term:
 
 .. math::
-    L_{t}^{total}=\hat{\mathbb{E}}_{t}\left[L_{t}^{C L I P}(\theta)+c_{1} L_{t}^{V F}(\phi)-c_{2} H\left(a_t|s_{t}\right;\pi_{\theta})\right]
+    L_{t}^{total}=\hat{\mathbb{E}}_{t}[ L_{t}^{C L I P}(\theta)+c_{1} L_{t}^{V F}(\phi)-c_{2} H(a_t|s_{t}; \pi_{\theta})]
 
 where c1 and c2 are coefficients that control the relative importance of different terms.
 
@@ -84,12 +84,10 @@ Pseudo-code
    :scale: 50%
 
 .. note::
-    This is the on-policy version of PPO.
-
-In DI-engine, we also have the off-policy version of PPO, which is almost the same as on-policy PPO except that
-we maintain a replay buffer that stored the recent experience,
-and the data used to calculate the PPO loss is sampled from the replay buffer not the recently collected batch,
-so off-policy PPO are able to reuse old data very efficiently, but potentially brittle and unstable.
+    This is the on-policy version of PPO. In DI-engine, we also have the off-policy version of PPO, which is almost the same as on-policy PPO except that
+    we maintain a replay buffer that stored the recent experience,
+    and the data used to calculate the PPO loss is sampled from the replay buffer not the recently collected batch,
+    so off-policy PPO are able to reuse old data very efficiently, but potentially brittle and unstable.
 
 
 Extensions
@@ -141,30 +139,33 @@ The interface of ``ppo_policy_error`` and ``ppo_value_error`` is defined as foll
     .. autofunction:: ding.rl_utils.ppo.ppo_value_error
 
 
-.. list-table:: Some implementation details that matter
-   :widths: 25 15 30 15 15
+Implementation Tricks
+-----------------
+
+.. list-table:: Some Implementation Tricks that Matter
+   :widths: 25 15
    :header-rows: 1
 
    * - trick
      - explanation
-   * - | Generalized Advantage Estimator
-       |
-     - | Utilizing `Generalized Advantage Estimator <https://github.com/opendilab/DI-engine/blob/e89d8fdc4b7340c708b48f987a8e9f312cd0f7a2/ding/rl_utils/gae.py#L26>`__ to balance bias and variance in value learning.
-   * - | Dual Clip
-       |
-     - | In the paper `Mastering Complex Control in MOBA Games with Deep Reinforcement Learning <https://arxiv.org/abs/1912.09729>`_, the authors claim that when :math:`\hat{A}_t < 0`, a too large :math:`r_t(\theta)` should also be clipped, which introduces dual clip: .. math:: \max \left(\min \left(r_{t}(\theta) \hat{A}_{t}, {clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right), c \hat{A}_{t}\right)
-   * - | Recompute Advantage
-       |
-     - | In on-policy PPO, each time we collect a batch data, to improve data efficiency, we will train many epochs, before the beginning of each training epoch, we recompute the advantage of historical transitions, to keep the estimation of advantage close to current policy.
-   * - | Value/Advantage Normalization
-       |
-     - | We standardize the targets of the value/advantage function by using running estimates of the average and standard deviation of the value/advantage targets to.
-       For more implementation details about recompute advantage and normalization, users can refer to this `discussion <https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`__.
+   * - | `Generalized Advantage Estimator <https://github.com/opendilab/DI-engine/blob/e89d8fdc4b7340c708b48f987a8e9f312cd0f7a2/ding/rl_utils/gae.py#L26>`__
+     - | Utilizing generalized advantage estimator to balance bias and variance in value learning.
+   * - | `Dual Clip <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/rl_utils/ppo.py#L193>`__
+     - | In the paper `Mastering Complex Control in MOBA Games with Deep Reinforcement Learning <https://arxiv.org/abs/1912.09729>`_,
+       | the authors claim that when :math:`\hat{A}_t < 0`, a too large :math:`r_t(\theta)` should also be clipped, which introduces dual clip:
+       | :math:`\max \left(\min \left(r_{t}(\theta) \hat{A}_{t}, {clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right), c \hat{A}_{t}\right)`
+   * - | `Recompute Advantage <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/policy/ppo.py#L171>`__
+     - | In on-policy PPO, each time we collect a batch data, to improve data efficiency, we will train many epochs,
+       | before the beginning of each training epoch, we recompute the advantage of historical transitions,
+       | to keep the estimation of advantage close to current policy.
+   * - | `Value/Advantage Normalization <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/policy/ppo.py#L175>`__
+     - | We standardize the targets of the value/advantage function by using running estimates of the average
+       | and standard deviation of the value/advantage targets to. For more implementation details about
+       | recompute advantage and normalization, users can refer to this `discussion <https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`__.
    * - | `Value Clipping <https://github.com/opendilab/DI-engine/blob/e6cc06043b479b164b41189ac99c9315c0c938de/ding/rl_utils/ppo.py#L202>`_
-       |
-     - | Value is clipped around the previous value estimates and use the clip_ratio same as that used to clip probability ratios in the PPO policy loss function.
-   * - | Orthogonal initialization
-       |
+     - | Value is clipped around the previous value estimates and use the clip_ratio same as that used to clip
+       | probability ratios in the PPO policy loss function.
+   * - | `Orthogonal initialization <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/policy/ppo.py#L98>`__
      - | Using an orthogonal initialization scheme for the policy and value networks.
 
 ..
@@ -259,24 +260,24 @@ on policy PPO Benchmark:
 |(SpaceInvadersNoFrame|                 |                                                     |spaceinvaders/spacein     |                      |
 |skip-v4)             |                 |                                                     |vaders_onppo_config.py>`_ |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_ho <https:// |                      |
+|                     |                 |                                                     |`config_link_ho <https:// |    Tianshou(2700)    |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|   Tianshou(2700)     |
-|Hopper               |  3000           |.. image:: images/benchmark/hopper_onppo.png         |mujoco/config/serial/     |      Sb3(1567)       |
+|                     |                 |                                                     |DI-engine/tree/main/dizoo/|       Sb3(1567)      |
+|Hopper               |  3000           |.. image:: images/benchmark/hopper_onppo.png         |mujoco/config/serial/     |                      |
 |                     |                 |                                                     |hopper/hopper_onppo_config|    spinningup(2500)  |
 |(Hopper-v3)          |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_w <https://  |                      |
+|                     |                 |                                                     |`config_link_w <https://  |    Tianshou(4500)    |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|   Tianshou(4500)     |
-|                     |  3000           |.. image:: images/benchmark/walker2d_onppo.png       |mujoco/config/serial/     |     Sb3(1230)        |
+|Walker2d             |                 |                                                     |DI-engine/tree/main/dizoo/|     Sb3(1230)        |
+|                     |  3000           |.. image:: images/benchmark/walker2d_onppo.png       |mujoco/config/serial/     |                      |
 |(Walker2d-v3)        |                 |                                                     |walker2d/walker2d_        |    spinningup(2500)  |
 |                     |                 |                                                     |onppo_config.py>`_        |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_ha <https:// |                      |
+|                     |                 |                                                     |`config_link_ha <https:// |    Tianshou(7194)    |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
-|Halfcheetah          |                 |                                                     |DI-engine/tree/main/dizoo/|   Tianshou(7194)     |
-|                     |  3500           |.. image:: images/benchmark/halfcheetah_onppo.png    |mujoco/config/serial/     |     Sb3(1976)        |
+|Halfcheetah          |                 |                                                     |DI-engine/tree/main/dizoo/|     Sb3(1976)        |
+|                     |  3500           |.. image:: images/benchmark/halfcheetah_onppo.png    |mujoco/config/serial/     |                      |
 |(Halfcheetah-v3)     |                 |                                                     |halfcheetah/halfcheetah   |   spinningup(3000)   |
 |                     |                 |                                                     |_onppo_config.py>`_       |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
