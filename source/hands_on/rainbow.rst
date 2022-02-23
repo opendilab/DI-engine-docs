@@ -45,21 +45,21 @@ In the original paper of PER, the authors show that PER achieve improvements on 
 
 Dueling Network
 >>>>>>>>>>>>>>>
-The dueling network is a neural network architecture designed for value based RL. It features two streams of computation, the value and advantage
-streams, sharing a convolutional encoder, and merged by a special aggregator. This corresponds to the following factorization of action values:
+The dueling network is a neural network architecture designed for value based RL. It features two streams of computation streams, 
+one for state value function :math:`V` and one for the state-dependent action advantage function :math:`A`. 
+Both of them share a common convolutional encoder, and are merged by a special aggregator to produce an estimate of the state-action value function :math:`Q` as shown in figure.
+
+.. image:: images/DuelingDQN.png
+           :align: center
+           :height: 300
+           
+It is unidentifiable that given :math:`Q` we cannot recover :math:`V` and :math:`A` uniquely. So we force the advantage function zero by the following factorization of action values:
 
 .. math::
 
    q_{\theta}(s, a)=v_{\eta}\left(f_{\xi}(s)\right)+a_{\psi}\left(f_{\xi}(s), a\right)-\frac{\sum_{a^{\prime}} a_{\psi}\left(f_{\xi}(s), a^{\prime}\right)}{N_{\text {actions }}}
 
-The network architecture of Rainbow is a dueling network architecture adapted for use with return distributions. The network has a shared representation, which is then fed into a value stream :math:`v_\eta` with :math:`N_{atoms}` outputs, and into an advantage stream :math:`a_{\psi}` with :math:`N_{atoms} \times N_{actions}` outputs, where :math:`a_{\psi}^i(a)` will denote the output corresponding to atom i and action a. For each atom :math:`z_i`, the value and advantage streams are aggregated, as in dueling DQN, and then passed through a softmax layer to obtain the normalized parametric distributions used to estimate the returns’ distributions:
-
-.. math::
-
-  \begin{array}{r}
-  p_{\theta}^{i}(s, a)=\frac{\exp \left(v_{\eta}^{i}(\phi)+a_{\psi}^{i}(\phi, a)-\bar{a}_{\psi}^{i}(s)\right)}{\sum_{j} \exp \left(v_{\eta}^{j}(\phi)+a_{\psi}^{j}(\phi, a)-\bar{a}_{\psi}^{j}(s)\right)} \\
-  \text { where } \phi=f_{\xi}(s) \text { and } \bar{a}_{\psi}^{i}(s)=\frac{1}{N_{\text {actions }}} \sum_{a^{\prime}} a_{\psi}^{i}\left(\phi, a^{\prime}\right)
-  \end{array}
+In this way, it can address the issue of identifiability and increase the stability of the optimization.The network architecture of Rainbow is a dueling network architecture adapted for use with return distributions. 
 
 Multi-step Learning
 >>>>>>>>>>>>>>>>>>>
@@ -99,6 +99,35 @@ Noisy Nets use a noisy linear layer that combines a deterministic and noisy stre
 
 Over time, the network can learn to ignore the noisy stream, but at different rates in different parts of the state space, allowing state-conditional exploration with a form of self-annealing. It usually achieves improvements against :math:`\epsilon`-greedy when the action space is large, e.g. Montezuma's Revenge, because :math:`\epsilon`-greedy tends to quickly converge to a one-hot distribution before the rewards of the large numbers of actions are collected enough.
 In our implementation, the noises are resampled before each forward both during data collection and training. When double Q-learning is used, the target network also resamples the noises before each forward. During the noise sampling, the noises are first sampled from :math:`N(0,1)`, then their magnitudes are modulated via a sqrt function with their signs preserved, i.e. :math:`x \rightarrow x.sign() * x.sqrt()`.
+
+Intergrated Method
+>>>>>>>>>>>>>>>>>>
+
+First, We replace the 1-step distributional loss with multi-step loss:
+
+.. math::
+
+   \begin{split}
+   D_{\mathrm{KL}}\left(\Phi_{\boldsymbol{z}} d_{t}^{(n)} \| d_{t}\right) \\
+   d_{t}^{(n)}=\left(R_{t}^{(n)}+\gamma_{t}^{(n)} z,\quad p_{\bar{\theta}}\left(S_{t+n}, a_{t+n}^{*}\right)\right)
+   \end{split}
+
+Then, we comine the multi-step distributinal loss with Double DQN by selecting the greedy action using the online network and evaluating such action using the target network.
+The KL loss is also used to prioritize the transitions:
+
+.. math::
+
+   p_{t} \propto\left(D_{\mathrm{KL}}\left(\Phi_{z} d_{t}^{(n)} \| d_{t}\right)\right)^{\omega}
+
+The network has a shared representation, which is then fed into a value stream :math:`v_\eta` with :math:`N_{atoms}` outputs, and into an advantage stream :math:`a_{\psi}` with :math:`N_{atoms} \times N_{actions}` outputs, where :math:`a_{\psi}^i(a)` will denote the output corresponding to atom i and action a. For each atom :math:`z_i`, the value and advantage streams are aggregated, as in dueling DQN, and then passed through a softmax layer to obtain the normalized parametric distributions used to estimate the returns’ distributions:
+
+.. math::
+
+  \begin{split}
+  p_{\theta}^{i}(s, a)=\frac{\exp \left(v_{\eta}^{i}(\phi)+a_{\psi}^{i}(\phi, a)-\bar{a}_{\psi}^{i}(s)\right)}{\sum_{j} \exp \left(v_{\eta}^{j}(\phi)+a_{\psi}^{j}(\phi, a)-\bar{a}_{\psi}^{j}(s)\right)} \\
+  \text { where } \phi=f_{\xi}(s) \text { and } \bar{a}_{\psi}^{i}(s)=\frac{1}{N_{\text {actions }}} \sum_{a^{\prime}} a_{\psi}^{i}\left(\phi, a^{\prime}\right)
+  \end{split}
+
 
 Extensions
 -----------
@@ -223,7 +252,7 @@ The result is shown in the figure below. As we can see, with tricks on, the spee
 
 References
 -----------
-**(DQN)** Mnih, Volodymyr, et al. "Human-level control through deep reinforcement learning." 2015; [https://www.nature.com/articles/nature14236?wm=book_wap_0005]
+**(DQN)** Mnih, Volodymyr, et al. "Human-level control through deep reinforcement learning." 2015; [https://deepmind-data.storage.googleapis.com/assets/papers/DeepMindNature14236Paper.pdf]
 
 **(Rainbow)** Matteo Hessel, Joseph Modayil, Hado van Hasselt, Tom Schaul, Georg Ostrovski, Will Dabney, Dan Horgan, Bilal Piot, Mohammad Azar, David Silver: “Rainbow: Combining Improvements in Deep Reinforcement Learning”, 2017; [http://arxiv.org/abs/1710.02298 arXiv:1710.02298].
 
