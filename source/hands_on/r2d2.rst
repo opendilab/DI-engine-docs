@@ -9,7 +9,6 @@ R2D2 utilize two approaches: stored states and burn-in to mitigate the aforement
 R2D2 agent integrates these findings to achieve significant advances in the state of the art on Atari-57 and matches the state of the art on DMLab-30.
 The authors claim that, Recurrent Replay Distributed DQN (R2D2), is the first agent to achieve this using a single network architecture and fixed set of hyper-parameters.
 
-
 Quick Facts
 -------------
 1. R2D2 is an **off-policy**, **model-free** and **value-based** RL algorithm,
@@ -24,24 +23,33 @@ Quick Facts
 
 Key Equations or Key Graphs
 ---------------------------
-The n-step targets used in R2D2 is:
+R2D2 agent is most similar to Ape-X, built upon prioritized distributed replay and n-step double Q-learning (with n = 5),
+generating experience by a large number of actors (typically 256) and learning from batches of
+replayed experience by a single learner.
+The Q network of R2D2 use the dueling network architecture and provide an LSTM layer after the convolutional stack.
+
+Instead of regular :math:`(s, a, r, s^')` transition tuples, R2D2 store fixed-length (m = 80) sequences of :math:`(s, a, r)`
+in replay, with adjacent sequences overlapping each other by 40 time steps, and never crossing episode boundaries.
+Specifically, the n-step targets used in R2D2 is:
 
 .. image:: images/r2d2_q_targets.png
    :align: center
    :scale: 30%
+Here, :math:`\theta^{-}` denotes the target network parameters which are copied from the online network parameters :math:`\theta` every 2500 learner steps.
 
-In R2D2, we use the mixture of max and mean absolute n-step TD-errors as prioritization metrics:
+R2D use the mixture of max and mean absolute n-step TD-errors :math:`\delta_i`
+as prioritization metrics for prioritized experience replay over the sequence:
 
 .. image:: images/r2d2_priority.png
    :align: center
    :scale: 30%
 
 .. note::
-   Now in our DI-engine implementation, the input to the LSTM-based Q network does not include rewards and one-hot actions.
+   In our DI-engine implementation, at each unroll step, the input to the `LSTM-based Q network <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/model/template/q_learning.py#L564>`_ is only observation and last hidden state, does not include rewards and one-hot actions.
 
-For more details on how to use RNN in DI-engine, users can refer to `How to use RNN <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html>`_,
-for data arrangement process in r2d2, users can refer to `data-arrangement <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#data-arrangement>`_,
-for the burn-in technique in R2D2, users can refer to `burn-in-in-r2d2 <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#burn-in-in-r2d2>`_.
+For more details about how to use RNN in DI-engine, users can refer to `How to use RNN <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html>`_,
+for data arrangement process in r2d2, users can refer to section `data-arrangement <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#data-arrangement>`_,
+for the burn-in technique in R2D2, users can refer to section `burn-in-in-r2d2 <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#burn-in-in-r2d2>`_.
 
 ..
     .. math::
@@ -150,6 +158,8 @@ References
 - Van Hasselt, H., Guez, A., & Silver, D. (2016, March). Deep reinforcement learning with double q-learning. In Proceedings of the AAAI conference on artificial intelligence (Vol. 30, No. 1).
 
 - Wang, Z., Schaul, T., Hessel, M., Hasselt, H., Lanctot, M., & Freitas, N. (2016, June). Dueling network architectures for deep reinforcement learning. In International conference on machine learning (pp. 1995-2003). PMLR.
+
+- Horgan D, Quan J, Budden D, et al. Distributed prioritized experience replay[J]. arXiv preprint arXiv:1803.00933, 2018.
 
 
 Other Public Implementations
