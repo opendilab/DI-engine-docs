@@ -81,7 +81,7 @@ Pseudo-code
 -----------
 .. image:: images/PPO_onpolicy.png
    :align: center
-   :width: 700
+   :scale: 50%
 
 .. note::
     This is the on-policy version of PPO.
