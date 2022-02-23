@@ -62,5 +62,12 @@ Q1: What are the differences between the offline RL and the imitation learning~(
 Q2: What is the difference between the off-policy RL and the offline RL?
  - Answer： The term “off-policy reinforcement learning” is typically used as an umbrella term to denote all reinforcement learning algorithms that can employ datasets of transitions :math:`\mathcal{D}` where the corresponding actions in each transition were collected with any policy other than the current policy :math:`\pi(\mathbf{a} \mid \mathbf{s})`. Q-learning algorithms, actor-critic algorithms that utilize Q-functions, and many model-based reinforcement learning algorithm are off-policy algorithms. However, off-policy algorithms still often employ additional interaction (i.e., online data collection) during the learning process. Therefore, the term “fully off-policy” is sometimes used to indicate that no additional online data collection is performed. Another commonly used term is “batch reinforcement learning”. See Figure for a pictorial illustration.
   
-.. image:: images/actor-critic.jpg
+.. image:: images/offline.png
    :scale: 30 %
+
+
+Reference
+----------
+
+1. Offline (Batch) Reinforcement Learning: A Review of Literature and Applications
+2. Levine, Sergey, et al. "Offline reinforcement learning: Tutorial, review, and perspectives on open problems." arXiv preprint arXiv:2005.01643 (2020).
