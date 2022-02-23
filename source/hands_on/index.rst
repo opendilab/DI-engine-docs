@@ -9,6 +9,7 @@ RL Algorithm Cheat Sheet
     c51_qrdqn_iqn
     rainbow
     sqn
+    sql
     sqil
 
     a2c
@@ -27,9 +28,15 @@ RL Algorithm Cheat Sheet
     collaq
 
     rnd
+    her
 
     gail
+
+    trex
 
     vpn
     mcts
     alphago
+
+    cql
+
