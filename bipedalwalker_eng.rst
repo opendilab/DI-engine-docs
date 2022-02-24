@@ -1,8 +1,8 @@
-﻿BipedalWalker
+BipedalWalker
 ~~~~~~~~~~~~~~~
 
 Overview
-=======
+==========
 
 In the BipedalWalker environment, the agent needs to output 4-dimensional continuous actions to control the 2D biped robot to move forward on rough terrain. Applying motor torque at each step will get a negative reward, and each step forward will get a positive reward. If you successfully move to the farthest point, you can get more than 300 points reward. If the robot falls on the way, it will get -100 points and the game will end. The state of the agent is a 24-dimensional continuous vector, including hull angle speed, angular velocity, horizontal velocity, vertical velocity, joint position and joint angular velocity, marks that the leg touches the ground, and 10 lidar rangefinder measurements . Note that the state vector does not contain the coordinates of the robot.
 
@@ -10,10 +10,10 @@ In the BipedalWalker environment, the agent needs to output 4-dimensional contin
    :align : center
 
 Install
-====
+========
 
 Installation Method
---------
+--------------------
 
 Just install the gym and box2d libraries, which can be installed by pip or combined with DI-engine
 
@@ -27,7 +27,7 @@ cd DI-engine
 pip install ".[common_env]"
 
 Verify Installation
---------
+-------------------
 
 After the installation is complete, you can verify that the installation was successful by running the following command on the Python command line:
 
@@ -39,44 +39,44 @@ obs = env.reset ()
 print( obs.shape ) # (24,)
 
 Mirror
-----
+-------
 
 The image of DI-engine includes its own framework and Atari environment, which can be obtained through \``docker pull opendilab / ding:nightly ``\. Get more information? Visit \ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\
 
 
 Space before Transformation (Original Environment)
-=========================
+===================================================
 
 
 Observation Space
---------
+------------------
 
 - The state of the agent is a 24-dimensional continuous vector, including hull angle speed, angular velocity, horizontal velocity, vertical velocity, joint position and joint angular velocity, marks that the leg touches the ground, and 10 lidar rangefinder measurements value. Note that the state vector does not contain the coordinates of the robot.
 
 
 Action Space
---------
+-------------
 
 - The environment action space is a 4-dimensional continuous vector, and each dimension has a value between [-1, 1].
 
 - These four-dimensional continuous vectors control the torques of the robot's four leg joints, respectively. The robot has a total of 2 legs, each leg has two joints (waist joint and knee joint), a total of 4 joints need to be controlled.
 
 Bonus Space
---------
+------------
 
 - The robot will get a negative reward for applying motor torque at each step, and a positive reward for each step forward. If it successfully moves to the farthest point, it will get a reward of more than 300 points. If the robot falls on the way, it will get -100 points and the game will end. The reward is a \float\ numeric value in the range [-400, 300].
 
 Key Facts
-========
+===========
 
 
 Other
-====
+=======
 
 
 Random Seed
---------
+-------------
 
 - There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as \ ``random``\ , \ `` np.random ``\)
 
@@ -88,7 +88,7 @@ Random Seed
 
 
 Store Video
---------
+------------
 
 After the environment is created, but before reset, call the  \ ``enable_save_replay ``\ method to specify the path to save the game replay. The environment will automatically save the local video files after each episode ends. (The default call \``gym.wrapper.Monitor ``\ implementation, depends on \``ffmpeg ``\), the code shown below will run an environment episode and save the results of this episode in the form \``./video/xxx.mp4``\ in a file like this:
 
@@ -106,7 +106,7 @@ After the environment is created, but before reset, call the  \ ``enable_save_re
            break
 
 DI-zoo Runnable Code Example
-=====================
+=============================
 
 The full training configuration file is at `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/box2d/bipedalwalker/config>`__
@@ -175,13 +175,13 @@ bipedalwalker_td3_create_config = dict(
 bipedalwalker_td3_create_config = EasyDict(bipedalwalker_td3_create_config)
 create_config = bipedalwalker_td3_create_config
 
-if __name__ == '__main__':
+ if _name_ == '__main__':
    from ding.entry import serial_pipeline
    serial_pipeline((main_config, create_config), seed=0)
 
 
 Benchmark Algorithm Performance
-===========
+=================================
 
 - Average reward more than or equal to 300 is considered as a better agent
 
