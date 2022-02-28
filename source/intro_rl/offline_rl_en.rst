@@ -3,6 +3,10 @@ Basic Concepts
 
 Offline Reinforcement Learning~(RL), also known as Batch Reinforcement Learning, is a variant of RL that effectively leverages large, previously collected datasets for large-scale real-world applications.
 
+.. image:: images/offline.png
+   :align: center
+   :scale: 50 %
+
 Specifically, Offline RL requires the agent to learn effective policies from a fixed batch of data without any additional online exploration. 
 Therefore, the problem of offline RL is how to exploit a static dataset maximally? 
 The research community has grown interested in offline RL because larger datasets are available that might be used to train policies for real-world applications. 
@@ -22,8 +26,8 @@ To have a basic understanding for offline RL, we explain the Reinforcement Learn
 
 To understand offline RL better, we further explain the following concepts:
 
-- Dataset
-- Behavior policy
+- Dataset (such as D4RL, RL Unplugged, REM, and etc.)
+- Behavior policy (behavior policy is the policy that the agent uses to collect dataset through interacting with the environment)
 
 
 In the end, we will list and answer some common questions raised in the domain of reinforcement learning for reference.
@@ -50,24 +54,28 @@ In the Offline RL setting, the agent is trained in a collected dataset :math:`\m
 
 where the :math:`\hat{\mathcal{B}}^\pi` represents the bellman operator on the fixed dataset following the policy :math:`\hat{\pi} \left(\mathbf{a} \mid \mathbf{s}\right)`, :math:`\hat{\mathcal{B}}^\pi \hat{Q}\left(\mathbf{s}, \mathbf{a}\right) = \mathbb{E}_{\mathbf{s}, \mathbf{a}, \mathbf{s}^{\prime} \sim \mathcal{D}}[ r(\mathbf{s}, \mathbf{a})+\gamma \mathbb{E}_{\mathbf{a}^{\prime} \sim \hat{\pi}^{k}\left(\mathbf{a}^{\prime} \mid \mathbf{s}^{\prime}\right)}\left[\hat{Q}^{k}\left(\mathbf{s}^{\prime}, \mathbf{a}^{\prime}\right)\right] ]`
 
+In the offline setting, standard online RL methods fail due to overestimation introduced by out-of-distribution (OOD) actions from the learned policy.
+OOD, also known as distributional shift on training due to the action distribution shift, means that the state-action pair used for learning the Q-function does not exist in the training dataset because the dataset does not contain the action for the given state sampled from the learned policy.
+
 Q&A
 ----
 Q1: What are the differences between the offline RL and the imitation learning~(IL)?
  - Answer： Offline reinforcement learning, henceforth Offline RL, is closely related to imitation learning (IL) in that the latter also learns from a fixed dataset without exploration. However, there are several key differences.
-   - Offline RL algorithms~(so far) have been built on top of standard off-policy Deep Reinforcement Learning (Deep RL) algorithms, which tend to optimize some form of a Bellman equation or TD difference error.
-   - Most IL problems assume an optimal, or at least a high-performing, demonstrator which provides data, whereas Offline RL may have to handle highly suboptimal data.
-   - Most IL problems do not have a reward function. Offline RL considers rewards, which furthermore can be processed after-the-fact and modified.
-   - Some IL problems require the data to be labeled as expert versus non-expert. Offline RL does not make this assumption.
+   
+     - Offline RL algorithms~(so far) have been built on top of standard off-policy Deep Reinforcement Learning (Deep RL) algorithms, which tend to optimize some form of a Bellman equation or TD difference error.
+     - Most IL problems assume an optimal, or at least a high-performing, demonstrator which provides data, whereas Offline RL may have to handle highly suboptimal data.
+     - Most IL problems do not have a reward function. Offline RL considers rewards, which furthermore can be processed after-the-fact and modified.
+     - Some IL problems require the data to be labeled as expert versus non-expert. Offline RL does not make this assumption.
 
 Q2: What is the difference between the off-policy RL and the offline RL?
- - Answer： The term “off-policy reinforcement learning” is typically used as an umbrella term to denote all reinforcement learning algorithms that can employ datasets of transitions :math:`\mathcal{D}` where the corresponding actions in each transition were collected with any policy other than the current policy :math:`\pi(\mathbf{a} \mid \mathbf{s})`. Q-learning algorithms, actor-critic algorithms that utilize Q-functions, and many model-based reinforcement learning algorithm are off-policy algorithms. However, off-policy algorithms still often employ additional interaction (i.e., online data collection) during the learning process. Therefore, the term “fully off-policy” is sometimes used to indicate that no additional online data collection is performed. Another commonly used term is “batch reinforcement learning”. See Figure for a pictorial illustration.
+ - Answer： The term “off-policy reinforcement learning” is typically used as an umbrella term to denote all reinforcement learning algorithms that can employ datasets of transitions :math:`\mathcal{D}` where the corresponding actions in each transition were collected with any policy other than the current policy :math:`\pi(\mathbf{a} \mid \mathbf{s})`. Q-learning algorithms, actor-critic algorithms that utilize Q-functions, and many model-based reinforcement learning algorithm are off-policy algorithms. However, off-policy algorithms still often employ additional interaction (i.e., online data collection) during the learning process. Therefore, the term “fully off-policy” is sometimes used to indicate that no additional online data collection is performed. Another commonly used term is “batch reinforcement learning”. See the above Figure for a pictorial illustration.
   
-.. image:: images/offline.png
-   :scale: 30 %
-
 
 Reference
 ----------
 
 1. Offline (Batch) Reinforcement Learning: A Review of Literature and Applications
 2. Levine, Sergey, et al. "Offline reinforcement learning: Tutorial, review, and perspectives on open problems." arXiv preprint arXiv:2005.01643 (2020).
+3. Agarwal, Rishabh, Dale Schuurmans, and Mohammad Norouzi. "An optimistic perspective on offline reinforcement learning." ICML, 2020.
+4. Gulcehre, Caglar, et al. "Rl unplugged: Benchmarks for offline reinforcement learning." Neurips, 2020.
+5. Fu, Justin, et al. "D4rl: Datasets for deep data-driven reinforcement learning." arXiv preprint arXiv:2004.07219 (2020).
