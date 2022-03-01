@@ -71,14 +71,14 @@ observation space
    obs4 = env.reset() # obs: numpy.ndarray (56, 56, 3)
 
 
-- obs1 is a \ ``dict``, including \ ``image``, \ ``direction``, \ ``mission``, these 3 fields, of which \ ``image``\ field is a shape \ ``numpy.ndarray``  of (7, 7, 3), data type \ ``uint8`` 
-  (7, 7) means that only the world in the nearby 7x7 squares is observed (because the environment is partially observable), 3 means that each small square corresponds to a 3-dimensional description vector, note that this is not a real image; \ `` The direction``\ field is to give an instructive direction;
-  The \ ``mission``\ field is a text string describing what the agent should achieve in order to receive a reward.
-- If the user wants to use the real pixel image, he needs to encapsulate the env through \ ``RGBImgPartialObsWrapper``\, obs2 is a \ ``dict``, including \ ``mission``, \  ``image`` \These 2 fields, where \ ``image``\ field is a \ ``numpy.ndarray``\ of shape (56, 56, 3), and the data type is \ ``uint8``
+- obs1 is a \ ``dict``, including \ ``image``, \ ``direction``, \ ``mission``, these 3 fields, of which \ ``image ``  field is a shape ``numpy.ndarray`` \ ``of (7, 7, 3)``\, data type \ ``uint8``\
+  (7, 7) means that only the world in the nearby 7x7 squares is observed (because the environment is partially observable), 3 means that each small square corresponds to a 3-dimensional description vector, note that this is not a real image; \ `` The direction ``\ field is to give an instructive direction;
+  The \ ``mission`` \ field is a text string describing what the agent should achieve in order to receive a reward.
+- If the user wants to use the real pixel image, he needs to encapsulate the env through \ ``RGBImgPartialObsWrapper``, obs2 is a \ ``dict``, including \ ``mission`` \, \  ``image`` \These 2 fields, where \ ``image``\ field is a \ ``numpy.ndarray``\ of shape (56, 56, 3), and the data type is \ ``uint8``
   is a true image of the environment being partially observable;
 - After passing \ ``ImgObsWrapper``\, obs3 is a \ ``numpy.ndarray``, shape is (56, 56, 3), data type is \ ``uint8``
 - Our codebase uses a 4th \ ``FlatObsWrapper``\ method, which encodes the mission string in the \ ``mission``\ field in a one-hot way,
-  And concatenate it with the \ ``image``\ field content into a \ ``numpy.ndarray``\obs4 with shape (2739,) and data type \ ``float32``
+  And concatenate it with the \ ``image``\ field content into a \ ``numpy.ndarray`` obs4 with shape (2739,) and data type \ ``float32``
 
 
 .. _actionspace-1:
@@ -128,7 +128,7 @@ Bonus space
 - Game score, different minigrid sub-environments have a small difference in the reward range, the maximum value is 1, which is generally a \ ``float``\ value. Because it is a sparse reward environment, it can only be reached when the agent (displayed as a red point) reaches goal
    (displayed as green dots), there is a reward greater than zero. The specific value is determined by different environments and the total number of steps used to reach the goal. The reward before reaching the goal is all 0.
 
-.._other-1:
+.. _other-1:
 
 other
 ----
@@ -149,12 +149,12 @@ key facts
 Transformed space (RL environment)
 =======================
 
-.._ObservationSpace-2:
+.. _ObservationSpace-2:
 
 observation space
 --------
 
-- Transform content: Our codebase uses a 4th \``FlatObsWrapper``\ method, which encodes the mission string in the \``mission``\ field in a one-hot fashion and combines it with \ ``image``\ field contents are concatenated into a long array
+- Transform content: Our codebase uses a 4th \ ``FlatObsWrapper``\ method, which encodes the mission string in the \ ``mission``\ field in a one-hot fashion and combines it with \ ``image``\ field contents are concatenated into a long array
 
 - Transformation result: one-dimensional np array with size \ ``(2739,)``\ , data type \ ``np.float32``\ , value ``[0., 7.]``
 
@@ -183,14 +183,14 @@ The above space can be expressed as:
    act_space = gym.spaces.Discrete(7)
    rew_space = gym.spaces.Box(low=0, high=1, shape=(1, ), dtype=np.float32)
 
-.._other-2:
+.. _other-2:
 
 other
 ----
 
 - The \ ``info``\ returned by the environment \ ``step``\ method must contain the \ ``final_eval_reward``\ key-value pair, which represents the evaluation index of the entire episode, and is the cumulative sum of the rewards of the entire episode in minigrid
 
-.._other-3:
+.. _other-3:
 
 other
 ====
@@ -198,22 +198,22 @@ other
 random seed
 --------
 
-- There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as \ ``random``\ , \ ``np.random` `\)
+- There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as \ ``random``\ , \ ``np.random``\)
 
-- For the environment caller, just set these two seeds through the \``seed``\ method of the environment, and do not need to care about the specific implementation details
+- For the environment caller, just set these two seeds through the \ ``seed``\ method of the environment, and do not need to care about the specific implementation details
 
-- The specific implementation inside the environment: for random library seeds, set the value directly in the \``seed``\ method of the environment; for the seed of the original environment, inside the \``reset``\ method of the calling environment, The specific original environment\ ``reset``\ was previously set to seed + np_seed, where seed is the value of the aforementioned random library seed,
+- The specific implementation inside the environment: for random library seeds, set the value directly in the \ ``seed``\ method of the environment; for the seed of the original environment, inside the \ ``reset``\ method of the calling environment, The specific original environment\ ``reset``\ was previously set to seed + np_seed, where seed is the value of the aforementioned random library seed,
    np_seed = 100 * np.random.randint(1, 1000).
 
 The difference between training and testing environments
 --------------------
 
-- The training environment uses a dynamic random seed, that is, the random seed of each episode is different, generated by a random number generator, and the seed of this random number generator is fixed by the \``seed``\ method of the environment; test The environment uses a static random seed, i.e. the same random seed for each episode, specified by the \``seed``\ method.
+- The training environment uses a dynamic random seed, that is, the random seed of each episode is different, generated by a random number generator, and the seed of this random number generator is fixed by the \ ``seed``\ method of the environment; test The environment uses a static random seed, i.e. the same random seed for each episode, specified by the \ ``seed``\ method.
 
 Store video
 --------
 
-After the environment is created, but before reset, call the \``enable_save_replay``\ method to specify the path to save the game recording. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor``\ implementation, depends on \ ``ffmpeg``\), the code shown below will run an environment episode and save the result of this episode in the form \ `` ./video/xxx.mp4``\ in a file like this:
+After the environment is created, but before reset, call the \ ``enable_save_replay``\ method to specify the path to save the game recording. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor``\ implementation, depends on \ ``ffmpeg``\), the code shown below will run an environment episode and save the result of this episode in the form \ ``./video/xxx.mp4``\ in a file like this:
 
 .. code::python
 
