@@ -145,7 +145,6 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ for more image
 Gym-MuJoco space before transformation (original environment)
 ===============================================================
 
-.._ObservationSpace-1:
 
 Observation space
 ---------------------
@@ -153,7 +152,6 @@ Observation space
 - A vector composed of physical information (3D position, orientation, and joint angles etc. ), the specific size is \ ``(N, )``\ , where \ ``N``\ is determined according to the environment, and the data type is \ ``float64``\
 - `Fujimoto <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__ mentioned that doing obs norm for d4rl dataset will improve offline training stability sex
 
-.._actionspace-1:
 
 Action space
 ----------------
@@ -162,14 +160,12 @@ Action space
 
 - For example, in the Hopper environment, the size of N is 3, and the action takes the value in  \ ``[-1, 1]``\
 
-.. _BONUS SPACE-1:
 
 Bonus space
 --------
 
 - Depending on the specific game content, the game score will vary greatly, usually a \float\ value. For the specific value, please refer to the benchmark algorithm performance section at the bottom.
 
-.._other-1:
 
 Other
 ----
@@ -193,21 +189,17 @@ Transformed space (RL environment)
 =======================
 
 
-.._ObservationSpace-2:
-
 observation space
 --------
 
 - Basically no transformation
 
-.. _Action Space-2:
 
 Action space
 --------
 
 - Basically no transformation, it is still a continuous action space of size N, the value range is \ ``[-1, 1]``\, the size is \ ``(N, )``\ , and the data type is  \ ``np.float32``\
 
-.. _Bonus Space-2:
 
 Bonus space
 --------
@@ -225,14 +217,11 @@ The above space can be expressed as:
    act_space = gym.spaces.Box(low=-1, high=1, shape=(3, ), dtype=np.float32)
    rew_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(1, ), dtype=np.float32)
 
-.._other-2:
 
 Other
 ----
 
 - The \ ``info``\ returned by the environment \ ``step``\ method must contain the \ ``final_eval_reward``\ key-value pair, which represents the evaluation index of the entire episode, and is the cumulative sum of the rewards of the entire episode in Mujoco
-
-.._other-3:
 
 Other
 ====
