@@ -14,7 +14,7 @@ Install
 installation method
 --------
 
-The Pendulum environment is built into the gym, and you can install the gym directly. Its environment id is \``Pendulum-v0``\.
+The Pendulum environment is built into the gym, and you can install the gym directly. Its environment id is \ ``Pendulum-v0`` \.
 
 .. code:: shell
 
@@ -71,7 +71,7 @@ First calculate \ ``cost`` \, including three terms:
 
 - \ ``0.001*(u**2)`` \: Penalty for input torque. The bigger the moment we use, the bigger the penalty.
 
-Add the three terms to get \ ``cost`` \. Finally, the inverse of \``cost``\, which is \``-cost`` \, is returned as the reward value.
+Add the three terms to get \ ``cost`` \. Finally, the inverse of \ ``cost`` \, which is \ ``-cost`` \, is returned as the reward value.
 
 
 Termination condition
