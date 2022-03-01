@@ -44,12 +44,12 @@ After the installation is complete, you can run the following command on the Pyt
     cd gym-minigrid
    ./manual_control.py --env MiniGrid-Empty-8x8-v0
 
-.._spatial original environment before transformation):
+.. _spatial original environment before transformation):
 
 space before transformation (original environment)
 =========================
 
-.._ObservationSpace-1:
+.. _ObservationSpace-1:
 
 observation space
 --------
@@ -71,17 +71,17 @@ observation space
    obs4 = env.reset() # obs: numpy.ndarray (56, 56, 3)
 
 
-- obs1 is a \ ``dict``, including \ ``image``, \ ``direction``, \ ``mission``, these 3 fields, of which \ ``image``\ field is a shape \``numpy.ndarray`` of (7, 7, 3), data type \``uint8``
+- obs1 is a \ ``dict``, including \ ``image``, \ ``direction``, \ ``mission``, these 3 fields, of which \ ``image``\ field is a shape \ ``numpy.ndarray``  of (7, 7, 3), data type \ ``uint8`` 
   (7, 7) means that only the world in the nearby 7x7 squares is observed (because the environment is partially observable), 3 means that each small square corresponds to a 3-dimensional description vector, note that this is not a real image; \ `` The direction``\ field is to give an instructive direction;
-  The \``mission``\ field is a text string describing what the agent should achieve in order to receive a reward.
-- If the user wants to use the real pixel image, he needs to encapsulate the env through \``RGBImgPartialObsWrapper``\, obs2 is a \``dict``, including \``mission``, \ ``image`` \These 2 fields, where \ ``image``\ field is a \ ``numpy.ndarray``\ of shape (56, 56, 3), and the data type is \ ``uint8``
+  The \ ``mission``\ field is a text string describing what the agent should achieve in order to receive a reward.
+- If the user wants to use the real pixel image, he needs to encapsulate the env through \ ``RGBImgPartialObsWrapper``\, obs2 is a \ ``dict``, including \ ``mission``, \  ``image`` \These 2 fields, where \ ``image``\ field is a \ ``numpy.ndarray``\ of shape (56, 56, 3), and the data type is \ ``uint8``
   is a true image of the environment being partially observable;
-- After passing \``ImgObsWrapper``\, obs3 is a \``numpy.ndarray``, shape is (56, 56, 3), data type is \ ``uint8``
-- Our codebase uses a 4th \``FlatObsWrapper``\ method, which encodes the mission string in the \``mission``\ field in a one-hot way,
-  And concatenate it with the \``image``\ field content into a \``numpy.ndarray``\obs4 with shape (2739,) and data type \``float32``
+- After passing \ ``ImgObsWrapper``\, obs3 is a \ ``numpy.ndarray``, shape is (56, 56, 3), data type is \ ``uint8``
+- Our codebase uses a 4th \ ``FlatObsWrapper``\ method, which encodes the mission string in the \ ``mission``\ field in a one-hot way,
+  And concatenate it with the \ ``image``\ field content into a \ ``numpy.ndarray``\obs4 with shape (2739,) and data type \ ``float32``
 
 
-.._actionspace-1:
+.. _actionspace-1:
 
 action space
 --------
