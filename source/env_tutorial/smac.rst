@@ -45,19 +45,16 @@ Image
 DI-engine's mirror is equipped with the framework itself and the Smac environment, which can be obtained by \ ``docker pull opendilab/ding:nightly-smac``\, or by accessing \ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ for more mirror
 
-.._spatial original environment before transformation):
 
 space before transformation (original environment)
 =========================
 
-.._ObservationSpace-1:
 
 Observation space
 ------------------
 
 - You can obtain fragmentary information such as whether each agent is alive, the remaining HP of each agent, allies or enemies within the vision range of each agent.
 
-.._actionspace-1:
 
 Action space
 ---------------
@@ -80,14 +77,12 @@ Action space
 
    - 6 - N: ATTACK ENEMY, the ID of the attacked enemy is N-6
 
-.. _BONUS SPACE-1:
 
 Bonus space
 --------
 
 - The game wins or loses, the victory is 1, and the defeat is 0, which is generally an \``int``\ value.
 
-.._other-1:
 
 Other
 ----
@@ -104,41 +99,36 @@ Quick Facts
 3. The reward is a sparse reward. We set fake_reward so that the reward used during training is a dense reward.
 
 
-.._transformed spatial rl environment):
 
 Transformed space (RL environment)
 =======================
 
-.._ObservationSpace-2:
 
 Observation space
---------
+---------------------
 
 - Transformation content: splicing various discrete information seen by each agent, and using the spliced ​​information as the agent_state seen by each agent and the global global_state
 
 - Transformation result: a dict type data, which includes agent_state, global_state and action_mask, all of which are a one-dimensional Tensor type array
 
-.. _Action Space-2:
 
 Action space
---------
+-------------
 
 - Basically no transformation, still a discrete action space of size N
 
-.. _Bonus Space-2:
 
 Bonus space
---------
+-------------
 
 - Transformation content: Set fake_reward, so that the agent can get rewards after making some actions. We set the fake_reward of each step to 'killed enemy's blood - lost one's blood', and destroying an enemy will reward 20 points, Get 200 points for a global victory
 
 - Transformation result: a one-dimensional Tensor that contains only one float32 type of data
 
 
-.._other-2:
 
 Other
-----
+------
 
 - Turn on \ ``special_global_state``\ and the returned global_state is the information spliced ​​into each global information + each agent's special information. If it is not turned on, only the global information will be returned
 
@@ -148,13 +138,12 @@ Other
 
 - The final \ ``reward``\ returned by the environment \ ``step``\ method is victory or not
 
-.._other-3:
 
 Other
-====
+======
 
 Lazy initialization
-------------
+----------------------
 
 In order to facilitate parallel operations such as environment vectorization, environment instances generally implement lazy initialization, that is, the \ ``__init__``\ method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. The concrete original environment instance is initialized when the ``reset``\ method is used.
 
