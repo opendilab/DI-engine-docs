@@ -19,6 +19,7 @@ RL Algorithm Cheat Sheet
     impala
     
     ddpg
+    d4pg
     td3
     sac
 
