@@ -18,6 +18,7 @@
     impala
     
     ddpg
+    d4pg
     td3
     sac
 
