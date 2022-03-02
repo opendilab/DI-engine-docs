@@ -62,10 +62,11 @@ This requires the use of importance sampling, implemented by weighting the criti
 Pseudocode
 ----------
 
-.. image::
-   images/D4PG_algo.png
+.. figure:: images/D4PG_algo.png
    :scale: 75%
    :align: center
+
+   source: https://lilianweng.github.io/posts/2018-04-08-policy-gradient/#d4pg
 
 
 Implementations
