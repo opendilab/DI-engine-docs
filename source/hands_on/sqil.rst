@@ -3,9 +3,7 @@ SQIL
 
 Overview
 ---------
-Soft Q imitation learning (SQIL) is an off-policy maximum entropy Q learning algorithm together with imitation learning. SQIL was first proposed in `SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards <https://arxiv.org/abs/1905.11108>`_, which combines soft Q-learning with imitation learning. In the domain of discrete action spaces, soft Q learning proposed in `Reinforcement Learning with Deep Energy-Based Policies<https://arxiv.org/abs/1702.08165>` learns stochastic (maximum entropy) policies instead of determistic policies comparing to the deep Q learning algorithm.
-
-Both SQIL and SQL can be easily generalised to continuous action spaces.
+Soft Q imitation learning (SQIL) is an off-policy maximum entropy Q learning algorithm together with imitation learning. SQIL was first proposed in `SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards <https://arxiv.org/abs/1905.11108>`_, which combines soft Q-learning with imitation learning. In the domain of discrete action spaces, soft Q learning proposed in `Reinforcement Learning with Deep Energy-Based Policies<https://arxiv.org/abs/1702.08165>`_ learns stochastic (maximum entropy) policies instead of determistic policies comparing to the deep Q learning algorithm.
 
 
 Quick Facts
@@ -14,7 +12,7 @@ Quick Facts
 
 2. SQIL is SQL incorporated with Imitation learning.
 
-3. SQIL supports both **discrete** and **continuous** action spaces.
+3. SQIL supports both **discrete** and **continuous** action spaces, which is the same as SQL.
 
 4. SQIL is an **off-policy** algorithm.
 
@@ -24,31 +22,13 @@ Quick Facts
 
 7. The advantages of SQIL include: i. More robustness in the face of uncertain dynamics; ii. A natural incorporation with exploration.
 
+8. SQIL can be regarded as **regularized behavior cloning**, which gains advantage over general behavior cloning.
+
 Key Equations or Key Graphs
 ---------------------------
-SQL considers a more general maximum entropy policy, such that the optimal policy aims to maximize its entropy at each visited state:
+SQIL is a behavior cloning variant of SQL, so you may refer to `SQL doc <./sql.html>`_ first.
 
-.. image:: images/policy_sqil_2.png
-
-where :math:`{\alpha}`   is an optional but convenient parameter that can be used to determine the relative importance of entropy and reward. In practice, :math:`{\alpha}`  is a hyperparameter that has to be tuned (not one to be learned during training).
-
-With respect to discrete action spaces, one can write down the Bellman's equation for action-value function:
-
-.. image:: images/Q_sqil.png
-
-Therefore, the value function is given by:
-
-.. image:: images/V_sqil.png
-
-By defining the policy to be proportional to an exponential function of some energy function (in this context, the energy function is Q), one can write down the (normalised) optimal policy in the form of Boltzmann distribution over actions:
-
-.. image:: images/pi_sqil.png
-
-Therefore, the Q value with the best action is of the following form:
-
-.. image:: images/ul_V_sqil_2.png
-
-SQIL performs SQL with three small but important, modifications:
+SQIL performs three small but important modifications on SQL:
 
 1. It initially fills the agent’s experience replay buffer with demonstrations, where the rewards are set
    to a constant r = +1.
