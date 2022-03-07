@@ -39,7 +39,7 @@ Verify installation
 
 After the installation is complete, you can run the following command on the Python command line. If the interactive interface of the game is displayed, the installation is successful:
 
-.. code::python
+.. code:: python
 
     cd gym-minigrid
    ./manual_control.py --env MiniGrid-Empty-8x8-v0
@@ -56,7 +56,7 @@ observation space
 
 - Take MiniGrid-Empty-8x8-v0 as an example,
 
-.. code::python
+.. code:: python
 
    env = gym.make('MiniGrid-Empty-8x8-v0')
    obs1 = env.reset() # obs: {'image': numpy.ndarray (7, 7, 3),'direction': ,'mission': ,}
@@ -71,7 +71,7 @@ observation space
    obs4 = env.reset() # obs: numpy.ndarray (56, 56, 3)
 
 
-- obs1 is a \ ``dict``, including \ ``image``, \ ``direction``, \ ``mission``, these 3 fields, of which \ ``image``  field is a shape \ ``numpy.ndarray`` \ ``of (7, 7, 3)``, data type \ ``uint8``\
+- obs1 is a \ ``dict``, including \ ``image``, \ ``direction``, \ ``mission``, these 3 fields, of which \ ``image``  field is a shape \ ``numpy.ndarray`` \ of (7, 7, 3), data type \ ``uint8``\
   (7, 7) means that only the world in the nearby 7x7 squares is observed (because the environment is partially observable), 3 means that each small square corresponds to a 3-dimensional description vector, note that this is not a real image; \ ``The direction``\ field is to give an instructive direction;
   The \ ``mission`` \ field is a text string describing what the agent should achieve in order to receive a reward.
 - If the user wants to use the real pixel image, he needs to encapsulate the env through \ ``RGBImgPartialObsWrapper``, obs2 is a \ ``dict``, including \ ``mission`` \, \  ``image`` \These 2 fields, where \ ``image``\ field is a \ ``numpy.ndarray``\ of shape (56, 56, 3), and the data type is \ ``uint8``
@@ -125,8 +125,7 @@ action space
 Bonus space
 --------
 
-- Game score, different minigrid sub-environments have a small difference in the reward range, the maximum value is 1, which is generally a \ ``float``\ value. Because it is a sparse reward environment, it can only be reached when the agent (displayed as a red point) reaches goal
-   (displayed as green dots), there is a reward greater than zero. The specific value is determined by different environments and the total number of steps used to reach the goal. The reward before reaching the goal is all 0.
+- Game score, different minigrid sub-environments have a small difference in the reward range, the maximum value is 1, which is generally a \ ``float``\ value. Because it is a sparse reward environment, it can only be reached when the agent (displayed as a red point) reaches goal.(displayed as green dots), there is a reward greater than zero. The specific value is determined by different environments and the total number of steps used to reach the goal. The reward before reaching the goal is all 0.
 
 .. _other-1:
 
@@ -144,7 +143,7 @@ key facts
 
 3. Sparse reward, the scale of reward value changes is small, the maximum is 1, and the minimum is 0.
 
-.._transformed spatial rl environment):
+.. _transformed spatial rl environment):
 
 Transformed space (RL environment)
 =======================
@@ -175,7 +174,7 @@ Bonus space
 
 The above space can be expressed as:
 
-.. code::python
+.. code:: python
 
    import gym
 
@@ -215,7 +214,7 @@ Store video
 
 After the environment is created, but before reset, call the \ ``enable_save_replay``\ method to specify the path to save the game recording. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor``\ implementation, depends on \ ``ffmpeg``\), the code shown below will run an environment episode and save the result of this episode in the form \ ``./video/xxx.mp4``\ in a file like this:
 
-.. code::python
+.. code:: python
 
   from easydict import EasyDict
   import numpy as np
@@ -241,7 +240,7 @@ The full training configuration file is at `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/minigrid/config>`
  The specific configuration files, such as \ ``minigrid_r2d2_config.py``\ , use the following demo to run:
 
-.. code::python
+.. code:: python
 
     from easydict import EasyDict
     from ding.entry import serial_pipeline
