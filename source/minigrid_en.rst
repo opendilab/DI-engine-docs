@@ -125,7 +125,7 @@ action space
 Bonus space
 --------
 
-- Game score, different minigrid sub-environments have a small difference in the reward range, the maximum value is 1, which is generally a \ ``float``\ value. Because it is a sparse reward environment, it can only be reached when the agent (displayed as a red point) reaches goal.(displayed as green dots), there is a reward greater than zero. The specific value is determined by different environments and the total number of steps used to reach the goal. The reward before reaching the goal is all 0.
+- Game score, different minigrid sub-environments have a small difference in the reward range, the maximum value is 1, which is generally a \ ``float``\ value. Because it is a sparse reward environment, it can only be reached when the agent (displayed as a red point) reaches goal(displayed as green dots), there is a reward greater than zero. The specific value is determined by different environments and the total number of steps used to reach the goal. The reward before reaching the goal is all 0.
 
 .. _other-1:
 
