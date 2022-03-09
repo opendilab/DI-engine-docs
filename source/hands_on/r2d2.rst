@@ -5,9 +5,9 @@ Overview
 ---------
 R2D2 was first proposed in `Recurrent experience replay in distributed reinforcement learning <https://openreview.net/pdf?id=r1lyTjAqYX>`_.
 In RNN training with experience replay, the RL algorithms usually face the problem of representational drift and recurrent state staleness.
-R2D2 utilize two approaches: stored states and burn-in to mitigate the aforementioned effects.
+R2D2 utilizes two approaches: stored states and burn-in to mitigate the aforementioned effects.
 R2D2 agent integrates these findings to achieve significant advances in the state of the art on Atari-57 and matches the state of the art on DMLab-30.
-The authors claim that, Recurrent Replay Distributed DQN (R2D2), is the first agent to achieve this using a single network architecture and fixed set of hyper-parameters.
+The authors claim that, Recurrent Replay Distributed DQN (R2D2) is the first agent to achieve this using a single network architecture and fixed set of hyper-parameters.
 
 Quick Facts
 -------------
@@ -28,7 +28,7 @@ generating experience by a large number of actors (typically 256) and learning f
 replayed experience by a single learner.
 The Q network of R2D2 use the dueling network architecture and provide an LSTM layer after the convolutional stack.
 
-Instead of regular :math:`(s, a, r, s^')` transition tuples, R2D2 store fixed-length (m = 80) sequences of :math:`(s, a, r)`
+Instead of regular :math:`(s, a, r, s^')` transition tuples, R2D2 stores fixed-length (m = 80) sequences of :math:`(s, a, r)`
 in replay, with adjacent sequences overlapping each other by 40 time steps, and never crossing episode boundaries.
 Specifically, the n-step targets used in R2D2 is:
 
@@ -37,7 +37,7 @@ Specifically, the n-step targets used in R2D2 is:
    :scale: 30%
 Here, :math:`\theta^{-}` denotes the target network parameters which are copied from the online network parameters :math:`\theta` every 2500 learner steps.
 
-R2D use the mixture of max and mean absolute n-step TD-errors :math:`\delta_i`
+R2D uses the mixture of max and mean absolute n-step TD-errors :math:`\delta_i`
 as prioritization metrics for prioritized experience replay over the sequence:
 
 .. image:: images/r2d2_priority.png
@@ -45,11 +45,11 @@ as prioritization metrics for prioritized experience replay over the sequence:
    :scale: 30%
 
 .. note::
-   In our DI-engine implementation, at each unroll step, the input to the `LSTM-based Q network <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/model/template/q_learning.py#L564>`_ is only observation and last hidden state, does not include rewards and one-hot actions.
+   In our DI-engine implementation, at each unroll step, the input to the `LSTM-based Q network <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/model/template/q_learning.py#L564>`_ is just **observation** and the **last hidden state**, excluding reward and one-hot action.
 
 For more details about how to use RNN in DI-engine, users can refer to `How to use RNN <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html>`_,
-for data arrangement process in r2d2, users can refer to section `data-arrangement <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#data-arrangement>`_,
-for the burn-in technique in R2D2, users can refer to section `burn-in-in-r2d2 <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#burn-in-in-r2d2>`_.
+for data arrangement process in R2D2, users can refer to the section `data-arrangement <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#data-arrangement>`_,
+for the burn-in technique in R2D2, users can refer to the section `burn-in-in-r2d2 <https://di-engine-docs.readthedocs.io/en/latest/best_practice/rnn.html#burn-in-in-r2d2>`_.
 
 ..
     .. math::
