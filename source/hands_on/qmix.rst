@@ -37,25 +37,17 @@ QMIX trains the mixing network via minimizing the following loss:
 .. math::
    \mathcal{L}(\theta) = \sum_{i=1}^{b} [(y_{i}^{tot} - Q_{tot}(\tau, \textbf{u}, s; \theta)^{2}]
 
-- Each weight of the mixing network is produced by a independent hyper-network, which takes the global state as input and outputs the weight of one layer of the mixing network. More implemented details can be found in the origin paper.
+- Each weight of the mixing network is produced by a independent hyper-network, which takes the global state as input and outputs the weight of one layer of the mixing network. More implemented details can be found in the original paper.
 
 Extensions
 -----------
-- VDN and QMIX are representative methods that use the idea of factorization of the joint action-value function :math:`Q_{tot}` into individual ones :math:`Q_a` for decentralized execution. These value factorization techniques suffer structural constraints, such as additive decomposability in VDN and monotonicity in QMIX.
-
-- VDN factorizes the joint action-value function into a sum of individual action-value functions. For consistency it need to ensure that a global :math:`argmax` performed on :math:`Q_{tot}` yields the same result as a set of individual :math:`argmax` operations performed on each :math:`Q_a`:
+- VDN and QMIX are representative methods that use the idea of factorization of the joint action-value function :math:`Q_{tot}` into individual ones :math:`Q_a` for decentralized execution.
+  In order to achieve centralized training with decentralized execution (CTDE), we need to ensure that a global :math:`argmax` performed on :math:`Q_{tot}` yields the same result as a set of individual :math:`argmax` operations performed on each :math:`Q_a`:
 
 .. math::
-  :label: narray
+  $\arg \max _{\boldsymbol{u}} Q_{\mathrm{tot}}(\boldsymbol{\tau}, \boldsymbol{u})=\left(\begin{array}{c}\arg \max _{u_{1}} Q_{1}\left(\tau_{1}, u_{1}\right) \\ \vdots \\ \arg \max _{u_{N}} Q_{N}\left(\tau_{n}, u_{N}\right)\end{array}\right)$
 
-  \mathop{\arg\max}_{\textbf{u}}Q_{tot} 
-  (\tau, 
-  \textbf{u}) = \begin{pmatrix}
-  \mathop{\arg\max}_{u^{1}}Q_{1}(\tau^{1},u^{1}) 
-  \\
-  \vdots\\
-  \mathop{\arg\max}_{u^{n}}Q_{1}(\tau^{n},u^{n}) 
-  \end{pmatrix}
+- VDN factorizes the joint action-value function into a sum of individual action-value functions.  :math:`$Q_{\mathrm{tot}}(\boldsymbol{\tau}, \boldsymbol{u})=\sum_{i=1}^{N} Q_{i}\left(\tau_{i}, u_{i}\right)$`
 
 
 - QMIX extends this additive value factorization to represent the joint action-value function as a monotonic function. QMIX is based on monotonicity, a constraint on the relationship between joint action values :math:`Q_{tot}` and individual action values :math:`Q_a`. 
@@ -63,8 +55,9 @@ Extensions
 .. math::
    \frac{\partial Q_{tot}}{\partial Q_{a}} \geq 0， \forall a \in A
 
-   
-- QTRAN (Son et al. 2019), as an extension of QMIX, proposes a factorization method, which is free from such structural constraints via transforming the original joint action-value function into an easily factorizable one. QTRAN guarantees more general factorization than VDN or QMIX.
+- VDN and QMIX are methods that attempt to factorize Qjt assuming additivity and monotonicity, respectively. Thus, joint action value functions satisfying those conditions would be well factorized by VDN and QMIX. However, there exist tasks
+  whose joint action-value functions do not meet the said conditions. QTRAN (Son et al. 2019), proposes a factorization method, which is free from such structural constraints via transforming the original joint action-value function into an easily factorizable one.
+  QTRAN guarantees more general factorization than VDN or QMIX.
 
 Implementations
 ----------------
