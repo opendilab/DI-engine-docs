@@ -155,15 +155,15 @@ Implementation Tricks
        | the authors claim that when :math:`\hat{A}_t < 0`, a too large :math:`r_t(\theta)` should also be clipped, which introduces dual clip:
        | :math:`\max \left(\min \left(r_{t}(\theta) \hat{A}_{t}, {clip}\left(r_{t}(\theta), 1-\epsilon, 1+\epsilon\right) \hat{A}_{t}\right), c \hat{A}_{t}\right)`
    * - | `Recompute Advantage <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/policy/ppo.py#L171>`__
-     - | In on-policy PPO, each time we collect a batch data, to improve data efficiency, we will train many epochs,
-       | before the beginning of each training epoch, we recompute the advantage of historical transitions,
-       | to keep the estimation of advantage close to current policy.
+     - | In on-policy PPO, each time we collect a batch data, we will train many epochs to improve data efficiency.
+       | And before the beginning of each training epoch, we recompute the advantage of historical transitions,
+       | to keep the advantage is an approximate evaluation of current policy.
    * - | `Value/Advantage Normalization <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/policy/ppo.py#L175>`__
-     - | We standardize the targets of the value/advantage function by using running estimates of the average
-       | and standard deviation of the value/advantage targets to. For more implementation details about
+     - | We standardize the targets of the value/advantage function using running estimates of the average
+       | and standard deviation of the value/advantage targets. For more implementation details about
        | recompute advantage and normalization, users can refer to this `discussion <https://github.com/opendilab/DI-engine/discussions/172#discussioncomment-1901038>`__.
    * - | `Value Clipping <https://github.com/opendilab/DI-engine/blob/e6cc06043b479b164b41189ac99c9315c0c938de/ding/rl_utils/ppo.py#L202>`_
-     - | Value is clipped around the previous value estimates and use the clip_ratio same as that used to clip
+     - | Value is clipped around the previous value estimates. We use the value clip_ratio same as that used to clip policy
        | probability ratios in the PPO policy loss function.
    * - | `Orthogonal initialization <https://github.com/opendilab/DI-engine/blob/7630dbaa65e4ef33b07cc0f6c630fce280aa200c/ding/policy/ppo.py#L98>`__
      - | Using an orthogonal initialization scheme for the policy and value networks.
@@ -183,7 +183,7 @@ Implementation Tricks
 Benchmark
 -----------
 
-off policy PPO Benchmark:
+off-policy PPO Benchmark:
 
 
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
@@ -233,7 +233,7 @@ off policy PPO Benchmark:
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
-on policy PPO Benchmark:
+on-policy PPO Benchmark:
 
 
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
