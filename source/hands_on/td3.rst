@@ -7,9 +7,9 @@ Overview
 Twin Delayed DDPG (TD3), proposed in the 2018 paper `Addressing Function Approximation Error in Actor-Critic Methods <https://arxiv.org/abs/1802.09477>`_, is an algorithm which considers the interplay between function approximation error in both policy and value updates.
 TD3 is an actor-critic, model-free algorithm based on the `deep deterministic policy gradient (DDPG) <https://arxiv.org/abs/1509.02971>`_ that can address overestimation bias, the accumulation of error in temporal difference methods and high sensitivity to hyper-parameters in continuous action spaces. Specifically, TD3 addresses the issue by introducing the following three critical tricks:
 
-1. Clipped Double-Q Learning: When calculating the targets in the Bellman error loss functions, TD3 learns two Q-functions instead of one function, and uses the smaller of the two Q-values.
+1. Clipped Double-Q Learning: When calculating the targets in the Bellman error loss functions, TD3 learns two Q-functions instead of one, and uses the smaller Q-value.
 
-2. Delayed Policy Updates:  TD3 updates the policy (and target networks) less frequently than the Q-function. In the paper, the author recommends one policy update for two Q-function updates. In our implementation, TD3 only updates the policy and target networks after a ﬁxed number of updates :math:`d` to the critic. Since we implement Policy Updates Delay through configuring ``learn.actor_update_freq``.
+2. Delayed Policy Updates:  TD3 updates the policy (and target networks) less frequently than the Q-function. In the paper, the author recommends one policy update for two Q-function updates. In our implementation, TD3 only updates the policy and target networks after a ﬁxed number of updates :math:`d` to the critic. We implement Policy Updates Delay through configuring ``learn.actor_update_freq``.
 
 3. Target Policy Smoothing:  By smoothing out Q along changes in action, TD3 provides noise to the target action, making it more difficult for the policy to exploit Q-function faults.
 
@@ -25,10 +25,10 @@ Key Equations or Key Graphs
 ---------------------------
 TD3 proposes a clipped Double Q-learning variant which leverages the notion that a value estimate suffering from overestimation bias can be used as an approximate upper-bound to the true value estimate. TD3 shows that target networks, a common approach in deep Q-learning methods, are critical for variance reduction by reducing the accumulation of errors.
 
-First, to address the coupling of value and policy, TD3 proposes delaying policy updates until the value estimate is as small as possible. Therefore, TD3 only updates the policy and target networks after a ﬁxed number of updates :math:`d` to the critic.
+Firstly, to address the coupling of value and policy, TD3 proposes delaying policy updates until the value estimate is as small as possible. Therefore, TD3 only updates the policy and target networks after a ﬁxed number of updates :math:`d` to the critic.
 We implement Policy Updates Delay through configuring ``learn.actor_update_freq``.
 
-Second, the target update of Clipped Double Q-learning algorithm is as follows:
+Secondly, the target update of Clipped Double Q-learning algorithm is as follows:
 
 .. math::
     y_{1}=r+\gamma \min _{i=1,2} Q_{\theta_{i}^{\prime}}\left(s^{\prime}, \pi_{\phi_{1}}\left(s^{\prime}\right)\right)
@@ -36,7 +36,7 @@ Second, the target update of Clipped Double Q-learning algorithm is as follows:
 In implementation, computational costs can be reduced by using a single actor optimized with respect to :math:`Q_{\theta_1}` . We then use the same target :math:`y_2= y_1for Q_{\theta_2}`. 
 
 
-Finally, A concern with deterministic policies is they can overﬁt to narrow peaks in the value estimate. When updating the critic, a learning target using a deterministic policy is highly susceptible to inaccuracies induced by function approximation error, increasing the variance of the target.
+Finally, a concern with deterministic policies is they can overﬁt to narrow peaks in the value estimate. When updating the critic, a learning target using a deterministic policy is highly susceptible to inaccuracies induced by function approximation error, increasing the variance of the target.
 TD3 introduces a regularization strategy for deep value learning, target policy smoothing, which mimics the learning update from SARSA. Specifically, TD3 approximates this expectation over actions by adding a small amount of random noise to the target policy and averaging over mini-batches following:
 
 .. math::
@@ -131,8 +131,8 @@ The default config is defined as follows:
 
 2. Train actor-critic model
 
-    First, we initialize actor and critic optimizer in ``_init_learn``, respectively.
-    Setting up two separate optimizers can guarantee that we **only update** actor network parameters and not critic network when we compute actor loss, vice versa.
+    Firstly, we initialize actor and critic optimizer in ``_init_learn``, respectively.
+    Setting up two separate optimizers can guarantee that we **only update** actor network parameters instead of the critic network when we compute actor loss, vice versa.
 
         .. code-block:: python
 
@@ -201,7 +201,7 @@ The default config is defined as follows:
                         loss_dict[k].backward()
                 self._optimizer_critic.step()
 
-        3. ``actor loss`` and  ``actor network update`` depending on the level of **delaying the policy updates**.
+        3. ``actor loss computation`` and  ``actor network update`` depending on the level of **delaying the policy updates**.
 
             .. code-block:: python
 
