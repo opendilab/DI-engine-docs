@@ -10,7 +10,7 @@ Can't see a successful trajectory. R2D3 is essentially a distributed framework a
 
 Quick Facts
 -------------
-1. The baseline reinforcement learning algorithm of R2D3 is `R2D2 <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`_ , you can refer to our implementation`r2d2 <https ://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`_ ,
+1. The baseline reinforcement learning algorithm of R2D3 is `R2D2 <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`_ , you can refer to our implementation `R2D2 <https ://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`_ ,
 It is essentially a DQN algorithm based on a distributed framework, using Double Q Networks, Dueling Architecture, and n-step TD loss.
 
 2. R2D3 utilizes the loss functions of DQfD, including: one-step and n-step temporal difference loss, L2 regularization loss of neural network parameters (optional), supervised large margin classification loss (supervised large margin classification loss).
