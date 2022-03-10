@@ -59,7 +59,7 @@ Observation space
 Action space
 ---------------
 
-- The game operation button space, generally a discrete action space of size N (N varies with the specific sub-environment), the data type is \ ``int``\ , you need to pass in python values ​​(or 0-dimensional np arrays, such as actions 3 is \``np.array(3)``\)
+- The game operation button space, generally a discrete action space of size N (N varies with the specific sub-environment), the data type is \ int\ , you need to pass in python values ​​(or 0-dimensional np arrays, such as actions 3 is\ np.array(3)\ )
 
 - For each map, the action space N is generally equal to 6 + the number of enemies, such as 14 in the 3s5z map and 70 in the 2c_vs_64zg map. The specific meaning is:
 
@@ -81,7 +81,7 @@ Action space
 Bonus space
 --------
 
-- The game wins or loses, the victory is 1, and the defeat is 0, which is generally an \``int``\ value.
+- The game wins or loses, the victory is 1, and the defeat is 0, which is generally an \ int\ value.
 
 
 Other
