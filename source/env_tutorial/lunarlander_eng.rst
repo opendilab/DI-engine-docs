@@ -21,6 +21,7 @@ Note: If the user does not have root privileges, please add --user after the ins
 
 
 .. code:: shell
+
    # Install Directly
    pip install gym
    pip install Box2D
@@ -32,6 +33,7 @@ After the installation is complete, you can verify that the installation was suc
 
 
 .. code:: python
+
    import gym
    env = gym.make('LunarLander-v2')
    obs = env.reset()
