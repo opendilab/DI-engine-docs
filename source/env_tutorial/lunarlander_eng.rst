@@ -69,7 +69,7 @@ observation space
 - s[7] 1 if the second foot lands, 0 otherwise
 
 
-.._actionspace-1:
+.. _actionspace-1:
 
 action space
 --------
