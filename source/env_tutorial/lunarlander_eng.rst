@@ -53,7 +53,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\  for more imag
 space before transformation (original environment)
 =========================
 
-.._ObservationSpace-1:
+.. _ObservationSpace-1:
 
 observation space
 --------
@@ -94,7 +94,7 @@ bonus space
 - a \ ``int``\ value
 - The reward for moving from the top of the screen to the landing point and going to zero speed is about 100...140 points. If the lander travels in a direction away from the landing pad, it loses the reward. If the lander falls or stops, the episode ends, earning an extra -100 or +100 points. Ground contact for each leg is a +10 bonus. The launch main engine is -0.3 bonus per frame. A successful landing to the landing site is 200 points. Landing outside the landing gear is possible. Fuel is unlimited.
 
-.._other-1:
+.. _other-1:
 
 other
 ----
@@ -111,7 +111,7 @@ key facts
 Transformed space (RL environment)
 =======================
 
-.._ObservationSpace-2:
+.. _ObservationSpace-2:
 
 observation space
 --------
@@ -143,14 +143,14 @@ The above space can be expressed as:
    act_space = gym.spaces.Discrete(4)
 
 
-.._other-2:
+.. _other-2:
 
 other
 ----
 
 - The \ ``info``\ returned by the environment \ ``step``\ method must contain the \ ``final_eval_reward``\ key-value pair, which represents the evaluation index of the entire episode, and is the cumulative sum of the rewards of the entire episode in lunarlander
 
-.._other-3:
+.. _other-3:
 
 other
 ====
@@ -159,8 +159,10 @@ lazy initialization
 ------------
 
 In order to support parallel operations such as environment vectorization, environment instances generally implement lazy initialization, that is, the \ ``__init__``\ method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. The concrete original environment instance is initialized when the \ ``reset``\ method is used.
+
 random seed
 --------
+
 - There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as \ ``random``\ , \ ``np.random``\)
 - For the environment caller, just set these two seeds through the \ ``seed``\ method of the environment, and do not need to care about the specific implementation details
 
