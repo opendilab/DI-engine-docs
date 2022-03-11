@@ -18,6 +18,7 @@ Installation Method
 Just install the gym and box2d libraries, which can be installed by pip or combined with DI-engine
 
 .. code:: shell
+
    # Method1: Install Directly
    pip install gym
    pip install box2d
