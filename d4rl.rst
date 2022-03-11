@@ -57,7 +57,7 @@ Just install the d4rl, gym and mujoco-py libraries, in which d4rl can be install
 
 Mujoco only needs the gym and mujoco-py two libraries, which can be installed by one-click pip or combined with DI-engine
 
-1. The mujoco-py library no longer requires an activation license (``mujoco-py>=2.1.0``), you can install free-mujoco-py via \ `pip <https://github.com/openai/ mujoco-py/pull/640>`__ install
+1. The mujoco-py library no longer requires an activation license (``mujoco-py>=2.1.0``), you can install free-mujoco-py via \ `pip <https://github.com/openai/ mujoco-py/pull/640>`__ 
 
 2. If you want to install ``mujoco-py>=2.1``, you can do the following:
 
