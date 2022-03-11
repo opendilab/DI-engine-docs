@@ -106,7 +106,7 @@ key facts
 
 1. Discrete and continuous action spaces
 
-.._transformed spatial rl environment):
+.. _transformed spatial rl environment):
 
 Transformed space (RL environment)
 =======================
