@@ -54,7 +54,7 @@ The overall training and calculation process of the ICM algorithm is as follows:
    :align: center
    :scale: 70%
 
-1. As shown in the figure on the left, the agent samples the action a in the state :math:`s_t` through the current policy :math:`\pi` and executes it, and finally obtains the state :math:`s_{t+1}`. The total reward is the sum of two partial rewards, one part is the external reward: math:`r_t^e`, that is, the sparse reward obtained in the environment; the other part is the intrinsic reward obtained by the ICM :math:`r_t^i` (The specific calculation process is given in step 4), the final strategy needs to achieve the purpose of training by optimizing the total reward.
+1. As shown in the figure on the left, the agent samples the action a in the state :math:`s_t` through the current policy  :math:`\pi` and executes it, and finally obtains the state  :math:`s_{t+1}`. The total reward is the sum of two partial rewards, one part is the external reward :math:`r_t^e`, that is, the sparse reward obtained in the environment; the other part is the intrinsic reward obtained by the ICM :math:`r_t^ｉ` (The specific calculation process is given in step 4), the final strategy needs to achieve the purpose of training by optimizing the total reward.
 The specific formula is as follows:
 
  :math:`r_t=r_t^i + r_t^e`
@@ -70,12 +70,13 @@ The specific formula is as follows:
 Here :math:`\hat{a_t}` is the predicted value of :math:`a_t` and :math:`L_I` describes the difference between the two (cross entropy loss). The smaller the difference, the more accurate the estimation of the current action, and the better the representation of the environmental elements that the agent can control.
 
 
-3. The forward model of ICM will take :math:`Phi(s_t)`  and action value :math:`a_t` as input, and output the predicted value of the feature vector of the state at the next moment :math:`hat{\Phi} (s_{t+1})`
+3. The forward model of ICM will take :math:`\Phi(s_t)`  and action value　:math:`a_t` as input, and output the predicted value of the feature vector of the state at the next moment:math:`\hat{\Phi}(s_{t+1})`
 The error between the predicted feature vector at the next moment and the real feature vector is used as the intrinsic reward.
 
- :math:`\hat{\phi(s_{t+1})}=f(\Phi(s_t),a_t) ; \theta_F)`
+ :math:`\hat{\phi(s_{t+1})}=f(\Phi(s_t),a_t) ; \theta_F)` 
 
  :math:`{\min}_{\theta_F, \theta_E} L_F(\hat{\phi(s_{t+1})},\phi(s_{t+1}))`
+
 
 Here, :math:`L_F` describes the difference between :math:`\hat{\phi(s_{t+1})}` and :math:`\phi(s_{t+1})` (L2 loss), through the learning of the forward model, the learned feature representation can be more predictable.
 
@@ -104,8 +105,7 @@ In our implementation, it is normalized to [0, 1] according to the following max
 Therefore, when calculating the forward model, the residual network can better retain the information of the action value, so as to obtain a better environmental representation.
 
 
-.. code-block::python
-
+.. code-block:: python
     pred_next_state_feature_orig = torch.cat((encode_state, action), 1)
     pred_next_state_feature_orig = self.forward_net_1(pred_next_state_feature_orig)
     for i in range(4):
@@ -136,7 +136,7 @@ self.residual: Participate in the forward model of the ICM network, and make the
 
 self.forward_net: Participate in the forward model of the ICM network, responsible for outputting the feature at the moment of :math:`s_{t+1}`
 
-        .. code-block::python
+    .. code-block:: python
 
             class ICMNetwork(nn.Module):
                 r"""
