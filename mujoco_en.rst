@@ -89,16 +89,16 @@ The image of the DI-engine comes with the framework itself and the Mujoco enviro
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`_ Get more images
 
 
-space before transformation (original environment)
+Space before transformation (original environment)
 =========================
 
 
-observation space
+Observation space
 --------
 
 - A vector composed of physical information (3D position, orientation, and joint angles etc. ), the specific size is \ ``(N, )``\ , where \ ``N``\ is determined according to the environment, and the data type is\ ``float64``
 
-action space
+Action space
 --------
 
 - A vector (torque etc.) composed of physical information, generally a continuous action space of size N (N varies with the specific sub-environment), the data type is \ ``np.float32``\, and an np array needs to be passed in (for example, The action is \ ``array([-0.9266078 , -0.4958926 , 0.46242517], dtype =np.float32)``\ )
@@ -112,12 +112,12 @@ Bonus space
 - The game score will vary greatly depending on the specific game content. Generally, it is a \ ``float``\ value. For the specific value, please refer to the benchmark algorithm performance section at the bottom.
 
 
-other
+Other
 ----
 
 - The end of the game is the end of the current environment episode
 
-key facts
+Key facts
 ========
 
 1. Vector physical information input, according to actual experience, it is not appropriate to subtract the mean value when doing norm.
@@ -134,12 +134,12 @@ Transformed space (RL environment)
 
 
 
-observation space
+Observation space
 --------
 
 - Basically no transformation
 
-action space
+Action space
 --------
 
 - Basically no transformation, it is still a continuous action space of size N, the value range is \ ``[-1, 1]``\, the size is \ ``(N, )``\ , and the data type is \ ``np.float32``
@@ -160,21 +160,21 @@ The above space can be expressed as:
    act_space = gym.spaces.Box(low=-1, high=1, shape=(3, ), dtype=np.float32)
    rew_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(1, ), dtype=np.float32)
 
-other
+Other
 ----
 
 - The \ ``info``\ returned by the environment \ ``step``\ method must contain\ ``final_eval_reward``\ key-value pair, indicating the evaluation index of the entire episode, and the cumulative sum of the rewards of the entire episode in Mujoco
 
 
-other
+Other
 ====
 
-lazy initialization
+Lazy initialization
 ------------
 
 In order to facilitate parallel operations such as environment vectorization, environment instances generally implement lazy initialization, that is, the \ ``__init__``\method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. The\ ``reset``\ method initializes the concrete original environment instance.
 
-random seed
+Random seed
 --------
 
 - There are two parts of the random seed that need to be set in the environment, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as\ ``random``\ ，\ ``np.random``\)
