@@ -11,14 +11,14 @@ In the gym-hybrid task, the agent's task is simple: Accelerate, turn, or break w
 Install
 ====
 
-installation method
+Installation Method
 --------
 
 .. code:: shell
 
     pip install git+https://github.com/thomashirtz/gym-hybrid@master#egg=gym-hybrid
 
-Verify installation
+Verify Installation
 --------
 
 Method 1: Run the following command, if the version information can be displayed normally, the installation is completed successfully.
@@ -38,23 +38,23 @@ Method 2: Run the following Python program, if no error is reported, the install
     obs = env.reset()
     print(obs)
 
-Environment introduction
+Environment Introduction
 =========
 
-action space
+Action Space
 ------------
 
 The action space of Gym-hybrid belongs to the mixed space of discrete continuous actions. There are 3 discrete actions: Accelerate, Turn, and Break. The actions Accelerate and Turn need to give the corresponding 1-dimensional continuous parameters.
 
-- \ ``Accelerate (Acceleration value)`` \: Indicates that the agent is accelerated by the size of \ ``acceleration value`` \. The value range of \ ``Acceleration value`` \ is \ ``[0,1]`` \. The numeric type is \``float32``.
+- \ ``Accelerate (Acceleration value)`` \: Indicates that the agent is accelerated by the size of \ ``acceleration value`` \. The value range of \ ``Acceleration value`` \ is \ ``[0,1]`` \. The numeric type is \ ``float32``.
   
-- \ ``Turn (Rotation value)`` \: means to turn the agent in the direction of \ ``rotation value`` \. The value range of \ ``Rotation value`` \ is \ ``[-1,1]`` \. The numeric type is \``float32``.
+- \ ``Turn (Rotation value)`` \: means to turn the agent in the direction of \ ``rotation value`` \. The value range of \ ``Rotation value`` \ is \ ``[-1,1]`` \. The numeric type is \ ``float32``.
   
 - \ ``Break ()`` \: means stop.
 
 Using the gym environment space definition can be expressed as:
 
-.. code::python
+.. code:: python
     
     from gym import spaces
 
@@ -62,12 +62,12 @@ Using the gym environment space definition can be expressed as:
                                     spaces.Box(low=0, high=1, shape=(1,)),
                                     spaces.Box(low=-1, high=1, shape=(1,))))
 
-state space
+State Space
 ------------
 
 The state space of Gym-hybrid is represented by a list of 10 elements, which describes the current state of the agent, including the agent's current coordinates, velocity, the sine and cosine of the orientation angle, the coordinates of the target, the distance between the agent and the target, and the target. Distance-related bool value, current relative steps.
 
-.. code::python
+.. code:: python
 
     state = [
                 agent.x,
@@ -82,17 +82,17 @@ The state space of Gym-hybrid is represented by a list of 10 elements, which des
                 current_step / max_step
             ]
 
-Bonus space
+Bonus Space
 -------------
-The reward of each step is set as the length of the agent's distance from the target after the action is performed in the previous step minus the length of the distance from the target after the current step performs the action, ie \``dist_t-1 - dist_t`` \. The algorithm has a built-in \``penalty``\ to motivate the agent to be faster
+The reward of each step is set as the length of the agent's distance from the target after the action is performed in the previous step minus the length of the distance from the target after the current step performs the action, ie \ ``dist_t-1 - dist_t`` \. The algorithm has a built-in \ ``penalty`` \ to motivate the agent to be faster
 Achieve goals. When the episode ends, if the agent stops in the target area, it will get an additional reward with a value of 1; if the agent goes out of bounds or exceeds the maximum number of steps of the episode, it will not get additional reward. The reward at the current moment is expressed by the formula as follows:
 
-.. code::python
+.. code:: python
 
     reward = last_distance - distance - penalty + (1 if goal else 0)
 
 
-Termination condition
+Termination Condition
 ------------
 The termination condition for each episode of the Gym-hybrid environment is any of the following:
 
@@ -103,24 +103,24 @@ The termination condition for each episode of the Gym-hybrid environment is any 
 - Reach the maximum step of the episode
   
 
-built-in environment
+Built-in Environment
 ------------
-There are two built-in environments, \``"Moving-v0"``\ and \``"Sliding-v0"``\. The former does not consider conservation of inertia, while the latter does (so is more practical). The two environments are consistent in state space, action space, and reward space.
+There are two built-in environments, \ ``"Moving-v0"`` \ and \ ``"Sliding-v0"`` \. The former does not consider conservation of inertia, while the latter does (so is more practical). The two environments are consistent in state space, action space, and reward space.
 
-other
+Other
 ====
 
-Store video
+Store Video
 --------
 
 Some environments have their own rendering plug-ins, but DI-engine does not support the rendering plug-ins that come with the environment, but generates video recordings by saving the logs during training. For details, please refer to the Visualization & Logging section under the DI-engine `official documentation <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start chapter.
 
-DI-zoo runnable code example
+DI-zoo Runnable Code Example
 ======================
 
-The following provides a complete gym hybrid environment config, using DDPG as the baseline algorithm. Please run the \``gym_hybrid_ddpg_config.py``\ file in the \``DI-engine/dizoo/gym_hybrid``\ directory, as follows.
+The following provides a complete gym hybrid environment config, using DDPG as the baseline algorithm. Please run the \ ``gym_hybrid_ddpg_config.py`` \ file in the \ ``DI-engine/dizoo/gym_hybrid`` \ directory, as follows.
 
-.. code::python
+.. code:: python
 
     from easydict import EasyDict
     from ding.entry import serial_pipeline
