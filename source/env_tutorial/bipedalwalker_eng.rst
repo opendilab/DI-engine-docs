@@ -33,6 +33,7 @@ Verify Installation
 After the installation is complete, you can verify that the installation was successful by running the following command on the Python command line:
 
 .. code:: python
+
    import gym
    env = gym.make('BipedalWalker-v3')
    obs = env.reset()
@@ -93,17 +94,22 @@ Store Video
 After the environment is created, but before reset, call the  \ ``enable_save_replay``\ method to specify the path to save the game replay. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrapper.Monitor``\ implementation, depends on \ ``ffmpeg``\), the code shown below will run an environment episode and save the results of this episode in the form \ ``./video/xxx.mp4``\ in a file like this:
 
 .. code:: python
+
     from easydict import EasyDict
     from dizoo.box2d.bipedalwalker.envs import BipedalWalkerEnv
     import numpy as np
+    
     env = BipedalWalkerEnv(EasyDict({'act_scale': True, 'rew_clip': True, 'replay_path': './video'}))
     obs = env.reset()
+    
     while True:
        action = np.random.rand(24)
        timestep = env.step(action)
        if timestep.done:
            print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
            break
+           
+           
 DI-zoo Runnable Code Example
 =============================
 
@@ -112,6 +118,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/box2d/bipedalwalker
 For specific configuration files, such as \ ``bipedalwalker_td3_config.py``\, use the following demo to run:
 
     .. code:: python
+    
     bipedalwalker_td3_config = dict(
         env=dict(
             collector_env_num=1,
@@ -159,7 +166,7 @@ For specific configuration files, such as \ ``bipedalwalker_td3_config.py``\, us
             other=dict(replay_buffer=dict(replay_buffer_size=50000, ), ),
         ),
     )
-    bipedalwalker_td3_config = EasyDict(bipedalwalker_td3_config)
+    bipedalwalker_td3_config = EasyDict(bipedalwalker_td3_config)    
     main_config = bipedalwalker_td3_config
 
     bipedalwalker_td3_create_config = dict(
@@ -176,6 +183,7 @@ For specific configuration files, such as \ ``bipedalwalker_td3_config.py``\, us
    if __name__ == '__main__':
        from ding.entry import serial_pipeline
        serial_pipeline((main_config, create_config), seed=0)
+
 
 
 Benchmark Algorithm Performance
