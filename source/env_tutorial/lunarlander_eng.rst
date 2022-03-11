@@ -48,7 +48,7 @@ mirror
 The image of DI-engine is equipped with the framework itself and the Lunarlander environment, which can be obtained by \ ``docker pull opendilab/ding:nightly``\, or by visiting \ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\  for more images
 
-.._spatial original environment before transformation):
+.. _spatial original environment before transformation):
 
 space before transformation (original environment)
 =========================
