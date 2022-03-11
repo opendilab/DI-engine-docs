@@ -11,16 +11,16 @@ The inverted pendulum problem is a classic control problem in reinforcement lear
 Install
 ====
 
-installation method
+Installation Method
 --------
 
-The Cartpole environment is built into the gym, and you can install the gym directly. Its environment id is \``CartPole-v0``\.
+The Cartpole environment is built into the gym, and you can install the gym directly. Its environment id is \ ``CartPole-v0``\.
 
 .. code:: shell
 
     pip install gym
     
-Verify installation
+Verify Installation
 --------
 
 Run the following command on the Python command line to verify that the installation is successful.
@@ -32,10 +32,10 @@ Run the following command on the Python command line to verify that the installa
     obs = env.reset()
     print(obs)
 
-Environment introduction
+Environment Introduction
 =========
 
-Action space
+Action Space
 ------------
 
 The action space of Cartpole belongs to the discrete action space, and there are two discrete actions, namely left shift and right shift.
@@ -46,11 +46,11 @@ The action space of Cartpole belongs to the discrete action space, and there are
 
 Using the gym environment space definition can be expressed as:
 
-.. code::python
+.. code:: python
     
     action_space = spaces.Discrete(2)
 
-State space
+State Space
 ------------
 
 Cartpole's state space has 4 elements, which are:
@@ -59,17 +59,17 @@ Cartpole's state space has 4 elements, which are:
   
 - \ ``Cart Velocity`` \: The speed of the cart, in the range \ ``[-inf, inf]`` \.
 
-- \``Pole Angle``\: The angle of the pole, in the range \``[-24 deg, 24 deg]``\.
+- \ ``Pole Angle`` \: The angle of the pole, in the range \ ``[-24 deg, 24 deg]``\.
 
-- \``Pole Angular Velocity``\: The angular velocity of the pole, in the range \``[-inf, inf]``\.
+- \ ``Pole Angular Velocity`` \: The angular velocity of the pole, in the range \ ``[-inf, inf]``\.
 
 
-Reward space
+Reward Space
 -------------
 Each step will receive a reward of 1 until the episode terminates (the termination state will also receive a reward of 1).
 
 
-Termination condition
+Termination Condition
 ------------
 The termination condition for each episode of the Cartpole environment is any of the following:
 
@@ -80,7 +80,7 @@ The termination condition for each episode of the Cartpole environment is any of
 - Reaching the maximum step of episode, whose default is 200.
   
 
-When does the Cartpole mission count as a victory
+When Does the Cartpole Mission Count as a Victory
 --------------------------------
 
 When the average episode reward for 100 trials reaches 195 or more, the game is considered a victory.
@@ -89,17 +89,17 @@ When the average episode reward for 100 trials reaches 195 or more, the game is 
 Others
 ====
 
-Store video
+Store Video
 --------
 
 Some environments have their own rendering plug-ins, but DI-engine does not support the rendering plug-ins that come with the environment, but generates video recordings by saving the logs during training. For details, please refer to the Visualization & Logging section under the DI-engine `official documentation <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start chapter.
 
-DI-zoo runnable code example
+DI-zoo Runnable Code Example
 ======================
 
 The following provides a complete cartpole environment config, using the DQN algorithm as the policy. Please run the \ ``cartpole_dqn_main.py`` \ file in the \ ``DI-engine/dizoo/classic_control/cartpole/entry`` \ directory, as follows.
 
-.. code::python
+.. code:: python
 
     import os
     import gym
@@ -189,7 +189,7 @@ The following provides a complete cartpole environment config, using the DQN alg
     if __name__ == "__main__":
         main(cartpole_dqn_config)
 
-Experimental results
+Experimental Results
 =================
 The experimental results using the DQN algorithm are as follows. The abscissa is \ ``episode`` \, and the ordinate is \ ``reward_mean`` \.
 
