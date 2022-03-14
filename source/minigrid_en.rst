@@ -237,7 +237,7 @@ DI-zoo runnable code example
 =====================
 
 The full training configuration file is at `github
-link <https://github.com/opendilab/DI-engine/tree/main/dizoo/minigrid/config>`
+link <https://github.com/opendilab/DI-engine/tree/main/dizoo/minigrid/config>`__
  The specific configuration files, such as \ ``minigrid_r2d2_config.py``\ , use the following demo to run:
 
 .. code:: python
