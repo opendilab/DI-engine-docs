@@ -11,7 +11,7 @@ The inverted pendulum problem is a classic control problem in reinforcement lear
 Install
 ====
 
-installation method
+Installation Method
 --------
 
 The Pendulum environment is built into the gym, and you can install the gym directly. Its environment id is \ ``Pendulum-v0`` \.
@@ -20,7 +20,7 @@ The Pendulum environment is built into the gym, and you can install the gym dire
 
     pip install gym
     
-Verify installation
+Verify Installation
 --------
 
 Run the following Python program, if no error is reported, the installation is successful.
@@ -32,10 +32,10 @@ Run the following Python program, if no error is reported, the installation is s
     obs = env.reset()
     print(obs)
 
-Environment introduction
+Environment Introduction
 =========
 
-action space
+Action Space
 ------------
 
 The action space of Pendulum belongs to the continuous action space.
@@ -48,7 +48,7 @@ Using the gym environment space definition can be expressed as:
     
     action_space = spaces.Box(low=-2,high=2)
 
-state space
+State Space
 ------------
 
 The state space of Pendulum has 3 elements that describe the angle and angular velocity of the pendulum. They are:
@@ -61,7 +61,7 @@ The state space of Pendulum has 3 elements that describe the angle and angular v
 
 
 
-Bonus space
+Bonus Space
 -------------
 First calculate \ ``cost`` \, including three terms:
 
@@ -74,22 +74,22 @@ First calculate \ ``cost`` \, including three terms:
 Add the three terms to get \ ``cost`` \. Finally, the inverse of \ ``cost`` \, which is \ ``-cost`` \, is returned as the reward value.
 
 
-Termination condition
+Termination Condition
 ------------
 The termination condition for each episode of the Pendulum environment is any of the following:
   
 - Reach the maximum step of the episode.
 
 
-other
+Other
 ====
 
-Store video
+Store Video
 --------
 
 Some environments have their own rendering plugins. DI-engine does not support the rendering plug-in that comes with the environment, but generates video recordings by saving the logs during training. For details, please refer to the Visualization & Logging section under the DI-engine `official documentation <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start chapter.
 
-DI-zoo runnable code example
+DI-zoo Runnable Code Example
 ======================
 
 The following provides a complete Pendulum environment config, using the DDPG algorithm as the policy. Please run the \ ``pendulum_ddpg_main.py`` \ file in the \ ``DI-engine/dizoo/classic_control/pendulum/entry`` \ directory, as follows.
@@ -173,7 +173,7 @@ The following provides a complete Pendulum environment config, using the DDPG al
         main(pendulum_ddpg_config, seed=0)
 
 
-Experimental results
+Experimental Results
 =================
 The experimental results using the DDPG algorithm are as follows. The abscissa is \ ``episode`` \, and the ordinate is \ ``reward_mean`` \.
 
