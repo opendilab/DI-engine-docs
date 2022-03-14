@@ -18,7 +18,7 @@ A series of environments such as MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-Obstr
 Install
 ====
 
-installation Method
+Installation Method
 --------
 
 Users can choose to install via pip one-click or git clone the repository and then pip install locally.
@@ -46,7 +46,7 @@ After the installation is complete, you can run the following command on the Pyt
 
 .. _spatial original environment before transformation):
 
-space before transformation (original environment)
+Space before Transformation (Original Environment)
 =========================
 
 .. _ObservationSpace-1:
@@ -145,7 +145,7 @@ Key Facts
 
 .. _transformed spatial rl environment):
 
-Transformed space (RL environment)
+Transformed Space (RL environment)
 =======================
 
 .. _ObservationSpace-2:
