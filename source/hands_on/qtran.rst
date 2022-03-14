@@ -102,3 +102,8 @@ The Benchmark result of QTRAN in SMAC (Samvelyan et al. 2019), for StarCraft mic
 References
 ----------------
 QTRAN: Learning to Factorize with Transformation for Cooperative Multi-Agent Reinforcement Learning. ICML, 2019.
+
+
+Other Public Implementations
+-----------------------------
+- `Pymarl <https://github.com/oxwhirl/pymarl>`_.
