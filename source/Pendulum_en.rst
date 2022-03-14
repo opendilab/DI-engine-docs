@@ -44,7 +44,7 @@ The action space of Pendulum belongs to the continuous action space.
 
 Using the gym environment space definition can be expressed as:
 
-.. code::python
+.. code:: python
     
     action_space = spaces.Box(low=-2,high=2)
 
