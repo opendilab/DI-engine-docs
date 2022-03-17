@@ -74,3 +74,4 @@ If you want to deeply customize your algorithm and application with DI-engine, a
    guide/index
    tutorial_dev/index
    architecture/index
+   specification/index
