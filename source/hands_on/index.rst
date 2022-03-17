@@ -40,3 +40,5 @@ RL Algorithm Cheat Sheet
 
     cql
 
+    gtrxl
+
