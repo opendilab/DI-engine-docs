@@ -265,6 +265,30 @@ Advanced
 
    Setting the item ``cfg.is_train`` will use different decoration methods in the wrapper accordingly. For example, if ``cfg.is_train == True``, reward will be applied a sign function to map to ``{+1, 0, -1}`` for better training, if ``cfg.is_train == False`` The original reward value will be retained to facilitate the evaluation of the agent's performance during testing.
 
+5. ``random_action()``
+
+   Some off-policy algorithms require that before training starts, we can collect some data to insert into the buffer with a random strategy for initialization. Due to this requirement, DI-engine encourages to implement the ``random_action`` method.
+
+   Since the environment already supports ``action_space`` property, you can directly call the ``Space.sample()`` method provided by gym to randomly select an action. But it should be noted that, since DI-engine requires all returned actions to be in ``np.ndarray`` format, some necessary transformations may be required. E.g:
+
+   .. python::
+
+      def random_action(self) -> np.ndarray:
+         random_action = self.action_space.sample()
+         if isinstance(random_action, np.ndarray):
+               pass
+         elif isinstance(random_action, int):
+               random_action = to_ndarray([random_action], dtype=np.int64)
+         elif isinstance(random_action, dict):
+               random_action = to_ndarray(random_action)
+         else:
+               raise TypeError(
+                  '`random_action` should be either int/np.ndarray or dict of int/np.ndarray, but get {}: {}'.format(
+                     type(random_action), random_action
+                  )
+               )
+         return random_action
+
 DingEnvWrapper
 ~~~~~~~~~~~~~~~~~~~~~~~
 (in ``ding/envs/env/ding_env_wrapper.py``)

@@ -262,6 +262,29 @@
 
    设置 ``cfg.is_train`` 项，将相应地在 wrapper 中使用不同的修饰方式。例如，若 ``cfg.is_train == True`` ，则将对 reward 使用符号函数映射至 ``{+1, 0, -1}`` 方便训练，若 ``cfg.is_train == False`` 则将保留原 reward 值，方便测试时评估 agent 的性能。
 
+5. ``random_action()``
+
+   一些 off-policy 算法希望可以在训练开始之前，用随机策略收集一些数据填充 buffer，完成 buffer 的初始化。出于这样的需求，DI-engine 鼓励实现 ``random_action`` 方法。
+
+   由于环境已经实现了 ``action_space``，所以可以直接调用 gym 中提供的 ``Space.sample()`` 方法来随机选取动作。但需要注意的是，由于 DI-engine 要求所有返回的 action 需要是 ``np.ndarray`` 格式的，所以可能需要做一些必要的格式转换。例如：
+
+   .. python::
+
+      def random_action(self) -> np.ndarray:
+         random_action = self.action_space.sample()
+         if isinstance(random_action, np.ndarray):
+               pass
+         elif isinstance(random_action, int):
+               random_action = to_ndarray([random_action], dtype=np.int64)
+         elif isinstance(random_action, dict):
+               random_action = to_ndarray(random_action)
+         else:
+               raise TypeError(
+                  '`random_action` should be either int/np.ndarray or dict of int/np.ndarray, but get {}: {}'.format(
+                     type(random_action), random_action
+                  )
+               )
+         return random_action
 
 DingEnvWrapper
 ~~~~~~~~~~~~~~~~~~~~~~~~
