@@ -1,7 +1,7 @@
 Welcome to DI-engine's documentation!
 =====================================
 
-`中文 <./index_zh.html>`_
+`中文 </zh_CN/latest/index_zh.html>`_
 
 .. image::
    images/di_engine_logo.svg

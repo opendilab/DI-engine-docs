@@ -1,7 +1,7 @@
 欢迎来到DI-engine中文文档
 =====================================
 
-`English <./index.html>`_
+`English </en/latest/index.html>`_
 
 .. image::
    images/di_engine_logo.svg
