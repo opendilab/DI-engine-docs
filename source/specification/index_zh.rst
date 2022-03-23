@@ -9,7 +9,7 @@ DI-engine 内的中间件可分为两类，一种我们称之为 ``function``，
 
 本质上它们都属于中间件，用法完全一致。
 
-目录结构上， ``module`` 直接放置在 ``middleware`` 目录中，以名词命名； ``function`` 放置在 ``middleware/functional`` 目录中，以动词命名。
+目录结构上， ``module`` 直接放置在 ``middleware`` 目录中，以名词命名； ``function`` 放置在 ``middleware/functional`` 目录中，以动词或名词命名。
 
 同种类型的多个中间件，可写在一个文件中。
 

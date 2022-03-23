@@ -12,7 +12,7 @@ This classification refers to `pytorch's nn and nn.functional <https://pytorch.o
 Essentially they all belong to middleware, and the usage is exactly the same.
 
 In the directory structure, ``module`` is placed directly in the ``middleware`` directory, named after a noun;
-``function`` is placed in the ``middleware/functional`` directory, named after a verb.
+``function`` is placed in the ``middleware/functional`` directory, named after a verb or noun.
 
 Multiple middleware of the same type can be written in one file.
 
