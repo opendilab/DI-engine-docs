@@ -65,7 +65,7 @@ DQN 可以和以下方法相结合：
 
         .. math::
 
-          r(s,a)+\gamma \max_{a^{'}}Q(s',a^')
+          r(s,a)+\gamma \max_{a^{'}}Q(s',a')
       
       在 Multi-step TD-loss 中，贝尔曼方程是:
 
