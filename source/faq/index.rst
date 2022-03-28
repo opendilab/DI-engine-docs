@@ -44,3 +44,32 @@ Add ``manager`` field to the ``env`` field in cfg file, you can specify whether 
             manager=dict(shared_memory=False)
         )
     )
+
+Q5: How to adjust the learning rate?
+**************************************************
+
+:A5:
+
+Add ``lr_scheduler`` module in the entry file. 
+You can adjust the learning rate by calling ``torch.optim.lr_scheduler`` (refer to `<https://pytorch.org/docs/stable/optim.html>`_) and apply the ``scheduler.step()`` to update the learning rate after optimizer’s update.
+The following code provides a simple example. For more detail, see demo: `<https://github.com/opendilab/DI-engine/commit/9cad6575e5c00036aba6419f95cdce0e7342630f>`_.
+
+.. code::
+
+    from torch.optim.lr_scheduler import LambdaLR
+
+    ...
+
+    # Set up RL Policy
+    policy = Policy(cfg.policy, model=model)
+    lr_scheduler = LambdaLR(
+        policy.learn_mode.get_attribute('optimizer_actor'), lr_lambda=lambda iters: min(1.0, 0.5 + 0.5 * iters / 1000)
+    )
+
+    ...
+
+    # Train
+        for i in range(cfg.policy.learn.update_per_collect):
+            ...
+            learner.train(train_data, collector.envstep)
+            lr_scheduler.step()
