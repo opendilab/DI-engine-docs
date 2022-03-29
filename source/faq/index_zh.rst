@@ -47,7 +47,7 @@ Q4: 如何设置SyncSubprocessEnvManager的相关运行参数
     )
 
 
-Q5: 如何调整学习率？
+Q5: 如何调整学习率
 **************************************************
 
 :A5:
@@ -62,7 +62,9 @@ Q5: 如何调整学习率？
     ...
 
     # Set up RL Policy
-    policy = Policy(cfg.policy, model=model)
+    policy = DDPGPolicy(cfg.policy, model=model)
+    # Set up lr_scheduler, the optimizer attribute will be different in different policy.
+    # For example, in DDPGPolicy the attribute is 'optimizer_actor', but in DQNPolicy the attribute is 'optimizer'.
     lr_scheduler = LambdaLR(
         policy.learn_mode.get_attribute('optimizer_actor'), lr_lambda=lambda iters: min(1.0, 0.5 + 0.5 * iters / 1000)
     )
@@ -74,3 +76,9 @@ Q5: 如何调整学习率？
             ...
             learner.train(train_data, collector.envstep)
             lr_scheduler.step()
+
+学习率变化曲线如图所示
+
+.. image:: images/Q5_lr_scheduler.png
+   :align: center
+   :height: 250

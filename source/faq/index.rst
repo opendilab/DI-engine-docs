@@ -45,7 +45,7 @@ Add ``manager`` field to the ``env`` field in cfg file, you can specify whether 
         )
     )
 
-Q5: How to adjust the learning rate?
+Q5: How to adjust the learning rate
 **************************************************
 
 :A5:
@@ -61,7 +61,9 @@ The following code provides a simple example. For more detail, see demo: `<https
     ...
 
     # Set up RL Policy
-    policy = Policy(cfg.policy, model=model)
+    policy = DDPGPolicy(cfg.policy, model=model)
+    # Set up lr_scheduler, the optimizer attribute will be different in different policy.
+    # For example, in DDPGPolicy the attribute is 'optimizer_actor', but in DQNPolicy the attribute is 'optimizer'.
     lr_scheduler = LambdaLR(
         policy.learn_mode.get_attribute('optimizer_actor'), lr_lambda=lambda iters: min(1.0, 0.5 + 0.5 * iters / 1000)
     )
@@ -73,3 +75,9 @@ The following code provides a simple example. For more detail, see demo: `<https
             ...
             learner.train(train_data, collector.envstep)
             lr_scheduler.step()
+
+The curve of learning rate is shown in the figure below
+
+.. image:: images/Q5_lr_scheduler.png
+   :align: center
+   :height: 250
