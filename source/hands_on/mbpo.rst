@@ -49,7 +49,7 @@ Policy evaluation step:
 Policy improvement step:
 
 .. math::
-  J_\pi(\phi, D) = \mathbb{E}_{s_t \sim D}[D_{KL}(\pi || exp\{Q^\pi - V^\pi\})]
+  J_\pi(\phi, D) = \mathbb{E}_{s_t \sim D}[D_{KL}(\pi \| exp\{Q^\pi - V^\pi\})]
 
 
 
