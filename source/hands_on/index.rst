@@ -20,6 +20,7 @@ RL Algorithm Cheat Sheet
     
     ddpg
     td3
+    td3_bc
     sac
 
     qmix
