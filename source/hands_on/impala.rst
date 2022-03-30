@@ -4,27 +4,27 @@ IMPALA
 Overview
 ---------
 IMPALA, or the Importance Weighted Actor Learner Architecture, is an off-policy actor-critic framework that
-decouples data collecting from learning and optimizes policy from experience trajectories using off-policy correction V-trace. This method is first
+decouples data collecting from learning and optimizes policy from experience trajectories using off-policy correction V-trace. This method is firstly
 introduced in `IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures <https://arxiv.org/abs/1802.01561>`_.
 
 
 Quick Facts
 -------------
-1. Impala is a **model-free** and **off-policy** RL algorithm.
+1. IMPALA is a **model-free** and **off-policy** RL algorithm.
 
-2. Impala can support both **discrete** action spaces and **continuous** action spaces.
+2. IMPALA can support both **discrete** action spaces and **continuous** action spaces.
 
-3. Impala is an actor-critic RL algorithm with value network, which optimizes actor network and critic (value) network, respectively.
+3. IMPALA is an actor-critic RL algorithm with value network, which optimizes actor network and critic (value) network, respectively.
 
-4. Impala can take advantages of the old off-policy data with corresponding **off-policy correction**  to stabilize learning.
+4. IMPALA can take advantage of the old off-policy data with corresponding **off-policy correction**  to stabilize learning.
 
-5. Impala decouples data collecting from learning. Collectors in impala will not compute value or advantage.
+5. IMPALA decouples data collecting from learning. Collectors in IMPALA will not compute value or advantage.
 
-6. Impala is a **distributed RL architecture** with classic actor-learner paradigm.
+6. IMPALA is a **distributed RL architecture** with classic actor-learner paradigm.
 
 Key Equations
 ---------------------------
-Loss used in Impala is similar to that in PPO, A2C and other value function actor-critic models. All of them come from ``policy_loss``,\
+Loss used in IMPALA is similar to that in PPO, A2C and other value function actor-critic models. All of them come from ``policy_loss``,\
 ``value_loss`` and ``entropy_loss``, with respect to some carefully chosen weights, i.e.:
 
 .. math::
@@ -353,20 +353,20 @@ Benchmark
    * - | Pong
        | (PongNoFrameskip-v4)
      - 20
-     - .. image:: images/benchmark/impala_pong.png
-     - `config_link_p <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_impala_config.py>`_
+     - .. image:: images/benchmark/IMPALA_pong.png
+     - `config_link_p <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_IMPALA_config.py>`_
      - | IMPALA paper shallow 200M (20.4)
    * - | Qbert
        | (QbertNoFrameskip-v4)
      - 13175
-     - .. image:: images/benchmark/impala_qbert.png
-     - `config_link_q <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/qbert/qbert_impala_config.py>`_
+     - .. image:: images/benchmark/IMPALA_qbert.png
+     - `config_link_q <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/qbert/qbert_IMPALA_config.py>`_
      - | IMPALA paper shallow 200M (18901)
    * - | SpaceInvaders
        | (SpaceInvadersNoFrame skip-v4)
      - 977
-     - .. image:: images/benchmark/impala_spaceinvaders.png
-     - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_impala_config.py>`_
+     - .. image:: images/benchmark/IMPALA_spaceinvaders.png
+     - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_IMPALA_config.py>`_
      - | IMPALA paper shallow 200M (1726)
 
 P.S.：
