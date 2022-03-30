@@ -24,7 +24,7 @@ Pseudo-code
    :scale: 30%
 
 .. note::
-   C51 models the value distribution using a discrete distribution, whose support set are N atoms: :math:`z_i = V_min + i * delta, i = 0,1,...,N-1` and :math:`delta = (V_\max - V_\min) / N`. Each atom :math:`z_i` has a parameterized probability :math:`p_i`. The Bellman update of C51 projects the distribution of :math:`r + \gamma * z_j^(t+1)` onto the distribution :math:`z_i^t`.
+   C51 models the value distribution using a discrete distribution, whose support set are N atoms: :math:`z_i = V_\min + i * delta, i = 0,1,...,N-1` and :math:`delta = (V_\max - V_\min) / N`. Each atom :math:`z_i` has a parameterized probability :math:`p_i`. The Bellman update of C51 projects the distribution of :math:`r + \gamma * z_j^{\left(t+1\right)}` onto the distribution :math:`z_i^t`.
 
 Key Equations or Key Graphs
 ----------------------------
@@ -61,11 +61,39 @@ The network interface C51 used is defined as follows:
    :members: forward
    :noindex:
 
-The bellman updates of C51 is implemented as:
 
-The Benchmark result of C51 implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
+Benchmark
+---------------------
 
-References
-------------
+.. list-table:: Benchmark and comparison of c51 algorithm
+   :widths: 25 15 30 15 15
+   :header-rows: 1
 
-(C51) Marc G. Bellemare, Will Dabney, Rémi Munos: “A Distributional Perspective on Reinforcement Learning”, 2017; arXiv:1707.06887. https://arxiv.org/abs/1707.06887
+   * - environment
+     - best mean reward
+     - evaluation results
+     - config link
+     - comparison
+   * - | Pong
+       | (PongNoFrameskip-v4)
+     - 20.6
+     - .. image:: images/benchmark/c51_pong.png
+     - `config_link_p <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_c51_config.py>`_
+     - | Tianshou(20)
+   * - | Qbert
+       | (QbertNoFrameskip-v4)
+     - 20006
+     - .. image:: images/benchmark/c51_qbert.png
+     - `config_link_q <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/qbert/qbert_c51_config.py>`_
+     - | Tianshou(16245)
+   * - | SpaceInvaders
+       | (SpaceInvadersNoFrame skip-v4)
+     - 2766
+     - .. image:: images/benchmark/c51_spaceinvaders.png
+     - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_c51_config.py>`_
+     - | Tianshou(988.5)
+
+
+Other Public Implementations
+-----------------------------
+ - [Tianshou](https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/c51.py)
