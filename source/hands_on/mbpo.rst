@@ -8,6 +8,9 @@ MBPO utilizes short model-generated rollouts and provides a guarantee of monoton
 In details, MBPO trains an ensemble of models to fit the transitions of the true environment and uses it to generate short trajectories starting from real environment states to do policy improvement. 
 For the choice of RL policy, MBPO use SAC as its RL component.
 
+See this repo `awesome-model-based-RL <https://github.com/opendilab/awesome-model-based-RL>`_ for more model-based rl papers.
+
+
 Quick Facts
 -------------
 1. MBPO is a **model-based** RL algorithm.
@@ -49,7 +52,11 @@ Policy evaluation step:
 Policy improvement step:
 
 .. math::
-  J_\pi(\phi, D) = \mathbb{E}_{s_t \sim D}[D_{KL}(\pi \| exp\{Q^\pi - V^\pi\})]
+  \min J_\pi(\phi, D) = \mathbb{E}_{s_t \sim D}[D_{KL}(\pi \| exp\{Q^\pi - V^\pi\})]
+
+Note: This update guarantees that 
+:math:`Q^{\pi_{new}}(\boldsymbol{s}_t,\boldsymbol{a}_t) \geq Q^{\pi_{old}}(\boldsymbol{s}_t,\boldsymbol{a}_t)`,
+please check the proof on this Lemma2 in the Appendix B.2 in the original `paper <https://arxiv.org/abs/1801.01290>`_.
 
 
 
@@ -98,9 +105,9 @@ Benchmark
      - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/walker2d_sac_mbpo_default_config.py>`_
 
 
-P.S.：
+P.S.:
 
-1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
+1. The above results are obtained by running the same configuration on three different random seeds (0, 1, 2).
 
 
 Other Public Implementations
