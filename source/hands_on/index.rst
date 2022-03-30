@@ -26,6 +26,8 @@ RL Algorithm Cheat Sheet
     td3_bc
     sac
 
+    r2d2
+
     qmix
     coma
     atoc
