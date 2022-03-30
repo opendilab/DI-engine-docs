@@ -114,6 +114,8 @@ DDP主要用于单机多卡和多机多卡，其采用多进程控制多gpu，�
 DDP最佳推荐使用方法是每个进程一张卡，每张卡复制一份模型。由于dataloader使用了DistributedSampler，所以各个进程之间的数据是不会重复的。
 如果要确保DDP性能和单卡性能一致，需要保证在数据上，DDP模式下的一个epoch和单卡下的一个epoch是等效的。
 
+- DI-engine中DP和DDP `实现教程 <https://di-engine-docs.readthedocs.io/en/latest/best_practice/multi_gpu_example.html>`_
+
 .. code:: python
 
     import math
@@ -399,5 +401,10 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/image_classificatio
 
 .. image:: ./images/imagenet-topk.png
    :align: center
+
+
+参考文献
+=========
+-  Pham, Hieu, et al. "Meta pseudo labels." Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021.
 
 

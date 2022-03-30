@@ -13,8 +13,8 @@ Partially Observable Markov Decision Process(POMDP)
 
 Atari是最经典最常用的离散动作空间强化学习环境，常作为离散空间强化学习算法的基准测试环境。
 它是一个由Pong，Space，Invaders，QBert，Enduro，Breakout，MontezumaRevenge等57个子环境构成的集合。
-在Atari环境中，v0后缀的环境表示以一定的概率重复之前的动作，不受智能体的控制。v4后缀表示这个概率为0。
-同一环境的不同命名则表示智能体每隔多少帧才做一个动作，这个动作会在接下来的k帧中保持，以避免智能体能超出人类的反应上限。
+在Atari环境中，v0后缀的环境表示以一定的概率重复之前的动作，不受Agent的控制。v4后缀表示这个概率为0。
+同一环境的不同命名则表示Agent每隔多少帧才做一个动作，这个动作会在接下来的k帧中保持，以避免Agent能超出人类的反应上限。
 一般而言，「Breakout-v0」表示跳过2到4帧，每一步随机选择跳过的帧数，「Deterministic」，如「BreakoutDeterministic-v0」表示恒定跳过4帧（除SpaceInvaders跳过3帧），「NoFrameskip」则表示不做跳过。
 
 安装
@@ -31,14 +31,14 @@ Atari是最经典最常用的离散动作空间强化学习环境，常作为离
 
    # Method1: Install Directly
    pip install gym
-   pip install ale-py
+   pip install ale-py==0.7
    pip install autorom
    AutoROM --accept-license
 
 验证安装
 --------
 
-安装完成后，可以通过在Python命令行中运行如下命令验证安装成功：
+运行如下Python命令，如果没有报错则说明安装成功。
 
 .. code:: python
 
@@ -62,7 +62,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 观察空间
 --------
 
--  由于是从ram中读取，所以会直接读取一维数据，数据具体尺寸为\ ``(128)``\ ，数据类型为\ ``uint8``\。
+-  由于是从ram中读取，所以会直接读取一维数据，数据具体尺寸为\(128)\ ，数据类型为\uint8\。
 
 
 动作空间
@@ -109,7 +109,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 3. 既有稠密奖励（Space
    Invaders）；又有稀疏奖励（Pitfall，MontezumaRevenge）
 
-4. 奖励取值尺度变化较大
+4. 奖励取值尺度变化较大，游戏奖励范围默认为 ``[-inf, inf]``。
 
 .. _变换后的空间rl环境）:
 
@@ -123,6 +123,8 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 -  变换内容：灰度图，空间尺寸缩放，最大最小值归一化，堆叠相邻N个游戏帧（N=4）
 
 -  变换结果：三维np数组，尺寸为\ ``(4, 84, 84)``\ ，即为相邻的4帧灰度图，数据类型为\ ``np.float32``\ ，取值为 ``[0, 1]``
+
+-  将MDP环境转换为POMDP过程主要是通过在观测信息obs中以一定概率增加noisy，以及在叠帧过程中以一定的概率复制前一时刻的图像帧。
 
 
 动作空间
@@ -149,21 +151,12 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 
 
 在Gym.spaces中，Box表示连续空间，
-Discrete表示离散空间,
-MultiBinary表示多维01空间,
-MultiDiscrete表示多维离散空间,
-Tuple表示Space元祖
-Dict表示Space字典
-
-其他
-----
-
--  \ ``epsiode_life`` \：训练时的环境使用\ ``epsiode_life`` \选项，即环境拥有多条生命值（一般为5），原始环境游戏失败一次生命值减一，所有生命值耗尽则视为episode结束
-
--  \ ``noop_reset`` \ ：环境重置时，最开始设置 x 个原始游戏帧 ( 1 =< x
-   <=30) 执行空动作（noop），以增加环境开局的随机性
-
--  环境\ ``step`` \ 方法返回的\ ``info`` \ 必须包含\ ``final_eval_reward`` \ 键值对，表示整个episode的评测指标，在Atari中为整个episode的奖励累加和
+Discrete表示离散空间，
+MultiBinary表示多维01空间，
+MultiDiscrete表示多维离散空间，
+Tuple表示Space元组，
+Dict表示Space字典。其源码可查看
+\ `Gym Spaces <https://github.com/openai/gym/tree/master/gym/spaces>`__。
 
 其他
 ====
