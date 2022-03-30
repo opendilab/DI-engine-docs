@@ -1,0 +1,71 @@
+C51
+^^^^^^^
+
+Overview
+---------
+C51 was first proposed in `A Distributional Perspective on Reinforcement Learning <https://arxiv.org/abs/1707.06887>`_, different from previous works, C51 evaluates the complete distribution of a q-value rather than only the expectation. The authors designed a distributional Bellman operator, which preserves multimodality in value distributions and is believed to achieve more stable learning and mitigates the negative effects of learning from a non-stationary policy.
+
+Quick Facts
+-----------
+1. C51 is a **model-free** and **value-based** RL algorithm.
+
+2. C51 only **support discrete action spaces**.
+
+3. C51 is an **off-policy** algorithm.
+
+4. Usually, C51 use **eps-greedy** or **multinomial sample** for exploration.
+
+5. C51 can be equipped with RNN.
+
+Pseudo-code
+------------
+.. image:: images/C51.png
+   :align: center
+   :scale: 30%
+
+.. note::
+   C51 models the value distribution using a discrete distribution, whose support set are N atoms: :math:`z_i = V_min + i * delta, i = 0,1,...,N-1` and :math:`delta = (V_\max - V_\min) / N`. Each atom :math:`z_i` has a parameterized probability :math:`p_i`. The Bellman update of C51 projects the distribution of :math:`r + \gamma * z_j^(t+1)` onto the distribution :math:`z_i^t`.
+
+Key Equations or Key Graphs
+----------------------------
+The Bellman target of C51 is derived by projecting the returned distribution :math:`r + \gamma * z_j` onto the current distribution :math:`z_i`. Given a sample transition :math:`(x, a, r, x')`, we compute the Bellman update :math:`Tˆz_j := r + \gamma z_j` for each atom :math:`z_j`, then distribute its probability :math:`p_{j}(x', \pi(x'))` to the immediate neighbors :math:`p_{i}(x, \pi(x))`:
+
+.. math::
+
+   \left(\Phi \hat{T} Z_{\theta}(x, a)\right)_{i}=\sum_{j=0}^{N-1}\left[1-\frac{\left|\left[\hat{\mathcal{T}} z_{j}\right]_{V_{\mathrm{MIN}}}^{V_{\mathrm{MAX}}}-z_{i}\right|}{\Delta z}\right]_{0}^{1} p_{j}\left(x^{\prime}, \pi\left(x^{\prime}\right)\right)
+
+Extensions
+-----------
+- C51s can be combined with:
+   - PER (Prioritized Experience Replay)
+   - Multi-step TD-loss
+   - Double (target) network
+   - Dueling head
+   - RNN
+
+Implementation
+-----------------
+
+.. tip::
+      Our benchmark result of C51 uses the same hyper-parameters as DQN except the exclusive `n_atom` of C51, which is empirically set as 51.
+
+
+The default config of C51 is defined as follows:
+
+.. autoclass:: ding.policy.c51.C51Policy
+   :noindex:
+
+The network interface C51 used is defined as follows:
+
+.. autoclass:: ding.model.template.q_learning.C51DQN
+   :members: forward
+   :noindex:
+
+The bellman updates of C51 is implemented as:
+
+The Benchmark result of C51 implemented in DI-engine is shown in `Benchmark <../feature/algorithm_overview.html>`_
+
+References
+------------
+
+(C51) Marc G. Bellemare, Will Dabney, Rémi Munos: “A Distributional Perspective on Reinforcement Learning”, 2017; arXiv:1707.06887. https://arxiv.org/abs/1707.06887

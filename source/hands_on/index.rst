@@ -6,7 +6,9 @@ RL Algorithm Cheat Sheet
     :maxdepth: 3
 
     dqn
-    c51_qrdqn_iqn
+    c51
+    qrdqn
+    iqn
     rainbow
     sqn
     sql
