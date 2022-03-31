@@ -4,8 +4,8 @@ GTrXL
 Overview
 ---------
 Gated Transformer-XL, or GTrXL, first proposed in `Stabilizing Transformers for Reinforcement Learning <https://arxiv.org/pdf/1910.06764.pdf>`_,
-is a novel framework for reinforcement learning based on the Transformer-XL architecture.
-It introduces several architectural modifications that improve the stability and learning speed of Transformer including:
+is a novel framework for reinforcement learning adapted from the Transformer-XL architecture.
+It mainly introduces two architectural modifications that improve the stability and learning speed of Transformer including:
 placing the layer normalization on only the input stream of the submodules, and replacing residual connections with gating layers.
 The proposed architecture, surpasses LSTMs on challenging memory environments and achieves state-of-the-art
 results on the several memory benchmarks, exceeding the performance of an external memory architecture.
@@ -18,25 +18,28 @@ Quick Facts
 
 3. GTrXL is based on **Transformer-XL** with **Gating connections**.
 
-4. The DI-engine implementation of GTrXL is based on the R2D2 algorithm. In the original paper, it is based on the algorithm V-MPO.
+4. The DI-engine implementation of GTrXL is based on the R2D2 algorithm. In the original paper, it is based on the algorithm `V-MPO <https://arxiv.org/abs/1909.12238>`_.
 
 Key Equations or Key Graphs
 ---------------------------
-**Transformer-XL**: is a Transformer architecture that introduces the notion of recurrence to the deep self-attention network.
+**Transformer-XL**: to address the context fragmentation problem, Transformer-XL introduces the notion of recurrence to the deep self-attention network.
 Instead of computing the hidden states from scratch for each new segment, Transformer-XL reuses the hidden states obtained in previous segments.
 The reused hidden states serve as memory for the current segment, which builds up a recurrent connection between the segments.
 As a result, modeling very long-term dependency becomes possible because information can be propagated through the recurrent connections.
-As an additional contribution, the Transformer-XL uses a new relative positional encoding formulation that generalizes to attention lengths longer than the one observed during training.
+In order to enable state reuse without causing temporal confusion, Transformer-XL proposes a new relative positional encoding formulation that generalizes to attention lengths longer than the one observed during training.
 
 .. image:: images/transformerXL_train_eval.png
    :align: center
 
-**Identity map reordering**: move the layer normalization to the input stream of the submodules.
+**Identity Map Reordering**: move the layer normalization to the input stream of the submodules.
 A key benefit to this reordering is that it now enables an identity map from the input of the transformer at the first layer to the output of the transformer after the last layer.
 This is in contrast to the canonical transformer, where there are a series of layer normalization operations that non-linearly transform the state encoding.
 One hypothesis as to why the Identity Map Reordering improves results is as follows: assuming that the submodules at initialization produce values that are in expectation near
-zero, the state encoding is passed un-transformed to the policy and value heads, enabling the agent to learn a Markovian policy at the start of training.
-(i.e., the network is initialized such that :math:`\pi(·|st,...,s1) ≈ \pi(·|st)` and :math:`V^\pi(s_t|s_{t-1},...,s_1) ≈ V^\pi(s_t|s_{t-1})`).
+zero, the state encoding is passed un-transformed to the policy and value heads, enabling the agent to learn a Markovian policy at the start of training
+(i.e., the network is initialized such that :math:`\pi(·|st,...,s1) ≈ \pi(·|st)` and :math:`V^\pi(s_t|s_{t-1},...,s_1) ≈ V^\pi(s_t|s_{t-1})`),
+thus ignoring the contribution of past observations coming from the memory of the attention-XL.
+In many environments, reactive behaviours need to be learned before memory-based ones can be effectively utilized.
+For example, an agent needs to learn how to walk before it can learn how to remember where it has walked.
 With identity map reordering the forward pass of the model can be computed as:
 
 .. image:: images/identity_map_reordering.png
@@ -105,20 +108,6 @@ Benchmark
 |Pong                 |  20             |.. image:: images/benchmark/pong_gtrxl_r2d2.png      |atari/config/serial/      |                      |
 |                     |                 |                                                     |pong/pong_dqn_config      |                      |
 |(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_q <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  0000           |.. image:: images/benchmark/qbert_dqn.png            |atari/config/serial/      |                      |
-|(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_dqn_config    |                      |
-|                     |                 |                                                     |.py>`_                    |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_s <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  0000           |.. image:: images/benchmark/spaceinvaders_dqn.png    |atari/config/serial/      |                      |
-|(SpaceInvadersNoFrame|                 |                                                     |spaceinvaders/space       |                      |
-|skip-v4)             |                 |                                                     |invaders_dqn_config.py>`_ |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
