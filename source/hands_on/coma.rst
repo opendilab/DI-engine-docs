@@ -29,9 +29,6 @@ The overall information flow between the decentralized actors, the environment a
 
 .. image:: images/marl/coma.png
 
-.. note::
-   COMA uses a counterfactual baseline. Each agent learns from a shaped reward that compares the global reward to the reward received when that agent's action is replaced with a default action.
-
 COMA computes an advantage function that compares the Q-value for the current action $u^a$ to a counterfactual baseline that marginalises out :math:`u^a`, while keeping the other agents’ actions :math:`u^{-a}` fixed.
 
 .. math::
@@ -43,14 +40,13 @@ The advantage :math:`A^{a}(s, u)` computes a separate baseline that uses the cen
 
 The first term in the equation is the global Q-value of the currently selected action, which indicates the estimated Q-value in centrailed critical. The second term in the equation represents the expectation of global Q-value that can be obtained under all possible selection actions of agent a. The difference between two reflects the advantage of the action selected by the current agent over the average result.
 
-.. note::
-   COMA uses a counterfactual baseline. Each agent learns from a shaped reward that compares the global reward to the reward received when that agent's action is replaced with a default action.
-
 Comparing to the origin single-agent actor-critic algorithm, COMA policy gradient for all agent policies using the above counterfactual advantage:
 
 .. math::
    g_{k} = \mathbb{E}_{\pi}[\sum_{a}\nabla_{\theta_{k}} \log \pi^{a}(u^{a}|\tau^{a})A^{a}(s, \textbf{u})]
 
+.. note::
+   COMA uses a counterfactual baseline. Each agent learns from a shaped reward that compares the global reward to the reward received when that agent's action is replaced with a default action.
 
 Extensions
 -----------
