@@ -1,7 +1,7 @@
 Welcome to DI-engine's documentation!
 =====================================
 
-`中文 <./index_zh.html>`_
+`中文 </zh_CN/latest/index_zh.html>`_
 
 .. image::
    images/di_engine_logo.svg
@@ -15,11 +15,11 @@ DI-engine is a generalized Decision Intelligence engine. It supports most basic 
 such as DQN, PPO, SAC, and domain-specific algorithms like QMIX in multi-agent RL, GAIL in inverse RL, and RND in exploration problems.
 The whole supported algorithms introduction can be found in `Algorithm <./feature/algorithm_overview.html>`_.
 
-For scalability, DI-engine supports three different training pipeline:
+For scalability, DI-engine supports three different training pipelines:
 
   - ``serial``
 
-    - feature: single-machine, learner-collector loop executes sequencially
+    - feature: single-machine, learner-collector loop executes sequentially
     - usage: academic research
   - ``parallel``
 
@@ -38,11 +38,11 @@ For scalability, DI-engine supports three different training pipeline:
 Main Features
 --------------
 
-  * DI-zoo: High performance DRL algorithm zoo, algorithm support list. `Link <feature/algorithm_overview.html>`_
+  * DI-zoo: High-performance DRL algorithm zoo, algorithm support list. `Link <feature/algorithm_overview.html>`_
   * Generalized decision intelligence algorithms: DRL family, IRL family, MARL family, searching family(MCTS) and etc.
   * Customized DRL demand implementation, such as Inverse RL/RL hybrid training; Multi-buffer training; League self-play training
   * Large scale DRL training demonstration and application
-  * Various efficiency optimization module: DI-hpc, DI-store, EnvManager, DataLoader
+  * Various efficiency optimization modules: DI-hpc, DI-store, EnvManager, DataLoader
   * k8s support, DI-orchestrator k8s cluster scheduler for dynamic collectors and other services
 
 
@@ -74,3 +74,4 @@ If you want to deeply customize your algorithm and application with DI-engine, a
    guide/index
    tutorial_dev/index
    architecture/index
+   specification/index
