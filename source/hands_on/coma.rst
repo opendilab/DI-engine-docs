@@ -41,6 +41,7 @@ The advantage :math:`A^{a}(s, u)` computes a separate baseline that uses the cen
 The first term in the equation is the global Q-value of the currently selected action, which indicates the estimated Q-value in centrailed critical. The second term in the equation represents the expectation of global Q-value that can be obtained under all possible selection actions of agent a. The difference between two reflects the advantage of the action selected by the current agent over the average result.
 
 .. note::
+   
    COMA uses a counterfactual baseline. Each agent learns from a shaped reward that compares the global reward to the reward received when that agent's action is replaced with a default action.
 
 Comparing to the origin single-agent actor-critic algorithm, COMA policy gradient for all agent policies using the above counterfactual advantage:
