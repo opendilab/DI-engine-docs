@@ -1,5 +1,5 @@
-gym_hybrid_en.rst
-~~~~~~~~~~~~~~~~~~~
+gym hybrid
+~~~~~~~~~~
 
 Overview
 =======
@@ -39,7 +39,7 @@ Method 2: Run the following Python program, if no error is reported, the install
     print(obs)
 
 Environment Introduction
-=========
+========================
 
 Action Space
 ------------
@@ -197,7 +197,7 @@ The following provides a complete gym hybrid environment config, using DDPG as t
 
 References
 ======================
-- Gym-hybrid `source code <https://github.com/thomashirtz/gym-hybrid>`__
+- gym-hybrid `source code <https://github.com/thomashirtz/gym-hybrid>`__
 
 
 
