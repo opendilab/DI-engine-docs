@@ -32,8 +32,8 @@ Each sub-environment contains 5 mini-environments
 
 The picture below shows one of the Hopper games.
 
-.. image :: ./images/d4rl.gif
-   :align : center
+.. image:: ./images/d4rl.gif
+   :align: center
 
 Install
 ====
@@ -109,7 +109,7 @@ Mujoco only needs the gym and mujoco-py two libraries, which can be installed by
 
 
 Verify Installation
---------
+---------------------
 
 After the installation is complete, you can verify that the installation was successful by running the following command on the Python command line:
 
@@ -253,7 +253,7 @@ After the environment is created, but before reset, use the  \ ``enable_save_rep
            print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
            break
 
-DI-zoo Rnnable Code Example
+DI-zoo Runable Code Example
 ============================
 
 The complete training configuration file is at `github link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
