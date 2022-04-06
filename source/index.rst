@@ -2,8 +2,8 @@ Welcome to DI-engine's documentation!
 =====================================
 
 .. image::
-   images/di_engine_logo.svg
-   :width: 600
+   images/head_image.png
+   :width: 1096
    :align: center
 
 `中文文档 </zh_CN/latest/index_zh.html>`_

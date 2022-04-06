@@ -2,8 +2,8 @@
 =====================================
 
 .. image::
-   images/di_engine_logo.svg
-   :width: 600
+   images/head_image.png
+   :width: 1096
    :align: center
 
 `English </en/latest/index.html>`_
