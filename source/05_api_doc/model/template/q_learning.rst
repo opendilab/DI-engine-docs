@@ -1,7 +1,7 @@
 template.q_learning
 -------------------------------------------------------
 
-Please Reference ding/ding/docs/source/api_doc/model/template/q_learning.py for usage
+Please Reference ding/ding/docs/source/05_api_doc/model/template/q_learning.py for usage
 
 DQN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
