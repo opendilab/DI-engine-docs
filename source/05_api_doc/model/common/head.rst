@@ -1,7 +1,7 @@
 common.head
 -------------------------------------------------------
 
-Please Reference ding/ding/docs/source/api_doc/model/common/head.py for usage
+Please Reference ding/ding/docs/source/05_api_doc/model/common/head.py for usage
 
 
 
@@ -23,7 +23,7 @@ Please Reference ding/ding/docs/source/api_doc/model/common/head.py for usage
     }
 
 
-   
+
 
 
 DiscreteHead

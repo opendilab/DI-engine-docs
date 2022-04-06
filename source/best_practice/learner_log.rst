@@ -20,11 +20,11 @@ If you want to print variables in learner logger. You should concentrate on two 
             return super()._monitor_vars_learn() + [
                   'policy_loss', 'value_loss', 'entropy_loss', 'adv_abs_max', 'approx_kl', 'clipfrac'
             ]
-      
+
    2. In ``Policy``'s ``_forward_learn`` method，return **key-value** pair in dict type (``{'var-name': 'var-value'}``). Also takes PPO as an example:
 
       .. code:: python
-         
+
          def _forward_learn(self, data: dict) -> Dict[str, Any]:
 
             # ...
@@ -42,7 +42,7 @@ If you want to print variables in learner logger. You should concentrate on two 
                   'approx_kl': ppo_info.approx_kl,
                   'clipfrac': ppo_info.clipfrac,
             }
-      
+
 .. note::
 
    DI-engine uses ``LoggedModel`` to track and monitor all variables returned by the policy. ``LoggedModel`` saves variables in a sliding window to keep monitoring, and some statistics that you request, for instance, min, max, mean, etc. are calculated. If you are interested, you can refer to `autolog <../feature/autolog_overview.html>`_ for more details. Or you can also skip to the bottom and see **Developer view**.
@@ -148,7 +148,7 @@ The tensorboard log will be like:
 3. Design Statistics In ``LoggedModel``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   By default, ``LoggedModel`` will calculate scalar type variables' mean value. If you need other types of statistics, you can refer to ``SampledDataAttrMonitor`` in `buffer <../api_doc/data/structure.html#buffer>`_, and change ``TickMonitor`` in `base learner <../api_doc/worker/learner/learner.html#base-learner>`_. You should pay attention to functions like ``__max_func`` implemented in ``__register`` method. Also, remember to register a property(e.g. ``max`` ``min``) of an attribute(e.g. ``priority``).
+   By default, ``LoggedModel`` will calculate scalar type variables' mean value. If you need other types of statistics, you can refer to ``SampledDataAttrMonitor`` in `buffer <../05_api_doc/data/structure.html#buffer>`_, and change ``TickMonitor`` in `base learner <../05_api_doc/worker/learner/learner.html#base-learner>`_. You should pay attention to functions like ``__max_func`` implemented in ``__register`` method. Also, remember to register a property(e.g. ``max`` ``min``) of an attribute(e.g. ``priority``).
 
    .. code:: python
 
