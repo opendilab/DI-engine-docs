@@ -39,7 +39,7 @@ Verify installation
 After the installation is complete, you can confirm that the environment variable is set successfully by ``echo $SC2PATH`` after the installation is successful
 
 
-Mirror
+Image
 ------
 
 DI-engine's mirror is equipped with the framework itself and the Smac environment, which can be obtained by \ ``docker pull opendilab/ding:nightly-smac``\, or by accessing \ `docker
