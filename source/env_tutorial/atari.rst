@@ -25,9 +25,11 @@ Note：atari-py is now aborted by developer. It is recommended to use `ale-py <h
    pip install gym
    pip install ale-py
    pip install autorom
+   autorom
    # Method2: Install with DI-engine requirements
    cd DI-engine
    pip install ".[common_env]"
+   autorom
 
 Installation Check
 ------------------------
