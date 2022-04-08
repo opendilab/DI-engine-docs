@@ -39,7 +39,7 @@ After the installation is complete, you can verify that the installation was suc
    obs = env.reset()
    print(obs.shape)  # (24,)
 
-Mirror
+Image
 -------
 
 The image of DI-engine includes its own framework and Atari environment, which can be obtained through \ ``docker pull opendilab/ding:nightly``\. Get more information? Visit \ `docker
