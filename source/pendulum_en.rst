@@ -2,17 +2,17 @@ Pendulum
 ~~~~~~~~~~~~~~~~~~
 
 Overview
-=======
+========
 The inverted pendulum problem is a classic control problem in reinforcement learning. Pendulum is a continuous control task in the inverted pendulum problem. The pendulum starts at a random position and the goal is to swing up to stay upright. As shown below.
 
 .. image:: ./images/pendulum.gif
    :align: center
 
 Install
-====
+========
 
 Installation Method
---------
+--------------------
 
 The Pendulum environment is built into the gym, and you can install the gym directly. Its environment id is \ ``Pendulum-v0`` \.
 
@@ -21,7 +21,7 @@ The Pendulum environment is built into the gym, and you can install the gym dire
     pip install gym
     
 Verify Installation
---------
+--------------------
 
 Run the following Python program, if no error is reported, the installation is successful.
 
@@ -33,7 +33,7 @@ Run the following Python program, if no error is reported, the installation is s
     print(obs)
 
 Environment Introduction
-=========
+=========================
 
 Action Space
 ------------
@@ -75,7 +75,7 @@ Add the three terms to get \ ``cost`` \. Finally, the inverse of \ ``cost`` \, w
 
 
 Termination Condition
-------------
+----------------------
 The termination condition for each episode of the Pendulum environment is any of the following:
   
 - Reach the maximum step of the episode.
@@ -85,12 +85,12 @@ Other
 ====
 
 Store Video
---------
+------------
 
 Some environments have their own rendering plugins. DI-engine does not support the rendering plug-in that comes with the environment, but generates video recordings by saving the logs during training. For details, please refer to the Visualization & Logging section under the DI-engine `official documentation <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start chapter.
 
 DI-zoo Runnable Code Example
-======================
+=============================
 
 The following provides a complete Pendulum environment config, using the DDPG algorithm as the policy. Please run the \ ``pendulum_ddpg_main.py`` \ file in the \ ``DI-engine/dizoo/classic_control/pendulum/entry`` \ directory, as follows.
 
@@ -174,7 +174,7 @@ The following provides a complete Pendulum environment config, using the DDPG al
 
 
 Experimental Results
-=================
+=====================
 The experimental results using the DDPG algorithm are as follows. The abscissa is \ ``episode`` \, and the ordinate is \ ``reward_mean`` \.
 
 .. image:: ./images/pendulum_ddpg.png
