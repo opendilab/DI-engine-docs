@@ -42,7 +42,7 @@ After the installation is complete, you can verify that the installation was suc
    obs = env.reset()
    print(obs.shape)  # (8,)
 
-Mirror
+Image
 ----
 
 The image of DI-engine is equipped with the framework itself and the Lunarlander environment, which can be obtained by \ ``docker pull opendilab/ding:nightly``\, or by visiting \ `docker
