@@ -8,7 +8,7 @@ Mujoco是旨在促进机器人、生物力学、图形和动画等需要快速�
 
 .. image:: ./images/mujoco.gif
    :align: center
-
+   :scale: 80%
 安装
 ====
 
@@ -19,9 +19,9 @@ Mujoco是旨在促进机器人、生物力学、图形和动画等需要快速�
 
 注：
 
-1. mujoco-py库目前已不再需要激活许可(`mujoco-py>=2.1.0`)，可以通过\ `pip install free-mujoco-py <https://github.com/openai/mujoco-py/pull/640>`_ 安装
+1. mujoco-py库目前已不再需要激活许可( ``mujoco-py>=2.1.0`` )，可以通过\ `pip install free-mujoco-py <https://github.com/openai/mujoco-py/pull/640>`_ 安装
 
-2. 如果安装 `mujoco-py>=2.1`, 可以通过如下方法:
+2. 如果安装 ``mujoco-py>=2.1.0``, 可以通过如下方法:
 
 .. code:: shell
     
@@ -43,7 +43,7 @@ Mujoco是旨在促进机器人、生物力学、图形和动画等需要快速�
     pip install gym
     pip install -U 'mujoco-py<2.2,>=2.1'
     
-3. 如果安装 `mujoco-py<2.1`, 可以通过如下方法:
+3. 如果安装 ``mujoco-py<2.1.0`` , 可以通过如下方法:
 
 .. code:: shell
 
@@ -309,7 +309,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/mujoco/config>`__
 
 注：对于某些特殊的算法，比如PPO，需要使用专门的入口函数，示例可以参考
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/mujoco/entry/mujoco_ppo_main.py>`__
-也可以使用serial_pipeline_onpolicy一键进入
+也可以使用 ``serial_pipeline_onpolicy`` 一键进入
 
 基准算法性能
 ============
