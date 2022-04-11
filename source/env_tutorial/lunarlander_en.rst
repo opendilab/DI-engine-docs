@@ -153,7 +153,7 @@ Other
 .. _other-3:
 
 Other
-====
+========
 
 Lazy Initialization
 ------------
