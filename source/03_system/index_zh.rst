@@ -1,9 +1,9 @@
-System Design
+系统设计
 =====================================
 
 .. toctree::
    :maxdepth: 2
 
-   middleware
-   distributed
-   kubernetes
+   middleware_zh
+   distributed_zh
+   kubernetes_zh
