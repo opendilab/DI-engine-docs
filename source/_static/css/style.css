@@ -54,6 +54,7 @@ h1, h2, .rst-content .toctree-wrapper p.caption, h3, h4, h5, h6, legend, p.capti
 /* This is needed to ensure that logo above search scales properly */
 .wy-side-nav-search a {
     display: block;
+    color: #FFF !important;
 }
 
 /* This ensures that multiple constructors will remain in separate lines. */
