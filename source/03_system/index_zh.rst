@@ -6,4 +6,3 @@
 
    middleware_zh
    distributed_zh
-   kubernetes_zh

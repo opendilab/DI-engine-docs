@@ -6,4 +6,3 @@ System Design
 
    middleware
    distributed
-   kubernetes
