@@ -4,7 +4,7 @@ Middleware
 .. toctree::
     :maxdepth: 2
 
-In most reinforcement learning processes, there is an 'exploration-exploitation' cycle between the environment and \
+In most reinforcement learning processes, there is a 'collect-learn' cycle between the environment and \
 the agent -- get data from the environment, train the agent, get better data, and so on. \
 We will introduce the characteristics of each environment in the `DI-zoo chapter <... /11_dizoo/index_zh.html>`_, \
 and here we will focus on implementing the interaction strategy of the agent.
