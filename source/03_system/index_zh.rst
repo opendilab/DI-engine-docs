@@ -1,7 +1,8 @@
-Specification
+系统设计
 =====================================
 
 .. toctree::
    :maxdepth: 2
 
-   middleware
+   middleware_zh
+   distributed_zh
