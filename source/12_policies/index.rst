@@ -2,7 +2,7 @@ RL Algorithms Cheat Sheet
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this page you can find the algorithms that are currently implemented in DI-engine.
-All pages relative to our algorithms follow the structure below:
+All pages relative to our algorithms are grouped by category and follow the structure below:
 
 - Overview
 - Quick facts
