@@ -12,7 +12,7 @@ and here we will focus on implementing the interaction strategy of the agent.
 The complex strategy of reinforcement learning dictates that it is difficult to abstract all the entities involved \
 in the interaction with objects, and as better strategies and algorithms continue to emerge, there is an endless supply \
 of new concepts and objects. So our idea was not to do object abstraction, but to encapsulate only the process, and to ensure \
-that the encapsulated code is reusable and replaceable. This gave rise to the concept of middleware, the foundation of the DI-engine.
+that the encapsulated code is reusable and replaceable. This gives rise to the concept of middleware, the foundation of the DI-engine.
 
 .. image::
     images/middleware.png
@@ -73,8 +73,8 @@ For example, ``OnlineRLContext`` and ``OfflineRLContext`` are provided in DI-eng
 The ``OnlineRLContext`` holds the data needed for online training, and the task of each middleware is to use this data and submit new data to the context. \
 For example, the task of the OffPolicyLearner middleware is to train the model using ctx.train_data and write the training results back to ctx.train_iter.
 
-At the beginning of each loop, the context is replace by a new instance, which ensures that the middleware only needs to focus on the data flow within \
-a single loop, simplifying the logic and reducing the risk of memory leaks. If you need to save properties to the next loop, such as env_step, train_iter, \
+At the beginning of each loop, the context is replaced by a new instance, which ensures that the middleware only needs to focus on the data flow within \
+a single loop, simplifying the logic and reducing the risk of memory leaks. If you need to save some variables to the next loop, such as env_step, train_iter, \
 and other values that need to be accumulated, you can set it as a reserved field with the ctx.keep method.
 
 Using task to execute tasks asynchronously
@@ -83,9 +83,9 @@ Using task to execute tasks asynchronously
 ``Task`` is a global object used by DI-engine to manage reinforcement learning interaction tasks. All runtime state is maintained within task, \
 and some syntactic sugar is provided to help make the process easier.
 
-The benefits of asynchrony are obvious in a time-critical training environment. If the data for the next training (CPU intensive work) can be \
-collected while the model is being trained (GPU intensive work), the training time can theoretically be cut in half. \
-To achieve this asynchronously, one needs to control complex processes and carefully maintain various states. Now, with middleware and tasks, \
+Asynchrony is of great benefit in a time-critical training environment. If the data for the next training (CPU intensive work) can be \
+collected while the model is being trained (GPU intensive work), the training time can theoretically be halved. \
+To implement the asynchrony, one needs to control complex processes and carefully maintain various states. Now, with middleware and tasks, \
 it is possible to change only one parameter to achieve asynchrony in each step.
 
 .. code-block:: python
@@ -98,7 +98,7 @@ it is possible to change only one parameter to achieve asynchrony in each step.
     with task.start(async_mode=True, ctx=OnlineRLContext()):
         ...
 
-In addition to training and acquisition, there are many ways to take advantage of asynchrony, such as moving the next batch of data to the GPU \
+In addition to training and collection, there are many ways to take advantage of asynchrony, such as moving the next batch of data to the GPU \
 earlier while training the model, and evaluating the performance of historical models while training the model. \
 In practice, you may want to try more to speed up the whole interaction process by asynchronous execution.
 

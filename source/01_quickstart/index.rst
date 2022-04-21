@@ -49,7 +49,7 @@ We recommend that the collection and evaluation environments be initialized sepa
 .. note ::
 
     DingEnvWrapper is a unified wrapper of DI-engine for different environment libraries. \
-    baseEnvManagerV2 is a unified external interface for managing multiple environments. \
+    BaseEnvManagerV2 is a unified external interface for managing multiple environments. \
     so you can use BaseEnvManagerV2 to collect multiple environments in parallel.
 
 Select Policy
