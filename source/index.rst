@@ -8,7 +8,6 @@ Welcome to DI-engine's documentation!
 
 `中文文档 </zh_CN/latest/index_zh.html>`_
 
-
 .. |GitHub stars| image:: https://img.shields.io/github/stars/opendilab/DI-engine.svg?style=social&label=Star&maxAge=2592000
    :target: https://github.com/opendilab/DI-engine
 
