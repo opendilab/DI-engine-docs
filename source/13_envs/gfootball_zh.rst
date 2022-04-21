@@ -1,5 +1,3 @@
-.. _header-n0:
-
 Google Research Football (Gfootball)
 ====================================
 

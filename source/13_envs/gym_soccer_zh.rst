@@ -8,6 +8,7 @@ HFO (Half-field Offense, 半场进攻) 是机器人世界杯2D足球比赛中的
 
 .. image:: ./images/hfo.gif
    :align: center
+   :scale: 50%
 
 安装
 ====
