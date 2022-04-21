@@ -43,12 +43,8 @@ release = '0.1.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.ifconfig',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
+    'sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.mathjax',
+    'sphinx.ext.ifconfig', 'sphinx.ext.viewcode', 'sphinx.ext.githubpages',
     'enum_tools.autoenum'
 ]
 
@@ -85,35 +81,27 @@ exclude_patterns = []
 pygments_style = None
 
 # -- Options for HTML output -------------------------------------------------
+# en or zh_CN
+rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE") or "en"
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-# html_theme = 'pytorch_sphinx_theme'
-# html_theme_path = ["pytorch_sphinx_theme"]
-html_theme = 'sphinx_rtd_theme'
-# html_theme = 'alabaster'
-
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#
-# html_theme_options = {}
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
+import pytorch_sphinx_theme
+html_theme = 'pytorch_sphinx_theme'
+html_theme_path = [pytorch_sphinx_theme.get_html_theme_path()]
+html_theme_options = {
+    'logo_url':
+    'https://di-engine-docs.readthedocs.io/{}/latest/'.format(rtd_lang),
+    'menu': [
+        {
+            'name': 'GitHub',
+            'url': 'https://github.com/opendilab/DI-engine'
+        },
+    ],
+    # Specify the language of shared menu
+    'menu_lang': rtd_lang
+}
 html_static_path = ['_static']
+html_css_files = ['css/style.css']
 
-# Custom sidebar templates, must be a dictionary that maps document names
-# to template names.
-#
-# The default sidebars (for documents that don't match any pattern) are
-# defined by theme itself.  Builtin themes are using these templates by
-# default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
-# 'searchbox.html']``.
-#
-# html_sidebars = {}
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
