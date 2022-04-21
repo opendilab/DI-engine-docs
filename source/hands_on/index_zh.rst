@@ -6,35 +6,45 @@
     :maxdepth: 3
 
     dqn_zh
-    c51_qrdqn_iqn
     rainbow
+    c51
+    qrdqn
+    iqn
+    sql
     sqn
-    sqil
+    r2d2
 
     a2c
-    acer
     ppo
-    ppg
+    acer
     impala
+    ppg
     
     ddpg
+    d4pg
     td3
     sac
 
+    cql
+    td3_bc
+
     qmix
     coma
-    atoc
+    wqmix
     collaq
+    atoc
 
     rnd
-
+    her
+    dqfd
+    sqil
     gail
+    trex
+    icm_zh
     guided_cost_zh
-
     r2d3_zh
 
+    mbpo
     vpn
     mcts
     alphago
-
-    icm_zh
