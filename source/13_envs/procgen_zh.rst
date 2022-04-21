@@ -275,6 +275,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/ent
 
    .. image:: images/coinrun_dqn.svg
      :align: center
+     :scale: 10%
 
 -  Maze（平均奖励等于10视为较好的Agent）
 
@@ -282,3 +283,5 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/ent
 
    .. image:: images/maze_dqn.svg
      :align: center
+     :scale: 10%
+

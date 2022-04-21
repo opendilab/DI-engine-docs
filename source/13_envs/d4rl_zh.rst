@@ -354,5 +354,6 @@ DI-zoo可运行代码示例
 
    .. image:: images/walker2d_medium_expert_cql.png
      :align: center
+     :scale: 40%
 
    - 一般迭代1M iteration需要9小时（NVIDIA V100）

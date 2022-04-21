@@ -75,6 +75,8 @@ API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入�
 .. figure:: images/verify_gfootball.png
    :alt: 
    :align: center
+   :scale: 60%
+
 
 更多安装环境相关的问题，可以参考\ `Gfootball官网github <https://github.com/google-research/football>`__\ 。此外，官方也提供了docker
 image用于在docker环境中部署环境，可以参考https://github.com/google-research/football/blob/master/gfootball/doc/docker.md。
@@ -492,3 +494,5 @@ play训练中对内置hard AI胜率曲线如下图所示：
 .. figure:: images/gfootball_train.png
    :alt:
    :align: center
+   :scale: 80%
+

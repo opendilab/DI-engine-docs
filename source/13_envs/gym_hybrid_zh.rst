@@ -7,6 +7,7 @@ Gym-Hybrid
 
 .. image:: ./images/hybrid.gif
    :align: center
+   :scale: 70%
 
 安装
 ====
@@ -235,21 +236,6 @@ DI-zoo 可运行代码示例
      :align: center
 
 
-
 参考资料
 =====================
 - Gym-hybrid `源码 <https://github.com/thomashirtz/gym-hybrid>`__
-
-
-
-
-
-
-
-
-
-
-
-
-
-

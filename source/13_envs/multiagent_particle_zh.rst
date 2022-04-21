@@ -12,6 +12,8 @@ Multi-Agent Particle
 
 .. image:: ./images/mpe_simple_tag.gif
    :align: center
+   :scale: 60%
+
 
 安装
 ===============

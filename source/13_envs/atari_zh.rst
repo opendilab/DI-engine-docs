@@ -8,6 +8,7 @@ Atari是最经典最常用的离散动作空间强化学习环境，常作为离
 
 .. image:: ./images/atari.gif
    :align: center
+   :scale: 70%
 
 安装
 =======

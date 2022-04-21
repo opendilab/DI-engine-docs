@@ -8,6 +8,7 @@ Atari is the most classical and commonly used environment in reinnforcement lear
 
 .. image:: ./images/atari.gif
    :align: center
+   :scale: 70%
 
 Installation
 ===============

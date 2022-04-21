@@ -195,22 +195,10 @@ DI-zoo 可运行代码示例
 
 .. image:: ./images/cartpole_dqn.png
    :align: center
+   :scale: 20%
 
 
 参考资料
 =====================
 - Cartpole `源码 <https://github.com/openai/gym/blob/master/gym/envs/classic_control/cartpole.py>`__
-
-
-
-
-
-
-
-
-
-
-
-
-
 
