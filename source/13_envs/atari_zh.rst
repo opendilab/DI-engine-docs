@@ -10,7 +10,7 @@ Atari是最经典最常用的离散动作空间强化学习环境，常作为离
    :align: center
 
 安装
-====
+=======
 
 安装方法
 --------
@@ -49,7 +49,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 .. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
-========================
+==========================
 
 .. _观察空间-1:
 
@@ -108,7 +108,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 .. _变换后的空间rl环境）:
 
 变换后的空间（RL环境）
-======================
+=========================
 
 .. _观察空间-2:
 
@@ -161,7 +161,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 .. _其他-3:
 
 其他
-====
+========
 
 惰性初始化
 ----------
@@ -208,7 +208,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
            break
 
 DI-zoo可运行代码示例
-====================
+=======================
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial>`__
@@ -277,7 +277,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/entry/atari_ppg_main.py>`__
 
 基准算法性能
-============
+===============
 
 -  Pong（平均奖励大于等于20视为较好的Agent）
 

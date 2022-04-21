@@ -179,6 +179,7 @@ DI-zoo 可运行代码示例
 
 .. image:: ./images/pendulum_ddpg.png
    :align: center
+   :scale: 50 %
 
 
 参考资料
