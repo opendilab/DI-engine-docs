@@ -1,0 +1,89 @@
+离线强化学习
+===============================
+
+
+离线强化学习（Offline Reinforcement Learning, Offline RL），又称作批量强化学习（Batch Reinforcement Learning, BRL），是强化学习的一种变体，主要研究的是如何利用预先收集的大规模静态数据集来训练强化学习智能体。
+利用静态数据集意味着在智能体的训练过程中，Offline RL 不进行任何形式的在线交互与探索，这也是它和一般强化学习最显著的区别。
+
+近年来，深度强化学习在模拟任务和游戏中取得了巨大的成功，通过与环境进行有效的交互，我们可以得到性能卓著的智能体。
+然而，在现实环境中通过反复试验来训练一般的强化学习策略是昂贵的，在大多数现实世界的问题中甚至是极度危险的，例如自动驾驶和机器人操作。
+因此，研究者们提出了一种新的数据高效的方法，即 Offline RL，在没有任何额外探索的情况下，通过深入研究固定数据集来寻求一种可行的解决方案来减轻潜在风险和成本。此外，由于 Offline RL 将利用（exploitation）与探索（exploration）进行分离，我们可以在此基础上进行强化学习算法利用能力的标准化比较。
+
+在过去十余年中，机器学习取得的显著成功在很大程度上可以归功于数据驱动学习方法的出现——使用更多数据能获得更好的训练效果。因此，相比于一般的强化学习，能够利用大规模静态数据集的特点是 Offline RL 的一大优势，吸引了大批研究者的关注。
+
+为了方便读者对 Offline RL 有一个初步的认知，在以下章节，我们首先引入强化学习的通用概念与相关标记：
+
+1. 马尔科夫过程（Markov Decision Processes）
+
+2. 状态（State）和动作（Action）空间
+
+3. 策略（Policy）
+
+4. 反馈和奖励（Reward）
+
+
+之后，为了读者更好地理解 Offline RL，我们引入以下概念：
+
+1. 数据集
+
+2. 行为策略
+
+
+最后，我们将会列出并解答一些在 Offline RL 领域常见的问题，方便读者参考。
+
+
+RL 通用概念
+-------------------------------
+强化学习的目标是在马尔科夫过程 :math:`(\mathcal{S},\mathcal{A}, \mathcal{R}, p, \gamma)` 中，学习一个能够最大化奖励期望的策略。
+其中， :math:`\mathcal{S}` 表示状态空间， :math:`\mathcal{A}` 表示动作空间， :math:`\mathcal{R}` 表示奖励函数， :math:`p` 表示状态转移概率， :math:`\gamma \in \left(0, 1 \right)` 表示奖励折扣系数。 
+给定一个策略 :math:`\pi(\mathbf{a} \mid \mathbf{s})`, 强化学习的目标可以描述为按照该策略进行一系列动作的累计期望折扣奖励 :math:`\mathbb{E}_{\mathbf{a} \sim \pi(\mathbf{a} \mid \mathbf{s})} \sum_{t=0}^{\infty} \gamma^{t}r_{t+1}` 。
+以 Q-Learning 为例，它会维护一个 Q-函数
+
+.. math::
+   Q^{\pi}(\mathbf{s}, \mathbf{a})=\mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^{t} r_{t+1} \mid \mathbf{s}_{0}=\mathbf{s}, \mathbf{a}_{0}=\mathbf{a}\right]`
+
+以此来衡量给定一个策略条件下的期望折扣奖励 :math:`\pi(\mathbf{a} \mid \mathbf{s})`.
+
+Offline RL 概念
+------------------------------------
+在训练阶段，离线强化学习要求智能体不能和环境进行交互。 
+在这个设定下, 我们先根据行为策略 :math:`\pi_{\beta}(\mathbf{a}\mid \mathbf{s})` 来收集数据得到数据集 :math:`\mathcal{D}`，然后
+再利用该数据集训练智能体。以演员-评论家 （actor-critic） 范式为例，给定数据集 :math:`\mathcal{D} = \left\{ (\mathbf{s}, \mathbf{a}, r, \mathbf{s}^{\prime})\right\}`, 
+我们可以将价值（value） 的迭代和策略优化表示为:
+
+.. math::
+   \hat{Q}^{k+1} \leftarrow \arg\min_{Q} \mathbb{E}_{\mathbf{s}, \mathbf{a} \sim \mathcal{D}} \left[ \left(\hat{\mathcal{B}}^\pi \hat{Q}(\mathbf{s}, \mathbf{a})  - Q(\mathbf{s}, \mathbf{a}) \right)^2 \right],
+   \\
+   \hat{\pi}^{k+1} \leftarrow \arg\max_{\pi} \mathbb{E}_{\mathbf{s} \sim \mathcal{D}, \mathbf{a} \sim \pi^{k}(\mathbf{a} \mid \mathbf{s})}\left[\hat{Q}^{k+1}(\mathbf{s}, \mathbf{a})\right]
+
+其中， :math:`\hat{\mathcal{B}}^\pi` 表示遵循策略 :math:`\hat{\pi} \left(\mathbf{a} \mid \mathbf{s}\right)` 的贝尔曼操作符, :math:`\hat{\mathcal{B}}^\pi \hat{Q}\left(\mathbf{s}, \mathbf{a}\right) = \mathbb{E}_{\mathbf{s}, \mathbf{a}, \mathbf{s}^{\prime} \sim \mathcal{D}}[ r(\mathbf{s}, \mathbf{a})+\gamma \mathbb{E}_{\mathbf{a}^{\prime} \sim \hat{\pi}^{k}\left(\mathbf{a}^{\prime} \mid \mathbf{s}^{\prime}\right)}\left[\hat{Q}^{k}\left(\mathbf{s}^{\prime}, \mathbf{a}^{\prime}\right)\right] ]`
+在离线设定下, 在线强化学习的方法往往会学到一些偏离分布的动作（out-of-distribution action，OOD）， 继而导致灾难性的过估计。如何缓解或解决该现象，成为了很多离线强化学习算法首先需要去解决的困难。
+
+
+Q&A
+----
+Q1: Offline RL 和模仿学习（Imitation Learning，IL）的有什么关系，两者的区别是什么?
+
+ - 回答：和 Offline RL 一样，IL也使用静态数据进行训练，且在训练过程中不进行探索，这一点上两者是非常相似的。然而，两者也有很多不同之处：
+
+   1. 目前为止，绝大多数 Offline RL 算法都建立在标准的 Off-Policy RL 算法之上，这些算法倾向于优化某种形式的贝尔曼方程或时间差分误差；而 IL 更符合普通监督学习的范式。
+ 
+   2. 大多数 IL 问题假设有一个最优的或一个高性能的专家来提供数据；而 Offline RL 可能需要从大量次优数据中进行学习。
+ 
+   3. 大多数 IL 问题没有奖励（reward）的概念；而 Offline RL 需要显式考虑奖励项。
+ 
+   4. 一些 IL 问题要求数据被标记为专家经验和非专家经验，而 Offline RL 不做这样的数据区分。
+
+Q2: Offline RL 和 Off-policy RL 的区别是什么?
+
+ - 回答：Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互的策略）与当前待优化策略不同的一类 RL 算法。Q-learning 算法、利用Q-函数的 Actor-Critic 算法，以及许多基于模型的强化学习算法（Model-based RL）都属于 Off-policy RL。然而，Off-policy RL 在学习过程中仍然经常使用额外的交互（即在线数据收集）。
+
+
+参考文献
+----------
+
+1. Offline (Batch) Reinforcement Learning: A Review of Literature and Applications
+2. Levine, Sergey, et al. "Offline reinforcement learning: Tutorial, review, and perspectives on open problems." arXiv preprint arXiv:2005.01643 (2020).
+3. Agarwal, Rishabh, Dale Schuurmans, and Mohammad Norouzi. "An optimistic perspective on offline reinforcement learning." ICML, 2020.
+4. Gulcehre, Caglar, et al. "Rl unplugged: Benchmarks for offline reinforcement learning." Neurips, 2020.
+5. Fu, Justin, et al. "D4rl: Datasets for deep data-driven reinforcement learning." arXiv preprint arXiv:2004.07219 (2020).
