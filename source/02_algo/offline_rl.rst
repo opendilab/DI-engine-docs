@@ -1,7 +1,7 @@
-Basic Concepts
+Offline Reinforcement Learning
 ===============================
 
-Offline Reinforcement Learning~(RL), also known as Batch Reinforcement Learning, is a variant of RL that effectively leverages large, previously collected datasets for large-scale real-world applications.
+Offline Reinforcement Learning(RL), also known as Batch Reinforcement Learning, is a variant of RL that effectively leverages large, previously collected datasets for large-scale real-world applications.
 See Figure 1 for a pictorial illustration of the relationship among on-policy RL, off-policy RL, and offline RL.
 
 .. image:: images/offline.png
@@ -56,7 +56,10 @@ In the offline RL setting, the agent is trained in a collected dataset :math:`\m
    \\
    \hat{\pi}^{k+1} \leftarrow \arg\max_{\pi} \mathbb{E}_{\mathbf{s} \sim \mathcal{D}, \mathbf{a} \sim \pi^{k}(\mathbf{a} \mid \mathbf{s})}\left[\hat{Q}^{k+1}(\mathbf{s}, \mathbf{a})\right],
 
-where the :math:`\hat{\mathcal{B}}^\pi` represents the bellman operator on the fixed dataset following the policy :math:`\hat{\pi} \left(\mathbf{a} \mid \mathbf{s}\right)`, :math:`\hat{\mathcal{B}}^\pi \hat{Q}\left(\mathbf{s}, \mathbf{a}\right) = \mathbb{E}_{\mathbf{s}, \mathbf{a}, \mathbf{s}^{\prime} \sim \mathcal{D}}[ r(\mathbf{s}, \mathbf{a})+\gamma \mathbb{E}_{\mathbf{a}^{\prime} \sim \hat{\pi}^{k}\left(\mathbf{a}^{\prime} \mid \mathbf{s}^{\prime}\right)}\left[\hat{Q}^{k}\left(\mathbf{s}^{\prime}, \mathbf{a}^{\prime}\right)\right] ]`
+where the :math:`\hat{\mathcal{B}}^\pi` represents the bellman operator on the fixed dataset following the policy :math:`\hat{\pi} \left(\mathbf{a} \mid \mathbf{s}\right)`,
+
+.. math::
+   \hat{\mathcal{B}}^\pi \hat{Q}\left(\mathbf{s}, \mathbf{a}\right) = \mathbb{E}_{\mathbf{s}, \mathbf{a}, \mathbf{s}^{\prime} \sim \mathcal{D}}[ r(\mathbf{s}, \mathbf{a})+\gamma \mathbb{E}_{\mathbf{a}^{\prime} \sim \hat{\pi}^{k}\left(\mathbf{a}^{\prime} \mid \mathbf{s}^{\prime}\right)}\left[\hat{Q}^{k}\left(\mathbf{s}^{\prime}, \mathbf{a}^{\prime}\right)\right] ]
 
 In the offline setting, standard online RL methods fail due to overestimation introduced by out-of-distribution (OOD) actions from the learned policy.
 How to alleviate or solve this problem has become a challenge faced by many offline RL researchers.
@@ -65,22 +68,18 @@ How to alleviate or solve this problem has become a challenge faced by many offl
 Q&A
 ----
 Q1: What are the differences between the offline RL and the imitation learning~(IL)?
- - Answer： Offline reinforcement learning, henceforth Offline RL, is closely related to imitation learning (IL) in that the latter also learns from a fixed dataset without exploration. However, there are several key differences.
-
+ - Answer： Offline reinforcement learning, henceforth Offline RL, is closely related to imitation learning (IL) in that the latter also learns from a fixed dataset without exploration. However, there are several key differences:
+     
      - Offline RL algorithms~(so far) have been built on top of standard off-policy Deep Reinforcement Learning (Deep RL) algorithms, which tend to optimize some form of a Bellman equation or TD difference error.
      - Most IL problems assume an optimal, or at least a high-performing, demonstrator which provides data, whereas Offline RL may have to handle highly suboptimal data.
      - Most IL problems do not have a reward function. Offline RL considers rewards, which furthermore can be processed after-the-fact and modified.
      - Some IL problems require the data to be labeled as expert versus non-expert. Offline RL does not make this assumption.
 
 Q2: What is the difference between the off-policy RL and the offline RL?
- - Answer： The term “off-policy reinforcement learning” is typically used as an umbrella term to denote all reinforcement learning algorithms that can employ datasets of transitions :math:`\mathcal{D}` where the corresponding actions in each transition were collected with any policy other than the current policy :math:`\pi(\mathbf{a} \mid \mathbf{s})`.
- Q-learning algorithms, actor-critic algorithms that utilize Q-functions, and many model-based reinforcement learning algorithm are off-policy algorithms. However, off-policy algorithms still often employ additional interaction (i.e., online data collection) during the learning process.
+ - Answer： The term “off-policy reinforcement learning” is typically used as an umbrella term to denote all reinforcement learning algorithms that can employ datasets of transitions :math:`\mathcal{D}` where the corresponding actions in each transition were collected with any policy other than the current policy :math:`\pi(\mathbf{a} \mid \mathbf{s})`. Q-learning algorithms, actor-critic algorithms that utilize Q-functions, and many model-based reinforcement learning algorithm are off-policy algorithms. However, off-policy algorithms still often employ additional interaction (i.e., online data collection) during the learning process.
 
 Q3: Why do classic RL algorithms perform poorly in offline settings? What is out-of-distribution(OOD) actions and why does this happen in offline RL?
- - Answer： The root cause is the changing of the stationary distributions of Markov Chains in the training process. Although the model will be trained under the distribution of offline data, the state distribution changes as well as the policy changes.
- Since the estimation of Q-function is reliable only when the distribution of the data to be estimated is the same as that of the offline training data, the estimation of Q-function is likely to be inaccurate for the < state, action > pairs accessed in the actual interaction.
- If the Q-function overestimates the < state, action > pairs that have not been seen in these training data, in the actual interaction, when the agent chooses the action to maximize the expected reward, it may choose the action with very poor actual benefit, resulting in very poor overall performance. We call those actions out-of-distribution (OOD) actions.
- On the other hand, online RL generates new data through interaction with the environment, and the state static distribution of the new data is close to the state distribution of the current policy output, so as to obtain a relatively accurate Q-function estimation.
+ - Answer： The root cause is the changing of the stationary distributions of Markov Chains in the training process. Although the model will be trained under the distribution of offline data, the state distribution changes as well as the policy changes. Since the estimation of Q-function is reliable only when the distribution of the data to be estimated is the same as that of the offline training data, the estimation of Q-function is likely to be inaccurate for the < state, action > pairs accessed in the actual interaction. If the Q-function overestimates the < state, action > pairs that have not been seen in these training data, in the actual interaction, when the agent chooses the action to maximize the expected reward, it may choose the action with very poor actual benefit, resulting in very poor overall performance. We call those actions out-of-distribution (OOD) actions. On the other hand, online RL generates new data through interaction with the environment, and the state static distribution of the new data is close to the state distribution of the current policy output, so as to obtain a relatively accurate Q-function estimation.
 
 
 Reference
