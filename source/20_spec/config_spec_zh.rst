@@ -1,7 +1,7 @@
 DI-engine config规范
 ====================
 
-开发者提交的config需要遵守一下约定，以保证config的易用性，可读性，与可扩展性。
+开发者提交的config需要遵守以下规范，以保证config的易用性，可读性，与可扩展性。
 
 DI-engine的config包括main_config和create_config 两部分。
 

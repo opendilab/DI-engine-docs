@@ -6,11 +6,11 @@ RL Algorithm Taxonomy
     :maxdepth: 3
 
     normal_rl
-    offline_rl
-    inverse_rl_il
-    multi_agent_rl_cooperation
+    imitation_learning
     exploration_rl
-    model_based_rl
     distributed_rl
+    model_based_rl
+    multi_agent_cooperation_rl
+    offline_rl
 
 

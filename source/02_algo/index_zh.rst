@@ -6,7 +6,7 @@
     :maxdepth: 3
 
     normal_rl_zh
-    imitation_inverse_rl_zh
+    imitation_learning_zh
     exploration_rl_zh
     distributed_rl_zh
     model_based_rl_zh
