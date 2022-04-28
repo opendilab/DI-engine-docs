@@ -7,3 +7,6 @@ Developer Guide
    git_guide
    doc_contribution
    code_comment
+   code_style
+   visualization
+   unittest_guide
