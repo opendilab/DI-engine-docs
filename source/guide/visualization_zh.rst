@@ -44,6 +44,22 @@ PlantUML是一种可以用于绘制UML等图像的工具，详情可参考`Plant
 graphviz
 -----------------
 
+对于更加复杂的拓扑结构图，我们可以使用graphviz工具进行绘制：
+
+* `Graphviz官方文档 <https://graphviz.org/>`_
+* `Graphviz Python封装库 <https://github.com/xflr6/graphviz>`_
+* `Graphviz在线绘制 <https://dreampuf.github.io/GraphvizOnline/>`_
+
+例如，我们可以使用Graphviz，快速绘制一个图结构，如下代码所示
+
+.. literalinclude:: graphviz-demo.gv
+    :language: text
+    :linenos:
+
+绘制的图像如下所示
+
+.. image:: graphviz-demo.svg
+    :align: center
 
 
 
