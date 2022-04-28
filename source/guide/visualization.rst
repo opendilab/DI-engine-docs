@@ -66,9 +66,9 @@ The drawn image is shown below
 draw.io
 -----------------
 
-draw. IO is a very simple and easy-to-use online image editing tool, which can be used to edit workflow diagram, BPM, organization diagram, UML diagram, ER diagram, network topology, etc:
+``draw.io`` is a very simple and easy-to-use online image editing tool, which can be used to edit workflow diagram, BPM, organization diagram, UML diagram, ER diagram, network topology, etc:
 
-* `draw.io <https://www.draw.io/>`_
+* `Drawing Tool of draw.io <https://www.draw.io/>`_
 * `Official Site of draw.io <https://drawio-app.com/>`_
 
 .. image:: draw.io-example.png
@@ -79,9 +79,13 @@ draw. IO is a very simple and easy-to-use online image editing tool, which can b
 snakeviz
 -----------------
 
+When we need to measure the speed of a program or part of a program, we can use the native ``cProfile``, while ``sneakviz`` can display the speed measurement results in a visual form:
 
+* `Official Documentation of cProfile <https://docs.python.org/3/library/profile.html>`_
+* `Official Documentation of snakeviz <https://jiffyclub.github.io/snakeviz/#:~:text=SnakeViz%20is%20a%20browser%20based,Python%202.7%20and%20Python%203.>`_
 
-
+.. image:: snakeviz-example.png
+    :align: center
 
 
 

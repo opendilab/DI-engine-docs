@@ -66,18 +66,26 @@ graphviz
 draw.io
 -----------------
 
-draw.io是一个极为简单易用的在线图像编辑工具，可以用来编辑工作流图、BPM、组织图,、UML图、ER图以及网络拓朴图等：
+``draw.io``是一个极为简单易用的在线图像编辑工具，可以用来编辑工作流图、BPM、组织图、UML图、ER图以及网络拓朴图等：
 
-* `draw.io <https://www.draw.io/>`_
-* `Official Site of draw.io <https://drawio-app.com/>`_
+* `draw.io工具 <https://www.draw.io/>`_
+* `draw.io官方文档 <https://drawio-app.com/>`_
 
 .. image:: draw.io-example.png
     :align: center
 
 
+
 snakeviz
 -----------------
 
+当我们需要对一个程序或程序的局部进行测速时，可以使用原生的cProfile，而snakeviz则可以使测速结果以可视化的形式展现出来：
+
+* `cProfile官方文档 <https://docs.python.org/3/library/profile.html>`_
+* `snakeviz官方文档 <https://jiffyclub.github.io/snakeviz/#:~:text=SnakeViz%20is%20a%20browser%20based,Python%202.7%20and%20Python%203.>`_
+
+.. image:: snakeviz-example.png
+    :align: center
 
 
 
