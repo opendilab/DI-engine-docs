@@ -24,16 +24,20 @@ PlantUML是一种可以用于绘制UML等图像的工具，详情可参考`Plant
 .. figure:: plantuml-yaml-demo.puml.svg
     :alt: plantuml-yaml-demo.puml.svg
 
-我们可以使用plantumlcli工具进行图像的生成，具体可参考`plantumlcli的Github仓库 <https://github.com/HansBug/plantumlcli>`_。而在DI-engine的文档中，已经集成了PlantUML，可以基于源代码自动生成图像。例如，我们可以在当前路径下创建文件``plantuml-demo.puml``
+我们可以使用plantumlcli工具进行图像的生成，具体可参考`plantumlcli的Github仓库 <https://github.com/HansBug/plantumlcli>`_。
 
-.. literalinclude:: plantuml-demo.puml
-    :language: text
-    :linenos:
+.. note::
 
-当编译文档时，SVG格式的图像``plantuml-demo.puml.svg``也将会自动生成，如下所示。
+    而在DI-engine的文档中，已经集成了PlantUML，可以基于源代码自动生成图像。例如，我们可以在当前路径下创建文件``plantuml-demo.puml``
 
-.. figure:: plantuml-demo.puml.svg
-    :alt: plantuml-demo.puml.svg
+    .. literalinclude:: plantuml-demo.puml
+        :language: text
+        :linenos:
+
+    当编译文档时，SVG格式的图像``plantuml-demo.puml.svg``也将会自动生成，如下所示。
+
+    .. figure:: plantuml-demo.puml.svg
+        :alt: plantuml-demo.puml.svg
 
 
 
