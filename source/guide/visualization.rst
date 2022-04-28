@@ -11,18 +11,18 @@ PlantUML is a tool that can be used to draw UML and other images. For details, p
 
 For example, we can draw class diagrams
 
-.. figure:: plantuml-class-demo.puml.svg
-    :alt: plantuml-class-demo.puml.svg
+.. image:: plantuml-class-demo.puml.svg
+    :align: center
 
 You can draw the flow chart of the algorithm
 
-.. figure:: plantuml-activity-en-demo.puml.svg
-    :alt: plantuml-activity-en-demo.puml.svg
+.. image:: plantuml-activity-en-demo.puml.svg
+    :align: center
 
 YAML data can also be plotted
 
-.. figure:: plantuml-yaml-demo.puml.svg
-    :alt: plantuml-yaml-demo.puml.svg
+.. image:: plantuml-yaml-demo.puml.svg
+    :align: center
 
 We can use plantumlcli tool to generate images. For details, please refer to `plantumlcli GitHub repository <https://github.com/HansBug/plantumlcli>`_.
 
@@ -36,8 +36,8 @@ We can use plantumlcli tool to generate images. For details, please refer to `pl
 
     When compiling the document, the image ``plantuml-demo.puml.svg`` in SVG format will also be generated automatically, as shown below.
 
-    .. figure:: plantuml-demo.puml.svg
-        :alt: plantuml-demo.puml.svg
+    .. image:: plantuml-demo.puml.svg
+        :align: center
 
 
 

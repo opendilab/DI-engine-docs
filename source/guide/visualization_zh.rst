@@ -11,18 +11,18 @@ PlantUML是一种可以用于绘制UML等图像的工具，详情可参考`Plant
 
 例如，我们可以绘制类图
 
-.. figure:: plantuml-class-demo.puml.svg
-    :alt: plantuml-class-demo.puml.svg
+.. image:: plantuml-class-demo.puml.svg
+    :align: center
 
 可以绘制算法的流程图
 
-.. figure:: plantuml-activity-zh-demo.puml.svg
-    :alt: plantuml-activity-zh-demo.puml.svg
+.. image:: plantuml-activity-zh-demo.puml.svg
+    :align: center
 
 也可以绘制YAML数据
 
-.. figure:: plantuml-yaml-demo.puml.svg
-    :alt: plantuml-yaml-demo.puml.svg
+.. image:: plantuml-yaml-demo.puml.svg
+    :align: center
 
 我们可以使用plantumlcli工具进行图像的生成，具体可参考`plantumlcli的Github仓库 <https://github.com/HansBug/plantumlcli>`_。
 
@@ -36,8 +36,8 @@ PlantUML是一种可以用于绘制UML等图像的工具，详情可参考`Plant
 
     当编译文档时，SVG格式的图像``plantuml-demo.puml.svg``也将会自动生成，如下所示。
 
-    .. figure:: plantuml-demo.puml.svg
-        :alt: plantuml-demo.puml.svg
+    .. image:: plantuml-demo.puml.svg
+        :align: center
 
 
 
