@@ -71,7 +71,7 @@ draw. IO is a very simple and easy-to-use online image editing tool, which can b
 * `draw.io <https://www.draw.io/>`_
 * `Official Site of draw.io <https://drawio-app.com/>`_
 
-.. image:: draw.io-example.svg
+.. image:: draw.io-example.png
     :align: center
 
 

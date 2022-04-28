@@ -71,7 +71,7 @@ draw.io是一个极为简单易用的在线图像编辑工具，可以用来编�
 * `draw.io <https://www.draw.io/>`_
 * `Official Site of draw.io <https://drawio-app.com/>`_
 
-.. image:: draw.io-example.svg
+.. image:: draw.io-example.png
     :align: center
 
 
