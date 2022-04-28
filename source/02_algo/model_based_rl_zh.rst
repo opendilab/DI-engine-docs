@@ -112,7 +112,7 @@ MAAC 中采用终端 Q 函数 (Terminal Q-Function) 缓解此问题，SVG 和 `D
 
 1. Repo: awesome-model-based-RL. https://github.com/opendilab/awesome-model-based-RL
 
-2. 孙世光,兰旭光,张翰博,郑南宁.基于模型的机器人强化学习研究综述[J].模式识别与人工智能,2022,35(01):1-16.DOI:10.16451/j.cnki.issn1003-6059.202201001.
+2. 孙世光, 兰旭光, 张翰博, 郑南宁. 基于模型的机器人强化学习研究综述[J]. 模式识别与人工智能, 2022, 35(01): 1-16. DOI: 10.16451/j.cnki.issn1003-6059.202201001.
 
 3. Ha D, Schmidhuber J. World models[J]. arXiv preprint arXiv:1803.10122, 2018.
 
