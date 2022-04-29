@@ -16,34 +16,7 @@ In addition, the success of machine learning methods across a range of practical
 Recently, deep RL has achieved great success in simulation tasks and games, where agents can obtain remarkable performance by interacting with the environment efficiently and effectively.
 However, training RL policies by trial and error in the real environment is costly and even dangerous in most real-world problems, such as autonomous driving and robotic manipulation.
 A data-driven approach, offline RL, has been proposed to seek a promising solution to mitigate those limitations by delving into the fixed dataset without any additional exploration.
-In addition, since offline RL disentangles exploration from exploitation, it can help provide standardized comparisons of the exploitation capability of RL algorithms.
 
-To have a basic understanding for offline RL, we explain the Reinforcement Learning Preliminaries as following：
-
-- Markov Decision Processes 
-- State and action spaces
-- Policy
-- Return and reward
-
-To understand offline RL better, we further explain the following concepts:
-
-- Dataset (such as D4RL, RL Unplugged, REM, and etc.)
-- Behavior policy (behavior policy is the policy that the agent uses to collect dataset through interacting with the environment)
-
-
-In the end, we will list and answer some common questions raised in the domain of reinforcement learning for reference.
-
-Reinforcement Learning Preliminaries
-------------------------------------
-
-The goal of RL is to learn a policy that maximizes the expected episodic discounted reward in a infinite-horizon Markov Decision Process~(DMP) defined by :math:`(\mathcal{S},\mathcal{A}, \mathcal{R}, p, \gamma)`, with the state space :math:`\mathcal{S}`, the action space :math:`\mathcal{A}`, reward function :math:`\mathcal{R}`, transition dynamics :math:`p`, and discount factor :math:`\gamma \in \left(0, 1 \right)`. 
-Following a given policy :math:`\pi(\mathbf{a} \mid \mathbf{s})`, the objective of RL is formulated by :math:`\mathbb{E}_{\mathbf{a} \sim \pi(\mathbf{a} \mid \mathbf{s})} \sum_{t=0}^{\infty} \gamma^{t}r_{t+1}`, which is the expected cumulative sum of rewards when following the policy in the MDP, where the importance of the horizon is determined by the discount factor.
-Q-Learning methods maintain a Q-function:
-
-.. math::
-   Q^{\pi}(\mathbf{s}, \mathbf{a})=\mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^{t} r_{t+1} \mid \mathbf{s}_{0}=\mathbf{s}, \mathbf{a}_{0}=\mathbf{a}\right],
-
-which measures the expected discounted return following a given policy :math:`\pi(\mathbf{a} \mid \mathbf{s})`.
 
 Offline Reinforcement Learning
 ------------------------------------
