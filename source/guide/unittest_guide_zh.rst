@@ -119,7 +119,37 @@
 如何进行单元测试
 ---------------------
 
-- make快速启动
-（这里是单元测试指南部分。）
+在DI-engine中，我们使用``pytest``启动单元测试。对于极为简单的情况，可以直接使用命令
+
+.. code-block:: shell
+
+   pytest -sv ./ding
+
+当需要得知单元测试覆盖率及具体覆盖分布情况时，则需要用到如下命令：
+
+.. code-block:: shell
+
+   pytest -sv ./ding -m unittest --cov-report term-missing --cov=./ding
+
+其中各个参数含义如下：
+
+- ``-m`` ： 选择进行测试的标记类型。
+- ``-s`` ： 不进行输出内容捕捉，为``--capture=no``的缩写形式。
+- ``-v`` ： 选择输出内容的复杂级别，当前选择的为较低的复杂程度。如果需要输出更加详细的信息，可以使用``-vv``来增加复杂度，以此类推。
+- ``--cov-report term-missing`` ： 选择以``term-missing``形式展示覆盖率报告，此处指“显示未覆盖的具体区域”。
+- ``--cov`` ： 选择需要进行覆盖的代码区域。
+
+.. note::
+
+   一种更加推荐的做法是使用``Makefile``中封装完毕的脚本进行快速启动，例如：
+
+   .. code-block: shell
+
+      make unittest  # 全面进行单元测试
+      make unittest RANGR_DIR=./ding/xxx  # 针对特定子模块进行测试
+      make algotest
+      make cudatest
+      make envpooltest
+      make platformtext
 
 

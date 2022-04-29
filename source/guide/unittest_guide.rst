@@ -110,5 +110,41 @@ You can refer to the writing method in `ding/utils/data/tests/test_dataloader.py
 
 
 
-How do Do Unit Test
+How do Run Unit Test
 ---------------------------------
+
+In DI-engine, we use ``pytest`` to start unit tests. For very simple cases, you can use the command directly:
+
+.. code-block:: shell
+
+   pytest -sv ./ding
+
+When you need to know the unit test coverage and specific coverage distribution, you need to use the following commands:
+
+.. code-block:: shell
+
+   pytest -sv ./ding -m unittest --cov-report term-missing --cov=./ding
+
+The meanings of each parameter are as follows:
+
+- ``-m`` ： Select the type of marks to test.
+- ``-s`` ： The output content is not captured, which is the abbreviation of ``--capture=no`` option.
+- ``-v`` ： Select the complexity level of the output content. The currently selected is a lower complexity level. If you need to output more detailed information, you can use ``-vv`` to increase the complexity, and so on.
+- ``--cov-report term-missing`` ： Select to display the coverage report in the form of ``term-missing``, which refers to "display the specific areas not covered".
+- ``--cov`` ： Select the code area to be overwritten.
+
+.. note::
+
+   A more recommended method is to use the encapsulated script in the ``Makefile`` for quick startup, for example:
+
+   .. code-block: shell
+
+      make unittest  # Full unit testing
+      make unittest RANGR_DIR=./ding/xxx  # Test for specific sub modules
+      make algotest
+      make cudatest
+      make envpooltest
+      make platformtext
+
+
+
