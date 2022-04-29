@@ -1,7 +1,7 @@
 common.utils
 -------------------------------------------------------
 
-Please Reference ding/ding/docs/source/api_doc/model/common/utils.py for usage
+Please Reference ding/ding/docs/source/05_api_doc/model/common/utils.py for usage
 
 
 
