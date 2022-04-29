@@ -4,12 +4,12 @@
 什么是 DI-zoo
 -------------------------------
 
-DI-zoo 是一个使用 DI-engine 封装的强化学习环境集合。它覆盖了绝大多数强化学习环境，既包括基础的 `OpenAI Gym <https://gym.openai.com/>`_ ，也包括 `SMAC <https://github.com/oxwhirl/smac>`_ 等更为复杂的环境。除了提供了大量强化学习环境外，它还针对每个环境都提供了不同的算法、以及每个算法在 DI-engine 下运行的最优配置。
+DI-zoo 是一个使用 DI-engine 封装的强化学习环境集合。它覆盖了绝大多数强化学习环境，既包括基础的 `OpenAI Gym <https://gym.openai.com/>`_ ，也包括 `SMAC <https://github.com/oxwhirl/smac>`_ 等更为复杂的环境。除此之外，针对每个环境，DI-zoo 都提供了不同算法的运行入口文件，以及每个算法在 DI-engine 下运行的最优配置。
 
 DI-zoo 的结构
 -------------------------------
 
-对于针对某环境的某一特定算法的强化学习实验，DI-zoo 主要由两部分组成： ``config.py`` 文件，包括运行该环境、算法对的强化学习实验所需要的关键配置，以及调用强化学习实验的训练管线；以及 ``env.py`` 文件，包括使用 DI-engine 对该环境进行的封装。除此之外，某些环境还包括一个 ``main.py`` 的入口文件，是之前版本所遗留下来的训练管线文件，未来将全部使用 ``config.py`` 中调用的训练管线来执行。
+为了在 DI-engine 中进行强化学习训练，对于某一环境、算法组合，DI-zoo 主要提供了如下两个文件： ``config.py`` 文件，包括运行该环境、算法组合所需的关键配置，以及对训练管线的调用；以及 ``env.py`` 文件，包括为了使用 DI-engine 运行该环境，而对其进行的封装。除此之外，某些环境还包括一个 ``main.py`` 的入口文件，是之前版本所遗留下来的训练管线文件。
 
 这里我们基于 CartPole 环境与 DQN 算法来简单展示一下 DI-zoo 的结构。
 
@@ -24,7 +24,7 @@ DI-zoo 的结构
 
 DI-zoo 的用法
 -------------------------------
-使用者可以直接通过执行 DI-zoo 提供的 ``config.py`` 文件，来轻易使用某个算法进行对应环境的强化学习实验。还是以 CartPole + DQN 为例，我们可以通过以下代码来轻易执行 ``cartpole_dqn`` 的强化学习实验：
+使用者可以直接通过执行 DI-zoo 提供的 ``config.py`` 文件，来进行某个环境算法组合的强化学习训练。对于 CartPole + DQN ，我们可以通过以下代码来轻易进行它的强化学习训练：
 
 .. code-block:: bash
 
@@ -38,20 +38,20 @@ DI-engine还为用户准备了CLI工具，您可以在终端中键入以下命�
 
 如果终端返回正确的信息，您可以使用这个CLI工具进行常见的训练和评估，您可以键入 ``ding -h`` 查看更多帮助。
 
-对于 CartPole 和 DQN 的运行，我们可以直接通过在终端键入以下命令来完成：
+对于 CartPole + DQN 的训练，我们可以直接通过在终端键入以下命令来完成：
 
 .. code-block:: bash
 
    ding -m serial -c cartpole_dqn_config.py -s 0
 
-其中 ``-m serial`` 代表我们调用的训练管线是 ``serial_pipeline``。 ``-c cartpole_dqn_config.py`` 代表我们使用的是 ``cartpole_dqn_config.py`` 这个 ``config`` 文件。 ``-s 0`` 代表 ``seed`` 为0。
+其中 ``-m serial`` 代表我们调用的训练管线是 ``serial_pipeline``。 ``-c cartpole_dqn_config.py`` 代表我们使用的 ``config`` 文件是 ``cartpole_dqn_config.py``。 ``-s 0`` 代表 ``seed`` 为0。
 
 DI-zoo 的自定义
 -------------------------------
 
-我们可以通过更改 ``config.py`` 中的配置，来自定义我们的训练流程，或者对对应环境下算法的性能进行调优。
+我们可以通过更改 ``config.py`` 中的配置，来自定义我们的训练流程，或者对某环境算法组合的性能进行调优。
 
-还是以 ``cartpole_dqn_config.py`` 为例进行演示
+还是以 ``cartpole_dqn_config.py`` 为例进行演示：
 
 .. code-block:: python
 
@@ -116,11 +116,11 @@ DI-zoo 的自定义
         from ding.entry import serial_pipeline
         serial_pipeline((main_config, create_config), seed=0)
 
-其中 ``cartpole_dqn_config`` 和 ``cartpole_dqn_create_config`` 这两个字典对象，包含了 CartPole + DQN 运行时需要的关键配置。我们可以通过改变这里的配置，来改变我们训练管线的行为。
+其中 ``cartpole_dqn_config`` 和 ``cartpole_dqn_create_config`` 这两个字典对象，包含了 CartPole + DQN 训练需要的关键配置。我们可以通过改变这里的配置，来改变我们训练管线的行为。
 
 比如通过更改 ``cartpole_dqn_config.policy.cuda`` ， 我们可以选择是否使用 cuda 设备来运行整个训练流程。
 
-如果想要使用其他 DI-engine 提供的训练管线，或者使用自己自定义的训练管线的话，我们只需要更改 ``config`` 文件最下方， ``main`` 函数的调用训练管线的部分即可。
+如果想要使用 DI-engine 提供的其他训练管线，或者使用自己自定义的训练管线的话，我们只需要更改 ``config`` 文件最下方， ``main`` 函数中调用训练管线的部分即可。
 
 比如我们可以把例子中的 ``serial_pipeline`` 改成 ``parallel_pipeline``，来调用并行的训练管线。
 
@@ -130,7 +130,7 @@ DI-zoo 的自定义
 
    ding -m parallel -c cartpole_dqn_config.py -s 0
 
-来调用 ``parallel_pipeline``
+来调用 ``parallel_pipeline``。
 
 如何自定义训练管线可以参考 serial_pipeline 的写法，或者参考 `DQN example <https://github.com/opendilab/DI-engine/blob/main/ding/example/dqn.py>`_，使用 DI-engine 提供的中间件来进行搭建。
 
