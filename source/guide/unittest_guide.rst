@@ -15,6 +15,7 @@ In actual development, the significance of unit testing is as follows:
 * Another important point -- **for a module, reading unit test code is also a very efficient way to understand its function and usage**.
 
 
+.. _ref-test-types:
 
 Types of Unit Test
 ---------------------------------
@@ -32,6 +33,81 @@ In the DI-engine project, we divide the unit test into the following parts:
 
 How to Build Unit Test
 ---------------------------------
+
+In DI engine, we use `pytest <https://docs.pytest.org/>`_ to build unit tests.
+
+For unit test writing, you can refer to the ``tests`` folder under the code path at all levels as a whole, such as `ding/envs/env_manager/tests <https://github.com/opendilab/DI-engine/tree/main/ding/envs/env_manager/tests>`_.
+
+
+Naming Conventions
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+For unit testing, we generally build it in the unit of class or function, and its name should meet certain specifications, specifically:
+
+* For the unit test of function form, the function name is required to be started with ``test_``.
+* For the unit test of class form, the class name is required to be started with ``Test``, and names of all methods used for testing should start with ``test_``.
+
+
+Assertions
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the test cases, we use ``assert`` (assertion) to check the prototype results. If the assertion is not true, very detailed information will be displayed, as shown in the following figure
+
+.. image:: ./images/dev_collaboration/pytest_assert.png
+    :scale: 33%
+    :align: center
+
+In addition, `` pytest`` also supports assertion of thrown exceptions, as shown below
+
+.. code:: python
+
+   import pytest
+
+   def test_zero_division():
+       with pytest.raises(ZeroDivisionError):
+           1 / 0
+
+In addition, for the test of real numbers, due to the storage principle of real numbers, it may lead to misjudgment caused by subtle errors. Therefore, the approximate function ``approx`` can be used for approximate judgment. It supports numeric type, ``list`` type, ``dict`` type and ``numpy`` type (``numpy. Ndarray``).
+
+
+Fixture and Conftest
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fixture is a very important mechanism in ``pytest``. It can initialize the resources required for testing and pass them in as parameters of the test function for its usage. Not only that, but also the recovery of operation resources can be realized to ensure that the subsequent operation will not be affected. In addition, code reuse can be easily realized through the definition of scope.
+
+This `Chinese tutorial <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-fixture.html>`_ is written in great detail and can be used as a reference. In the existing code of DI-engine, you can refer to `ding/league/tests/test_player.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/test_player.py>`_.
+
+Fixture is generally used in a single file, that is, it is used after defining fixture under the current file. If you need to use fixture across files, you can use the ``conftest`` (abbreviation of ``config of test``) mechanism. There is no need to explicitly import in the test file, and the ``pytest`` framework will automatically complete the loading. You can refer to this `Chinese tutorial <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-conftest.html>`_, and in the existing code, you can refer to `ding/league/tests/conftest.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/conftest.py`_.
+
+
+Test Mark
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order to distinguish the types of tests (for example, ref:`ref-test-types`), you can add ``pytest.mark("MARK-NAME")`` decorator to let the test be executed by category, and use ``pytest –m MARK-NAME`` to execute the selected type of test at run time.
+
+.. image:: ./images/dev_collaboration/pytest_mark.png
+    :scale: 33%
+    :align: center
+
+
+Parameterized
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In some cases, we need to reuse the same test logic and test for different input data. At this point, we can use parameter configuration ``@pytest.mark.paramtrize(argsnames, argsvalues, ids=None)`` realize parameter configuration for multiple groups of tests. Of which:
+
+-  ``argsnames``
+   : means parameter name, with type of ``str``. If you need to express multiple parameter names, use commas to separate them.
+
+-  ``argsvalues``
+   : means parameter value, with type if ``list`` which is composed of parameters. The elements in the list are the values assigned to the parameters. If multiple parameters are set in ``argsnames``, the ``tuple`` type will be used, and the values will correspond to the names one by one in order.
+
+For example:
+
+- If using decorator ``@pytest.mark.paramtrize('data', [1, 2, 3])``, then the `` data`` variable will be assigned to 1, 2 and 3 respectively for test.
+- If using decorator ``@pytest.mark.paramtrize('var1, var2', [(1, 2), (2, 3), (3, 4)])``, the ``(var1, var2)`` variables will be assigned ``(1,
+2)``, ``(2, 3)``, ``(3, 4)`` test.
+
+You can refer to the writing method in `ding/utils/data/tests/test_dataloader.py <https://github.com/opendilab/DI-engine/tree/main/ding/utils/data/tests/test_dataloader.py>`_.
 
 
 
