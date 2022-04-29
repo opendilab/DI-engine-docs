@@ -128,9 +128,9 @@ DI-zoo 的自定义
 
 来调用 ``parallel_pipeline``。
 
-如何自定义训练管线可以参考 serial_pipeline 的写法，或者参考 `DQN example <https://github.com/opendilab/DI-engine/blob/main/ding/example/dqn.py>`_，使用 DI-engine 提供的中间件来进行搭建。
+如何自定义训练管线可以参考 `serial_pipeline <https://github.com/opendilab/DI-engine/blob/0fccfcb046f04767504f68220d96a6608bb38f29/ding/entry/serial_entry.py#L17>`_ 的写法，或者参考 `DQN example <https://github.com/opendilab/DI-engine/blob/main/ding/example/dqn.py>`_，使用 DI-engine 提供的中间件来进行搭建。
 
-如果您想要接入自己的环境，只需继承 DI-engine 实现的 ``BaseEnv`` 即可。这部分可以参考 `文档 <https://di-engine-docs.readthedocs.io/zh_CN/latest/best_practice/ding_env_zh.html>`_
+如果您想要接入自己的环境，只需继承 DI-engine 实现的 ``BaseEnv`` 即可。这部分可以参考 `文档：如何将自己的环境迁移到DI-engine中 <https://di-engine-docs.readthedocs.io/zh_CN/latest/best_practice/ding_env_zh.html>`_
 
 DI-zoo 已支持的算法和环境列表
 -------------------------------
