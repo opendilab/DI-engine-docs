@@ -7,7 +7,7 @@
 PlantUML
 -----------------
 
-PlantUML是一种可以用于绘制UML等图像的工具，详情可参考`PlantUML官方网站 <https://plantuml.com/zh/>`_。
+PlantUML是一种可以用于绘制UML等图像的工具，详情可参考`PlantUML官方网站 <https://plantuml.com/zh/>`_。其最大的特点在于：基于代码，无需关注排版，十分易于维护。
 
 例如，我们可以绘制类图
 
@@ -74,6 +74,7 @@ draw.io
 .. image:: draw.io-example.png
     :align: center
 
+``draw.io``最大的特点在于拖动式的作图方式，因而可以实现“所见即所得”。
 
 
 snakeviz

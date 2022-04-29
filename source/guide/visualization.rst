@@ -7,7 +7,7 @@ In DI-engine, we often need to draw images and measure and visualize some inform
 PlantUML
 -----------------
 
-PlantUML is a tool that can be used to draw UML and other images. For details, please refer to `the official website of PlantUML <https://plantuml.com/zh/>`_.
+PlantUML is a tool that can be used to draw UML and other images. For details, please refer to `the official website of PlantUML <https://plantuml.com/zh/>`_. Its biggest feature is that it is based on code, does not need to pay attention to typesetting, and is very easy to maintain.
 
 For example, we can draw class diagrams
 
@@ -73,6 +73,8 @@ draw.io
 
 .. image:: draw.io-example.png
     :align: center
+
+``draw.io``'s biggest feature is the drag drawing method, so it can realize "what you see is what you get".
 
 
 
