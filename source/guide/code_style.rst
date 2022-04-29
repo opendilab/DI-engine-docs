@@ -1,7 +1,20 @@
 Code Style Guide
 ==========================
 
-In `DI-engine <https://github.com/opendilab/DI-engine>`_, we use `yapf <https://github.com/google/yapf>`_ and `flake8 <https://github.com/PyCQA/flake8>`_ for code style checking and automatic repair.
+Basic Code Style Rules
+---------------------------
+
+In `DI-engine <https://github.com/opendilab/DI-engine>`_, we follow the following basic code specifications:
+
+* The **file name** is always named with lowercase letters, numbers and underscores, such as ``my_policy.py``.
+* For **class**, the `Camelcase Naming Convention <https://en.wikipedia.org/wiki/Camel_case>`_ which is started with capital letters shall be adopted, such as ``MyClass``. In addition, for internal classes, you can use additional underscores at the beginning, for example ``_InnerClass``.
+* All **functions** and **methods** are named with lowercase letters, numbers and underscores, such as ``my_function`` and ``my_method``.
+* For **variables**, they are all named with lowercase letters, numbers and underscores, such as ``my_var``.
+* For methods and variables belonging to a class, use a single underscore to express the protected inheritance relationship, such as ``_protected_val``. Use two underscores to express a private inheritance relationship, for example ``__private_val``.
+* For the naming of method parameters, if it is an instance method, the first parameter should be named `` self``. If it is a class rule, the first parameter should be named ``cls``. Please use ``*args`` for the variable length parameter of the list, and ``**kwargs`` for the key value parameter.
+* When naming variables, if the name conflicts with reserved keywords, native classes, etc., please underline at the end to avoid unexpected effects, such as ``type_``.
+
+
 
 yapf
 -------------------

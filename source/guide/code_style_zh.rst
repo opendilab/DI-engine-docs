@@ -1,7 +1,20 @@
 代码风格指南
 =======================
 
-在`DI-engine <https://github.com/opendilab/DI-engine>`_中，我们使用`yapf <https://github.com/google/yapf>`_与`flake8 <https://github.com/PyCQA/flake8>`_进行代码风格的检查与自动修复。
+代码风格
+-------------------
+
+在`DI-engine <https://github.com/opendilab/DI-engine>`_中，我们遵循如下的基本代码规范：
+
+* 对于**文件名**，一律使用小写字母、数字与下划线进行命名，例如``my_policy.py``。
+* 对于**类**（Class），一概采用大写字母开头的`驼峰命名法 <https://en.wikipedia.org/wiki/Camel_case>`_进行命名，例如``MyClass``；另外，对于内部类可以在开头使用额外的下划线，例如：``_InnerClass``。
+* 对于**函数**（Function）和**方法**（Method），一律使用小写字母、数字与下划线进行命名，例如``my_function``、``my_method``。
+* 对于**变量**（Variable），一律使用小写字母、数字与下划线进行命名，例如``my_var``。
+* 对于归属于类的方法与变量，使用单个下划线表述受保护的继承关系，例如``_protected_val``；使用两个下划线表述私有的继承关系，例如``__private_val``。
+* 对于方法参数的命名，若为实例方法则第一个参数应命名为``self``，若为类方法则第一个参数应命名为``cls``；列表变长参数请使用``*args``，键值对参数使用``**kwargs``。
+* 变量命名时，如果名称与保留的关键字、原生的类等发生了冲突，请在末尾加上下划线以避免造成非预期的影响，例如``type_``。
+
+
 
 yapf
 -------------------
