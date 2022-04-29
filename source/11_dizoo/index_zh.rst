@@ -24,7 +24,7 @@ DI-zoo 的结构
 
 DI-zoo 的用法
 -------------------------------
-使用者可以直接通过执行 DI-zoo 提供的 ``config.py`` 文件，来进行某个环境算法组合的强化学习训练。对于 CartPole + DQN ，我们可以通过以下代码来轻易进行它的强化学习训练：
+您可以直接通过执行 DI-zoo 提供的 ``config.py`` 文件，来进行某个环境算法组合的强化学习训练。对于 CartPole + DQN ，我们可以通过以下代码来轻易进行它的强化学习训练：
 
 .. code-block:: bash
 
@@ -134,7 +134,7 @@ DI-zoo 的自定义
 
 如何自定义训练管线可以参考 serial_pipeline 的写法，或者参考 `DQN example <https://github.com/opendilab/DI-engine/blob/main/ding/example/dqn.py>`_，使用 DI-engine 提供的中间件来进行搭建。
 
-如果使用者想要接入自己的环境，只需继承 DI-engine 实现的 ``BaseEnv`` 即可。这部分可以参考 `文档 <https://di-engine-docs.readthedocs.io/zh_CN/latest/best_practice/ding_env_zh.html>`_
+如果您想要接入自己的环境，只需继承 DI-engine 实现的 ``BaseEnv`` 即可。这部分可以参考 `文档 <https://di-engine-docs.readthedocs.io/zh_CN/latest/best_practice/ding_env_zh.html>`_
 
 DI-zoo 已支持的算法和环境列表
 -------------------------------
