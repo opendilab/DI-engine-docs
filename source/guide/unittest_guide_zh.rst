@@ -110,8 +110,7 @@
 例如：
 
 * 若使用装饰器``@pytest.mark.paramtrize('data', [1, 2, 3])``，则会为``data``变量分别赋值为1、2、3进行测试
-* 若使用装饰器``@pytest.mark.paramtrize('var1, var2', [(1, 2), (2, 3), (3, 4)])``，则会为``(var1, var2)``变量分别赋值为``(1,
-2)``、``(2, 3)``、``(3, 4)``进行测试。
+* 若使用装饰器``@pytest.mark.paramtrize('var1, var2', [(1, 2), (2, 3), (3, 4)])``，则会为``(var1, var2)``变量分别赋值为``(1, 2)``、``(2, 3)``、``(3, 4)``进行测试。
 
 可以参考`ding/utils/data/tests/test_dataloader.py <https://github.com/opendilab/DI-engine/tree/main/ding/utils/data/tests/test_dataloader.py>`_中的写法。
 

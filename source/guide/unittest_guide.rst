@@ -104,8 +104,7 @@ In some cases, we need to reuse the same test logic and test for different input
 For example:
 
 - If using decorator ``@pytest.mark.paramtrize('data', [1, 2, 3])``, then the `` data`` variable will be assigned to 1, 2 and 3 respectively for test.
-- If using decorator ``@pytest.mark.paramtrize('var1, var2', [(1, 2), (2, 3), (3, 4)])``, the ``(var1, var2)`` variables will be assigned ``(1,
-2)``, ``(2, 3)``, ``(3, 4)`` test.
+- If using decorator ``@pytest.mark.paramtrize('var1, var2', [(1, 2), (2, 3), (3, 4)])``, the ``(var1, var2)`` variables will be assigned ``(1, 2)``, ``(2, 3)``, ``(3, 4)`` test.
 
 You can refer to the writing method in `ding/utils/data/tests/test_dataloader.py <https://github.com/opendilab/DI-engine/tree/main/ding/utils/data/tests/test_dataloader.py>`_.
 
