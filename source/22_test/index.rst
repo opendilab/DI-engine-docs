@@ -26,7 +26,7 @@ In the DI-engine project, we divide the unit test into the following parts:
 * ``algotest`` -- unit test for algorithm code to ensure that the algorithm code can meet the use requirements on specific use cases.
 * ``cudatest`` -- unit test for CUDA dependent features, ensure that such features function normally in the operating environment with CUDA.
 * ``envpooltest`` -- unit test for features that rely on envpool high-performance parallel computing to ensure that such features function normally.
-* ``platformtest`` -- unit test of cross platform code, ensure that the core functions of DI engine can still operate normally on MacOS and Windows platforms.
+* ``platformtest`` -- unit test of cross platform code, ensure that the core functions of DI-engine can still operate normally on MacOS and Windows platforms.
 * ``benchmark`` -- performance test of algorithm or architecture, speed measurement is mainly carried out for relevant contents to ensure that its performance meets the requirements.
 
 
@@ -34,7 +34,7 @@ In the DI-engine project, we divide the unit test into the following parts:
 How to Build Unit Test
 ---------------------------------
 
-In DI engine, we use `pytest <https://docs.pytest.org/>`_ to build unit tests.
+In DI-engine, we use `pytest <https://docs.pytest.org/>`_ to build unit tests.
 
 For unit test writing, you can refer to the ``tests`` folder under the code path at all levels as a whole, such as `ding/envs/env_manager/tests <https://github.com/opendilab/DI-engine/tree/main/ding/envs/env_manager/tests>`_.
 
@@ -63,6 +63,7 @@ In addition, `` pytest`` also supports assertion of thrown exceptions, as shown 
 
    import pytest
 
+   @pytest.mark.unittest
    def test_zero_division():
        with pytest.raises(ZeroDivisionError):
            1 / 0
@@ -82,7 +83,7 @@ Fixture is a very important mechanism in ``pytest``. It can initialize the resou
 
 This `Chinese tutorial <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-fixture.html>`_ is written in great detail and can be used as a reference. In the existing code of DI-engine, you can refer to `ding/league/tests/test_player.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/test_player.py>`_.
 
-Fixture is generally used in a single file, that is, it is used after defining fixture under the current file. If you need to use fixture across files, you can use the ``conftest`` (abbreviation of ``config of test``) mechanism. There is no need to explicitly import in the test file, and the ``pytest`` framework will automatically complete the loading. You can refer to this `Chinese tutorial <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-conftest.html>`_, and in the existing code, you can refer to `ding/league/tests/conftest.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/conftest.py`_.
+Fixture is generally used in a single file, that is, it is used after defining fixture under the current file. If you need to use fixture across files, you can use the ``conftest`` (abbreviation of ``config of test``) mechanism. There is no need to explicitly import in the test file, and the ``pytest`` framework will automatically complete the loading. You can refer to this `Chinese tutorial <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-conftest.html>`_, and in the existing code, you can refer to `ding/league/tests/conftest.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/conftest.py>`_.
 
 
 Test Mark

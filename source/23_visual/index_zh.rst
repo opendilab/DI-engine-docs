@@ -7,7 +7,7 @@
 PlantUML
 -----------------
 
-PlantUML是一种可以用于绘制UML等图像的工具，详情可参考`PlantUML官方网站 <https://plantuml.com/zh/>`_。其最大的特点在于：基于代码，无需关注排版，十分易于维护。
+PlantUML是一种可以用于绘制UML等图像的工具，详情可参考 `PlantUML官方网站 <https://plantuml.com/zh/>`_ 。其最大的特点在于：基于代码，无需关注排版，十分易于维护。
 
 例如，我们可以绘制类图
 
@@ -24,17 +24,17 @@ PlantUML是一种可以用于绘制UML等图像的工具，详情可参考`Plant
 .. image:: plantuml-yaml-demo.puml.svg
     :align: center
 
-我们可以使用plantumlcli工具进行图像的生成，具体可参考`plantumlcli的Github仓库 <https://github.com/HansBug/plantumlcli>`_。
+我们可以使用plantumlcli工具进行图像的生成，具体可参考 `plantumlcli的Github仓库 <https://github.com/HansBug/plantumlcli>`_ 。
 
 .. note::
 
-    而在DI-engine的文档中，已经集成了PlantUML，可以基于源代码自动生成图像。例如，我们可以在当前路径下创建文件``plantuml-demo.puml``
+    而在DI-engine的文档中，已经集成了PlantUML，可以基于源代码自动生成图像。例如，我们可以在当前路径下创建文件 ``plantuml-demo.puml``
 
     .. literalinclude:: plantuml-demo.puml
         :language: text
         :linenos:
 
-    当编译文档时，SVG格式的图像``plantuml-demo.puml.svg``也将会自动生成，如下所示。
+    当编译文档时，SVG格式的图像 ``plantuml-demo.puml.svg`` 也将会自动生成，如下所示。
 
     .. image:: plantuml-demo.puml.svg
         :align: center
@@ -66,7 +66,7 @@ graphviz
 draw.io
 -----------------
 
-``draw.io``是一个极为简单易用的在线图像编辑工具，可以用来编辑工作流图、BPM、组织图、UML图、ER图以及网络拓朴图等：
+``draw.io`` 是一个极为简单易用的在线图像编辑工具，可以用来编辑工作流图、BPM、组织图、UML图、ER图以及网络拓朴图等：
 
 * `draw.io工具 <https://www.draw.io/>`_
 * `draw.io官方文档 <https://drawio-app.com/>`_
@@ -74,7 +74,7 @@ draw.io
 .. image:: draw.io-example.png
     :align: center
 
-``draw.io``最大的特点在于拖动式的作图方式，因而可以实现“所见即所得”。
+``draw.io`` 最大的特点在于拖动式的作图方式，因而可以实现“所见即所得”。
 
 
 snakeviz

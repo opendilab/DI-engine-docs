@@ -11,7 +11,7 @@ In `DI-engine <https://github.com/opendilab/DI-engine>`_, we follow the followin
 * All **functions** and **methods** are named with lowercase letters, numbers and underscores, such as ``my_function`` and ``my_method``.
 * For **variables**, they are all named with lowercase letters, numbers and underscores, such as ``my_var``.
 * For methods and variables belonging to a class, use a single underscore to express the protected inheritance relationship, such as ``_protected_val``. Use two underscores to express a private inheritance relationship, for example ``__private_val``.
-* For the naming of method parameters, if it is an instance method, the first parameter should be named `` self``. If it is a class rule, the first parameter should be named ``cls``. Please use ``*args`` for the variable length parameter of the list, and ``**kwargs`` for the key value parameter.
+* For the naming of method parameters, if it is an instance method, the first parameter should be named ``self``. If it is a class rule, the first parameter should be named ``cls``. Please use ``*args`` for the variable length parameter of the list, and ``**kwargs`` for the key value parameter.
 * When naming variables, if the name conflicts with reserved keywords, native classes, etc., please underline at the end to avoid unexpected effects, such as ``type_``.
 
 
@@ -54,7 +54,7 @@ Considering the large scale of the whole project and the large number of files, 
 
 .. code-block:: shell
 
-   make flake_check RANGE_DOR=./ding/xxx
+   make flake_check RANGE_DIR=./ding/xxx
 
 
 In this project, we use `flake8 code design specification configuration <https://github.com/opendilab/DI-engine/blob/main/.flake8>`_ based on pep8. For details of configuration, please refer to `the description of flake8 official documents <https://flake8.pycqa.org/en/latest/user/configuration.html>`_. `PEP8 <https://peps.python.org/pep-0008/>`_ is the code style configuration officially recommended by python. Paying attention to the code style can improve the readability of the code and minimize the behavior that does not meet the expectations.

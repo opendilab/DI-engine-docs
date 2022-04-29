@@ -28,7 +28,7 @@ We can use plantumlcli tool to generate images. For details, please refer to `pl
 
 .. note::
 
-    In the document of DI engine, plantuml has been integrated, which can automatically generate images based on source code. For example, we can create the file ``plantuml-demo.puml`` under the current path.
+    In the document of DI-engine, plantuml has been integrated, which can automatically generate images based on source code. For example, we can create the file ``plantuml-demo.puml`` under the current path.
 
     .. literalinclude:: plantuml-demo.puml
         :language: text
