@@ -1,0 +1,15 @@
+@startuml
+start
+repeat
+  :测试某事;
+    if (发生错误?) then (没有)
+      #palegreen:好的;
+      break
+    endif
+    ->not ok;
+    :弹窗 "文本过长错误";
+repeat while (某事发生文本过长错误?) is (是的) not (不是)
+->//合并步骤//;
+:弹窗 "成功！";
+stop
+@enduml

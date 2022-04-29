@@ -39,5 +39,5 @@ Welcome to DI-engine's documentation!
    20_spec/index
    21_code_style/index
    22_test/index
-   23_diagram/index
+   23_visual/index
    24_cooperation/index
