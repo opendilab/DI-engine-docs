@@ -81,9 +81,9 @@ Fixture and Conftest
 
 Fixture is a very important mechanism in ``pytest``. It can initialize the resources required for testing and pass them in as parameters of the test function for its usage. Not only that, but also the recovery of operation resources can be realized to ensure that the subsequent operation will not be affected. In addition, code reuse can be easily realized through the definition of scope.
 
-This `Chinese tutorial <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-fixture.html>`_ is written in great detail and can be used as a reference. In the existing code of DI-engine, you can refer to `ding/league/tests/test_player.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/test_player.py>`_.
+This `tutorial <https://www.lambdatest.com/blog/end-to-end-tutorial-for-pytest-fixtures-with-examples/>`_ is written in great detail and can be used as a reference. In the existing code of DI-engine, you can refer to `ding/league/tests/test_player.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/test_player.py>`_.
 
-Fixture is generally used in a single file, that is, it is used after defining fixture under the current file. If you need to use fixture across files, you can use the ``conftest`` (abbreviation of ``config of test``) mechanism. There is no need to explicitly import in the test file, and the ``pytest`` framework will automatically complete the loading. You can refer to this `Chinese tutorial <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-conftest.html>`_, and in the existing code, you can refer to `ding/league/tests/conftest.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/conftest.py>`_.
+Fixture is generally used in a single file, that is, it is used after defining fixture under the current file. If you need to use fixture across files, you can use the ``conftest`` (abbreviation of ``config of test``) mechanism. There is no need to explicitly import in the test file, and the ``pytest`` framework will automatically complete the loading. You can refer to this `tutorial <https://www.lambdatest.com/blog/end-to-end-tutorial-for-pytest-fixtures-with-examples/#Sharingpytest>`_, and in the existing code, you can refer to `ding/league/tests/conftest.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/conftest.py>`_.
 
 
 Test Mark
