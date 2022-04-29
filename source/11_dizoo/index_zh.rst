@@ -4,7 +4,7 @@
 什么是 DI-zoo
 -------------------------------
 
-DI-zoo 是一个使用 DI-engine 封装的强化学习环境集合。它覆盖了绝大多数强化学习环境，既包括基础的 `OpenAI Gym <https://gym.openai.com/>`_ ，也包括 `SMAC <https://github.com/oxwhirl/smac>`_ 等更为复杂的环境。除此之外，针对每个环境，DI-zoo 都提供了不同算法的运行入口，以及每个算法在 DI-engine 下运行的最优配置。
+DI-zoo 是一个使用 DI-engine 封装的强化学习环境集合。它覆盖了绝大多数强化学习环境，既包括基础的 `OpenAI Gym <https://gym.openai.com/>`_ ，也包括 `SMAC <https://github.com/oxwhirl/smac>`_ 等更为复杂的环境。除此之外，针对每个环境，DI-zoo 都提供了不同算法的运行入口，以及每个算法对应的最优配置。
 
 DI-zoo 的结构
 -------------------------------
