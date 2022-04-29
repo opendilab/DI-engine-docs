@@ -137,7 +137,7 @@ The meanings of each parameter are as follows:
 
    A more recommended method is to use the encapsulated script in the ``Makefile`` for quick startup, for example:
 
-   .. code-block: shell
+   .. code-block:: shell
 
       make unittest  # Full unit testing
       make unittest RANGR_DIR=./ding/xxx  # Test for specific sub modules

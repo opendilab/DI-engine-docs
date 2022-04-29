@@ -143,7 +143,7 @@
 
    一种更加推荐的做法是使用``Makefile``中封装完毕的脚本进行快速启动，例如：
 
-   .. code-block: shell
+   .. code-block:: shell
 
       make unittest  # 全面进行单元测试
       make unittest RANGR_DIR=./ding/xxx  # 针对特定子模块进行测试
