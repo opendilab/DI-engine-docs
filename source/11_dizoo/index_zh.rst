@@ -9,7 +9,11 @@ DI-zoo 是一个使用 DI-engine 封装的强化学习环境集合。它覆盖�
 DI-zoo 的结构
 -------------------------------
 
-为了在 DI-engine 中进行强化学习训练，对于某一环境、算法组合，DI-zoo 主要提供了如下两个文件： ``config.py`` 文件，包括运行该环境、算法组合所需的关键配置，以及对训练管线的调用，作为算法的运行入口； ``env.py`` 文件，包括为了使用 DI-engine 运行该环境，而对其进行的封装。除此之外，某些环境算法组合还包括一个 ``main.py`` 的入口文件，是之前版本所遗留下来的训练管线文件。
+为了在 DI-engine 中进行强化学习训练，对于某一环境、算法组合，DI-zoo 主要提供了如下两个文件： ``config.py`` 文件，包括运行该环境、算法组合所需的关键配置，以及对训练管线的调用，作为算法的运行入口； ``env.py`` 文件，包括为了使用 DI-engine 运行该环境，而对其进行的封装。
+
+.. note ::
+    
+    除此之外，某些环境算法组合还包括一个 ``main.py`` 的入口文件，是之前版本所遗留下来的训练管线文件。
 
 这里我们基于 CartPole 环境与 DQN 算法来简单展示一下 DI-zoo 的结构。
 
@@ -128,9 +132,11 @@ DI-zoo 的自定义
 
 来调用 ``parallel_pipeline``。
 
-如何自定义训练管线可以参考 `serial_pipeline <https://github.com/opendilab/DI-engine/blob/0fccfcb046f04767504f68220d96a6608bb38f29/ding/entry/serial_entry.py#L17>`_ 的写法，或者参考 `DQN example <https://github.com/opendilab/DI-engine/blob/main/ding/example/dqn.py>`_，使用 DI-engine 提供的中间件来进行搭建。
+.. note ::
 
-如果您想要接入自己的环境，只需继承 DI-engine 实现的 ``BaseEnv`` 即可。这部分可以参考 `如何将自己的环境迁移到DI-engine中 <../best_practice/ding_env_zh.html>`_
+    如何自定义训练管线可以参考 `serial_pipeline <https://github.com/opendilab/DI-engine/blob/0fccfcb046f04767504f68220d96a6608bb38f29/ding/entry/serial_entry.py#L17>`_ 的写法，或者参考 `DQN example <https://github.com/opendilab/DI-engine/blob/main/ding/example/dqn.py>`_，使用 DI-engine 提供的中间件来进行搭建。
+
+    如果您想要接入自己的环境，只需继承 DI-engine 实现的 ``BaseEnv`` 即可。这部分可以参考 `如何将自己的环境迁移到DI-engine中 <../best_practice/ding_env_zh.html>`_
 
 DI-zoo 已支持的算法和环境列表
 -------------------------------
