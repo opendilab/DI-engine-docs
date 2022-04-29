@@ -1,4 +1,4 @@
-Graphics and Visualization
+Diagrams and Visualization
 ========================================
 
 In DI-engine, we often need to draw images and measure and visualize some information. This section will introduce these contents in detail.
