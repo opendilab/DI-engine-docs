@@ -122,7 +122,7 @@ DI-zoo 的自定义
 
 其中 ``cartpole_dqn_config`` 和 ``cartpole_dqn_create_config`` 这两个字典对象，包含了 CartPole + DQN 训练需要的关键配置。我们可以通过改变这里的配置，来改变我们训练管线的行为。比如通过更改 ``cartpole_dqn_config.policy.cuda`` ， 我们可以选择是否使用 cuda 设备来运行整个训练流程。
 
-如果想要使用 DI-engine 提供的其他训练管线，或者使用自己自定义的训练管线的话，我们只需要更改 ``config`` 文件最下方， ``main`` 函数中调用训练管线的部分即可。比如我们可以把例子中的 ``serial_pipeline`` 改成 ``parallel_pipeline``，来调用并行的训练管线。
+如果想要使用 DI-engine 提供的其他训练管线，或者使用自己自定义的训练管线的话，我们只需要更改 ``config`` 文件最下方， ``__main__`` 函数中调用训练管线的部分即可。比如我们可以把例子中的 ``serial_pipeline`` 改成 ``parallel_pipeline``，来调用并行的训练管线。
 
 对于CLI工具 ``ding``，我们也可以把之前的cli命令改成
 

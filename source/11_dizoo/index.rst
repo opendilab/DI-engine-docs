@@ -123,7 +123,7 @@ Here we use ``cartpole_dqn_config.py`` as an example:
 
 The two dictionary objects ``cartpole_dqn_config`` and ``cartpole_dqn_create_config`` contain the key configurations required for CartPole/DQN training. You can change the behavior of your training pipeline by changing the configuration here. For example, by changing ``cartpole_dqn_config.policy.cuda`` , you can choose whether to use your cuda device to run the entire training process.
 
-If you want to use other training pipelines provided by DI-engine, or use your own custom training pipelines, you only need to change the part of the ``main`` function of ``config.py`` that calls the training pipeline. For example, you can change the ``serial_pipeline`` in the example to ``parallel_pipeline`` to call the parallel training pipeline.
+If you want to use other training pipelines provided by DI-engine, or use your own custom training pipelines, you only need to change the ``__main__`` function of ``config.py`` that calls the training pipeline. For example, you can change the ``serial_pipeline`` in the example to ``parallel_pipeline`` to call the parallel training pipeline.
 
 For the CLI tool ``ding``, you can also change the previous cli command to
 
