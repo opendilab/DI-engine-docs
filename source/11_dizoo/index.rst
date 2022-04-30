@@ -4,13 +4,13 @@ Learn From DI-zoo
 What is DI-zoo
 -------------------------------
 
-DI-zoo is a collection of reinforcement learning environments wrapped with DI-engine. It covers the vast majority of reinforcement learning environments, including basic environments like `OpenAI Gym <https://gym.openai.com/>`_, as well as more complex environments such as `SMAC <https://github.com/oxwhirl/smac>`_. Besides, for each environment, DI-zoo provides the entries of different algorithms, as well as the optimal configuration of each algorithm.
+DI-zoo is a collection of reinforcement learning environments wrapped with DI-engine. It covers the vast majority of reinforcement learning environments, including basic environments like `OpenAI Gym <https://gym.openai.com/>`_, as well as more complex environments such as `SMAC <https://github.com/oxwhirl/smac>`_. Besides, for each environment, DI-zoo provides the entries of different algorithms with their optimal configurations.
 
 
 The structure of DI-zoo
 -------------------------------
 
-For a certain environment/algorithm pair, in order to train in DI-engine, DI-zoo mainly provides two files: ``config.py`` file, including the key configuration required to train the environment/algorithm pair, as well as the call to the training pipeline, serves as the entry point of the algorithm to run; the ``env.py`` file, containing the encapsulation of the environment to run in DI-engine.
+For a certain environment/algorithm pair, in order to run RL experiment in DI-engine, DI-zoo mainly provides two files: the ``config.py`` file, including the key configuration required to train the environment/algorithm pair, and the entry point to run the training pipeline; the ``env.py`` file, containing the encapsulation of the environment to run in DI-engine.
 
 .. note ::
     
