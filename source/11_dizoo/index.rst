@@ -10,11 +10,11 @@ DI-zoo is a collection of reinforcement learning environments wrapped with DI-en
 The structure of DI-zoo
 -------------------------------
 
-For a certain environment/algorithm pair, in order to train in DI-engine, DI-zoo mainly provides two files: ``config.py`` file, including the key configuration required to train the environment/algorithm pair, as well as the call to the training pipeline, serves as the entry point for the algorithm to run; the ``env.py`` file, containing the encapsulation of the environment in order to run using DI-engine.
+For a certain environment/algorithm pair, in order to train in DI-engine, DI-zoo mainly provides two files: ``config.py`` file, including the key configuration required to train the environment/algorithm pair, as well as the call to the training pipeline, serves as the entry point of the algorithm to run; the ``env.py`` file, containing the encapsulation of the environment to run in DI-engine.
 
 .. note ::
     
-    Besides, some environment/algorithm pairs also possess a ``main.py`` entry file, which is the training pipeline file left over from the previous version.
+    Besides, some environment/algorithm pairs also possess a ``main.py`` entry file, which is the training pipeline left over from the previous version.
 
 Here we briefly show the structure of DI-zoo based on the CartPole environment + DQN algorithm.
 
@@ -29,7 +29,7 @@ Here we briefly show the structure of DI-zoo based on the CartPole environment +
 
 How to use DI-zoo
 -------------------------------
-You can directly execute the ``config.py`` file provided by DI-zoo to train a certain environment/algorithm pair. For CartPole/DQN, we can easily perform the RL experiment with the following code:
+You can directly execute the ``config.py`` file provided by DI-zoo to train a certain environment/algorithm pair. For CartPole/DQN, you can easily perform the RL experiment with the following code:
 
 .. code-block:: bash
 
@@ -43,20 +43,20 @@ DI-engine also prepare the CLI tool for users, you can type the following comman
 
 If the terminal returns the correct information, you can use this CLI tool for the common training and evaluation, and you can type ``ding -h`` for further usage。
 
-For the training of CartPole/DQN, we can run it directly by typing the following command in the terminal:
+To train CartPole/DQN, you can directly type the following command in the terminal:
 
 .. code-block:: bash
 
    ding -m serial -c cartpole_dqn_config.py -s 0
 
-where ``-m serial`` means that the training pipeline we call is ``serial_pipeline``. ``-c cartpole_dqn_config.py`` means that the ``config`` file we use is ``cartpole_dqn_config.py``. ``-s 0`` means ``seed`` is 0.
+where ``-m serial`` means that the training pipeline you call is ``serial_pipeline``. ``-c cartpole_dqn_config.py`` means that the ``config`` file you use is ``cartpole_dqn_config.py``. ``-s 0`` means ``seed`` is 0.
 
 Customization of DI-zoo
 -------------------------------
 
-We can customize our training process or tune the performance of a environment/algorithm pair by changing the configuration in ``config.py``.
+You can customize your training process or tune the performance of a environment/algorithm pair by changing the configuration in ``config.py``.
 
-Here we show ``cartpole_dqn_config.py`` as an example: 
+Here we use ``cartpole_dqn_config.py`` as an example: 
 
 .. code-block:: python
 
@@ -121,11 +121,11 @@ Here we show ``cartpole_dqn_config.py`` as an example:
         from ding.entry import serial_pipeline
         serial_pipeline((main_config, create_config), seed=0)
 
-The two dictionary objects ``cartpole_dqn_config`` and ``cartpole_dqn_create_config`` contain the key configurations required for CartPole/DQN training. We can change the behavior of our training pipeline by changing the configuration here. For example, by changing ``cartpole_dqn_config.policy.cuda`` , we can choose whether to use the cuda device to run the entire training process.
+The two dictionary objects ``cartpole_dqn_config`` and ``cartpole_dqn_create_config`` contain the key configurations required for CartPole/DQN training. You can change the behavior of your training pipeline by changing the configuration here. For example, by changing ``cartpole_dqn_config.policy.cuda`` , you can choose whether to use your cuda device to run the entire training process.
 
 If you want to use other training pipelines provided by DI-engine, or use your own custom training pipelines, you only need to change the part of the ``main`` function of ``config.py`` that calls the training pipeline. For example, you can change the ``serial_pipeline`` in the example to ``parallel_pipeline`` to call the parallel training pipeline.
 
-For the CLI tool ``ding``, we can also change the previous cli command to
+For the CLI tool ``ding``, you can also change the previous cli command to
 
 .. code-block:: bash
 
