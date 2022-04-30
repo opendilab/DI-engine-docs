@@ -10,7 +10,7 @@ DI-zoo is a collection of reinforcement learning environments wrapped with DI-en
 The structure of DI-zoo
 -------------------------------
 
-For a certain environment/algorithm pair, in order to run RL experiment in DI-engine, DI-zoo mainly provides two files: the ``config.py`` file, including the key configuration required to train the environment/algorithm pair, and the entry point to run the training pipeline; the ``env.py`` file, containing the encapsulation of the environment to run in DI-engine.
+For a certain environment/algorithm pair, in order to run RL experiment in DI-engine, DI-zoo mainly provides two files: the ``config.py`` file, including the key configuration required to run the RL experiment of environment/algorithm pair, and the entry point to run the training pipeline; the ``env.py`` file, containing the encapsulation of the environment to run in DI-engine.
 
 .. note ::
     
