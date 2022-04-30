@@ -10,13 +10,13 @@ DI-zoo is a collection of reinforcement learning environments wrapped with DI-en
 The structure of DI-zoo
 -------------------------------
 
-For a certain environment/algorithm pair, in order to run RL experiment in DI-engine, DI-zoo mainly provides two files: the ``config.py`` file, including the key configuration required as well as the entry point to run the RL experiment; the ``env.py`` file, containing the encapsulation of the environment to run in DI-engine.
+For a certain environment/policy pair, in order to run RL experiment in DI-engine, DI-zoo mainly provides two files: the ``config.py`` file, including the key configuration required as well as the entry point to run the RL experiment; the ``env.py`` file, containing the encapsulation of the environment to run in DI-engine.
 
 .. note ::
     
-    Besides, some environment/algorithm pairs also possess a ``main.py`` entry file, which is the training pipeline left over from the previous version.
+    Besides, some environment/policy pairs also possess a ``main.py`` entry file, which is the training pipeline left over from the previous version.
 
-Here we briefly show the structure of DI-zoo based on the CartPole environment + DQN algorithm.
+Here we briefly show the structure of DI-zoo based on the CartPole environment and DQN algorithm.
 
 .. code-block::
 
@@ -29,7 +29,7 @@ Here we briefly show the structure of DI-zoo based on the CartPole environment +
 
 How to use DI-zoo
 -------------------------------
-You can directly execute the ``config.py`` file provided by DI-zoo to train a certain environment/algorithm pair. For CartPole/DQN, you can easily perform the RL experiment with the following code:
+You can directly execute the ``config.py`` file provided by DI-zoo to train a certain environment/policy pair. For CartPole/DQN, you can easily perform the RL experiment with the following code:
 
 .. code-block:: bash
 
@@ -54,7 +54,7 @@ where ``-m serial`` means that the training pipeline you call is ``serial_pipeli
 Customization of DI-zoo
 -------------------------------
 
-You can customize your training process or tune the performance of a environment/algorithm pair by changing the configuration in ``config.py``.
+You can customize your training process or tune the performance of your RL experiment by changing the configuration in ``config.py``.
 
 Here we use ``cartpole_dqn_config.py`` as an example: 
 
@@ -135,9 +135,9 @@ to call ``parallel_pipeline``.
 
 .. note ::
 
-    To customize the training pipeline, you can refer to `serial_pipeline <https://github.com/opendilab/DI-engine/blob/0fccfcb046f04767504f68220d96a6608bb38f29/ding/entry/serial_entry.py#L17>`_ , or refer to `DQN example <https://github.com/opendilab/DI-engine/blob/main/ding/example/dqn.py>`_, using the the middleware provided by DI-engine to build the pipeline.
+    To customize the training pipeline, you can refer to `serial_pipeline <https://github.com/opendilab/DI-engine/blob/0fccfcb046f04767504f68220d96a6608bb38f29/ding/entry/serial_entry.py#L17>`_ , or refer to `DQN example <https://github.com/opendilab/DI-engine/blob/main/ding/example/dqn.py>`_, using the the `middleware <../03_system/middleware.html>`_ provided by DI-engine to build the pipeline.
 
-    If you want to use your own environment in DI-engine, you can just inherit ``BaseEnv`` implemented by DI-engine. This part can refer to `How to migrate your environment to DI-engine <../best_practice/ding_env.html>`_
+    If you want to use your own environment in DI-engine, you can just inherit ``BaseEnv`` implemented by DI-engine. For this part you can refer to `How to migrate your environment to DI-engine <../best_practice/ding_env.html>`_
 
 List of algorithms and environments supported by DI-zoo
 -------------------------------
