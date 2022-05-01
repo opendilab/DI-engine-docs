@@ -2,7 +2,7 @@ Github Cooperation
 =====================================
 
 .. .. toctree::
-..    :maxdepth: 2
+   :maxdepth: 2
 
-..    git_guide
-..    issue_pr
+   git_guide
+   issue_pr
