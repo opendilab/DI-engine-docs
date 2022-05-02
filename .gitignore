@@ -1,6 +1,6 @@
-*.eps
-*.jpg
-*.svg
+*.puml.eps
+*.puml.jpg
+*.puml.svg
 .DS_Store
 build/
 source/_build
