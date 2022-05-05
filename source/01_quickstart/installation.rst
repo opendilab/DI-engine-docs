@@ -28,10 +28,21 @@ You can simply install stable release DI-engine with the following command:
 
 .. code-block:: bash
 
-    # Install the latest pip
-    pip install
     # Current stable release of DI-engine
     pip install DI-engine
+
+.. tip::
+
+    If you need to upgrade pip, you can use the following commands:
+
+    .. code-block:: bash
+
+        # Windows
+        > python -m pip install --upgrade pip
+        # Linux
+        $ pip install --upgrade pip
+        # MacOS
+        $ pip install --upgrade pip
 
 .. tip::
 
@@ -55,7 +66,18 @@ If you need to install latest DI-engine in development from the Github source co
 .. code-block:: bash
 
     git clone https://github.com/opendilab/DI-engine.git
-    pip install ./DI-engine/
+    cd DI-engine
+    pip install .
+
+.. tip::
+
+    If you hope to install DI-engine into local user directories, you can do as the following:
+
+    .. code-block:: bash
+
+        pip install . --user
+
+    Be careful that if you are using virtual python environment created by softwares, such as virtualenv, then the option "--user" may not work. Please ignore this tip.
 
 Special Version
 --------------
@@ -70,9 +92,21 @@ If you want to enable special version of DI-engine and install the extra package
     pip install DI-engine[test]
     # enable numba acceleration
     pip install DI-engine[fast]
-    #install multi extra packages
+    # install multi extra packages
     pip install DI-engine[common_env,test,fast]
 
+.. tip::
+
+    Some certain shells require quotation marks around package names as the folloing:
+
+    .. code-block:: bash
+
+        pip install 'DI-engine[common_env,test,fast]'
+
+.. note::
+
+    The whole installation procedure often lasts about 30 seconds, which depends on the the size of packages as well as download speed. 
+    If some packages installation failed, you can refer to the file "setup.py" and install the specific package manually.
 
 Run in Docker
 --------------
@@ -85,3 +119,20 @@ DI-engine docker images are available in `DockerHub <https://hub.docker.com/r/op
     docker pull opendilab/ding:nightly 
     # Run Docker image
     docker run -it opendilab/ding:nightly /bin/bash
+
+Installation Check
+--------------
+
+After installation, you can use the following python codes to check if DI-engine is available and show the version of it:
+
+.. code-block:: python
+
+    import ding
+    print(ding.__version__)
+
+You can also try the command line tool of DI-engine as the folloing:
+
+.. code-block:: bash
+
+    ding -v
+

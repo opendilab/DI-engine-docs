@@ -28,10 +28,21 @@ Python 版本: 3.6-3.8
 
 .. code-block:: bash
 
-    # Install the latest pip
-    pip install
     # Current stable release of DI-engine
     pip install DI-engine
+
+.. tip::
+
+    如果你需要升级 pip 版本，可以使用以下命令：
+
+    .. code-block:: bash
+
+        # Windows
+        > python -m pip install --upgrade pip
+        # Linux
+        $ pip install --upgrade pip
+        # MacOS
+        $ pip install --upgrade pip
 
 .. tip::
 
@@ -56,7 +67,18 @@ Python 版本: 3.6-3.8
 .. code-block:: bash
 
     git clone https://github.com/opendilab/DI-engine.git
-    pip install ./DI-engine/
+    cd DI-engine
+    pip install .
+
+.. tip::
+
+    如果您希望将DI-engine的安装目录设置为操作系统的当前用户，您可以使用如下方式：
+
+    .. code-block:: bash
+
+        pip install . --user
+
+    如果您正在使用诸如 virtualenv 等程序生成的虚拟python环境，则 "--user" 可能不会生效，请忽略本提示。    
 
 特殊版本
 --------------
@@ -71,8 +93,21 @@ Python 版本: 3.6-3.8
     pip install DI-engine[test]
     # enable numba acceleration
     pip install DI-engine[fast]
-    #install multi extra packages
+    # install multi extra packages
     pip install DI-engine[common_env,test,fast]
+
+.. tip::
+
+    某些类型的终端可能需要将安装包名称的整体，使用引号注释后才能生效该指令，如下所示：
+
+    .. code-block:: bash
+
+        pip install 'DI-engine[common_env,test,fast]'
+
+.. note::
+
+    取决于安装内容与网络状态，安装耗时一般为 30 秒左右。 
+    如果在该过程中有一些特定的依赖项未能成功安装，您可以参考 "setup.py" 文件中的版本要求，然后手动安装它。
 
 使用 Docker 运行
 --------------
@@ -85,3 +120,20 @@ DI-engine 的镜像可以在 `DockerHub <https://hub.docker.com/r/opendilab/ding
     docker pull opendilab/ding:nightly 
     # Run Docker image
     docker run -it opendilab/ding:nightly /bin/bash
+
+安装检查
+--------------
+
+安装完毕之后，您可以使用如下 python 命令检查 DI-engine 是否可用，并查看该DI-engine的版本信息:
+
+.. code-block:: python
+
+    import ding
+    print(ding.__version__)
+
+您也可以直接在终端使用 DI-engine 的命令行工具：
+
+.. code-block:: bash
+
+    ding -v
+
