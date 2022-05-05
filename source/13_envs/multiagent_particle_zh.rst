@@ -167,12 +167,12 @@ MPE 已经被集成在 DI-engine/dizoo 仓库中，所以只要安装 DI-engine 
 训练和测试环境的区别
 ----------------------------------------------------------
 
--  训练环境使用动态随机种子，即每个episode的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
+-  训练环境使用动态随机种子，即每个 episode 的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
 
 保存录像
 ----------------------------
 
-在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个episode结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境episode，并将这个episode的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
+在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个 episode 结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境 episode，并将这个 episode 的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
 
 .. code:: python
 
@@ -193,9 +193,8 @@ MPE 已经被集成在 DI-engine/dizoo 仓库中，所以只要安装 DI-engine 
 DI-zoo 代码示例
 =======================
 
-Complete training configuration is at `github
-link <https://github.com/opendilab/DI-engine/tree/main/dizoo/multiagent_particle/config>`_ .
-For specific configuration file, e.g. ``modified_predator_prey_qtran_config.py``, you can run the demo as shown below:
+完整的训练配置文件在 `github link <https://github.com/opendilab/DI-engine/tree/main/dizoo/multiagent_particle/config>`_ ，
+对于特定的配置文件，例如 ``modified_predator_prey_qtran_config.py``，你可以运行下述demo：
 
 .. code:: python
 

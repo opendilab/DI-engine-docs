@@ -104,13 +104,13 @@ Key Facts
 Other
 ===========
 
-Different layouts
+Different Layouts
 -------------------------
 You can change the layout used by changing ``env_name`` in environment config. However, the overcooked env is still under development, so not all layout is supported.
 
 You can also hand code your own layout, referencing this link for layouts `files <https://github.com/HumanCompatibleAI/overcooked_ai/tree/master/src/overcooked_ai_py/data/layouts>`__.
 
-DI-zoo code example
+DI-zoo Code Example
 =======================
 
 Complete training configuration is at `github

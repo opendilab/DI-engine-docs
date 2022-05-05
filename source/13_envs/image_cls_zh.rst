@@ -4,14 +4,14 @@ Image Classification
 概述
 ====
 
-ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图像数据库，其中层次结构的每个节点都由成百上千的图像来描绘。 其在推进计算机视觉和深度学习研究方面发挥了重要作用。
-该数据集已手动注释了1400多万张图像，以指出图片中的对象，并在至少100万张图像中提供了边框。
-自2010 年以来，ImageNet项目举办了一年一度的竞赛，即ImageNet大规模视觉识别挑战赛(ILSVRC)，挑战赛使用1000个“整理”后的非重叠类, 通过竞赛来正确分类和检测对象和场景。
-常用的数据集是其子数据集，也是ISLVRC 2012(ImageNet Large Scale Visual Recognition Challenge)比赛采用的数据集，共有1000个类别。其中:
+ImageNet 是一个按照 WordNet 层次结构（目前只有名词）组织的图像数据库，其中层次结构的每个节点都由成百上千的图像来描绘。 其在推进计算机视觉和深度学习研究方面发挥了重要作用。
+该数据集已手动注释了 1400 多万张图像，以指出图片中的对象，并在至少 100 万张图像中提供了边框。
+自2010 年以来，ImageNet 项目举办了一年一度的竞赛，即 ImageNet 大规模视觉识别挑战赛(ILSVRC)，挑战赛使用 1000 个“整理”后的非重叠类, 通过竞赛来正确分类和检测对象和场景。
+常用的数据集是其子数据集，也是 ISLVRC 2012(ImageNet Large Scale Visual Recognition Challenge)比赛采用的数据集，共有 1000 个类别。其中:
 
--  训练集:1,281,167张图片+标签
--  验证集:50,000张图片+标签
--  测试集:100,000张图片
+-  训练集:1,281,167 张图片+标签
+-  验证集:50,000 张图片+标签
+-  测试集:100,000 张图片
 
 
 .. image:: ./images/imagenet.png
@@ -24,12 +24,12 @@ ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图
 --------
 
 下载链接 `ImageNet Datasets <http://www.image-net.org/>`_
-将用于验证的valid数据集移动到相应的子文件夹，`数据集预处理shell脚本 <https://raw.githubusercontent.com/jkjung-avt/jkjung-avt.github.io/master/assets/2017-12-01-ilsvrc2012-in-digits/valprep.sh>`_。
+将用于验证的 valid 数据集移动到相应的子文件夹，`数据集预处理 shell 脚本 <https://raw.githubusercontent.com/jkjung-avt/jkjung-avt.github.io/master/assets/2017-12-01-ilsvrc2012-in-digits/valprep.sh>`_。
 
 加载数据集
 ----------
 
-下载完成后，可以通过在Python命令行中运行如下命令对数据集进行加载和测试:
+下载完成后，可以通过在 Python 命令行中运行如下命令对数据集进行加载和测试:
 
 .. code:: python
 
@@ -51,23 +51,24 @@ ImageNet是一个按照 WordNet 层次结构（目前只有名词）组织的图
 数据集信息
 ==========
 
-数据集中图片信息主要包括两个部分，图片和标签。图片即RGB二维信息，标签是图片的类别。
+数据集中图片信息主要包括两个部分，图片和标签。图片即 RGB 二维信息，标签是图片的类别。
 
 图片信息
 ---------
 
-RGB三通道图片，具体尺寸为\ ``(224, 224, 3)``\ ，经过Dataloader后数据类型为\ ``torch.float32``。
-在DI-engine中，ImageNet采用的数据转换方式有Resize, Normalize, Totensor, CenterCrop等等。
-Resize将输入图像调整为给定的大小。
-Normalize使用均值和标准差对张量图像进行归一化。
-CenterCrop将在中心裁剪给定的图像。
-ToTensor将变量转换为张量。
+RGB 三通道图片，具体尺寸为\ ``(224, 224, 3)``\ ，经过 Dataloader 后数据类型为\ ``torch.float32``。
+在 DI-engine 中，ImageNet 采用的数据转换方式有 Resize, Normalize, CenterCrop, Totensor等等：
+    
+    - Resize 将输入图像调整为给定的大小。
+    - Normalize 使用均值和标准差对张量图像进行归一化。
+    - CenterCrop 将在中心裁剪给定的图像。
+    - ToTensor 将变量转换为张量。
 
 
 标签信息
 --------
 
--  图片共有1000个标签，每个标签代表一种类别，在这里列出其前5种标签，
+-  图片共有 1000个 标签，每个标签代表一种类别，在这里列出其前 5 种标签，
 
    -  0: 'tench, Tinca tinca',
    -  1: 'goldfish, Carassius auratus',
@@ -77,35 +78,35 @@ ToTensor将变量转换为张量。
 
 -  全部标签信息请查看 `ImageNet Label <https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a/>`_
 
-使用DI-engine完成ImageNet上的监督学习训练
+使用 DI-engine 完成 ImageNet 上的监督学习训练
 ===========================================
 
-1. 将监督学习适配于强化学习框架DI-engine中。
+1. 将监督学习适配于强化学习框架 DI-engine 中。
 
-2. 基于强化学习框架中的Policy模块，负责图像分类网络的初始化、前向以及反向传播、优化器以及损失函数的定义。
+2. 基于强化学习框架中的 Policy 模块，负责图像分类网络的初始化、前向以及反向传播、优化器以及损失函数的定义。
 
-3. 设计适用于监督学习的图像分类度量方法ImageClassificationMetric，其中包括Top-K计算等。
+3. 设计适用于监督学习的图像分类度量方法 ImageClassificationMetric，其中包括 Top-K 计算等。
 
-4. 基于强化学习框架中的Evaluator模块，设计适用于监督学习的度量评价器MetricSerialEvaluator。
+4. 基于强化学习框架中的 Evaluator 模块，设计适用于监督学习的度量评价器 MetricSerialEvaluator。
 
-5. 基于强化学习框架中的Learner模块，负责训练网络的基本pipeline。
+5. 基于强化学习框架中的 Learner 模块，负责训练网络的基本 pipeline。
 
-6. 基于强化学习框架中的LearnerHook模块,设计适用于监督学习的log信息记录的ImageClsLogShowHook。
+6. 基于强化学习框架中的 LearnerHook 模块,设计适用于监督学习的 log 信息记录的 ImageClsLogShowHook。
 
 其他
 ====
 
-为了加快训练，pytorch中有两种常用的数据并行的方式，DataParallal（DP）以及DistributedDataParalle（DDP）。
+为了加快训练，pytorch 中有两种常用的数据并行的方式，DataParallal（DP）以及DistributedDataParalle（DDP）。
 
 DP以及DDP
 ------------
 
 -  DataParallal(DP)
 
-DP基于单机多卡，所有设备都负责计算和训练网络。
-除此之外，device[0](并非GPU真实标号而是输入参数device_ids首位)还要负责整合梯度，更新参数。
-其主要过程为各卡分别计算损失和梯度,将所有梯度整合到device[0]，device[0]进行参数更新，
-其他卡拉取 device[0] 的参数进行更新。但其实代码只需1行，汇总损失和梯度的操作以及参数同步都自动完成。
+DP 基于单机多卡，所有设备都负责计算和训练网络。
+除此之外，device[0](并非GPU真实标号而是输入参数 device_ids 首位)还要负责整合梯度，更新参数。
+其主要过程为各卡分别计算损失和梯度,将所有梯度整合到 device[0]，device[0] 进行参数更新，
+其他卡拉取 device[0] 的参数进行更新。但其实代码只需 1 行，汇总损失和梯度的操作以及参数同步都自动完成。
 
 
 .. code:: python
@@ -115,11 +116,11 @@ DP基于单机多卡，所有设备都负责计算和训练网络。
 
 -  DistributedDataParallel(DDP)
 
-DDP主要用于单机多卡和多机多卡，其采用多进程控制多gpu，并使用ring allreduce同步梯度。由于各个进程初始参数、更新梯度是相同的，采用同步后的梯度各自更新参数。
-DDP最佳推荐使用方法是每个进程一张卡，每张卡复制一份模型。
-如果要确保DDP性能和单卡性能一致，需要保证在数据上，DDP模式下的一个epoch和单卡下的一个epoch是等效的。
+DDP 主要用于单机多卡和多机多卡，其采用多进程控制多 gpu，并使用 ring allreduce 同步梯度。由于各个进程初始参数、更新梯度是相同的，采用同步后的梯度各自更新参数。
+DDP 最佳推荐使用方法是每个进程一张卡，每张卡复制一份模型。
+如果要确保 DDP 性能和单卡性能一致，需要保证在数据上，DDP 模式下的一个 epoch 和单卡下的一个 epoch 是等效的。
 在多机多卡情况下分布式训练数据的读取是一个重要的问题，不同的卡读取到的数据应该是不同的。
-DP将训练数据切分到不同的卡，但对于多机来说，多机之间直接进行数据传输会严重影响效率。
+DP 将训练数据切分到不同的卡，但对于多机来说，多机之间直接进行数据传输会严重影响效率。
 于是利用 `DistributedSampler <https://github.com/opendilab/DI-engine/blob/main/dizoo/image_classification/data/sampler.py>`__
 确保每一个子进程划分出一部分数据集，以避免不同进程之间数据重复。
 
@@ -137,8 +138,8 @@ DP将训练数据切分到不同的卡，但对于多机来说，多机之间直
 评估方法
 --------
 
-对于imagenet图像分类任务，有一个重要的指标是\`` Top-K `` \。
-\`` Top-K `` \准确率就是用来计算预测结果中概率最大的前K个结果包含正确标签的占比。
+对于 imagenet 图像分类任务，有一个重要的指标是\`` Top-K `` \。
+\`` Top-K `` \ 准确率就是用来计算预测结果中概率最大的前K个结果包含正确标签的占比。
 其计算方法如下
 
 .. code:: python
@@ -337,11 +338,9 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/image_classificatio
 基准算法性能
 ============
 
-图中为近些年在Imagenet数据集中的Top-K识别精度对比，
+图中为近些年在 Imagenet 数据集中的 Top-K 识别精度对比，
 
 .. image:: ./images/imagenet-topk.png
    :align: center
 
-精度对比节选 `Meta pseudo labels <https://openaccess.thecvf.com/content/CVPR2021/html/Pham_Meta_Pseudo_Labels_CVPR_2021_paper.html>`__ 
-中Figure 4。
-
+精度对比节选 `Meta pseudo labels <https://openaccess.thecvf.com/content/CVPR2021/html/Pham_Meta_Pseudo_Labels_CVPR_2021_paper.html>`__ 中Figure 4。

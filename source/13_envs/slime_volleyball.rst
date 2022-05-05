@@ -37,16 +37,16 @@ After completing installation, you can check whether it is succesful by the foll
    print(obs.shape)  # (12, )
 
 DI-engine Mirrors
------------------
+---------------------
 
 Due to Slime Volleyball is easy to install, DI-engine does not have Mirror specifically for it. You can customize your build with the benchmark Mirror ``opendilab/ding:nightly``, or visit the `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__ for more mirrors.
 
-.. _Original environment space) :
+.. _Original environment space:
 
 Original Environment
 ========================
-Note: ``SlimeVolley-v0`` is used here as an example, because benchmarking the ``self-play`` series of algorithms naturally gives priority to simplicity. If you want to use the other two environments, you can check the original repository and adapt the environment according to the `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_.
+Note: SlimeVolley-v0 is used here as an example, because benchmarking the self-play series of algorithms naturally gives priority to simplicity. If you want to use the other two environments, you can check the original repository and adapt the environment according to the `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_.
 
 .. _Observation Space-1:
 

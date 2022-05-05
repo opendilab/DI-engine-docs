@@ -8,8 +8,8 @@ MiniGrid, 即最小化的格子世界环境，是经典的稀疏奖励的离散�
 在该游戏中，智能体需要学习在一个离散动作集合中选择合适的动作，在方格世界中完成移动，获取钥匙，开门等一系列序列决策以到达目标的位置。
 它有许多不同的实现版本，这里主要介绍
 \ `MiniGrid <https://github.com/maximecb/gym-minigrid>`__, 因为其实现简单、轻量、代码依赖少、容易安装。
-它包括MiniGrid-Empty-8x8-v0, MiniGrid-FourRooms-v0, MiniGrid-DoorKey-16x16-v0, MiniGrid-KeyCorridorS3R3-v0,
-MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环境, 下图所示为其中的MiniGrid-DoorKey-16x16-v0游戏。
+它包括 MiniGrid-Empty-8x8-v0, MiniGrid-FourRooms-v0, MiniGrid-DoorKey-16x16-v0, MiniGrid-KeyCorridorS3R3-v0,
+MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0 等一系列环境, 下图所示为其中的 MiniGrid-DoorKey-16x16-v0 游戏。
 
 .. image:: ./images/MiniGrid-DoorKey-16x16-v0.png
    :align: center
@@ -21,9 +21,9 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 安装方法
 --------
 
-用户可以选择通过pip一键安装或git clone代码库后pip本地安装.
+用户可以选择通过 pip 一键安装或 git clone 代码库后 pip 本地安装.
 
-注：如果用户没有root权限，请在install的命令后面加上--user
+注：如果用户没有 root 权限，请在 install 的命令后面加上 --user
 
 .. code:: shell
 
@@ -37,7 +37,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 验证安装
 --------
 
-安装完成后，可以在Python命令行中运行如下命令, 如果显示出游戏的交互界面，则证明安装成功：
+安装完成后，可以在 Python 命令行中运行如下命令, 如果显示出游戏的交互界面，则证明安装成功：
 
 .. code:: python
 
@@ -71,14 +71,14 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
    obs4 = env.reset()  # obs: numpy.ndarray  (56, 56, 3)
 
 
-- obs1为一个\ ``dict``，包含\ ``image``, \ ``direction``, \ ``mission``,这3个字段, 其中\ ``image``\字段是一个shape为(7, 7, 3)的\ ``numpy.ndarray``，数据类型为\ ``uint8``
-  (7，7)表示只观测到附近7x7方格内的世界(因为环境是部分可观测的)，3表示每个小格对应一个3维的描述向量，注意这里不是真正的图像；\ ``direction``\字段是给出一个指导性的方向；
-  \ ``mission``\字段是一个文本字符串，描述了智能体应该达到什么样的目标以获得奖励.
-- 用户如果想使用真正的像素形式的图像，需要通过\ ``RGBImgPartialObsWrapper``\对env进行封装，obs2为一个\ ``dict``，包含\ ``mission``, \ ``image``\这2个字段，其中\ ``image``\字段是一个shape为(56, 56, 3)的\ ``numpy.ndarray``\，数据类型为\ ``uint8``
+- obs1 为一个\ ``dict``，包含\ ``image``, \ ``direction``, \ ``mission`` 这 3 个字段, 其中\ ``image``\ 字段是一个 shape 为(7, 7, 3) 的\ ``numpy.ndarray``，数据类型为\ ``uint8``
+  (7, 7) 表示只观测到附近 7x7 方格内的世界(因为环境是部分可观测的)，3 表示每个小格对应一个 3 维的描述向量，注意这里不是真正的图像；\ ``direction``\ 字段是给出一个指导性的方向；
+  \ ``mission``\ 字段是一个文本字符串，描述了智能体应该达到什么样的目标以获得奖励.
+- 用户如果想使用真正的像素形式的图像，需要通过\ ``RGBImgPartialObsWrapper``\ 对 env 进行封装，obs2 为一个\ ``dict``，包含\ ``mission``, \ ``image``\ 这 2 个字段，其中\ ``image``\字段是一个 shape 为 (56, 56, 3)的\ ``numpy.ndarray``\，数据类型为\ ``uint8``
   是环境是部分可观测的真正的图像；
-- 再通过\ ``ImgObsWrapper``\后，obs3是一个\ ``numpy.ndarray``，shape为(56, 56, 3)，数据类型为\ ``uint8``
-- 我们的代码库使用第4种\ ``FlatObsWrapper`` \方式，这种方式将\ ``mission``\字段中的任务字符串用one-hot的方式编码，
-  并将其与\ ``image``\字段内容拼接成一个\ ``numpy.ndarray``\obs4，其shape为(2739，)，数据类型为\ ``float32``
+- 再通过\ ``ImgObsWrapper``\ 后，obs3 是一个\ ``numpy.ndarray``，shape 为 (56, 56, 3)，数据类型为\ ``uint8``
+- 我们的代码库使用第 4 种\ ``FlatObsWrapper`` \ 方式，这种方式将\ ``mission``\ 字段中的任务字符串用 one-hot 的方式编码，
+  并将其与\ ``image``\ 字段内容拼接成一个\ ``numpy.ndarray``\ obs4，其 shape 为 (2739，)，数据类型为\ ``float32``
 
 
 .. _动作空间-1:
@@ -86,9 +86,9 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 动作空间
 --------
 
--  游戏操作按键空间，一般是大小为7的离散动作空间，数据类型为\ ``int``\ ，需要传入python数值（或是0维np数组，例如动作3为\ ``np.array(3)``\ ）
+-  游戏操作按键空间，一般是大小为 7 的离散动作空间，数据类型为\ ``int``\ ，需要传入 python 数值（或是 0 维 np 数组，例如动作 3 为\ ``np.array(3)``\ ）
 
--  动作在0-6中取值，具体的含义是：
+-  动作在 0-6 中取值，具体的含义是：
 
     -  0：left
 
@@ -100,9 +100,9 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 
     -  4：pickup
 
-    -  5： drop
+    -  5：drop
 
-    -  6： done/noop
+    -  6：done/noop
 
 - 参考 `MiniGrid manual_control.py <https://github.com/maximecb/gym-minigrid/blob/master/manual_control.py>`_ ，键盘按键-动作对应关系为:
 
@@ -114,26 +114,26 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 
    - ‘ ’: toggle
 
-   - ‘pageup’: pickup
+   - 'pageup': pickup
 
-   - ‘pagedown’: drop
+   - 'pagedown': drop
 
-   - ‘enter’: done/noop
+   - 'enter': done/noop
 
 .. _奖励空间-1:
 
 奖励空间
 --------
 
--  游戏得分，不同的minigrid子环境奖励幅度差异较小，其最大值为1，一般是一个\ ``float``\ 数值，由于是稀疏奖励环境，只有在agent(显示为红色的点)到达goal
-   (显示为绿色的点)时才有一个大于零的奖励，具体的数值由不同环境和达到goal所用的总步数决定，没有达到goal之前的奖励都是0。
+-  游戏得分，不同的 minigrid 子环境奖励幅度差异较小，其最大值为 1，一般是一个\ ``float``\ 数值，由于是稀疏奖励环境，只有在 agent (显示为红色的点)到达 goal
+   (显示为绿色的点)时才有一个大于零的奖励，具体的数值由不同环境和达到 goal 所用的总步数决定，没有达到 goal 之前的奖励都是 0。
 
 .. _其他-1:
 
 其他
 ----
 
--  当智能体到达绿色的goal或者达到环境的最大步数限制时，游戏结束。
+-  当智能体到达绿色的 goal 或者达到环境的最大步数限制时，游戏结束。
 
 关键事实
 ========
@@ -142,11 +142,11 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 
 2. 离散动作空间。
 
-3. 稀疏奖励，奖励取值尺度变化较小，最大为1，最小为0。
+3. 稀疏奖励，奖励取值尺度变化较小，最大为 1，最小为 0。
 
 .. _变换后的空间rl环境）:
 
-变换后的空间（RL环境）
+变换后的空间（RL 环境）
 ======================
 
 .. _观察空间-2:
@@ -154,16 +154,16 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 观察空间
 --------
 
--  变换内容：我们的代码库使用第4种\ ``FlatObsWrapper``\方式，这种方式将\ ``mission``\字段中的任务字符串以one-hot的方式编码，并将其与\ ``image``\字段内容拼接成一个长数组
+-  变换内容：我们的代码库使用第4种\ ``FlatObsWrapper``\ 方式，这种方式将\ ``mission``\ 字段中的任务字符串以 one-hot 的方式编码，并将其与\ ``image``\ 字段内容拼接成一个长数组
 
--  变换结果：一维np数组，尺寸为\ ``(2739，)``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[0., 7.]``
+-  变换结果：一维 np 数组，尺寸为\ ``(2739，)``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[0., 7.]``
 
 .. _动作空间-2:
 
 动作空间
 --------
 
--  基本无变换，依然是大小为N=7的离散动作空间，一般为一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
+-  基本无变换，依然是大小为 N=7 的离散动作空间，一般为一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
 .. _奖励空间-2:
 
@@ -173,7 +173,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 -  变换内容：基本无变换
 
 
-上述空间使用gym环境空间定义则可表示为：
+上述空间使用 gym 环境空间定义则可表示为：
 
 .. code:: python
 
@@ -188,7 +188,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 其他
 ----
 
--  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在minigrid中为整个episode的奖励累加和
+-  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在 minigrid 中为整个 episode 的奖励累加和
 
 .. _其他-3:
 
@@ -202,18 +202,18 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
 
 -  对于环境调用者，只需通过环境的\ ``seed``\ 方法进行设置这两个种子，无需关心具体实现细节
 
--  环境内部的具体实现：对于随机库种子，则在环境的\ ``seed``\ 方法中直接设置该值; 对于原始环境的种子，在调用环境的\ ``reset``\ 方法内部，具体的原始环境\ ``reset``\ 之前设置为seed + np_seed, 其中seed为前述的随机库种子的值,
+-  环境内部的具体实现：对于随机库种子，则在环境的\ ``seed``\ 方法中直接设置该值; 对于原始环境的种子，在调用环境的\ ``reset``\ 方法内部，具体的原始环境\ ``reset``\ 之前设置为seed + np_seed, 其中 seed 为前述的随机库种子的值,
    np_seed = 100 * np.random.randint(1, 1000)。
 
 训练和测试环境的区别
 --------------------
 
--  训练环境使用动态随机种子，即每个episode的随机种子都不同，由一个随机数发生器产生，而这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
+-  训练环境使用动态随机种子，即每个 episode 的随机种子都不同，由一个随机数发生器产生，而这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个 episode 的随机种子相同，通过\ ``seed``\ 方法指定。
 
 存储录像
 --------
 
-在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个episode结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境episode，并将这个episode的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
+在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个 episode 结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境 episode，并将这个 episode 的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
 
 .. code:: python
 
@@ -234,12 +234,12 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0等一系列环�
           print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
           break
 
-DI-zoo可运行代码示例
-====================
+DI-zoo 可运行代码示例
+======================
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/minigrid/config>`__
-内，对于具体的配置文件，例如\ ``minigrid_r2d2_config.py``\ ，使用如下的demo即可运行：
+内，对于具体的配置文件，例如\ ``minigrid_r2d2_config.py``\ ，使用如下的 demo 即可运行：
 
 .. code:: python
 
@@ -328,7 +328,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/minigrid/config>`__
 基准算法性能
 ============
 
--  MiniGrid-Empty-8x8-v0（0.5M env step下，平均奖励大于0.95）
+-  MiniGrid-Empty-8x8-v0（0.5M env step 下，平均奖励大于 0.95）
 
    - MiniGrid-Empty-8x8-v0 + R2D2
 
@@ -336,7 +336,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/minigrid/config>`__
      :align: center
      :scale: 50%
 
--  MiniGrid-FourRooms-v0（10M env step下，平均奖励大于0.6）
+-  MiniGrid-FourRooms-v0（10M env step 下，平均奖励大于 0.6）
 
    - MiniGrid-FourRooms-v0 + R2D2
 
@@ -344,7 +344,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/minigrid/config>`__
      :align: center
      :scale: 50%
 
--  MiniGrid-DoorKey-16x16-v0（20M env step下，平均奖励大于0.2）
+-  MiniGrid-DoorKey-16x16-v0（20M env step 下，平均奖励大于 0.2）
 
    - MiniGrid-DoorKey-16x16-v0 + R2D2
 

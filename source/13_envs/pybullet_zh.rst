@@ -4,7 +4,7 @@ PyBullet
 概述
 =======
 
-PyBullet是用于游戏，视觉效果，机器人和强化学习的物理模拟，常来作为连续空间强化学习算法的基准测试环境。它是一系列环境的集合（共有20个子环境），常用的子环境有locomotion(Hopper, Walker2D, Half Cheetah, Ant, Humanoid), Manipulator和Pendulum等等，下图所示为其中Hopper游戏。
+PyBullet 是用于游戏，视觉效果，机器人和强化学习的物理模拟，常来作为连续空间强化学习算法的基准测试环境。它是一系列环境的集合（共有 20 个子环境），常用的子环境有 locomotion(Hopper, Walker2D, Half Cheetah, Ant, Humanoid), Manipulator 和 Pendulum 等等，下图所示为其中 Hopper 游戏。
 
 .. image:: ./images/pybullet.gif
    :align: center
@@ -15,7 +15,7 @@ PyBullet是用于游戏，视觉效果，机器人和强化学习的物理模拟
 安装方法
 --------
 
-可以通过pip一键安装或结合DI-engine安装，只需安装gym和pybullet-gym两个库即可
+可以通过 pip 一键安装或结合 DI-engine 安装，只需安装 gym 和 pybullet-gym 两个库即可
 
 .. code:: shell
     
@@ -28,7 +28,7 @@ PyBullet是用于游戏，视觉效果，机器人和强化学习的物理模拟
 验证安装
 --------
 
-安装完成后，可以通过在Python命令行中运行如下命令验证安装成功：
+安装完成后，可以通过在 Python 命令行中运行如下命令验证安装成功：
 
 .. code:: python
 
@@ -43,7 +43,7 @@ PyBullet是用于游戏，视觉效果，机器人和强化学习的物理模拟
 镜像
 ----
 
-DI-engine的镜像配备框架本身，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
+DI-engine 的镜像配备框架本身，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜像
 
 .. _变换前的空间原始环境）:
@@ -56,16 +56,16 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
 观察空间
 --------
 
--  物理信息组成的向量(3D position, orientation, and joint angles etc. )，具体尺寸为\ ``(N, )``\ ，其中\ ``N``\ 根据环境决定，数据类型为\ ``float64``
+-  物理信息组成的向量(3D position, orientation, and joint angles etc.)，具体尺寸为\ ``(N, )``\ ，其中\ ``N``\ 根据环境决定，数据类型为\ ``float64``
 
 .. _动作空间-1:
 
 动作空间
 --------
 
--  物理信息组成的向量(torque etc.)，一般是大小为N的连续动作空间（N随具体子环境变化），数据类型为\ ``np.float32``\ ，需要传入np数组（例如动作为\ ``array([-0.9266078 , -0.4958926 ,  0.46242517], dtype=np.float32)``\ ）
+-  物理信息组成的向量(torque etc.)，一般是大小为 N 的连续动作空间（N 随具体子环境变化），数据类型为\ ``np.float32``\ ，需要传入np数组（例如动作为\ ``array([-0.9266078 , -0.4958926 ,  0.46242517], dtype=np.float32)``\ ）
 
--  如在Hopper环境中，N的大小为3，动作在\ ``[-1, 1]``\中取值
+-  如在 Hopper 环境中，N 的大小为 3，动作在\ ``[-1, 1]``\ 中取值
 
 .. _奖励空间-1:
 
@@ -79,12 +79,12 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
 其他
 ----
 
--  游戏结束即为当前环境episode结束
+-  游戏结束即为当前环境 episode 结束
 
 关键事实
 ========
 
-1. Vector物理信息输入，由实际经验可知，在做norm时不宜减去均值。
+1. Vector物理信息输入，由实际经验可知，在做 norm 时不宜减去均值。
 
 2. 连续动作空间
 
@@ -110,7 +110,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
 动作空间
 --------
 
--  基本无变换，依然是大小为N的连续动作空间，取值范围\ ``[-1, 1]``\，尺寸为\ ``(N, )``\ ，数据类型为\ ``np.float32``
+-  基本无变换，依然是大小为 N 的连续动作空间，取值范围\ ``[-1, 1]``\，尺寸为\ ``(N, )``\ ，数据类型为\ ``np.float32``
 
 .. _奖励空间-2:
 
@@ -119,7 +119,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
 
 -  基本无变换
 
-上述空间使用gym环境空间定义则可表示为：
+上述空间使用 gym 环境空间定义则可表示为：
 
 .. code:: python
 
@@ -135,7 +135,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
 其他
 ----
 
--  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在Pybullet中为整个episode的奖励累加和
+-  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在 Pybullet 中为整个 episode 的奖励累加和
 
 .. _其他-3:
 
@@ -161,13 +161,13 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
 训练和测试环境的区别
 --------------------
 
--  训练环境使用动态随机种子，即每个episode的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
+-  训练环境使用动态随机种子，即每个 episode 的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个 episode 的随机种子相同，通过\ ``seed``\ 方法指定。
 
 
 存储录像
 --------
 
-在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个episode结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境episode，并将这个episode的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
+在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个 episode 结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境 episode，并将这个 episode 的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
 
 .. code:: python
 
@@ -185,12 +185,12 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
             print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
             break
 
-DI-zoo可运行代码示例
+DI-zoo 可运行代码示例
 ====================
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/pybullet/config/>`__
-内，对于具体的配置文件，例如\ ``hopper_sac_default_config.py``\ ，使用如下的demo即可运行：
+内，对于具体的配置文件，例如\ ``hopper_sac_default_config.py``\ ，使用如下的 demo 即可运行：
 
 .. code:: python
 
@@ -266,9 +266,9 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/pybullet/config/>`_
        from ding.entry import serial_pipeline
        serial_pipeline((main_config, create_config), seed=0)
 
-注：对于某些特殊的算法，比如PPO，需要使用专门的入口函数，示例可以参考
+注：对于某些特殊的算法，比如 PPO，需要使用专门的入口函数，示例可以参考
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/pybullet/entry/pybullet_ppo_main.py>`__
-也可以使用serial_pipeline_onpolicy一键进入
+也可以使用 serial_pipeline_onpolicy 一键进入
 
 基准算法性能
 ============

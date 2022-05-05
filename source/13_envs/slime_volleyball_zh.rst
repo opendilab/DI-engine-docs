@@ -4,7 +4,7 @@ Slime Volleyball
 概述
 =======
 
-Slime Volleyball是一个双人对战型环境，可以看作一个简化的一对一排球游戏。它是 ``self-play`` 相关算法测试的基本环境，其观察空间有向量和图片形式两种，动作空间常简化为离散动作空间。它由三个子环境构成，分别为 ``SlimeVolley-v0``，``SlimeVolleyPixel-v0``，``SlimeVolleyNoFrameskip-v0``），下图所示为其中的 ``SlimeVolley-v0`` 游戏。
+Slime Volleyball 是一个双人对战型环境，可以看作一个简化的一对一排球游戏。它是 self-play 相关算法测试的基本环境，其观察空间有向量和图片形式两种，动作空间常简化为离散动作空间。它由三个子环境构成，分别为 SlimeVolley-v0，SlimeVolleyPixel-v0，SlimeVolleyNoFrameskip-v0），下图所示为其中的 SlimeVolley-v0 游戏。
 
 .. image:: ./images/slime_volleyball.gif
    :align: center
@@ -15,7 +15,7 @@ Slime Volleyball是一个双人对战型环境，可以看作一个简化的一�
 安装方法
 --------
 
-pip一键安装 ``slimevolleygym`` 这个库即可
+pip 一键安装 slimevolleygym 这个库即可
 
 
 .. code:: shell
@@ -27,7 +27,7 @@ pip一键安装 ``slimevolleygym`` 这个库即可
 验证安装
 --------
 
-安装完成后，可以通过在Python命令行中运行如下命令验证安装成功：
+安装完成后，可以通过在 Python 命令行中运行如下命令验证安装成功：
 
 .. code:: python
 
@@ -40,14 +40,14 @@ pip一键安装 ``slimevolleygym`` 这个库即可
 镜像
 ----
 
-由于Slime Volleyball安装起来非常简单，所以DI-engine并没有为其专门准备镜像，可快速通过基准镜像 ``opendilab/ding:nightly`` 自定义构建，或访问 \ `docker
+由于 Slime Volleyball 安装起来非常简单，所以 DI-engine 并没有为其专门准备镜像，可快速通过基准镜像 ``opendilab/ding:nightly`` 自定义构建，或访问 \ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
 
 .. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
 ========================
-注：这里以 ``SlimeVolley-v0`` 为例，因为对 ``self-play`` 系列算法做基准测试自然是简单优先。如要用到其他两个环境，可结合原仓库查看，并根据 `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_ 进行相应适配。
+注：这里以 SlimeVolley-v0 为例，因为对 self-play 系列算法做基准测试自然是简单优先。如要用到其他两个环境，可结合原仓库查看，并根据 `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_ 进行相应适配。
 
 .. _观察空间-1:
 
@@ -62,47 +62,47 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 动作空间
 --------
 
--  ``SlimeVolley-v0`` 的原始动作空间被定义为 ``MultiBinary(3)`` 动作空间，即动作有三种，同一时刻可同时释放多个动作，每个动作对应0和1两种情况，分别为不执行（0）、执行（1），例如 ``(1, 0, 1)`` 代表同时执行第一种和第三种动作，数据类型为\ ``int``\ ，需要传入python list对象（或是1维尺寸为3的np数组，例如 ``np.array([0, 1, 0])``
+-  ``SlimeVolley-v0`` 的原始动作空间被定义为 ``MultiBinary(3)`` 动作空间，即动作有三种，同一时刻可同时释放多个动作，每个动作对应 0 和 1 两种情况，分别为不执行（0）、执行（1），例如 ``(1, 0, 1)`` 代表同时执行第一种和第三种动作，数据类型为\ ``int``\ ，需要传入 python list 对象（或是 1 维尺寸为 3 的 np 数组，例如 ``np.array([0, 1, 0])``
 
--  实际环境内部逻辑实现中，并没有严格限制动作必须为0和1，它是将大于0值的视作1，小于等于0的值视作0
+-  实际环境内部逻辑实现中，并没有严格限制动作必须为 0 和 1，它是将大于 0 值的视作 1，小于等于 0 的值视作 0
 
 -  在 ``SlimeVolley-v0`` 环境中，三个动作具体的含义是：
 
 
-   -  0为索引的动作：向前（forward）
+   -  0 为索引的动作：向前（forward）
 
-   -  1为索引的动作：向后（backward）
+   -  1 为索引的动作：向后（backward）
 
-   -  2为索引的动作：跳跃（jump）
+   -  2 为索引的动作：跳跃（jump）
 
--  在 ``SlimeVolley-v0`` 环境中，最终组合动作的含义是：
+-  在 SlimeVolley-v0 环境中，最终组合动作的含义是：
 
    - [0, 0, 0],  NOOP
    - [1, 0, 0],  LEFT (forward)
    - [1, 0, 1],  UPLEFT (forward jump)
    - [0, 0, 1],  UP (jump)
    - [0, 1, 1],  UPRIGHT (backward jump)
-   - [0, 1, 0]]  RIGHT (backward)
+   - [0, 1, 0],  RIGHT (backward)
 
 
 奖励空间
 --------
 
--  奖励即该游戏得分，如果小球落到己方场地的地面，则奖励-1，如果落到对方场地的地面，则奖励+1，如果游戏仍在进行中，则奖励0
+-  奖励即该游戏得分，如果小球落到己方场地的地面，则奖励 -1，如果落到对方场地的地面，则奖励 +1，如果游戏仍在进行中，则奖励 0
 
 .. _其他-1:
 
 其他
 ----
 
--  游戏结束即为当前环境episode结束。游戏结束的条件有两种：
+-  游戏结束即为当前环境 episode 结束。游戏结束的条件有两种：
 
-  - 每获得一次-1奖励生命值减一，对战任意一方所有生命值（默认生命值为5）耗尽，游戏结束；
+  - 每获得一次 -1 奖励生命值减 1，对战任意一方所有生命值（默认生命值为 5）耗尽，游戏结束；
   - 达到最大环境帧数，3000帧
 
--  游戏支持两种对战：智能体对战智能体，智能体对战内置bot（游戏画面左边是bot，右边是智能体）
--  默认的内置bot是一个非常简单的RNN训练得到的智能体，具体可以参考 `bot_link <https://blog.otoro.net/2015/03/28/neural-slime-volleyball/>`_
--  默认只返回一方的obs，另外一方的obs，双方的剩余生命值等信息都在 ``info`` 字段中
+-  游戏支持两种对战：智能体对战智能体，智能体对战内置 bot（游戏画面左边是 bot，右边是智能体）
+-  默认的内置 bot 是一个非常简单的 RNN 训练得到的智能体，具体可以参考 `bot_link <https://blog.otoro.net/2015/03/28/neural-slime-volleyball/>`_
+-  默认只返回一方的 obs，另外一方的 obs，双方的剩余生命值等信息都在 info 字段中
 
 关键事实
 ========
@@ -111,12 +111,12 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 
 （2） ``MultiBinary`` 动作空间
 
-（3） 较稀疏奖励（最大生命值为5，最大步数为3000，只有对战双方扣除生命值时才有奖励）
+（3） 较稀疏奖励（最大生命值为5，最大步数为 3000，只有对战双方扣除生命值时才有奖励）
 
 
 .. _变换后的空间rl环境）:
 
-变换后的空间（RL环境）
+变换后的空间（RL 环境）
 ======================
 
 .. _观察空间-2:
@@ -129,16 +129,16 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 动作空间
 --------
 
--  将 ``MultiBinary`` 动作空间变换为大小为6离散动作空间（由简单笛卡尔积并去除其中无意义的动作后得到），最终结果为一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
+-  将 ``MultiBinary`` 动作空间变换为大小为 6 离散动作空间（由简单笛卡尔积并去除其中无意义的动作后得到），最终结果为一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
 .. _奖励空间-2:
 
 奖励空间
 --------
 
--  基本无变换，只是简单的格式转换，一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[-1, 0, 1]``
+-  基本无变换，只是简单的格式转换，一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[-1, 0, 1]``
 
-上述空间使用gym环境空间定义则可表示为：
+上述空间使用 gym 环境空间定义则可表示为：
 
 .. code:: python
 
@@ -154,9 +154,9 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 其他
 ----
 
--  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在这里为整个episode的奖励累加和（即我方相比对手的生命值差异）
--  如果选择智能体对战内置bot，请将环境输入配置的 ``agent_vs_agent`` 字段设置为False，智能体对战智能体则设置为True
--  上述空间定义均是对单智能体的说明（即智能体对战内置bot），多智能体的空间是将上述obs/action/reward进行对应拼接等操作，例如观察空间由 ``(12, )`` 变为 ``(2, 12)``，代表双方的观察信息
+-  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在这里为整个 episode 的奖励累加和（即我方相比对手的生命值差异）
+-  如果选择智能体对战内置 bot，请将环境输入配置的 ``agent_vs_agent`` 字段设置为 False，智能体对战智能体则设置为 True
+-  上述空间定义均是对单智能体的说明（即智能体对战内置 bot），多智能体的空间是将上述 obs/action/reward 进行对应拼接等操作，例如观察空间由 ``(12, )`` 变为 ``(2, 12)``，代表双方的观察信息
 
 .. _其他-3:
 
@@ -182,12 +182,12 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 训练和测试环境的区别
 --------------------
 
--  训练环境使用动态随机种子，即每个episode的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
+-  训练环境使用动态随机种子，即每个 episode 的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个 episode 的随机种子相同，通过\ ``seed``\ 方法指定。
 
 存储录像
 --------
 
-在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个episode结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境episode，并将这个episode的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
+在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个 episode 结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境 episode，并将这个 episode 的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
 
 .. code:: python
 
@@ -210,7 +210,7 @@ DI-zoo可运行代码示例
 
 完整的训练入口文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/slime_volley/entry>`__
-内，对于具体的入口文件，例如下列所示的\ ``slime_volley_selfplay_ppo_main.py``\ ，直接使用python运行即可：
+内，对于具体的入口文件，例如下列所示的\ ``slime_volley_selfplay_ppo_main.py``\ ，直接使用 python 运行即可：
 
 .. code:: python
 
@@ -298,14 +298,14 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/slime_volley/entry>
     if __name__ == "__main__":
         main(main_config)
 
-注：如要运行智能体对战bot的训练程序，直接python运行 ``slime_volley_ppo_config.py`` 文件即可
+注：如要运行智能体对战 bot 的训练程序，直接 python 运行 ``slime_volley_ppo_config.py`` 文件即可
 
 注：如要使用其他算法，需调用相应的入口函数
 
 基准算法性能
 ============
 
--  SlimeVolley-v0（平均奖励大于等于1视为较好的Agent，评测指标都是使用智能体对战内置bot）
+-  SlimeVolley-v0（平均奖励大于等于 1 视为较好的 Agent，评测指标都是使用智能体对战内置 bot）
 
    - SlimeVolley-v0 + PPO + vs Bot
 

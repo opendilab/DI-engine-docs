@@ -4,14 +4,14 @@ Procgen
 概述
 =======
 
-Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的环境（CoinRun，StarPilot，CaveFlyer，Dodgeball，FruitBot，Chaser
-，Miner，Jumper，Leaper，Maze，BigFish，Heist，Climber，Plunder，Ninja和BossFight），procgen的全称是Procedural Generation，表示程序化生成。对于procgen环境，它可以生成同一难度但是采用不同地图的游戏，也可以生成采用同一地图但是不同难度的游戏，可以用来衡量模型学习通用技能的速度，从而判断算法对于环境的泛化能力。下图所示为其中的Coinrun游戏。
+Procgen Benchmark 是 OpenAI 发布的一组利用 16 种利用程序随机生成的环境（CoinRun，StarPilot，CaveFlyer，Dodgeball，FruitBot，Chaser，Miner，Jumper，Leaper，Maze，BigFish，Heist，Climber，Plunder，Ninja 和 BossFight）。
+procgen 的全称是 Procedural Generation，表示程序化生成。对于 procgen 环境，它可以生成同一难度但是采用不同地图的游戏，也可以生成采用同一地图但是不同难度的游戏，可以用来衡量模型学习通用技能的速度，从而判断算法对于环境的泛化能力。下图所示为其中的 Coinrun 游戏。
 
 
 .. image:: ./images/coinrun.gif
    :align: center
 
-以下三张图片分别表示了coinrun环境下level1到level3的不同输入：
+以下三张图片分别表示了 coinrun 环境下 level1 到 level3 的不同输入：
 
 .. image:: ./images/coinrun_level1.png
    :align: center
@@ -27,7 +27,7 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
 安装方法
 --------
 
-可以通过pip一键安装或结合DI-engine安装，只需要安装gym和gym[procgen]两个库即可完成
+可以通过 pip 一键安装或结合 DI-engine 安装，只需要安装 gym 和 gym[procgen] 两个库即可完成
 
 .. code:: shell
 
@@ -41,7 +41,7 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
 验证安装
 --------
 
-安装完成后，可以通过在Python命令行中运行如下命令验证安装成功：
+安装完成后，可以通过在 Python 命令行中运行如下命令验证安装成功：
 
 .. code:: python
 
@@ -63,16 +63,16 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
 观察空间
 --------
 
--  实际的游戏画面，RGB三通道图片，具体尺寸为\ ``(64, 3, 3)``\ ，数据类型为\ ``float32``\
+-  实际的游戏画面，RGB 三通道图片，具体尺寸为\ ``(64, 3, 3)``\ ，数据类型为\ ``float32``\
 
 .. _动作空间-1:
 
 动作空间
 --------
 
--  游戏操作按键空间，一般是大小为N的离散动作空间（N随具体子环境变化），数据类型为\ ``int``\ ，需要传入python数值（或是0维np数组，例如动作3为\ ``np.array(3)``\ ）
+-  游戏操作按键空间，一般是大小为 N 的离散动作空间（N 随具体子环境变化），数据类型为\ ``int``\ ，需要传入 python 数值（或是 0 维 np 数组，例如动作 3 为\ ``np.array(3)``\ ）
 
--  如在Coinrun环境中，N的大小为5，即动作在0-4中取值，具体的含义是：
+-  如在 Coinrun 环境中，N 的大小为 5，即动作在 0-4 中取值，具体的含义是：
 
    -  0：NOOP
 
@@ -90,24 +90,23 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
 奖励空间
 --------
 
--  游戏得分，根据具体游戏内容不同会有一定的差异，一般是一个\ ``float``\ 数值， 如在Coinrun环境中， 吃到硬币则奖励10.0分，除此以外没有其它奖励。
+-  游戏得分，根据具体游戏内容不同会有一定的差异，一般是一个\ ``float``\ 数值， 如在 Coinrun 环境中， 吃到硬币则奖励 10.0分，除此以外没有其它奖励。
 
 .. _其他-1:
 
 其他
 ----
 
--  游戏结束即为当前环境episode结束，例如在coinrun中，智能体吃到硬币或者游戏时间超过了允许的最长游戏时间，则游戏结束。
+-  游戏结束即为当前环境 episode 结束，例如在 coinrun 中，智能体吃到硬币或者游戏时间超过了允许的最长游戏时间，则游戏结束。
 
 关键事实
 ========
 
-1. 2D
-   RGB三通道图像输入，三维np数组，尺寸为\ ``(3, 64, 64)``\ ，数据类型为\ ``np.float32``\ ，取值为 \ ``[0, 255]``\
+1. 2D RGB三通道图像输入，三维 np 数组，尺寸为\ ``(3, 64, 64)``\ ，数据类型为\ ``np.float32``\ ，取值为 \ ``[0, 255]``\
 
 2. 离散动作空间
 
-3. 奖励具有稀疏性，例如在coinrun中，只有吃到硬币才有得分。
+3. 奖励具有稀疏性，例如在 coinrun 中，只有吃到硬币才有得分。
 
 4. 环境的泛化性，对于同一环境，有不同等级，它们的输入、奖励空间、动作空间是相同的，但游戏难度却不同。
 
@@ -121,14 +120,14 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
 
 -  变换内容：将尺寸由\ ``（64 ,64 ,3）``\调整为\ ``(3, 64, 64)``\
 
--  变换结果：三维np数组，尺寸为\ ``(3, 84, 84)``\ ，数据类型为\ ``np.float32``\ ，取值为 \ ``[0, 255]``\
+-  变换结果：三维 np 数组，尺寸为\ ``(3, 84, 84)``\ ，数据类型为\ ``np.float32``\ ，取值为 \ ``[0, 255]``\
 
 .. _动作空间-2:
 
 动作空间
 --------
 
--  基本无变换，依然是大小为N的离散动作空间，但一般为一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
+-  基本无变换，依然是大小为N的离散动作空间，但一般为一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
 .. _奖励空间-2:
 
@@ -137,7 +136,7 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
 
 -  基本无变换
 
-上述空间使用gym环境空间定义则可表示为：
+上述空间使用 gym 环境空间定义则可表示为：
 
 .. code:: python
 
@@ -153,7 +152,7 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
 其他
 ----
 
--  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在Procgen中为整个episode的奖励累加和
+-  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在 Procgen 中为整个 episode 的奖励累加和
 
 .. _其他-3:
 
@@ -179,12 +178,12 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
 训练和测试环境的区别
 --------------------
 
--  训练环境使用动态随机种子，即每个episode的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
+-  训练环境使用动态随机种子，即每个 episode 的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个 episode 的随机种子相同，通过\ ``seed``\ 方法指定。
 
 存储录像
 --------
 
-在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个episode结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境episode，并将这个episode的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
+在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个 episode 结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境 episode，并将这个 episode 的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
 
 .. code:: python
 
@@ -202,12 +201,12 @@ Procgen Benchmark是OpenAI发布的一组利用16种利用程序随机生成的�
            print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
            break
 
-DI-zoo可运行代码示例
+DI-zoo 可运行代码示例
 ====================
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/entry>`__
-内，对于具体的配置文件，例如\ ``coinrun_dqn_config.py``\ ，使用如下的demo即可运行：
+内，对于具体的配置文件，例如\ ``coinrun_dqn_config.py``\ ，使用如下的 demo 即可运行：
 
 .. code:: python
 
@@ -269,7 +268,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/ent
 基准算法性能
 ============
 
--  Coinrun（平均奖励等于10视为较好的Agent）
+-  Coinrun（平均奖励等于 10 视为较好的 Agent）
 
    - Coinrun + DQN
 
@@ -277,7 +276,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/ent
      :align: center
      :scale: 10%
 
--  Maze（平均奖励等于10视为较好的Agent）
+-  Maze（平均奖励等于 10 视为较好的 Agent）
 
    - Maze + DQN
 
