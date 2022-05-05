@@ -4,18 +4,18 @@
 
 
 基于模型的强化学习 (Model-Based Reinforcement Learning, Model-Based RL) 是强化学习的一个重要分支，智能体通过与环境交互的信息学习一个环境动力学模型，然后利用该模型生成数据优化行动策略，或者利用模型进行规划。
-基于模型的强化学习方法通过构建环境模型，从而减少与真实环境的交互次数，因此可以天然地提高样本利用效率。
+基于模型的强化学习方法通过构建环境模型，通过环境模型可以产生大量虚拟样本，从而减少与真实环境的交互次数，因此可以天然地提高样本利用效率。
 
 .. image:: ./images/model-based_rl.png
   :align: center
   :scale: 55%
 
-环境模型一般可以从数学上抽象为状态转移函数和奖励函数。
+环境模型一般可以从数学上抽象为状态转移函数 (transition function) 和奖励函数 (reward function)。
 一旦有了这两部分，理想情况下智能体就可以不需要与真实环境进行交互，通过在环境模型中最大化累积奖励回报，训练得到策略。
 
 
-研究问题及思路
----------------
+问题与意义
+-----------
 
 Model-Based RL 总得来说是来解决两类问题，一是如何构建精确的环境模型，二是如何利用环境模型做策略优化。
 
@@ -34,7 +34,7 @@ Model-Based RL 总得来说是来解决两类问题，一是如何构建精确�
 
   - `ExIt <https://arxiv.org/abs/1705.08439>`_ 和 `AlphaZero <https://arxiv.org/abs/1712.01815>`_ 都是基于专家迭代 (Expert Iteration) 和 蒙特卡洛树搜索的方法学习策略。
   - `POPLIN <https://openreview.net/forum?id=H1exf64KwH>`_ 基于环境模型做在线规划，提出分别对动作空间和参数空间的优化思路。
-  - `M2AC <https://arxiv.org/abs/2010.04893>`_ 提出一种基于模型不确定性的mask机制，增强了策略提升。
+  - `M2AC <https://arxiv.org/abs/2010.04893>`_ 提出一种基于模型不确定性的 mask 机制，增强了策略提升。
 
 
 研究方向
@@ -96,8 +96,8 @@ MAAC 中采用终端 Q 函数 (Terminal Q-Function) 缓解此问题，SVG 和 `D
 
 
 
-展望
------
+未来展望
+---------
 
 1. 基于模型的强化学习具有较高的样本效率，但环境模型的训练过程往往时间代价较大，那么训练高效的模型化强化学习就显得十分必要。
 
@@ -107,7 +107,7 @@ MAAC 中采用终端 Q 函数 (Terminal Q-Function) 缓解此问题，SVG 和 `D
 
 
 
-参考资料
+参考文献
 ----------
 
 1. Repo: awesome-model-based-RL. https://github.com/opendilab/awesome-model-based-RL
