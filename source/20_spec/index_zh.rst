@@ -5,3 +5,4 @@
    :maxdepth: 2
 
    middleware_zh
+   config_spec_zh

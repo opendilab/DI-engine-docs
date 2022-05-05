@@ -39,5 +39,5 @@
    20_spec/index_zh
    21_code_style/index_zh
    22_test/index_zh
-   23_diagram/index_zh
+   23_visual/index_zh
    24_cooperation/index_zh
