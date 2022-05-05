@@ -1,44 +1,40 @@
-How to use RNN
-==============
+如何使用 RNN
+======================
 
-Introduction to RNN
+RNN简介
 -------------------
 
-Recurrent neural network (RNN) is a class of neural network where
-connections between nodes form a directed graph along a temporal
-sequence. This allows it to exhibit temporal dynamic behavior. Derived
-from feedforward neural networks, RNNs can use their internal state
-(memory) to process variable length sequences of inputs. This makes them
-applicable to tasks such as unsegmented, connected handwriting
-recognition or speech recognition.
+循环神经网络（RNN）是一类神经网络，其中
+节点之间的连接沿时间序列形成了有向图。 这个性质允许它可以捕捉时间动态行为。
+从前馈神经网络中衍生出来，RNN 可以使用它们的内部状态 （hidden state）
+（内存）处理可变长度的输入序列. 这使他们
+适用于未分段的、连起来的的手写识别或语音识别等任务。
 
-In deep reinforcement learning, RNN is first used in `DRQN <https://arxiv.org/abs/1507.06527>`__ (Deep Recurrent
-Q-Learning Network), which aims to solve the problem of paritial
-observation in atari games. After that, RNN has become an important
-method to solve the environments of complex temporal dependence.
+在深度强化学习中，RNN首先用于 `DRQN <https://arxiv.org/abs/1507.06527>`__ (Deep Recurrent
+Q-Learning Network), 旨在解决atari游戏中不完全信息观测的问题. 之后，RNN 就成为了一个重要的
+解依赖于复杂时序环境的方法。
 
-After many years of research, RNN has many variants like LSTM, GRU, etc.
-The core update process still remains similar. In every timestep
-:math:`t` in MDP, agent needs observation :math:`s_t` and historical
-observations :math:`s_{t-1}, s_{t-2}, ...` to infer :math:`a_t`. This
-requires RNN agent to hold previous observations and maintain RNN hidden
-states.
+经过多年的研究，RNN 有很多变体，如 LSTM、GRU 等。
+但是核心的更新过程仍然非常相似。在MDP的每个时间步
+:math:`t` ，智能体需要用现在的观测状态 :math:`s_t` 和历史
+的观测状态 :math:`s_{t-1}, s_{t-2}, ...` 来推断 :math:`a_t`。这
+需要 RNN 智能体保存先前的观察结果并保存RNN 隐藏状态。
 
-DI-engine supports for RNN , and provides easy to use API to allow users to
-implement variants of RNN.
+DI-engine 支持 RNN网络，并提供易于使用的 API 让用户
+实现 RNN 的变体。
 
-Related Components in DI-engine
+DI-engine中的相关组件
 --------------------------------
 
 1. ``ding/model/wrapper/model_wrappers.py: HiddenStateWrapper`` :
-   Used to maintain hidden states
+   用于维护隐藏状态 （hidden state）
 
-2. ``ding/torch_utils/network/rnn.py``: Used to build RNN model
+2. ``ding/torch_utils/network/rnn.py``: 用于构建RNN模型
 
-3. ``ding/rl_utils/adder.py: Adder:``: Used to arrange origin data into
-   time sequence data(by calling ``ding/utils/default_helper.py: list_split()`` function)
+3. ``ding/rl_utils/adder.py: Adder:``: 用于将原始数据排列成
+   时序数据（通过调用 ding/utils/default_helper.py: list_split() 函数）
 
-RNN example in DI-engine
+RNN 在 DI-engine 中的示例
 --------------------------
 
 ======= ===========
@@ -129,7 +125,7 @@ model.
 
 .. _use-model-wrapper-to-wrap-your-rnn-model-in--policy:
 
-Use model wrapper to wrap your RNN model in policy
+使用模型装饰器将您的 RNN 模型包装在策略中
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As RNN model need to maintain hidden state of data, DI-engine provide
@@ -281,7 +277,7 @@ The ``main_obs`` is used to calculate the q_value, in the following code, [bs:-s
 ``bs`` timestep to ``sequence length`` - ``self._nstep`` timestep.
 The ``target_obs`` is used to calculate the target_q_value.
 
-This data process can be implemented by the following code:
+这个数据处理可以通过下面的代码来实现：
 
 .. code:: python
 
@@ -346,4 +342,4 @@ In R2D2, if we use burn-in, the reset way is not so simple.
             target_q_action = self._learn_model.forward(next_inputs)['action']
 
 
-For more details of RNN and burn-in, you can refer to `ding/policy/r2d2.py <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`__.
+RNN和burn-in的更多细节可以参考 `ding/policy/r2d2.py <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>` __。
