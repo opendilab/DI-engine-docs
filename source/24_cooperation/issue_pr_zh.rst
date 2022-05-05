@@ -8,7 +8,7 @@ Github 的使用
 
 issue 和 pr 都有自己的模板。
 
-issue 需要选择类别，确保已经阅读过文档和之前的 issue 和 pr，并指明版本号、操作系统，然后才是正式描述这个issue。详细见下：
+issue 需要选择类别，确保已经阅读过文档和之前的 issue 和 pr，并指明版本号、操作系统，然后才是正式描述这个 issue。详细见下：
 
 -  I have marked all applicable categories (我已经标注了所有适用类别):
 
@@ -43,7 +43,7 @@ issue 需要选择类别，确保已经阅读过文档和之前的 issue 和 pr�
       print(ding.__version__, torch.__version__, sys.version, sys.platform)
 
 
-pr 的模板中，Description 用于描述当前 pr 的作用和功能，Related Issue用于列出相关的 issue，TODO 用于列出目前还没有完成的工作。
+pr 的模板中，Description 用于描述当前 pr 的作用和功能，Related Issue 用于列出相关的 issue，TODO 用于列出目前还没有完成的工作。
 
 此外，还有一个 Check List 用于确保融合了源分支并解决冲突，通过代码风格检查，通过所有测试。详细见下：
 
@@ -66,7 +66,7 @@ In Progess 的缩写。
     :scale: 25%
     :align: center
 
-DI-engine repo中目前的label支持：
+DI-engine repo 中目前支持以下 label：
 
 .. image:: ./images/github_label1.png
     :scale: 33%
@@ -111,11 +111,11 @@ GitHub actions 是一种持续式集成，用于自动化完成各种任务。DI
 4. PR 的 Code Review
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-PR review 需要从以下五个角度去看：代码风格，算法原理，计算效率，接口易用性，兼容性。任何问题都可以提comment。推荐每天抽出一定时间看看github上的PR看看整个开发社区在做什么，有什么可以学习或者互相提升的地方。
+PR review 需要从以下五个角度去看：代码风格，算法原理，计算效率，接口易用性，兼容性。任何问题都可以提 comment。推荐每天抽出一定时间看看 github 上的 PR 看看整个开发社区在做什么，有什么可以学习或者互相提升的地方。
 
-如果需要review别人的PR，一般有两种评论的方式：
+如果需要 review 别人的 PR，一般有两种评论的方式：
 
-一是直接在pr的conversation中评论，通常是针对整体进行评论，如下图：
+一是直接在 pr 的 conversation 中评论，通常是针对整体进行评论，如下图：
 
 .. image:: ./images/github_review11.png
     :scale: 33%
@@ -125,7 +125,7 @@ PR review 需要从以下五个角度去看：代码风格，算法原理，计�
     :scale: 33%
     :align: center
 
-二是针对具体某行或某段代码进行评论，可以在 Files Changed中点击加号新建评论，如下图：
+二是针对具体某行或某段代码进行评论，可以在 Files Changed 中点击加号新建评论，如下图：
 
 .. image:: ./images/github_review2.png
     :scale: 33%
@@ -136,12 +136,12 @@ PR review 需要从以下五个角度去看：代码风格，算法原理，计�
     
     一般来讲，一个 PR 的工作流程如下：
 
-       1. 在 discussion 中进行讨论，某人总结并提了 issue，开发者现在需要针对 issue 进行开发
+    1. 在 discussion 中进行讨论，某人总结并提了 issue，开发者现在需要针对 issue 进行开发
 
-       2. 在 github 提 Pull Request
+    2. 在 github 提 Pull Request
 
-       3. 代码开发
+    3. 代码开发
 
-       4. 分配给某人进行 code review，解决他人提出的问题，完成所有的开发工作
+    4. 分配给某人进行 code review，解决他人提出的问题，完成所有的开发工作
 
-       5. merge 最新源分支（一般是 main）并解决冲突，保证通过 github CI，最终等待被合并
+    5. merge 最新源分支（一般是 main）并解决冲突，保证通过 github CI，最终等待被合并

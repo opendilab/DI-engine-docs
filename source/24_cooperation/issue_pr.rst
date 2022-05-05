@@ -40,7 +40,7 @@ Issue needs to choose a category, then make sure you have read the documentation
    .. code:: python
 
       import ding, torch, sys
-      PRint(ding.__version__, torch.__version__, sys.version, sys.platform)
+      print(ding.__version__, torch.__version__, sys.version, sys.platform)
 
 
 In the PR template, Description is used to describe the role and function of the current PR, Related Issue is used to list related issues, and TODO is used to list the work that has not yet been completed.
@@ -137,12 +137,12 @@ The second is to comment on a specific line or piece of code, you can click the 
     
     Generally speaking, the workflow of a PR is as follows:
 
-        1. Discuss in the Discussion. Someone summarizes and raises the issue, then the developer needs to develop for the issue
+    1. Discuss in the Discussion. Someone summarizes and raises the issue, then the developer needs to develop for the issue
 
-        2. Submit Pull Request on Github
+    2. Submit Pull Request on Github
 
-        3. Code Development
+    3. Code Development
 
-        4. Assign someone to do code review, fix problems raised by others, finish all the development work
+    4. Assign someone to do code review, fix problems raised by others, finish all the development work
 
-        5. Merge the latest source branch (usually main) and resolve the conflict, make sure to pass github CI, and finally wait to be merged
+    5. Merge the latest source branch (usually main) and resolve the conflict, make sure to pass github CI, and finally wait to be merged

@@ -1,7 +1,7 @@
 Git Usage
 ~~~~~~~~~~~~~~~~
 
-If you have little knowledge of git, it is recommended to take a look `LiaoXuefeng git guide <https://www.liaoxuefeng.com/wiki/896043488029600>`_ , you can have a correct and adequate understanding of related concepts and commands. The following is a list of commonly used knowledge in actual development.
+In this section, we will introduce a list of commonly used knowledge in actual development.
 
 
 1. Basic Concepts and Commands
@@ -55,9 +55,9 @@ Let's take an actual development process as an example to explain the git comman
 
 3. Develop your branch. After one part is completed, include the content you want to submit with command \ ``git add``\ (here you can use \ ``git status``\ to view all the changes, if you want to include all the changes file, you can use the \ ``git add -u``\ command); then submit a commit with \ ``git commit -m COMMIT-MESSAGE``\ .
 
-4. Push the local repository to the remote repository: \ ``git push origin YOUR-BRANCH-NAME``\ . If it is the first push, it will show that the remote repo has no branch associated with it, and you can modify the command according to the hint, usually \ ``git push --set-upstream origin YOUR-BRANCH-NAME``\ . If someone else has modified the code and pushed it to the remote repository before you submit this modification, it will prompt that there is a conflict. You need to use the \ ``git pull origin YOUR-BRANCH-NAME``\ command to pull the latest code. And resolve the conflict between the latest code and your own code (if any) before you can push.
+4. Push the local repository to the remote repository: \ ``git push origin YOUR-BRANCH-NAME``\ . If it is the first push, it will show that the remote repo has no branch associated with it, and you can modify the command according to the hint, usually \ ``git push --set-upstream origin YOUR-BRANCH-NAME``\ . If someone else has modified the code and pushed it to the remote repository before you submit this modification, it will prompt that there is a conflict. You need to use the \ ``git pull origin YOUR-BRANCH-NAME --rebase``\ command to pull the latest code. And resolve the conflict between the latest code and your own code (if any) before you can push.
 
-5. Branch merge command: \ ``git merge BRANCH-NAME``\ . In our development process, it must be guaranteed that the branch can be merged into master (or source branch) without conflicts. Therefore, the merge command is often used in the following scenarios: Commiter A and B checkout branches C and D respectively from the master branch for development, then committer A completed the C branch and merged it into the master branch. At the end of the development, student B must use \ ``git merge master``\ and resolve all conflicts before the development of this branch is over.
+5. Branch rebase command: \ ``git rebase BRANCH-NAME``\ . In our development process, it must be guaranteed that the branch can be merged into main (or source branch) without conflicts. Therefore, the rebase command is often used in the following scenarios: Commiter A and B checkout branches C and D respectively from the main branch for development, then committer A completed the C branch and merged it into the main branch. At the end of the development, committer B must make sure the latest main branch is pulled to the local, then use \ ``git rebase main``\ and resolve all conflicts before the development of this branch is over.
 
 
 4. .gitignore File

@@ -53,9 +53,9 @@ stash 是一个栈式结构，如果需要 pop 某个非栈顶元素，可以先
 
 3. 进行一些修改，每完成一个功能后，就将希望提交的内容\ ``git add``\ 进来（这里可以先利用\ ``git status``\ 查看所有的改动，如果想添加所有修改的文件，可以使用\ ``git add -u``\ 命令）；然后提交一个commit：\ ``git commit -m COMMIT-MESSAGE``\ 。
 
-4. 将本地仓库推送到远程仓库：\ ``git push origin YOUR-BRANCH-NAME``\ 。如果是首次推送，会提示远程仓库没有与之关联的分支，按照提示修改命令即可，一般为\ ``git push --set-upstream origin YOUR-BRANCH-NAME``\ 。如果在你提交本次修改前，别人也修改了代码并推送到了远程仓库，会提示存在冲突，需要利用\ ``git pull origin YOUR-BRANCH-NAME``\ 命令将最新的代码拉取下来，并解决最新代码与自己的代码之间的冲突（若有），然后才可push。
+4. 将本地仓库推送到远程仓库：\ ``git push origin YOUR-BRANCH-NAME``\ 。如果是首次推送，会提示远程仓库没有与之关联的分支，按照提示修改命令即可，一般为\ ``git push --set-upstream origin YOUR-BRANCH-NAME``\ 。如果在你提交本次修改前，别人也修改了代码并推送到了远程仓库，会提示存在冲突，需要利用\ ``git pull origin YOUR-BRANCH-NAME --rebase``\ 命令将最新的代码拉取下来，并解决最新代码与自己的代码之间的冲突（若有），然后才可push。
 
-5. 分支合并命令：\ ``git merge BRANCH-NAME``\ 。在我们的开发中，如果单独切出分支并提了 pull request，则必须保证该分支可以无冲突地合并进 master。故 merge 命令常常使用于以下场景：A 同学与 B 同学分别从 master 分支切出 C 分支和 D 分支进行开发，A 同学完成了 C 分支并将其 merge 进了 master 分支，B 同学在开发的最后，需要\ ``git merge master``\ 并解决全部冲突，才算是这个分支开发结束。
+5. 分支合并命令：\ ``git rebase BRANCH-NAME``\ 。在我们的开发中，如果单独切出分支并提了 pull request，则必须保证该分支可以无冲突地合并进 main。故 merge 命令常常使用于以下场景：A 同学与 B 同学分别从 main 分支切出 C 分支和 D 分支进行开发，A 同学完成了 C 分支并将其 merge 进了 main 分支，B 同学在开发的最后，需要\ ``git rebase main``\ 并解决全部冲突，才算是这个分支开发结束。
 
 
 4. .gitignore 文件
