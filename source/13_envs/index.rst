@@ -16,7 +16,7 @@ The following environments are those implemented in DI-engine(You can find more 
 .. toctree::
    :maxdepth: 1
 
-    atari
-    overcooked
-    bsuite
-    slime_volleyball
+   atari
+   overcooked
+   bsuite
+   slime_volleyball
