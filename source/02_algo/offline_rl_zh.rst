@@ -70,13 +70,13 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 研究方向
 ------------------------------------
 
-根据 Aviral Kumar 与 Sergey Levine 在 NeurIPS 2020 Tutorial [1] 中的介绍，现有的（Model-free） Offline RL 主要有以下三种研究方向：
+根据 Aviral Kumar 与 Sergey Levine 在 NeurIPS 2020 Tutorial [1]_ 中的介绍，现有的（Model-free） Offline RL 主要有以下三种研究方向：
 
 1. 策略约束方法
 2. 基于不确定性的方法
 3. 值函数的正则化方法
 
-除此以外，还有针对 Model-based RL 在离线设定下的一些研究工作，这里就不再展开，有兴趣的读者可以参考 [7] [8] 等文献。
+除此以外，还有针对 Model-based RL 在离线设定下的一些研究工作，这里就不再展开，有兴趣的读者可以参考 [7]_ [8]_ 等文献。
 
 
 **策略约束方法**
@@ -88,8 +88,8 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
    \mathbf{D}_f(\pi, \pi_{\beta}) \le \mathcal{C}, \forall \pi
 
 也有隐式的约束，如通过策略重建等方式，使其与行为策略 :math:`\pi_{\beta}(\mathbf{a} \mid \mathbf{s})` 相似。
-在 BCQ [2] 中，作者提出训练一个生成模型（VAE）来模拟数据集中的动作。在策略更新过程中，策略从 VAE 扰动产生的动作中选择 Q 值最高的，从而确保被选择的动作和数据集中的动作相近。
-在 BCQ 的基础上，选择 TD3 作为网络结构，衍生出了 TD3BC 算法，具体内容可参考 [3]。
+在 BCQ [2]_ 中，作者提出训练一个生成模型（VAE）来模拟数据集中的动作。在策略更新过程中，策略从 VAE 扰动产生的动作中选择 Q 值最高的，从而确保被选择的动作和数据集中的动作相近。
+在 BCQ 的基础上，选择 TD3 作为网络结构，衍生出了 TD3BC 算法，具体内容可参考 [3]_。
 
 另外，也可以通过惩罚项等方式，将 :math:`\mathbf{D}(\pi, \pi_{\beta})` 加入奖励或者Q值中作为惩罚项。
 
@@ -97,7 +97,7 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 **基于不确定性的方法**
 
 如果说策略约束方法主要是为了在Q-函数的输入源头上避免 OOD 动作的出现，那么基于不确定性的方法就是尽可能使得Q-函数足够鲁棒，即便输入 OOD 动作后也能够保持一个相对有效的估计。
-这一类方法需要学习一个关于Q-函数的不确定集合或者不确定分布 :math:`\mathcal{P}(\mathbf{Q}^{\pi})`，具体做法可参考 [4] [5]。然后，将 :math:`\mathcal{P}(\mathbf{Q}^{\pi})` 作为Q-函数的一个惩罚项，
+这一类方法需要学习一个关于Q-函数的不确定集合或者不确定分布 :math:`\mathcal{P}(\mathbf{Q}^{\pi})`，具体做法可参考 [4]_ [5]_。然后，将 :math:`\mathcal{P}(\mathbf{Q}^{\pi})` 作为Q-函数的一个惩罚项，
 
 .. math::
    \pi_{k+1} \leftarrow \arg\max_{\pi}\mathbb{E}_{\mathbf{s} \sim \mathcal{D}}[\mathbb{E}_{\mathbf{a} \sim \pi(\mathbf{a} \mid \mathbf{s})}[\mathbb{E}_{\mathbf{Q}_{k+1}^{\pi} \sim \mathcal{P}(\mathbf{Q}^{\pi})}[\mathbf{Q}_{k+1}^{\pi}(\mathbf{s}, \mathbf{a})] - \alpha \mathbf{Unc}(\mathcal{P}(\mathbf{Q}^{\pi}))]],
@@ -107,7 +107,7 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 
 **值函数的正则化方法**
 
-该方法顾名思义，就是在Q-函数上增加正则项，代表性工作有 CQL [6]。相比于前两种方法，其优势是不必显式地考虑行为策略的分布，且可以适用于 Actor-Critic 架构和Q-函数架构的一切强化学习算法。
+该方法顾名思义，就是在Q-函数上增加正则项，代表性工作有 CQL [6]_。相比于前两种方法，其优势是不必显式地考虑行为策略的分布，且可以适用于 Actor-Critic 架构和Q-函数架构的一切强化学习算法。
 
 
 与基于不确定性的方法类似，CQL 也是为了得到保守的Q-函数估计，但采用的方式为关于Q值的正则化。其目标为：
@@ -155,11 +155,11 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 参考文献
 ----------
 
-1. Levine, S., A. Kumar, G. Tucker, and J. Fu (2020). Offline reinforcement learning: Tutorial, review, and perspectives on open problems. arXiv preprint arXiv:2005.01643.
-2. Fujimoto, S., Meger, D., and Precup, D. (2018). Off-policy deep reinforcement learning without exploration. arXiv preprint arXiv:1812.02900.
-3. Fujimoto, S., Gu, S. S. (2021). A Minimalist Approach to Offline Reinforcement Learning. arXiv preprint arXiv:2106.06860.
-4. Jaksch, T., Ortner, R., and Auer, P. (2010). Near-optimal regret bounds for reinforcement learning. Journal of Machine Learning Research, 11(Apr):1563–1600.
-5. O’Donoghue, B., Osband, I., Munos, R., and Mnih, V. (2018). The uncertainty bellman equation and exploration. In International Conference on Machine Learning, pages 3836–3845.
-6. Kumar, A., Zhou, A., Tucker, G., and Levine, S. (2020b). Conservative q-learning for ofﬂine reinforcement learning. In Neural Information Processing Systems (NeurIPS).
-7. Lerer, A., Gross, S., and Fergus, R. (2016). Learning physical intuition of block towers by example. arXiv preprint arXiv:1603.01312.
-8. Battaglia, P., Pascanu, R., Lai, M., Rezende, D. J., et al. (2016). Interaction networks for learning about objects, relations and physics. In Advances in neural information processing systems, pages 4502–4510.
+.. [1] Levine, S., A. Kumar, G. Tucker, and J. Fu (2020). Offline reinforcement learning: Tutorial, review, and perspectives on open problems. arXiv preprint arXiv:2005.01643.
+.. [2] Fujimoto, S., Meger, D., and Precup, D. (2018). Off-policy deep reinforcement learning without exploration. arXiv preprint arXiv:1812.02900.
+.. [3] Fujimoto, S., Gu, S. S. (2021). A Minimalist Approach to Offline Reinforcement Learning. arXiv preprint arXiv:2106.06860.
+.. [4] Jaksch, T., Ortner, R., and Auer, P. (2010). Near-optimal regret bounds for reinforcement learning. Journal of Machine Learning Research, 11(Apr):1563–1600.
+.. [5] O’Donoghue, B., Osband, I., Munos, R., and Mnih, V. (2018). The uncertainty bellman equation and exploration. In International Conference on Machine Learning, pages 3836–3845.
+.. [6] Kumar, A., Zhou, A., Tucker, G., and Levine, S. (2020b). Conservative q-learning for ofﬂine reinforcement learning. In Neural Information Processing Systems (NeurIPS).
+.. [7] Lerer, A., Gross, S., and Fergus, R. (2016). Learning physical intuition of block towers by example. arXiv preprint arXiv:1603.01312.
+.. [8] Battaglia, P., Pascanu, R., Lai, M., Rezende, D. J., et al. (2016). Interaction networks for learning about objects, relations and physics. In Advances in neural information processing systems, pages 4502–4510.
