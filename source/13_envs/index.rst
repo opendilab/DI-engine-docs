@@ -13,6 +13,9 @@ The following environments are those implemented in DI-engine(You can find more 
   - Benchmark algorithm performance Algorithm Benchmark
   - References
 
+
+Environments:
+
 .. toctree::
    :maxdepth: 1
 
@@ -20,3 +23,6 @@ The following environments are those implemented in DI-engine(You can find more 
    overcooked
    bsuite
    slime_volleyball
+
+
+`Chinese version doc <./index_zh.html>`_ includes more environments that you may be interested in.
