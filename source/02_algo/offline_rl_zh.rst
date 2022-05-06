@@ -25,7 +25,7 @@ Offline RL成为了最近的研究热点，具体原因可以归结为两方面�
 Offline RL 正好研究的是如何从固定数据集学习到近似最优的策略，由于不需要任何额外探索，可以显著减轻潜在风险和成本。
 另外，在过去十余年中，数据驱动学习方法在机器学习领域中取得了巨大的成功，一般来说使用更多数据能获得更好的训练效果。相比于经典强化学习，能够充分利用好大规模静态数据集是 Offline RL 的一大优势。
 
-第二方面，经典强化学习算法在离线设定下学习效果往往非常差，学到的策略无法在实际部署中取得令人满意的表现（具体原因见后文）。这种挑战也激发了众多学者的研究热情。
+第二方面，经典强化学习算法在离线设定下学习效果往往非常差，学到的策略无法在实际部署中取得令人满意的表现（具体原因见后文）。因此，如何将经典强化学习算法中的思想技巧迁移到离线场景是一个充满挑战的研究领域。
 
 
 **Offline RL 的训练过程**
@@ -102,15 +102,15 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 .. math::
    \pi_{k+1} \leftarrow \arg\max_{\pi}\mathbb{E}_{\mathbf{s} \sim \mathcal{D}}[\mathbb{E}_{\mathbf{a} \sim \pi(\mathbf{a} \mid \mathbf{s})}[\mathbb{E}_{\mathbf{Q}_{k+1}^{\pi} \sim \mathcal{P}(\mathbf{Q}^{\pi})}[\mathbf{Q}_{k+1}^{\pi}(\mathbf{s}, \mathbf{a})] - \alpha \mathbf{Unc}(\mathcal{P}(\mathbf{Q}^{\pi}))]],
 
-其中 :math:`\mathbf{Unc}(\cdot)` 表示对不确定分布的度量。由此，我们得到了一个对Q函数更为保守的估计，在一定程度上能够减少或避免策略选择 OOD 动作。
+其中 :math:`\mathbf{Unc}(\cdot)` 表示对不确定分布的度量。由此，我们得到了一个对Q-函数更为保守的估计，在一定程度上能够减少或避免策略选择 OOD 动作。
 
 
 **值函数的正则化方法**
 
-该方法顾名思义，就是在Q-函数上增加正则项。相比于前两种方法，其优势是不必显式地考虑行为策略的分布，且可以适用于 Actor-Critic 架构和Q-函数架构的一切强化学习算法。
+该方法顾名思义，就是在Q-函数上增加正则项，代表性工作有 CQL [6]。相比于前两种方法，其优势是不必显式地考虑行为策略的分布，且可以适用于 Actor-Critic 架构和Q-函数架构的一切强化学习算法。
 
 
-在 CQL [6] 中，作者提出了保守的Q-函数，其目标为：
+与基于不确定性的方法类似，CQL 也是为了得到保守的Q-函数估计，但采用的方式为关于Q值的正则化。其目标为：
 
 .. math::
    \hat{\mathcal{E}}(\mathcal{B}, \mathcal{\phi}) = \alpha\mathcal{C}(\mathcal{B}, \mathcal{\phi}) + \mathcal{E}(\mathcal{B}, \mathbf{\phi}),
@@ -128,7 +128,7 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 
 其意义为使得当前数据集Q值期望最高的策略。这样一来，OOD 动作对应的Q值会因为 :math:`\mathcal{C}_{CQL_0}(\mathcal{B}, \mathbf{\phi})` 的而降低，正常动作的Q值会根据贝尔曼误差来学习，当我们选取一个合适的 :math:`\alpha` 比例就能够得到一个良好的保守的Q估计。
 
-另外，如果担心 :math:`\mathcal{C}_{CQL_0}(\mathcal{B}, \mathbf{\phi})` 会使得Q函数的估计过于保守，还可以选择：
+另外，如果担心 :math:`\mathcal{C}_{CQL_0}(\mathcal{B}, \mathbf{\phi})` 会使得Q-函数的估计过于保守，还可以选择：
 
 .. math::
    \mathcal{C}_{CQL_1}(\mathcal{B}, \mathbf{\phi}) = \mathbb{E}_{\mathbf{s} \sim \mathcal{D}}\mathbb{E}_{\mathbf{a} \sim \mu(\mathbf{a} \mid \mathbf{s})}[\mathbf{Q}_{\phi}(\mathbf{s}, \mathbf{a})] - \mathbb{E}_{(\mathbf{s}, \mathbf{a}) \sim \mathcal{D}}[\mathbf{Q}_{\phi}(\mathbf{s}, \mathbf{a})].
