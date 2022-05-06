@@ -74,7 +74,7 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
    :scale: 60%
 
 
-更多安装环境相关的问题，可以参考\ `Gfootball官网github <https://github.com/google-research/football>`__\ 。此外，官方也提供了 docker image 用于在 docker 环境中部署环境，可以参考https://github.com/google-research/football/blob/master/gfootball/doc/docker.md。
+更多安装环境相关的问题，可以参考\ `Gfootball 官网 github <https://github.com/google-research/football>`__\ 。此外，官方也提供了 docker image 用于在 docker 环境中部署环境，可以参考 `docker 部署文档 <https://github.com/google-research/football/blob/master/gfootball/doc/docker.md>`__ 。
 
 .. _header-n60:
 
@@ -106,9 +106,9 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
 
 创建环境的API如下：
 
--  env name。核心参数，决定环境创建的场景，常用为'11*\ vs\ *11*\ stochastic'，'11\ *vs*\ 11\ *easy*\ stochastic'，'11\ *vs*\ 11\ *hard*\ stochastic'，分别对应对局中等、简单和困难三种难度内置bot的完整90分钟足球游戏。此外，还有点球等场景如'academy\ *run*\ pass\ *and*\ shoot\ *with*\ keeper'，详见https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md。
+-  env name。核心参数，决定环境创建的场景，常用为 11 vs 11 stochastic，11 vs 11 easy stochastic，11 vs 11 hard stochastic，分别对应对局中等、简单和困难三种难度内置bot的完整90分钟足球游戏。此外，还有点球等场景如 academy run pass and shoot with keeper，详见 `文档 <https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md>`_ 。
 
--  Representation。环境输出的表征类型，'raw' 为原始向量输入，如球员位置、球速度等信息，'pixels' 为原始图像像素输入，官方还提供了一些现有的环境输入封装。
+-  Representation。环境输出的表征类型，raw 为原始向量输入，如球员位置、球速度等信息，pixels 为原始图像像素输入，官方还提供了一些现有的环境输入封装。
 
 -  stacked。是否堆叠帧输入。
 
@@ -485,8 +485,7 @@ gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entr
 
 在 DI-engine 的状态空间下，经过 reward 设计和动作空间约束，self play 训练中对内置 hard AI 胜率曲线如下图所示：
 
-.. figure:: images/gfootball_train.png
-   :alt:
+.. image:: images/gfootball_train.png
    :align: center
    :scale: 80%
 

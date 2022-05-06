@@ -45,7 +45,7 @@ Atari是最经典最常用的离散动作空间强化学习环境，常作为离
 ----
 
 DI-engine 准备好了配备有框架本身和 Atari 环境的镜像，可通过\ ``docker pull opendilab/ding:nightly-atari``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像 
 
 .. _变换前的空间原始环境）:
 
@@ -285,6 +285,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial
 
    .. image:: images/pong_dqn.png
      :align: center
+     :scale: 60%
 
 -  Qbert（10M env step 下，平均奖励大于 15000）
 
@@ -292,6 +293,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial
 
    .. image:: images/qbert_dqn.png
      :align: center
+     :scale: 60%
 
 -  Space Invaders（10M env step 下，平均奖励大于 1000）
 
@@ -299,3 +301,4 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial
 
    .. image:: images/spaceinvaders_dqn.png
      :align: center
+     :scale: 60%

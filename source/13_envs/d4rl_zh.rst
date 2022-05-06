@@ -136,7 +136,7 @@ mujoco 只要安装 gym 和 mujoco-py 两个库即可，可以通过 pip 一键�
 ----
 
 DI-engine 准备好了配备有框架本身的镜像，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 .. _变换前的空间原始环境）:
 

@@ -42,7 +42,7 @@ BipedalWalker
 ----
 
 DI-engine 的镜像包含自有框架和 Atari 环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取. 如何获取更多镜像? 访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\
+hub <https://hub.docker.com/r/opendilab/ding>`__\
 
 
 变换前的空间（原始环境）

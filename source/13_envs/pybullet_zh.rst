@@ -44,7 +44,7 @@ PyBullet 是用于游戏，视觉效果，机器人和强化学习的物理模�
 ----
 
 DI-engine 的镜像配备框架本身，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜像
+hub <https://hub.docker.com/r/opendilab/ding>`_  获取更多镜像
 
 .. _变换前的空间原始环境）:
 
@@ -84,7 +84,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜
 关键事实
 ========
 
-1. Vector物理信息输入，由实际经验可知，在做 norm 时不宜减去均值。
+1. Vector 物理信息输入，由实际经验可知，在做 norm 时不宜减去均值。
 
 2. 连续动作空间
 
@@ -189,7 +189,7 @@ DI-zoo 可运行代码示例
 ====================
 
 完整的训练配置文件在 `github
-link <https://github.com/opendilab/DI-engine/tree/main/dizoo/pybullet/config/>`__
+链接 <https://github.com/opendilab/DI-engine/tree/main/dizoo/pybullet/config/>`__
 内，对于具体的配置文件，例如\ ``hopper_sac_default_config.py``\ ，使用如下的 demo 即可运行：
 
 .. code:: python

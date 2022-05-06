@@ -43,7 +43,7 @@ SMAC 是一个用于在暴雪星际争霸2上进行多智能体协同强化学�
 ----
 
 DI-engine 的镜像配备有框架本身和 Smac 环境，可通过\ ``docker pull opendilab/ding:nightly-smac``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 .. _变换前的空间原始环境）:
 

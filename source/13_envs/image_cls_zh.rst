@@ -7,7 +7,7 @@ Image Classification
 ImageNet 是一个按照 WordNet 层次结构（目前只有名词）组织的图像数据库，其中层次结构的每个节点都由成百上千的图像来描绘。 其在推进计算机视觉和深度学习研究方面发挥了重要作用。
 该数据集已手动注释了 1400 多万张图像，以指出图片中的对象，并在至少 100 万张图像中提供了边框。
 自2010 年以来，ImageNet 项目举办了一年一度的竞赛，即 ImageNet 大规模视觉识别挑战赛(ILSVRC)，挑战赛使用 1000 个“整理”后的非重叠类, 通过竞赛来正确分类和检测对象和场景。
-常用的数据集是其子数据集，也是 ISLVRC 2012(ImageNet Large Scale Visual Recognition Challenge)比赛采用的数据集，共有 1000 个类别。其中:
+常用的数据集是其子数据集，也是 ISLVRC 2012(ImageNet Large Scale Visual Recognition Challenge) 比赛采用的数据集，共有 1000 个类别。其中:
 
 -  训练集:1,281,167 张图片+标签
 -  验证集:50,000 张图片+标签

@@ -17,7 +17,7 @@ LunarLander，即月球登陆，任务目标是通过导航一个登陆器登录
 
 安装 gym 和 Box2d 两个库即可, 用户可以选择通过 pip 一键安装
 
-注：如果用户没有 root 权限，请在 install 的命令后面加上 --user
+注：如果用户没有 root 权限，请在 install 的命令后面加上 ``--user``
 
 
 .. code:: shell
@@ -44,7 +44,7 @@ LunarLander，即月球登陆，任务目标是通过导航一个登陆器登录
 镜像
 ----
 
-DI-engine 的镜像配备有框架本身和 Lunarlander 环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取，或访问\ `docker hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+DI-engine 的镜像配备有框架本身和 Lunarlander 环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取，或访问\ `docker hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 .. _变换前的空间原始环境）:
 

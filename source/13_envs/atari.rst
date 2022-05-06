@@ -16,7 +16,7 @@ Installation
 Installation Methods
 ------------------------
 
-Install ``gym`` and ``ale-py``. You can install by command``pip`` or through **DI-engine**.
+Install ``gym`` and ``ale-py``. You can install by command ``pip`` or through **DI-engine**.
 
 Note：atari-py is now aborted by developer. It is recommended to use `ale-py <https://github.com/mgbellemare/Arcade-Learning-Environment>`__
 
@@ -45,7 +45,7 @@ DI-engine Mirror
 --------------------
 
 DI-engine has a mirror including the system itself and Atari environment. You can acquire through command ``docker pull opendilab/ding:nightly-atari`` , or visit `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__.
+hub <https://hub.docker.com/r/opendilab/ding>`__.
 
 .. _变换前的空间原始环境）:
 

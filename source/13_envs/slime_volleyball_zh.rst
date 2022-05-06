@@ -41,7 +41,7 @@ pip 一键安装 slimevolleygym 这个库即可
 ----
 
 由于 Slime Volleyball 安装起来非常简单，所以 DI-engine 并没有为其专门准备镜像，可快速通过基准镜像 ``opendilab/ding:nightly`` 自定义构建，或访问 \ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 .. _变换前的空间原始环境）:
 

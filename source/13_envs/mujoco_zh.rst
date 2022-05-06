@@ -86,7 +86,7 @@ Mujoco 是旨在促进机器人、生物力学、图形和动画等需要快速�
 ----
 
 DI-engine 的镜像配备了框架本身和 Mujoco 环境，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`_  获取更多镜像
+hub <https://hub.docker.com/r/opendilab/ding>`_  获取更多镜像
 
 .. _变换前的空间原始环境）:
 
@@ -308,7 +308,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/mujoco/config>`__
        serial_pipeline((main_config, create_config), seed=0)
 
 注：对于某些特殊的算法，比如 PPO，需要使用专门的入口函数，示例可以参考
-`link <https://github.com/opendilab/DI-engine/blob/main/dizoo/mujoco/entry/mujoco_ppo_main.py>`__
+`链接 <https://github.com/opendilab/DI-engine/blob/main/dizoo/mujoco/entry/mujoco_ppo_main.py>`__
 也可以使用 serial_pipeline_onpolicy 一键进入
 
 基准算法性能

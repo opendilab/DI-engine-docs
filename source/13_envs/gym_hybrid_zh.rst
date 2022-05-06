@@ -45,7 +45,7 @@ Gym-Hybrid
 动作空间
 ----------
 
-Gym-hybrid 的动作空间属于离散连续动作混合空间，有3 个离散动作：Accelerate，Turn，Break，其中动作Accelerate，Turn需要给出对应的 1 维连续参数。
+Gym-hybrid 的动作空间属于离散连续动作混合空间，有3 个离散动作：Accelerate，Turn，Break，其中动作 Accelerate，Turn 需要给出对应的 1 维连续参数。
 
 -  \ ``Accelerate (Acceleration value)`` \: 表示让agent以 \ ``acceleration value`` \ 的大小加速。 \ ``Acceleration value`` \ 的取值范围是\ ``[0,1]`` \ 。数值类型为\ ``float32``。
   
@@ -227,7 +227,6 @@ DI-zoo 可运行代码示例
 
    .. image:: images/gym_hybrid_Sliding-v0_paddpg.png
      :align: center
-
 
 参考资料
 =====================

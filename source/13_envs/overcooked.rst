@@ -44,7 +44,7 @@ After completing installation, you can check whether it is succesful by the foll
 .. code:: shell
 
    cd DI-engine
-   pytest -sv dizoo\overcooked\envs\test_overcooked_env.py
+   pytest -sv dizoo/overcooked/envs/test_overcooked_env.py
 
 
 RL Environment Space
@@ -53,7 +53,7 @@ RL Environment Space
 
 Observation Space
 ----------------------
--  Right now we use cramped_room setting to describe the observation space of overcooked env. The layout of the cramped_room is of shape``(5, 4)``.
+-  Right now we use cramped_room setting to describe the observation space of overcooked env. The layout of the cramped_room is of shape ``(5, 4)``.
 -  Contain 2 agents.
 -  Each agent's obs shape is ``(layout_width, layout_height, 26)`` , i.e. ``(5, 4, 26)`` for cramped_room.
 -  If use ``concat_obs`` in environment, then the obs shape will be ``(2*layout_width, layout_height, 26)``, otherwise the obs shape will be ``(2, (layout_width, layout_height, 26))`` .

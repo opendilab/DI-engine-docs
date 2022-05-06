@@ -23,7 +23,7 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0 等一系列环
 
 用户可以选择通过 pip 一键安装或 git clone 代码库后 pip 本地安装.
 
-注：如果用户没有 root 权限，请在 install 的命令后面加上 --user
+注：如果用户没有 root 权限，请在 install 的命令后面加上 ``--user``
 
 .. code:: shell
 
