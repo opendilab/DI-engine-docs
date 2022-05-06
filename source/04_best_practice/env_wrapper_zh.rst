@@ -9,21 +9,21 @@
 wrapper 是一个非常方便有效的工具。 Gym.wrapper 使用户能够方便地对环境类的输入和输出进行操作或适配。 
 
 
-DI-engine 提供以下 env wrapper(以下很多都是从 OpenAI Baselines借鉴的):
+DI-engine 提供以下 env wrapper(以下很多都是从 `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ 借鉴的):
 
 - NoopResetEnv：为环境添加重置方法。在一些无操作（no-operations）后重置环境.
 
 - MaxAndSkipEnv： 每`skip`帧（做同样的action）返回最近的两帧的最大值。(为了跨时间步的最大池化 max pooling)。
 
-- WarpFrame： 将帧变形为 84x84，如 Nature 论文和后来的工作中所做的那样。(注意此注册器也将RGB图像转换为GREY图像)
+- WarpFrame： 将图像帧的大小转换为84x84, 如 `Nature 论文 <https://www.deepmind.com/publications/human-level-control-through-deep-reinforcement-learning>`_ 和后来的工作中所做的那样。(注意此注册器也将RGB图像转换为GREY图像)
 
 - ScaledFloatFrame： 将状态值标准化为 0~1。
 
-- ClipRewardEnv： 通过奖励的符号将奖励裁剪为 {+1, 0, -1}。
+- ClipRewardEnv： 通过奖励的正负将奖励裁剪为 {+1, 0, -1}。
 
-- FrameStack： 堆（stack）n_frames 数量的最近的状态帧作为目前的状态。
+- FrameStack： 将堆叠好的n_frames个最近的状态帧设置为当前状态。
 
-- ObsTransposeWrapper： 用于转置观测状态以将通道（channel）放置于第一个纬度。通常用于 atari 环境。
+- ObsTransposeWrapper：对观测状态的各个维度进行调整，将通道维（channel）放置在状态的第一维上。通常用于 atari 环境。
 - 
 - RunningMeanStd： 用于更新方差、均值和计数的 wrapper。
 
@@ -31,7 +31,7 @@ DI-engine 提供以下 env wrapper(以下很多都是从 OpenAI Baselines借鉴�
 
 - RewardNormEnv： 根据运行的标准差（running mean and std）对环境奖励进行归一化。
 
-- RamWrapper： 通过把观测状态的维度扩充，将原始环境包装成类似图像的环境
+- RamWrapper： 通过扩展观测状态的维度，将原始环境的ram状态转换成类似图像的状态
 
 - EpisodicLifeEnv： 让环境中的生命结束等价于一个episode结束, 并且只有在真正的游戏结束时才会重置。 这样有助于算法的价值估计。
 
@@ -52,8 +52,8 @@ DI-engine 提供以下 env wrapper(以下很多都是从 OpenAI Baselines借鉴�
 
 Env Wrapper 结构举例
 -----------------------------------------
-以 ObsNormEnv wrapper 为例. 为了规一化观察状态，我们只需要改变原始环境中的两个函数 -- step 函数和 reset 函数，同时保持其余功能几乎相同。
-注意有些时候, 由于观察状态经过归一化后的界限改变了，info 也需要做相应的修改。 另请注意，ObsNormEnv wrapper 的本质是向原始环境添加附加功能，这正是包装器的含义. \
+以 ObsNormEnv wrapper 为例。为了归一化观测状态，我们只需要改变原始环境类中的两个方法：step方法和 reset方法，其余方法保持不变。
+注意有些时候, 由于观测状态经过归一化后的界限改变了，info 也需要做相应的修改。 另请注意，ObsNormEnv wrapper 的本质是向原始环境添加附加功能，这正是包装器的含义. \
 
 ObsNormEnv的结构如下：
 

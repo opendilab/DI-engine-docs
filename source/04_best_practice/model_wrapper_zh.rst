@@ -9,32 +9,31 @@
 
 DI-engine 提供以下模型 wrapper：
 
-- BaseModelWrapper. 为模型添加重置方法。 在 DI-engine 的策略实现中，
-  许多策略会调用模型的重置方法（例如 HiddenStateWrapper）。 Wrap each model inherited from `nn.Module` using `model_wrap` 
-  function will be wrapped by BaseModelWrapper automatically.
+- BaseModelWrapper： 为模型添加重置方法。 在 DI-engine 的策略实现中，
+  许多策略会调用模型的重置方法（例如 HiddenStateWrapper）。 任何继承了 `nn.Module` 的模型在使用 `model_wrap` 函数来 wrap 后将会自动被 ``BaseModelWrapper`` wrap。
 
-- HiddenStateWrapper. 支持需要去维持hidden state 的模型，比如LSTM。
+- HiddenStateWrapper： 用于需要维护 hidden state 的模型，比如LSTM。
   
 - SampleWrapper, 包括 ArgmaxSampleWrapper，
-  MultinomialSampleWrapper，EpsGreedySampleWrapper。允许用户通过 argmax、多项式分布或 epsilon 贪心策略采样动作。
+  MultinomialSampleWrapper，EpsGreedySampleWrapper：允许用户通过 argmax、多项式分布或 epsilon 贪心策略采样动作。
 
-- ActionNoiseWrapper.在输出动作上添加噪声，主要用于连续动作空间环境。
+- ActionNoiseWrapper：在输出动作上添加噪声，主要用于连续动作空间环境。
 
-- TargetNetworkWrapper. 为基本模型添加目标网络，用于 DQN和许多其他 RL 算法。
+- TargetNetworkWrapper：为基本模型添加目标网络相关功能，用于需要目标网络的 DQN 等 RL 算法。
 
 
 
 举例
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-用户应按照以下步骤自定义模型 wrapper：
+用户可以参考以下步骤自定义模型 wrapper：
 
 1. 像其他 wrapper 一样定义模型 wrapper 类
    ``ding/model/wrappers/model_wrappers.py``;
 
 2. 将 wrapper 的名称添加到 ding/model/wrappers/model_wrappers.py: wrapper_name_map 或使用 wrapper
    注册以确保可以通过 ding 检索您的 wrapper。前者的话， 无需额外注册即可按名称直接使用模型 wrapper，
-   或者您可能需要注册它。通常格式如下：
+   后者的话，您需要注册这个 wrapper 。通常格式如下：
 
 .. code:: python
 
@@ -44,14 +43,14 @@ DI-engine 提供以下模型 wrapper：
        pass
      
 
-3. 用 `model_wrap` 函数包装你的模型。
+3. 调用 `model_wrap` 函数包装你的模型。
 
 .. code:: python
 
   wrapped_model = model_wrap(origin_model, wrapper_name='your_wrapper_name', **kwargs)
 
 .. note::
-   All model wrappers **must** inherit from ``IModelWrapper``.
+   所有 model wrapper **必须** 继承 ``IModelWrapper``。
 
 我们将在下面展示 DI-engine 中 HiddenStateWrapper 的实现，以用来解释如何自定义模型 wrapper。
 
