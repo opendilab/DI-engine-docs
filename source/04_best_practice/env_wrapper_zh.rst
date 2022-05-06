@@ -1,4 +1,4 @@
-如何自定义一个环境装饰器 (Env Wrapper)
+如何自定义一个 Env Wrapper
 ==============================================
 
 环境模块是强化学习领域中最重要的模块之一。强化学习里有一些常见的环境，例如 atari，mujoco。 我们在这些环境中训练我们的智能体，让他们在这些环境中探索和学习。
@@ -6,10 +6,10 @@
 定义一个环境通常需要定义环境的输入和输出，并且充分考虑可行的状态空间（obervation spaces）和动作空间（action spaces）。OpenAI 开源的 Gym 模块帮助我们定义了
 学术界和工业界最常见的环境。 DI-engine 也遵循了 Gym.env 的定义，并且进一步增加了一些方便的功能，以提供更好的用户体验。
 
-装饰器（wrapper）是一个非常方便有效的工具。 作为 Gym.wrapper 的子类, Gym.env.wrapper 使用户能够方便地对环境类的输入和输出进行操作或适配。 
-环境装饰器（Env wrapper）只包装了一些常用的gym wrapper。
+wrapper 是一个非常方便有效的工具。 Gym.wrapper 使用户能够方便地对环境类的输入和输出进行操作或适配。 
 
-DI-engine 提供以下环境装饰器 (以下很多都是从 OpenAI Baselines借鉴的):
+
+DI-engine 提供以下 env wrapper(以下很多都是从 OpenAI Baselines借鉴的):
 
 - NoopResetEnv：为环境添加重置方法。在一些无操作（no-operations）后重置环境.
 
@@ -25,7 +25,7 @@ DI-engine 提供以下环境装饰器 (以下很多都是从 OpenAI Baselines借
 
 - ObsTransposeWrapper： 用于转置观测状态以将通道（channel）放置于第一个纬度。通常用于 atari 环境。
 - 
-- RunningMeanStd： 用于更新方差、均值和计数的装饰器。
+- RunningMeanStd： 用于更新方差、均值和计数的 wrapper。
 
 - ObsNormEnv：根据运行均值和标准差（running mean and std）对观测状态进行归一化。
 
@@ -37,23 +37,23 @@ DI-engine 提供以下环境装饰器 (以下很多都是从 OpenAI Baselines借
 
 - FireResetEnv：  在环境重置时采取`fire`行动。 相关的讨论查阅 `这里 <https://github.com/openai/baselines/issues/240>`_
 
-- update_shape： 这是一个有助于在应用环境装饰器后识别观测状态、动作和奖励的形状的函数。
+- update_shape： 这是一个有助于在应用 env wrapper 后识别观测状态、动作和奖励的形状的函数。
 
 
-我们为什么需要自定义一个环境装饰器 (Env Wrapper)
+我们为什么需要自定义一个 Env Wrapper
 ------------------------------------------------------
 
-我们经常需要根据自己的需要改变不同的环境。例如，对于一些环境，归一化观测的状态通常是非常常见的。这样的处理会让训练阶段更快并且稳定。 因此，我们将这个共同的部分提取出来，并将这个特征放在环境装饰器（Env Wrapper）中， \
+我们经常需要根据自己的需要改变不同的环境。例如，对于一些环境，归一化观测的状态通常是非常常见的。这样的处理会让训练阶段更快并且稳定。 因此，我们将这个共同的部分提取出来，并将这个特征放在 env wrapper 中， \
 这样就避免了重复的开发。即如果我们以后想修改观测状态归一化的方式，我们只需要在此处进行更改，而不是每段代码。\
 我们使用运行均值和标准差来进行归一化，而不是固定均值和标准差的原因是，如果应用不同的策略，样本的分布会有所不同, 即采样数据的分布与策略高度相关。\
 
-下面我们在DI-engine中展示 ObsNormEnv 的实现，以解释如何自定义环境装饰器。
+下面我们在DI-engine中展示 ObsNormEnv 的实现，以解释如何自定义 env wrapper。
 
 
-环境装饰器 (Env Wrapper) 结构举例
+Env Wrapper 结构举例
 -----------------------------------------
-以 ObsNormEnv 装饰器为例. 为了规一化观察状态，我们只需要改变原始环境中的两个函数 -- step 函数和 reset 函数，同时保持其余功能几乎相同。
-注意有些时候, 由于观察状态经过归一化后的界限改变了，info 也需要做相应的修改。 另请注意，ObsNormEnv 装饰器的本质是向原始环境添加附加功能，这正是包装器的含义. \
+以 ObsNormEnv wrapper 为例. 为了规一化观察状态，我们只需要改变原始环境中的两个函数 -- step 函数和 reset 函数，同时保持其余功能几乎相同。
+注意有些时候, 由于观察状态经过归一化后的界限改变了，info 也需要做相应的修改。 另请注意，ObsNormEnv wrapper 的本质是向原始环境添加附加功能，这正是包装器的含义. \
 
 ObsNormEnv的结构如下：
 
@@ -94,11 +94,11 @@ ObsNormEnv的结构如下：
 
 
 
-通常，可以按如下方式自定义环境装饰器：
+通常，可以按如下方式自定义 env wrapper：
 
-自定义一个环境装饰器
+自定义一个 Env Wrapper
 ------------------------------------
-用户应按照以下步骤自定义环境装饰器：
+用户应按照以下步骤自定义 env wrapper：
 
 1. 在 ``ding/envs/env_wrappers/env_wrappers.py`` 里像其他包装器一样定义您的 env 包装器类。
 
@@ -117,5 +117,5 @@ env.NoopResetEnv(env, noop_max = 30) \
 
 env = MaxAndSkipEnv(env, skip = 4) \
 
-更多关于环境装饰器的信息，可以查看该链接
+更多关于 env wrapper 的信息，可以查看该链接
 ``ding/envs/env_wrappers/env_wrappers.py``

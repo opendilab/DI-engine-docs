@@ -60,28 +60,26 @@ sac     ×
 sqn     × 
 ======= ===========
 
-Use RNN in DI-engine can be described as the following precedures.
+在 DI-engine 中使用 RNN 的过程如下。
 
--  Build your RNN model
+-  构建你的 RNN 模型
 
--  Wrap you model in policy
+-  将您的模型包装在策略中
 
--  Arrange original data to time sequence
+-  将原始数据按时间顺序排列
 
--  Initialize hidden state
+-  初始化隐藏状态（hidden state）
 
--  Burn-in(Optional)
+-  Burn-in（Optional）
 
-Build a Model with RNN
+构建 RNN 模型
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can use either DI-engine's built-in recurrent model or your own RNN
-model.
+您可以使用 DI-engine 的内置 RNN 模型或您自己的 RNN 模型。
 
-1. Use DI-engine's built-in model. DI-engine's DRQN provide RNN
-   support(default to LSTM) for discrete action space environments. You
-   can easily specify model type in config or set model in policy to use
-   it.
+1. 使用 DI-engine 的内置模型。 DI-engine的DRQN对于离散动作空间环境提供RNN
+   支持（默认为 LSTM）。你可以轻松地在配置中指定模型类型或在策略中设置默认模型以使用
+   它。
 
 .. code:: python
 
@@ -100,11 +98,8 @@ model.
      def default_model(self) -> Tuple[str, List[str]]:
          return 'drqn', ['ding.model.template.q_learning']
 
-2. Use customized model. To use customized model, you can refer to `Set
-   up Policy and NN
-   model <..//quick_start/index.html#set-up-policy-and-nn-model>`_.
-   To adapt your model into DI-engine's pipline with minimal code changes,
-   the output dict of model should contain ``'next_state'`` key.
+2. 使用定制模型。 请参考 `Set up Policy and NN model <..//quick_start/index.html#set-up-policy-and-nn-model>`_.
+   为了使您的模型以最少的代码更改适应 Di-engine的入口文件（serial entry），模型的输出 dict 应包含 ``'next_state'`` 键。
 
 .. code:: python
 
@@ -120,19 +115,17 @@ model.
          }
 
 .. note::
-    DI-engine also provide RNN module. You can use ``get_lstm()`` function by ``from ding.torch_utils import get_lstm``. This function allows users to build LSTM implemented by ding/pytorch/HPC.
+    DI-engine也提供 RNN 模块。您可以通过 ``from ding.torch_utils import get_lstm`` 使用 ``get_lstm()`` 函数. 该功能允许用户使用由 ding/pytorch/HPC 实现的 LSTM。
 
 
 .. _use-model-wrapper-to-wrap-your-rnn-model-in--policy:
 
-使用模型装饰器将您的 RNN 模型包装在策略中
+使用模型 Wrapper 将您的 RNN 模型包装在策略中
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As RNN model need to maintain hidden state of data, DI-engine provide
-``HiddenStateWrapper`` for it. Users only need to add a wrapper in
-policy's learn/collect/eval initialization to wrap model. The wrapper
-will help agent to keep hidden states after model forward and send
-hidden states to model in next time forward.
+由于 RNN 模型需要保持数据的隐藏状态，DI-engine 提供 ``HiddenStateWrapper`` 来支持这个功能。 用户只需要在
+策略的学习/收集/评估初始化阶段来包装模型。 Wrapper 会帮助智能体在模型计算时保留隐藏状态（hidden states），并在下一次模型计算时发送这些隐藏状态（hidden states）。
+
 
 .. code:: python
 
@@ -156,40 +149,36 @@ hidden states to model in next time forward.
 .. note::
    Set ``save_prev_state=True`` in collect model's wrapper to make sure there is previous hidden state for learner to initialize RNN.
 
-More details of ``HiddenStateWrapper`` can be found in `model
-wrapper <./model_wrapper.rst>`__, the work flow of it can be shown as
-the following figure:
+`HiddenStateWrapper` 的更多细节可以在 `model wrapper <./model_wrapper.rst>`__ 中找到，它的工作流程可以表示为下图：
+
 
         .. image:: images/model_hiddenwrapper_img.png
             :align: center
             :scale: 60%
 
-Data Arrangement
+数据处理
 ~~~~~~~~~~~~~~~~
 
-The mini-batch data used for RNN is different from usual RL data, it
-should be arranged in time series. For DI-engine, this process happens in
-``collector``. Users need to specify ``unroll_len`` in config to make
-sure the length of sequence data matches your algorithm. For most cases,
-``unroll_len`` should be equal to RNN's historical length (a.k.a sequence length), but in some cases it's not the case, e.g.
-In r2d2, we use burn-in operation, the sequence length is equal to
-``unroll_len`` plus ``burnin_step``. This will be explained in following section.
+用于 RNN 的 mini-batch 数据不同于通常的 RL 数据。 这些数据通常应按时间序列排列. 对于 DI-engine, 这个处理是在
+``collector`` 阶段完成的。 用户需要在配置文件中指定 ``unroll_len`` 以确保序列数据的长度与算法匹配。 对于大多数情况，
+``unroll_len`` 应该等于 RNN 的历史长度（a.k.a 时间序列长度），但在某些情况下并非如此，比如，在r2d2中， 我们使用burn-in操作， 序列长度等于
+``unroll_len`` + ``burnin_step``. 这里将在下一节中具体解释。
 
-For example, the original sampled data is :math:`[x_1,x_2,x_3,x_4,x_5,x_6]`, each
-:math:`x` represents :math:`[s_t,a_t,r_t,d_t,s_{t+1}]` (maybe
-:math:`log_\pi(a_t|s_t)`, hidden state, etc in it), and we need RNN's
-sequence length to be 3.
+比如原始采样数据是:math:`[x_1,x_2,x_3,x_4,x_5,x_6]`，每个
+:math:`x` 表示 :math:`[s_t,a_t,r_t,d_t,s_{t+1}]` （也许
+:math:`log_\pi(a_t|s_t)`，隐藏状态等），我们需要 RNN
+的序列长度为 3。
 
-1. ``n_sample`` >= ``unroll_len`` and ``unroll_len`` is divided by ``n_sample`` :
-e.g. ``unroll_len=3``, the data will be arranged as :math:`[[x_1,x_2,x_3],[x_4,x_5,x_6]]`.
+1. ``n_sample`` >= ``unroll_len`` 并且 ``n_sample`` 可以被 ``unroll_len`` 除尽:
+例如``unroll_len=3``，数据将被排列为:math:`[[x_1,x_2,x_3],[x_4,x_5,x_6]]`。
 
-2. ``n_sample`` >= ``unroll_len`` and ``unroll_len`` is not divided by ``n_sample`` :
-residual data will be filled by last sample by default, e.g. if ``n_sample=6`` and ``unroll_len=4`` , the data will be arranged as
-:math:`[[x_1,x_2,x_3,x_4],[x_3,x_4,x_5,x_6]]`.
+2. ``n_sample`` >= ``unroll_len`` 并且 ``n_sample`` 不可以被 ``unroll_len`` 除尽:
+默认情况下，残差数据将由上一个样本中的一部分数据填充，例如如果 ``n_sample=6`` 和 ``unroll_len=4`` ，数据将被排列为
+:math:`[[x_1,x_2,x_3,x_4],[x_3,x_4,x_5,x_6]]`。
 
 
-3. ``n_sample`` < ``unroll_len``: e.g. if ``n_sample=6`` and ``unroll_len=7``, by default, alg. use ``null_padding`` method, the data will be arranged as
-:math:`[[x_1,x_2,x_3,x_4,x_5,x_6,x_{null}]]`.  :math:`x_{null}` is similar to :math:`x_6` but its ``done=True`` and ``reward=0``.
+3. ``n_sample`` < ``unroll_len``：例如如果 ``n_sample=6`` 和 ``unroll_len=7``，默认情况下，算法将使用 ``null_padding`` 方法，数据将被排列为
+:math:`[[x_1,x_2,x_3,x_4,x_5,x_6,x_{null}]]`。 :math:`x_{null}` 类似于 :math:`x_6` 但它的 ``done=True`` 和 ``reward=0``。
 
 ..
     DI-engine's
@@ -201,8 +190,8 @@ residual data will be filled by last sample by default, e.g. if ``n_sample=6`` a
 
 
 
-Here, taking the r2d2 algorithm as an example, in r2d2, in method ``_get_train_sample`` it calls the function
-``get_nstep_return_data`` and  ``get_train_sample``.
+这里以r2d2算法为例，在r2d2中，在方法``_get_train_sample``中调用函数
+``get_nstep_return_data`` 和 ``get_train_sample``。
 
 .. code:: python
 
@@ -210,9 +199,8 @@ Here, taking the r2d2 algorithm as an example, in r2d2, in method ``_get_train_s
         data = get_nstep_return_data(data, self._nstep, gamma=self._gamma)
         return get_train_sample(data, self._unroll_len_add_burnin_step)
 
-More details about the two data processing functions can be found in `ding/rl_utilrs/adder.py <https://github.com/opendilab/DI-engine/blob/main/ding/rl_utils/adder.py#L125>`_ ,
-the work flow of its data processing is given in
-the following figure:
+有关这两个数据处理功能的更多详细信息，请参见`ding/rl_utilrs/adder.py <https://github.com/opendilab/DI-engine/blob/main/ding/rl_utils/adder.py#L125>`_ ,
+其数据处理的工作流程见下图：
 
         .. image:: images/r2d2_sequence.png
             :align: center
@@ -220,12 +208,11 @@ the following figure:
 ..
     :scale: 50%
 
-Initialize Hidden State
+初始化隐藏状态 (Hidden State)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``_learn_model`` of policy needs to initialize RNN. These hidden states comes from ``prev_state`` saved by ``_collect_model``.
-Users need to add these states to ``_learn_model`` input data dict by ``_process_transition`` function.
-
+策略的 ``_learn_model`` 需要初始化 RNN。这些隐藏状态来自 ``_collect_model`` 保存的``prev_state``。
+用户需要通过 _process_transition 函数将这些状态添加到 ``_learn_model`` 输入数据字典中。
 .. code:: python
 
    def _process_transition(self, obs: Any, model_output: dict, timestep: namedtuple) -> dict:
@@ -239,8 +226,8 @@ Users need to add these states to ``_learn_model`` input data dict by ``_process
         }
         return transition
 
-Then in ``_learn_model`` forward function, call its reset function(overwritten by HiddenStateWrapper) to initialize RNN with data's
-``prev_state``.
+然后在 _learn_model 前向函数中， 调用它的重置函数 ( 对应 ``HiddenStateWrapper`` 里面的重置函数) 以用来初始化 RNN 的
+``prev_state``。
 
 .. code:: python
 
@@ -254,28 +241,27 @@ Then in ``_learn_model`` forward function, call its reset function(overwritten b
 Burn-in(in R2D2)
 ~~~~~~~~~~~~~~~~~
 
-This concept comes from R2D2 (Recurrent Experience Replay in Distributed
-Reinforcement Learning). When using LSTM, the most naive way is:
+这个概念来自 R2D2（Recurrent Experience Replay in Distributed
+强化学习）。在使用 LSTM 时，最基础的方式是：
 
-1.use a zero start state to initialize the network at the beginning of sampled sequences.
+1.使用全部为0的tensor在采样序列的开头初始化网络的输入。
 
-2.replay whole episode trajectories. The former brings bias and the latter is hard to implement.
+2.重放整个 episode 的轨迹. 
 
-Burn-in allow the network a
-``burn-in period`` by using a portion of the replay sequence only for
-unrolling the network and producing a start hidden state, and update the
-network only on the remaining part of the sequence.
+前者带来很大的 bias ，后者难以实际操作。
 
-In DI-engine, r2d2 use the n-step td error ``self._nstep`` is the number of n.
+Burn-in 给予网络一个
+``burn-in period``。 他的机制是将 ``replay sequence`` 的一部分数据仅用于产生一个开始的隐藏状态。 然后仅用数据序列的剩余部分更新网络。
+
+在 DI-engine 中，r2d2 使用 n-step td error， 即， ``self._nstep`` 是 n 的数量。
 ``sequence length = burnin_step + unroll_len``.
-so in the config, ``unroll_len`` should be set to ``sequence length - burnin_step``.
+所以在配置文件中， ``unroll_len`` 应该设置为 ``sequence length -burnin_step``。
 
-In this setting, the original unrolled obs sequence, is split
-into ``burnin_nstep_obs`` , ``main_obs`` and ``marget_obs``. The ``burnin_nstep_obs`` is
-used to calculate the init hidden state of rnn for the calculation of the q_value, target_q_value, and target_q_action.
-The ``main_obs`` is used to calculate the q_value, in the following code, [bs:-self._nstep] means using the data from
-``bs`` timestep to ``sequence length`` - ``self._nstep`` timestep.
-The ``target_obs`` is used to calculate the target_q_value.
+在此设置中，原始展开的 obs 序列被拆分为 ``burnin_nstep_obs`` ， ``main_obs`` 和 ``marget_obs``。``burnin_nstep_obs`` 是
+用于计算 rnn 的初始隐藏状态，用便未来用于计算 q_value、target_q_value 和 target_q_action。
+``main_obs`` 用于计算 q_value。在下面的代码中，[bs:-self._nstep] 表示使用来自的数据
+``bs`` 时间步长到 ``sequence length`` -``self._nstep`` 时间步长。
+``target_obs`` 用于计算 target_q_value。
 
 这个数据处理可以通过下面的代码来实现：
 
@@ -288,25 +274,24 @@ The ``target_obs`` is used to calculate the target_q_value.
     data['main_obs'] = data['obs'][bs:-self._nstep]
     data['target_obs'] = data['obs'][bs + self._nstep:]
 
-In R2D2, if we use burn-in, the reset way is not so simple.
+在 R2D2 中，如果我们使用 burn-in, 重置的方式就不是那么简单了。
 
-- When we call the ``forward`` method of ``self._collect_model``, we set ``inference=True`` , each time call it, we pass into only one timestep data,
-  so we can get the hidden state of rnn: ``prev_state`` at each timestep.
+- 当我们调用 self._collect_model 的 forward 方法时，我们设置 inference=True ，每次调用它，我们只传入一个 timestep 数据，
+  所以我们可以在每个时间步得到 rnn 的隐藏状态： ``prev_state``。
 
-- When we call the ``forward`` method of  ``self._learn_model``, we set ``inference=False`` , when ``self._learn_model`` is not the ``inference`` mode, each call we pass into a sequence data,
-  the ``prev_state`` filed of their output is only the hidden state in last timestep,
-  so we can specify which timesteps of hidden state to store in the way that specify the parameter ``saved_hidden_state_timesteps``
-  (a list, which implementation is in `ding/model/template/q_learning.py <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/q_learning.py#L700>`__ ) when we call the ``forward`` method of  ``self._learn_model``.
-  As we can see in the following code, we first pass the ``data['burnin_nstep_obs']`` into the ``self._learn_model`` and
-  ``self._target_model`` for obtaining the hidden_state in different timesteps specified in the list ``saved_hidden_state_timesteps`` , which will be used in the latter calculation
-  of ``q_value``, ``target_q_value``,  ``target_q_action``.
+- 当我们调用 self._learn_model 的 forward 方法时，我们设置 inference=False ，当 self._learn_model 不是 inference 模式时，每次调用我们传入一个序列数据，
+  他们输出的 ``prev_state`` 字段只是最后一个时间步的隐藏状态，
+  所以我们可以通过指定参数 ``saved_hidden_state_timesteps`` 的方式来指定要存储哪些隐藏状态。
+  (``saved_hidden_state_timesteps`` 的数据格式是一个列表。 具体可参照 `ding/model/template/q_learning.py <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/q_learning.py#L700>`__ ) 的 ``self._learn_model`` 的 ``forward`` 方法.
+  正如我们在下面的代码中看到的，我们首先将 ``data['burnin_nstep_obs']`` 传递给 ``self._learn_model`` 和
+  ``self._target_model``， 以用于获取  ``saved_hidden_​​state_timesteps`` 列表中指定的不同时间步的 ``hidden_​​state``。 这些 ``hidden_​​state`` 将在后面计算 ``q_value``, ``target_q_value`` 和  ``target_q_action``时使用.
 
-- Note that here in r2d2, we specify that ``saved_hidden_state_timesteps=[self._burnin_step, self._burnin_step + self._nstep]`` , and after unrolling the rnn,
-  the ``burnin_output`` and ``burnin_output_target`` will save the hidden_state in corresponding timesteps in their field ``saved_hidden_state``.
+- 请注意，在 r2d2 中，我们指定 ``saved_hidden_​​state_timesteps=[self._burnin_step, self._burnin_step + self._nstep]`` , 那么在调用完网络的 ``forward`` 方法后,
+  ``burnin_output`` 和 ``burnin_output_target`` 将会保存 ``saved_hidden_state_timesteps`` 里面指定时间步的 ``hidden_state``.
 
 .. note::
-   In DI-engine, each time when we call the ``forward`` method of RNN model and want to unroll the RNN model again, we should consider reset it with the proper hidden state
-   using the ``burnin_output['saved_hidden_state']`` , because inherently the init hidden state of the RNN model is set as the last timestep hidden state when last time we unroll the RNN model.
+  在 DI-engine 中，每次调用 RNN 模型的 forward 方法时, 我们应该注意用 ``burnin_output['saved_hidden_state']`` 这个隐藏状态重置这个网络。
+   因为本质上，当我们上次使用 RNN 模型时，RNN 模型的初始隐藏状态被设置为最后一个时间步隐藏状态。
 
 .. code:: python
 

@@ -1,13 +1,13 @@
-如何自定义模型装饰器
+如何自定义模型 Wrapper
 =================================================
 
 模型包装器的功能
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 通常强化学习模型的输出是 V, Q 或者动作 logits。 DI-engine需要定制模型来输出这些的部分或者全部。 为了提高模型的可用性并支持更多
-功能, DI-engine 提供模型装饰器去通过某个具体的策略（比如RNN或者其他方程）去采样动作。
+功能, DI-engine 提供模型 wrapper 去通过某个具体的策略（比如RNN或者其他方程）去采样动作。
 
-DI-engine 提供以下模型装饰器：
+DI-engine 提供以下模型 wrapper：
 
 - BaseModelWrapper. 为模型添加重置方法。 在 DI-engine 的策略实现中，
   许多策略会调用模型的重置方法（例如 HiddenStateWrapper）。 Wrap each model inherited from `nn.Module` using `model_wrap` 
@@ -27,13 +27,13 @@ DI-engine 提供以下模型装饰器：
 举例
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-用户应按照以下步骤自定义模型装饰器：
+用户应按照以下步骤自定义模型 wrapper：
 
-1. 像其他装饰器一样定义模型装饰器类
+1. 像其他 wrapper 一样定义模型 wrapper 类
    ``ding/model/wrappers/model_wrappers.py``;
 
-2. 将装饰器的名称添加到 ding/model/wrappers/model_wrappers.py: wrapper_name_map 或使用 wrapper
-   注册以确保可以通过 ding 检索您的装饰器。前者的话， 无需额外注册即可按名称直接使用模型装饰器，
+2. 将 wrapper 的名称添加到 ding/model/wrappers/model_wrappers.py: wrapper_name_map 或使用 wrapper
+   注册以确保可以通过 ding 检索您的 wrapper。前者的话， 无需额外注册即可按名称直接使用模型 wrapper，
    或者您可能需要注册它。通常格式如下：
 
 .. code:: python
@@ -53,7 +53,7 @@ DI-engine 提供以下模型装饰器：
 .. note::
    All model wrappers **must** inherit from ``IModelWrapper``.
 
-我们将在下面展示 DI-engine 中 HiddenStateWrapper 的实现，以用来解释如何自定义模型装饰器。
+我们将在下面展示 DI-engine 中 HiddenStateWrapper 的实现，以用来解释如何自定义模型 wrapper。
 
 如果我们想在我们的模型中使用 RNN，我们必须在训练过程中保存hidden state。通过使用 Hidden StateWrapper， 我们可以在不更改政策代码的情况下实现这一点。
 
@@ -123,4 +123,4 @@ HiddenStateWrapper 的结构如下：
             :align: center
             :scale: 60%
 
-关于模型装饰器的其他示例，您可以在 ``ding/model/wrappers/model_wrappers.py``找到更多细节。
+关于模型 wrapper 的其他示例，您可以在 ``ding/model/wrappers/model_wrappers.py``找到更多细节。

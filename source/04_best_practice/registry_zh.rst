@@ -21,7 +21,7 @@
 
 然后我们将通过 ``Policy`` 来举例说明在实施新策略时如何使用 ``Registry``。
 
-1.  为新策略添加 ``Registry`` 装饰器。
+1.  为新策略添加 ``Registry`` 装饰器 (decorator)。
 
    .. code:: python
       
@@ -52,7 +52,6 @@
             )
         )
 
-  如果你仔细阅读源代码，你会发现对于在 DI-engine 核心代码中实现的策略（在路径 `ding/policy/` 中），``import_names`` 并没有在配置文件中列出. 但是，如果您实施新策略，则 **必须** 列出 ``import_names``。
 
 
 3.通过系统函数创建模块
