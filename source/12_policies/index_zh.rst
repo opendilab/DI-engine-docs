@@ -15,6 +15,12 @@
 
 .. toctree::
     :maxdepth: 3
+    :caption: Q-学习
+
+    dqn_zh
+
+.. toctree::
+    :maxdepth: 3
     :caption: 模仿学习
 
     icm_zh
