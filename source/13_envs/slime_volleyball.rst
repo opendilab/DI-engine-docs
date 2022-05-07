@@ -37,16 +37,16 @@ After completing installation, you can check whether it is succesful by the foll
    print(obs.shape)  # (12, )
 
 DI-engine Mirrors
------------------
+---------------------
 
 Due to Slime Volleyball is easy to install, DI-engine does not have Mirror specifically for it. You can customize your build with the benchmark Mirror ``opendilab/ding:nightly``, or visit the `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__ for more mirrors.
+hub <https://hub.docker.com/r/opendilab/ding>`__ for more mirrors.
 
-.. _Original environment space) :
+.. _Original environment space:
 
 Original Environment
 ========================
-Note: ``SlimeVolley-v0`` is used here as an example, because benchmarking the ``self-play`` series of algorithms naturally gives priority to simplicity. If you want to use the other two environments, you can check the original repository and adapt the environment according to the `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_.
+Note: SlimeVolley-v0 is used here as an example, because benchmarking the self-play series of algorithms naturally gives priority to simplicity. If you want to use the other two environments, you can check the original repository and adapt the environment according to the `DI-engine's API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_.
 
 .. _Observation Space-1:
 
@@ -86,7 +86,7 @@ Action Space
 
    - [0, 1, 1],  UPRIGHT (backward jump)
 
-   - [0, 1, 0]]  RIGHT (backward)
+   - [0, 1, 0],  RIGHT (backward)
 
 
 Reward Space
@@ -109,7 +109,7 @@ Other
 
 - The built-in bot is a very simple RNN-trained smartbody `bot_link <https://blog.otoro.net/2015/03/28/neural-slime-volleyball/>`_
 
-- Only one side's obs are returned by default. The other side's obs, and information can be found in the ``info`` field/
+- Only one side's obs are returned by default. The other side's obs, and information can be found in the ``info`` field
 
 Key Facts
 ==========
@@ -159,7 +159,7 @@ Using Slime Volleyball in 'OpenAI Gym' format:
 Other
 ------
 
-- The\ `info``\returned form the environment\ ``step``\ must contain the\ ``final_eval_reward``\ key-value pair, which represents the evaluation metrics for the entire episode, containing the rewards for the episode (life value difference between two players).
+- The\ `info``\ returned form the environment\ ``step``\ must contain the\ ``final_eval_reward``\ key-value pair, which represents the evaluation metrics for the entire episode, containing the rewards for the episode (life value difference between two players).
 
 - The above spatial definitions are all descriptions of single intelligences. The multi-intelligence space splices the corresponding obs/action/reward information.
 

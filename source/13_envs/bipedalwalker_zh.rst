@@ -4,7 +4,7 @@ BipedalWalker
 概述
 =======
 
-在BipedalWalker 环境里，智能体需要输出4维的连续动作，控制2D的双足机器人在崎岖的地形上前进，在每一步应用电机扭矩会得到小的负的奖励，每前进一步会得到小的正的奖励，成功移动到最远端累计可以得到超过300分的奖励。如果机器人途中摔倒，会得到 -100的奖励，且游戏结束。 智能体的状态是24维连续向量，包括船体角速度(hull angle speed)、角速度、水平速度、垂直速度、关节位置和关节角速度、腿与地面的接触标记以及10次激光雷达测距仪的测量值。注意的是该状态向量中不包含机器人的坐标。
+在 BipedalWalker 环境里，智能体需要输出 4 维的连续动作，控制 2D 的双足机器人在崎岖的地形上前进，在每一步应用电机扭矩会得到小的负的奖励，每前进一步会得到小的正的奖励，成功移动到最远端累计可以得到超过 300 分的奖励。如果机器人途中摔倒，会得到 -100 的奖励，且游戏结束。智能体的状态是 24 维连续向量，包括船体角速度(hull angle speed)、角速度、水平速度、垂直速度、关节位置和关节角速度、腿与地面的接触标记以及 10 次激光雷达测距仪的测量值。注意的是该状态向量中不包含机器人的坐标。
 
 .. image:: ./images/bipedal_walker.gif
    :align: center
@@ -15,7 +15,7 @@ BipedalWalker
 安装方法
 --------
 
-安装gym和box2d两个库即可，可以通过pip一键安装或结合DI-engine安装
+安装 gym 和 box2d 两个库即可，可以通过 pip 一键安装或结合 DI-engine 安装
 
 .. code:: shell
 
@@ -29,7 +29,7 @@ BipedalWalker
 验证安装
 --------
 
-安装完成后，可以通过在Python命令行中运行如下命令验证安装成功：
+安装完成后，可以通过在 Python 命令行中运行如下命令验证安装成功：
 
 .. code:: python
 
@@ -41,8 +41,8 @@ BipedalWalker
 镜像
 ----
 
-DI-engine的镜像包含自有框架和Atari环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取. 如何获取更多镜像? 访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\
+DI-engine 的镜像包含自有框架和 Atari 环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取. 如何获取更多镜像? 访问\ `docker
+hub <https://hub.docker.com/r/opendilab/ding>`__\
 
 
 变换前的空间（原始环境）
@@ -52,27 +52,24 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\
 观察空间
 --------
 
--  智能体的状态是24维连续向量，包括船体角速度(hull angle speed)、角速度、水平速度、垂直速度、关节位置和关节角速度、腿与地面的接触标记以及10次激光雷达测距仪的测量值。注意的是该状态向量中不包含机器人的坐标。
+-  智能体的状态是 24 维连续向量，包括船体角速度（hull angle speed）、角速度、水平速度、垂直速度、关节位置和关节角速度、腿与地面的接触标记以及 10 次激光雷达测距仪的测量值。注意的是该状态向量中不包含机器人的坐标。
 
 
 动作空间
 --------
 
--  环境动作空间为4维的连续向量，每个维度的值在[-1,1]之间。
+-  环境动作空间为 4 维的连续向量，每个维度的值在 [-1,1] 之间。
 
--  这四维的连续向量分别控制机器人四个腿关节的扭矩。机器人共有2条腿，每条腿有两个关节(腰关节和膝关节), 一共4个关节需要控制。
+-  这四维的连续向量分别控制机器人四个腿关节的扭矩。机器人共有 2 条腿，每条腿有两个关节(腰关节和膝关节), 一共 4 个关节需要控制。
 
 奖励空间
 --------
 
--  机器人在每一步应用电机扭矩会得到小的负的奖励，每前进一步会得到小的正的奖励，成功移动到最远端累计可以得到超过300分的奖励。如果机器人途中摔倒，会得到 -100的奖励，且游戏结束。 奖励是一个\ float\ 数值，范围是[-400, 300]。
-
-关键事实
-========
+-  机器人在每一步应用电机扭矩会得到小的负的奖励，每前进一步会得到小的正的奖励，成功移动到最远端累计可以得到超过 300 分的奖励。如果机器人途中摔倒，会得到 -100 的奖励，且游戏结束。 奖励是一个\ float\ 数值，范围是 [-400, 300]。
 
 
 其他
-====
+======
 
 
 随机种子
@@ -90,7 +87,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\
 存储录像
 --------
 
-在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个episode结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境episode，并将这个episode的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
+在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个 episode 结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境 episode，并将这个episode 的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
 
 .. code:: python
 
@@ -108,8 +105,8 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\
            print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
            break
 
-DI-zoo可运行代码示例
-====================
+DI-zoo 可运行代码示例
+======================
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/box2d/bipedalwalker/config>`__
@@ -186,7 +183,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/box2d/bipedalwalker
 基准算法性能
 ============
 
--  平均奖励大于等于300视为较好的Agent
+-  平均奖励大于等于 300 视为较好的 Agent
 
     - BipedalWalker + TD3
 

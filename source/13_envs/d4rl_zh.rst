@@ -3,7 +3,7 @@ D4RL (Mujoco)
 
 概述
 =======
-D4RL是离线强化学习(offline Reinforcement Learning)的开源benchmark，它为训练和基准算法提供标准化的环境和数据集。数据集的收集策略包含
+D4RL 是离线强化学习（offline Reinforcement Learning）的开源 benchmark，它为训练和基准算法提供标准化的环境和数据集。数据集的收集策略包含
 
 1. 通过手工设计的规则和专家演示生成的数据集
 2. 多任务数据集(代理在相同的环境中执行不同的任务)
@@ -19,28 +19,28 @@ D4RL是离线强化学习(offline Reinforcement Learning)的开源benchmark，�
 -  Flow
 -  Offline CARLA
 
-注意：offline rl是训练用d4rl的数据集，测试是用具体的RL环境来交互，比如Mujoco.
+注意：offline rl 是训练用 d4rl 的数据集，测试是用具体的 RL 环境来交互，比如 Mujoco.
 
-其中Mujoco数据集是旨在促进机器人、生物力学、图形和动画等需要快速准确模拟领域研究和开发的物理引擎，常来作为连续空间强化学习算法的基准测试环境。它是包含20个子环境的集合，在D4RL中，用到的子环境有Half Cheetah，Hopper，Walker2D。
+其中 Mujoco 数据集是旨在促进机器人、生物力学、图形和动画等需要快速准确模拟领域研究和开发的物理引擎，常来作为连续空间强化学习算法的基准测试环境。它是包含 20 个子环境的集合，在 D4RL 中，用到的子环境有 Half Cheetah, Hopper, Walker2D。
 每个子环境包含5个小环境
 
 -  expert: 在线训练一个\ `SAC <https://arxiv.org//abs/1801.01290>`__\ 算法直到策略达到专家性能水平，使用该专家策略收集1百万的样本数据
 -  medium-expert: 混合等量的专家策略和中等策略收集的数据
--  medium: 首先在线训练一个SAC算法，在中间停止训练，然后使用这个部分训练的策略收集1百万的样本数据
--  medium-replay：在线训练一个SAC算法直到策略达到中等性能水平，将训练期间放在缓冲区中的所有样本收集起来
+-  medium: 首先在线训练一个 SAC 算法，在中间停止训练，然后使用这个部分训练的策略收集1百万的样本数据
+-  medium-replay：在线训练一个 SAC 算法直到策略达到中等性能水平，将训练期间放在缓冲区中的所有样本收集起来
 -  random：使用一个随机初始化的策略来收集
 
-下图所示为其中Hopper游戏。
+下图所示为其中 Hopper 游戏。
 
 .. image:: ./images/d4rl.gif
    :align: center
 
 安装
-====
+======
 
 安装方法
---------
-安装d4rl,gym和mujoco-py库即可，其中d4rl可以通过pip一键安装或通过clone安装
+-----------
+安装 d4rl,gym 和 mujoco-py 库即可，其中 d4rl 可以通过 pip 一键安装或通过 clone 安装
 
 .. code:: shell
 
@@ -53,11 +53,9 @@ D4RL是离线强化学习(offline Reinforcement Learning)的开源benchmark，�
     pip install -e .
 
 
+mujoco 只要安装 gym 和 mujoco-py 两个库即可，可以通过 pip 一键安装或结合 DI-engine 安装
 
-
-mujoco只要安装gym和mujoco-py两个库即可，可以通过pip一键安装或结合DI-engine安装
-
-1. mujoco-py库目前已不再需要激活许可(``mujoco-py>=2.1.0``)，可以通过\ `pip install free-mujoco-py <https://github.com/openai/mujoco-py/pull/640>`__ 安装
+1. mujoco-py 库目前已不再需要激活许可(``mujoco-py>=2.1.0``)，可以通过\ `pip install free-mujoco-py <https://github.com/openai/mujoco-py/pull/640>`__ 安装
 
 2. 如果安装 ``mujoco-py>=2.1``, 可以通过如下方法:
 
@@ -81,7 +79,7 @@ mujoco只要安装gym和mujoco-py两个库即可，可以通过pip一键安装�
     pip install gym
     pip install -U 'mujoco-py<2.2,>=2.1'
     
-3. 如果安装 `mujoco-py<2.1`, 可以通过如下方法:
+3. 如果安装 ``mujoco-py<2.1``, 可以通过如下方法:
 
 .. code:: shell
 
@@ -111,7 +109,7 @@ mujoco只要安装gym和mujoco-py两个库即可，可以通过pip一键安装�
 验证安装
 --------
 
-安装完成后，可以通过在Python命令行中运行如下命令验证安装成功：
+安装完成后，可以通过在 Python 命令行中运行如下命令验证安装成功：
 
 .. code:: python
 
@@ -137,12 +135,12 @@ mujoco只要安装gym和mujoco-py两个库即可，可以通过pip一键安装�
 镜像
 ----
 
-DI-engine准备好了配备有框架本身的镜像，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+DI-engine 准备好了配备有框架本身的镜像，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
+hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 .. _变换前的空间原始环境）:
 
-Gym-MuJoco变换前的空间（原始环境）
+Gym-MuJoco 变换前的空间（原始环境）
 ==================================
 
 .. _观察空间-1:
@@ -150,36 +148,36 @@ Gym-MuJoco变换前的空间（原始环境）
 观察空间
 --------
 
--  物理信息组成的向量(3D position, orientation, and joint angles etc. )，具体尺寸为\ ``(N, )``\ ，其中\ ``N``\ 根据环境决定，数据类型为\ ``float64``
--  `Fujimoto <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__ 提到，对于d4rl数据集做obs norm会提升offline的训练稳定性
+-  物理信息组成的向量(3D position, orientation, and joint angles etc.)，具体尺寸为\ ``(N, )``\ ，其中\ ``N``\ 根据环境决定，数据类型为\ ``float64``
+-  `Fujimoto <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__ 提到，对于d4rl 数据集做 obs norm 会提升 offline 的训练稳定性
 
 .. _动作空间-1:
 
 动作空间
 --------
 
--  物理信息组成的向量(torque etc.)，一般是大小为N的连续动作空间（N随具体子环境变化），数据类型为\ ``float32``\ ，需要传入np数组（例如动作为\ ``array([-0.9266078 , -0.4958926 ,  0.46242517], dtype=float32)``\ ）
+-  物理信息组成的向量(torque etc.)，一般是大小为N的连续动作空间（N随具体子环境变化），数据类型为\ ``float32``\ ，需要传入 np 数组（例如动作为\ ``array([-0.9266078 , -0.4958926 ,  0.46242517], dtype=float32)``\ ）
 
--  如在Hopper环境中，N的大小为3，动作在\ ``[-1, 1]``\中取值
+-  如在 Hopper 环境中，N 的大小为 3，动作在\ ``[-1, 1]``\ 中取值
 
 .. _奖励空间-1:
 
 奖励空间
 --------
 
--  根据具体游戏内容不同，游戏得分会有非常大的差异，通常是一个\ float\ 数值，具体的数值可以参考最下方的基准算法性能部分。
+-  根据具体游戏内容不同，游戏得分会有非常大的差异，通常是一个 float 数值，具体的数值可以参考最下方的基准算法性能部分。
 
 .. _其他-1:
 
 其他
 ----
 
--  游戏结束即为当前环境episode结束
+-  游戏结束即为当前环境 episode 结束
 
 关键事实
 ========
 
-1. Vector物理信息输入，经验上做norm中不宜减去均值
+1. Vector 物理信息输入，经验上做 norm 中不宜减去均值
 
 2. 连续动作空间
 
@@ -189,7 +187,7 @@ Gym-MuJoco变换前的空间（原始环境）
 
 .. _变换后的空间rl环境）:
 
-变换后的空间（RL环境）
+变换后的空间（RL 环境）
 ======================
 
 
@@ -214,7 +212,7 @@ Gym-MuJoco变换前的空间（原始环境）
 
 -  基本无变换
 
-上述空间使用gym环境空间定义则可表示为：
+上述空间使用 gym 环境空间定义则可表示为：
 
 .. code:: python
 
@@ -230,7 +228,7 @@ Gym-MuJoco变换前的空间（原始环境）
 其他
 ----
 
--  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在Mujoco中为整个episode的奖励累加和
+-  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在 Mujoco 中为整个episode的奖励累加和
 
 .. _其他-3:
 
@@ -246,7 +244,7 @@ Gym-MuJoco变换前的空间（原始环境）
 存储录像
 --------
 
-在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个episode结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境episode，并将这个episode的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
+在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个 episode 结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境 episode，并将这个 episode 的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
 
 .. code:: python
 
@@ -264,11 +262,11 @@ Gym-MuJoco变换前的空间（原始环境）
            print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
            break
 
-DI-zoo可运行代码示例
+DI-zoo 可运行代码示例
 ====================
 
 完整的训练配置文件在 `github link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
-内，对于具体的配置文件，例如\ ``https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/config/hopper_medium_cql_default_config.py``\ ，使用如下的demo即可运行：
+内，对于具体的配置文件，例如\ ``https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/config/hopper_medium_cql_default_config.py``\ ，使用如下的 demo 即可运行：
 
 .. code:: python
 
@@ -354,5 +352,6 @@ DI-zoo可运行代码示例
 
    .. image:: images/walker2d_medium_expert_cql.png
      :align: center
+     :scale: 40%
 
-   - 一般迭代1M iteration需要9小时（NVIDIA V100）
+   - 一般迭代1M iteration 需要 9 小时（NVIDIA V100）

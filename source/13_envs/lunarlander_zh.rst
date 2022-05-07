@@ -4,7 +4,7 @@ LunarLander
 概述
 =======
 
-LunarLander，即月球登陆，任务目标是通过导航一个登陆器登录到指定的登陆地点。该环境同时具有离散动作空间和连续动作空间两个版本， 目前DI-engine只支持离散动作空间版本， 后续会补充关于连续空间的版本及一些适配。以下主要介绍了离线动作空间版本的lunarlander。
+LunarLander，即月球登陆，任务目标是通过导航一个登陆器登录到指定的登陆地点。该环境同时具有离散动作空间和连续动作空间两个版本， 目前DI-engine 只支持离散动作空间版本， 后续会补充关于连续空间的版本及一些适配。以下主要介绍了离线动作空间版本的 lunarlander。
 
 .. image:: ./images/lunarlander.gif
    :align: center
@@ -15,9 +15,9 @@ LunarLander，即月球登陆，任务目标是通过导航一个登陆器登录
 安装方法
 --------
 
-安装gym和Box2d两个库即可, 用户可以选择通过pip一键安装
+安装 gym 和 Box2d 两个库即可, 用户可以选择通过 pip 一键安装
 
-注：如果用户没有root权限，请在install的命令后面加上--user
+注：如果用户没有 root 权限，请在 install 的命令后面加上 ``--user``
 
 
 .. code:: shell
@@ -29,7 +29,7 @@ LunarLander，即月球登陆，任务目标是通过导航一个登陆器登录
 验证安装
 --------
 
-安装完成后，可以通过在Python命令行中运行如下命令验证安装成功：
+安装完成后，可以通过在 Python 命令行中运行如下命令验证安装成功：
 
 .. code:: python
 
@@ -44,8 +44,7 @@ LunarLander，即月球登陆，任务目标是通过导航一个登陆器登录
 镜像
 ----
 
-DI-engine的镜像配备有框架本身和Lunarlander环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+DI-engine 的镜像配备有框架本身和 Lunarlander 环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取，或访问\ `docker hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 .. _变换前的空间原始环境）:
 
@@ -73,9 +72,9 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 动作空间
 --------
 
--  对于lunarlander离散版本的游戏操作按键空间，一般是大小为4的离散动作空间，数据类型为\ ``int``\ 
+-  对于 lunarlander 离散版本的游戏操作按键空间，一般是大小为 4 的离散动作空间，数据类型为\ ``int``\ 
 
--  在lunarlander离散版本中，动作在0-3中取值，具体的含义是：
+-  在 lunarlander 离散版本中，动作在 0-3 中取值，具体的含义是：
 
    -  0：Do nothing
 
@@ -91,14 +90,14 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 --------
 
 -  一个\ ``int``\ 数值
--  从屏幕顶部移动到着陆点并且速度到零的奖励大约是100...140分。如果登陆器向着远离着陆台的方向行进，就会失去奖励。如果登陆器坠落或停止，episode就会结束，获得额外的-100或+100分。每条腿的地面接触是+10的奖励。发射主引擎每帧为-0.3奖励。成功着陆到着陆点是200分。在起落架外着陆是可能的。燃料是无限的。
+-  从屏幕顶部移动到着陆点并且速度到零的奖励大约是 100...140 分。如果登陆器向着远离着陆台的方向行进，就会失去奖励。如果登陆器坠落或停止，episode 就会结束，获得额外的 -100 或 +100 分。每条腿的地面接触是 +10 的奖励。发射主引擎每帧为 -0.3 奖励。成功着陆到着陆点是200  分。在起落架外着陆是可能的。燃料是无限的。
 
 .. _其他-1:
 
 其他
 ----
 
--  游戏结束即为当前环境episode结束, 如果登陆器坠毁或者到达了静止状态，则当前episode结束
+-  游戏结束即为当前环境 episode 结束, 如果登陆器坠毁或者到达了静止状态，则当前 episode 结束
 
 关键事实
 ========
@@ -107,7 +106,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 
 .. _变换后的空间rl环境）:
 
-变换后的空间（RL环境）
+变换后的空间（RL 环境）
 ======================
 
 .. _观察空间-2:
@@ -122,7 +121,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 动作空间
 --------
 
--  依然是大小为4的离散动作空间，但数据类型由``int``转为 ``np.int64``, 尺寸为\ ``( )``\, 即0-dim的array
+-  依然是大小为 4 的离散动作空间，但数据类型由 ``int`` 转为 ``np.int64``, 尺寸为\ ``( )``\, 即 0-dim 的 array
 
 .. _奖励空间-2:
 
@@ -131,7 +130,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 
 -  变换内容：数据结构变换
 
--  变换结果：变为np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.float64``\
+-  变换结果：变为 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.float64``\
 
 上述空间使用gym环境空间定义则可表示为：
 
@@ -147,7 +146,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 其他
 ----
 
--  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在lunarlander中为整个episode的奖励累加和
+-  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在lunarlander 中为整个 episode 的奖励累加和
 
 .. _其他-3:
 
@@ -174,7 +173,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 训练和测试环境的区别
 --------------------
 
--  训练环境使用动态随机种子，即每个episode的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
+-  训练环境使用动态随机种子，即每个 episode 的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个 episode 的随机种子相同，通过\ ``seed``\ 方法指定。
 
 
 存储录像
@@ -198,12 +197,12 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
            print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
            break
 
-DI-zoo可运行代码示例
-====================
+DI-zoo 可运行代码示例
+======================
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/blob/main/dizoo/box2d/lunarlander/config/>`__
-内，对于具体的配置文件，例如\ ``lunarlander_dqn_config.py``\ ，使用如下的demo即可运行：
+内，对于具体的配置文件，例如\ ``lunarlander_dqn_config.py``\ ，使用如下的 demo 即可运行：
 
 .. code:: python
 
@@ -284,9 +283,9 @@ link <https://github.com/opendilab/DI-engine/blob/main/dizoo/box2d/lunarlander/c
 
 
 基准算法性能
-============
+==============
 
--  LunarLander（平均奖励大于等于200视为较好的Agent)
+-  LunarLander（平均奖励大于等于200视为较好的 Agent）
 
    - Lunarlander + DQFD
    .. image:: images/lunarlander_dqfd.png
