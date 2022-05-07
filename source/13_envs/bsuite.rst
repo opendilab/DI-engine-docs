@@ -17,8 +17,8 @@ Description
 Installation
 =============
 
-How to install
----------------
+How To install
+-----------------
 
 You just need to use the command ``pip`` to install bsuite, however it will be automatically installed when installing DI-engine.
 
@@ -30,7 +30,7 @@ You just need to use the command ``pip`` to install bsuite, however it will be a
    cd DI-engine
    pip install ".[common_env]"
 
-Verify installation
+Verify Installation
 --------------------
 
 Once installed, you can verify whether the installation is successful by running the following command on the Python command line.
@@ -42,17 +42,17 @@ Once installed, you can verify whether the installation is successful by running
    timestep = env.reset()
    print(timestep)
 
-Original environment space
+Original Environment Space
 ===========================
 
-Observations space
+Observations Space
 -------------------
 
 -  Array representing the state of the environment, dimensions and size can vary according to the specific environment. Its datatype is \ ``np.float32``.
 
 .. _Actions space-1:
 
-Actions space
+Actions Space
 ---------------
 
 -  The action space is a discrete space of size N which varies according to the environment. This datatype is \ ``int``\ and input is a python integer value（or a np array of dimension 0 such as \ ``np.array(1)``\ to input action 1）.
@@ -63,7 +63,7 @@ Actions space
 
    -  1：RIGHT.
 
-Rewards space
+Rewards Space
 -------------
 
 -  Rewards are assigned according to the rules of the environments. Rewards are usually a \ ``float``\ value.
@@ -73,7 +73,7 @@ Others
 
 -  Environments terminate once they have reached their maximum number of steps or encountered a failure state. All environments have the fixed number of maximum steps, but not all environments have a failure state.
 
-Key facts
+Key Facts
 ==========
 
 1. Each environment contains several configurations to make it gradually more challenging.
@@ -99,7 +99,7 @@ Our implementation uses the bsuite Gym wrapper to make the bsuite codebase run u
    env = bsuite.load_and_record_to_csv('catch/0', results_dir='/path/to/results')
    gym_env = gym_wrapper.GymFromDMEnv(env)
 
-About configurations
+About Configurations
 -----------------------
 
 Configurations are designed to increase the level of difficulty of an environment. For example, in a 5-armed bandit environment, configurations are used to regulate the level of noise to perturb the rewards.
@@ -126,8 +126,8 @@ Using DI-engine, you can create a bsuite environment simply with the name of you
    memory_len_env = BSuiteEnv(cfg)
 
 
-DI-zoo runnable code
-====================
+DI-zoo Runnable Code
+=======================
 
 The full training configuration can be found on `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/bsuite/config/serial>`__

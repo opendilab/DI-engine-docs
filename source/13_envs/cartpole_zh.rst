@@ -3,7 +3,7 @@ Cartpole
 
 概述
 =======
-倒立摆问题是强化学习中的经典控制问题。Cartpole是倒立摆问题中的一个离散控制任务。在游戏中有一个小车，上有竖着一根杆子。小车在一个光滑无摩擦的轨道上左右滑行，目的是使杆子保持竖直。如下图所示。
+倒立摆问题是强化学习中的经典控制问题。Cartpole 是倒立摆问题中的一个离散控制任务。在游戏中有一个小车，上有竖着一根杆子。小车在一个光滑无摩擦的轨道上左右滑行，目的是使杆子保持竖直。如下图所示。
 
 .. image:: ./images/cartpole.gif
    :align: center
@@ -14,7 +14,7 @@ Cartpole
 安装方法
 --------
 
-Cartpole环境内置在gym中，直接安装gym即可。其环境id是\ ``CartPole-v0`` \。
+Cartpole 环境内置在 gym 中，直接安装 gym 即可。其环境 id 是\ ``CartPole-v0`` \。
 
 .. code:: shell
 
@@ -23,7 +23,7 @@ Cartpole环境内置在gym中，直接安装gym即可。其环境id是\ ``CartPo
 验证安装
 --------
 
-在Python命令行中运行如下命令验证安装成功。
+在 Python 命令行中运行如下命令验证安装成功。
 
 .. code:: shell 
 
@@ -38,13 +38,13 @@ Cartpole环境内置在gym中，直接安装gym即可。其环境id是\ ``CartPo
 动作空间
 ----------
 
-Cartpole 的动作空间属于离散动作空间，有2个离散动作，分别是左移和右移。
+Cartpole 的动作空间属于离散动作空间，有 2 个离散动作，分别是左移和右移。
 
--  \ ``左移`` \: 0 表示让agent向左移动。
+-  \ ``左移`` \: 0 表示让 agent 向左移动。
 
--  \ ``右移`` \: 1 表示让agent向右移动。
+-  \ ``右移`` \: 1 表示让 agent 向右移动。
 
-使用gym环境空间定义则可表示为：
+使用 gym 环境空间定义则可表示为：
 
 .. code:: python
     
@@ -53,7 +53,7 @@ Cartpole 的动作空间属于离散动作空间，有2个离散动作，分别�
 状态空间
 ----------
 
-Cartpole 的状态空间有4个元素，分别是：
+Cartpole 的状态空间有 4 个元素，分别是：
 
 - \ ``Cart Position`` \：小车的位置，范围是 \ ``[-4.8, 4.8]`` \。
   
@@ -66,38 +66,30 @@ Cartpole 的状态空间有4个元素，分别是：
 
 奖励空间
 -----------
-每一步操作，都将获得值为1的奖励，直到episode终止（终止状态也将获得值为1的奖励）。
+每一步操作，都将获得值为 1 的奖励，直到 episode 终止（终止状态也将获得值为 1 的奖励）。
 
 
 终止条件
 ------------
-Cartpole 环境每个episode的终止条件是遇到以下任何一种情况：
+Cartpole 环境每个 episode 的终止条件是遇到以下任何一种情况：
 
-- 杆偏移的角度超过12度。
+- 杆偏移的角度超过 12 度。
   
-- 小车出界，通常把边界距离设置为2.4。
+- 小车出界，通常把边界距离设置为 2.4。
   
-- 达到episode的最大step，默认为200。
+- 达到 episode 的最大 step，默认为 200。
   
 
-Cartpole任务在什么情况下视为胜利
+Cartpole 任务在什么情况下视为胜利
 --------------------------------
 
-当100次试验的平均episode奖励达到195以上时，视作游戏胜利。
+当100次试验的平均 episode 奖励达到 195 以上时，视作游戏胜利。
 
-
-其他
-====
-
-存储录像
---------
-
-有些环境有自己的渲染插件，但是DI-engine不支持环境自带的渲染插件，而是通过保存训练时的log日志来生成视频录像。具体方式可参考DI-engine `官方文档 <https://opendilab.github.io/DI-engine/quick_start/index.html>`__ Quick start 章节下的 Visualization & Logging 部分。
 
 DI-zoo 可运行代码示例
 =====================
 
-下面提供一个完整的cartpole环境config，采用DQN算法作为policy。请在\ ``DI-engine/dizoo/classic_control/cartpole/entry`` \目录下运行\ ``cartpole_dqn_main.py`` \文件，如下。
+下面提供一个完整的 cartpole 环境 config，采用 DQN 算法作为 policy。请在\ ``DI-engine/dizoo/classic_control/cartpole/entry`` \ 目录下运行\ ``cartpole_dqn_main.py`` \ 文件，如下。
 
 .. code:: python
 
@@ -191,26 +183,14 @@ DI-zoo 可运行代码示例
 
 实验结果
 =================
-使用DQN算法的实验结果如下。横坐标是\ ``episode`` \，纵坐标是\ ``reward_mean`` \。
+使用 DQN 算法的实验结果如下。横坐标是\ ``episode`` \，纵坐标是\ ``reward_mean`` \。
 
 .. image:: ./images/cartpole_dqn.png
    :align: center
+   :scale: 20%
 
 
 参考资料
 =====================
 - Cartpole `源码 <https://github.com/openai/gym/blob/master/gym/envs/classic_control/cartpole.py>`__
-
-
-
-
-
-
-
-
-
-
-
-
-
 

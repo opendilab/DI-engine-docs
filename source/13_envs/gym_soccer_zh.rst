@@ -8,6 +8,7 @@ HFO (Half-field Offense, 半场进攻) 是机器人世界杯2D足球比赛中的
 
 .. image:: ./images/hfo.gif
    :align: center
+   :scale: 50%
 
 安装
 ====
@@ -54,7 +55,7 @@ HFO (Half-field Offense, 半场进攻) 是机器人世界杯2D足球比赛中的
 ----
 
 DI-engine准备好了配备有框架本身和soccer环境的镜像，可通过\ ``to do by niuyazhe``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 环境介绍
 =========
@@ -76,16 +77,16 @@ Gym-Soccer 的动作空间属于离散连续混合动作空间，有3个离散�
 .. code:: python
 
     action_space = spaces.Tuple((spaces.Discrete(3),
-                                    spaces.Box(low=0, high=100, shape=(1,)),
-                                    spaces.Box(low=-180, high=180, shape=(1,)),
-                                    spaces.Box(low=-180, high=180, shape=(1,)),
-                                    spaces.Box(low=0, high=100, shape=(1,)),
-                                    spaces.Box(low=-180, high=180, shape=(1,))))
+                                 spaces.Box(low=0, high=100, shape=(1,)),
+                                 spaces.Box(low=-180, high=180, shape=(1,)),
+                                 spaces.Box(low=-180, high=180, shape=(1,)),
+                                 spaces.Box(low=0, high=100, shape=(1,)),
+                                 spaces.Box(low=-180, high=180, shape=(1,))))
 
 状态空间
 ----------
 
-Gym-Soccer 的状态空间描述了当前游戏的状态，分为\ ``High Level Feature Set`` \和 \ ``Low Level Feature Set`` \，包含agent当前的坐标，球的坐标，agent的朝向等等。数值型的feature被统一scale到\ ``[-1,1]`` \的范围。具体请查阅官方手册中的 State Spaces 章节。
+Gym-Soccer 的状态空间描述了当前游戏的状态，分为\ ``High Level Feature Set`` \和 \ ``Low Level Feature Set`` \，包含 agent 当前的坐标，球的坐标，agent 的朝向等等。数值型的 feature 被统一 scale 到\ ``[-1,1]`` \ 的范围。具体请查阅官方手册中的 State Spaces 章节。
 
 内置环境
 -----------
@@ -94,10 +95,11 @@ Gym-Soccer 的状态空间描述了当前游戏的状态，分为\ ``High Level 
   
 -  \ ``"SoccerEmptyGoal-v0"`` \: 奖励相对更稠密。进攻球员向足球靠近、将足球向目标方向踢、进球都会得到奖励.
   
--  \ ``"SoccerAgainstKeeper-v0"`` \: 奖励设定与 \ ``"SoccerEmptyGoal-v0"`` \ 相同。增加1个守门员（由规则控制的bot）。进攻球员需要学习如何与守门员周旋并进球得分。
+-  \ ``"SoccerAgainstKeeper-v0"`` \: 奖励设定与 \ ``"SoccerEmptyGoal-v0"`` \ 相同。增加1个守门员（由规则控制的 bot）。进攻球员需要学习如何与守门员周旋并进球得分。
 
-用户自定义环境(TBD)
+用户自定义环境
 -------------------
+TBD
 
 其他
 ====
@@ -115,19 +117,4 @@ DI-zoo 可运行代码示例
 参考资料
 ====================
 - HFO `源码 <https://github.com/LARG/HFO>`__
-- Open-AI Gym-soccer `源码 <https://github.com/openai/gym-soccer>`__ 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Open-AI Gym-soccer `源码 <https://github.com/openai/gym-soccer>`__

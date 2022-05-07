@@ -1,10 +1,10 @@
-Bit-flip
+BitFlip
 ~~~~~~~~~~~~~~~~~~
 
 概述
 =======
-BitFlip (翻硬币）是一个非常简单的小游戏。假设有n个硬币，每个硬币具有正面和反面两个状态，正面记为0，反面记为1。动作空间是一个长度为n的向量，执行第n个动作类型表示将第n个硬币翻转。
-对于每一个epsode，我们随机初始化硬币状态和目标状态。如果硬币状态和目标状态不一样，reward为-1，否则为1。
+BitFlip （翻硬币）是一个非常简单的小游戏。假设有 n 个硬币，每个硬币具有正面和反面两个状态，正面记为 0，反面记为 1。动作空间是一个长度为 n 的向量，执行第 n 个动作类型表示将第 n 个硬币翻转。
+对于每一个 epsode，我们随机初始化硬币状态和目标状态。如果硬币状态和目标状态不一样，reward 为 -1，否则为 1。
 
 .. image:: ./images/bitflip.gif
    :align: center
@@ -15,12 +15,12 @@ BitFlip (翻硬币）是一个非常简单的小游戏。假设有n个硬币，�
 安装方法
 --------
 
-BitFlip环境无需安装，内置在DI-engine中。
+BitFlip 环境无需安装，内置在 DI-engine 中。
 
 DI-zoo 可运行代码示例
-=====================
+========================
 
-下面提供一个完整的bit-flip环境config，采用DQN算法作为policy。请在\ ``DI-engine/dizoo/classic_control/bitflip/entry`` \目录下运行\ ``bitflip_dqn_main.py`` \文件，如下。
+下面提供一个完整的 Bitflip 环境 config，采用 DQN 算法作为policy。请在\ ``DI-engine/dizoo/classic_control/bitflip/entry`` \目录下运行\ ``bitflip_dqn_main.py`` \文件，如下。
 
 .. code:: python
 
