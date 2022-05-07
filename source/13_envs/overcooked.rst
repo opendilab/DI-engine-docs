@@ -44,7 +44,7 @@ After completing installation, you can check whether it is succesful by the foll
 .. code:: shell
 
    cd DI-engine
-   pytest -sv dizoo\overcooked\envs\test_overcooked_env.py
+   pytest -sv dizoo/overcooked/envs/test_overcooked_env.py
 
 
 RL Environment Space
@@ -53,7 +53,7 @@ RL Environment Space
 
 Observation Space
 ----------------------
--  Right now we use cramped_room setting to describe the observation space of overcooked env. The layout of the cramped_room is of shape``(5, 4)``.
+-  Right now we use cramped_room setting to describe the observation space of overcooked env. The layout of the cramped_room is of shape ``(5, 4)``.
 -  Contain 2 agents.
 -  Each agent's obs shape is ``(layout_width, layout_height, 26)`` , i.e. ``(5, 4, 26)`` for cramped_room.
 -  If use ``concat_obs`` in environment, then the obs shape will be ``(2*layout_width, layout_height, 26)``, otherwise the obs shape will be ``(2, (layout_width, layout_height, 26))`` .
@@ -104,13 +104,13 @@ Key Facts
 Other
 ===========
 
-Different layouts
+Different Layouts
 -------------------------
 You can change the layout used by changing ``env_name`` in environment config. However, the overcooked env is still under development, so not all layout is supported.
 
 You can also hand code your own layout, referencing this link for layouts `files <https://github.com/HumanCompatibleAI/overcooked_ai/tree/master/src/overcooked_ai_py/data/layouts>`__.
 
-DI-zoo code example
+DI-zoo Code Example
 =======================
 
 Complete training configuration is at `github

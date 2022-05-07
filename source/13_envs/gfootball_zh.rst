@@ -1,5 +1,3 @@
-.. _header-n0:
-
 Google Research Football (Gfootball)
 ====================================
 
@@ -8,10 +6,8 @@ Google Research Football (Gfootball)
 概述
 ----
 
-Google Research
-Football（以下简称Gfootball）是Google团队在开源足球游戏GamePlay
-Football的基础上创建的适用于强化学习研究的足球环境，兼容OpenAI Gym
-API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入与内置AI或训练的智能体进行游戏。下图为渲染后的Gfootball游戏环境。
+Google Research Football（以下简称 Gfootball）是 Google 团队在开源足球游戏 GamePlay Football的基础上创建的适用于强化学习研究的足球环境，
+兼容 OpenAI Gym API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入与内置AI或训练的智能体进行游戏。下图为渲染后的 Gfootball 游戏环境。
 
 .. figure:: images/gfootballenv.png
    :alt: 
@@ -75,16 +71,17 @@ API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入�
 .. figure:: images/verify_gfootball.png
    :alt: 
    :align: center
+   :scale: 60%
 
-更多安装环境相关的问题，可以参考\ `Gfootball官网github <https://github.com/google-research/football>`__\ 。此外，官方也提供了docker
-image用于在docker环境中部署环境，可以参考https://github.com/google-research/football/blob/master/gfootball/doc/docker.md。
+
+更多安装环境相关的问题，可以参考\ `Gfootball 官网 github <https://github.com/google-research/football>`__\ 。此外，官方也提供了 docker image 用于在 docker 环境中部署环境，可以参考 `docker 部署文档 <https://github.com/google-research/football/blob/master/gfootball/doc/docker.md>`__ 。
 
 .. _header-n60:
 
 环境创建API
 -----------
 
-在导入并创建环境成功后，可以通过与openAI gym相同的代码来与环境交互：
+在导入并创建环境成功后，可以通过与 openAI gym 相同的代码来与环境交互：
 
 .. code:: python
 
@@ -109,9 +106,9 @@ image用于在docker环境中部署环境，可以参考https://github.com/googl
 
 创建环境的API如下：
 
--  env\ *name。核心参数，决定环境创建的场景，常用为'11*\ vs\ *11*\ stochastic'，'11\ *vs*\ 11\ *easy*\ stochastic'，'11\ *vs*\ 11\ *hard*\ stochastic'，分别对应对局中等、简单和困难三种难度内置bot的完整90分钟足球游戏。此外，还有点球等场景如'academy\ *run*\ pass\ *and*\ shoot\ *with*\ keeper'，详见https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md。
+-  env name。核心参数，决定环境创建的场景，常用为 11 vs 11 stochastic，11 vs 11 easy stochastic，11 vs 11 hard stochastic，分别对应对局中等、简单和困难三种难度内置bot的完整90分钟足球游戏。此外，还有点球等场景如 academy run pass and shoot with keeper，详见 `文档 <https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md>`_ 。
 
--  Representation。环境输出的表征类型，'raw'为原始向量输入，如球员位置、球速度等信息，'pixels'为原始图像像素输入，官方还提供了一些现有的环境输入封装。
+-  Representation。环境输出的表征类型，raw 为原始向量输入，如球员位置、球速度等信息，pixels 为原始图像像素输入，官方还提供了一些现有的环境输入封装。
 
 -  stacked。是否堆叠帧输入。
 
@@ -127,7 +124,7 @@ image用于在docker环境中部署环境，可以参考https://github.com/googl
 
 -  number_of_right_players_agent_controls。选择同时控制的球员数目。
 
-也可以使用由di-engine封装的环境：
+也可以使用由 DI-engine 封装的环境：
 
 .. code:: python
 
@@ -164,16 +161,16 @@ image用于在docker环境中部署环境，可以参考https://github.com/googl
 
    -  ``left_team`` - N*2维向量 [x, y]，表明球员位置。
 
-   -  ``left_team_direction`` - N*2维向量 [x, y]，表明球员速度方向。
+   -  ``left_team_direction`` - N*2 维向量 [x, y]，表明球员速度方向。
 
-   -  ``left_team_tired_factor`` - N维向量 ，表明球员疲劳度.
+   -  ``left_team_tired_factor`` - N 维向量 ，表明球员疲劳度.
       0表示完全不疲劳。
 
-   -  ``left_team_yellow_card`` - N维向量，表明球员是否有黄牌。
+   -  ``left_team_yellow_card`` - N 维向量，表明球员是否有黄牌。
 
-   -  ``left_team_active`` - N维向量，表明球员是否没有红牌.
+   -  ``left_team_active`` - N 维向量，表明球员是否没有红牌.
 
-   -  ``left_team_roles`` - N维向量，表明球员角色:
+   -  ``left_team_roles`` - N 维向量，表明球员角色:
 
       -  ``0`` = e\ *PlayerRole*\ GK - goalkeeper,
 
@@ -229,7 +226,7 @@ image用于在docker环境中部署环境，可以参考https://github.com/googl
 
    -  ``score`` - 得分.
 
-   -  ``steps_left`` - 剩余步数（全局比赛3000步）.
+   -  ``steps_left`` - 剩余步数（全局比赛 3000 步）.
 
    -  game_mode - 比赛状态信息:
 
@@ -251,72 +248,72 @@ image用于在docker环境中部署环境，可以参考https://github.com/googl
 
 **DI-engine封装的状态空间**
 
--  ``Players``: 29维
+-  ``Players``: 29 维
 
-   -  | ``avail``\ ，可行动作（10维one-hot，长传、高脚、短传、射门、冲刺、停止运动、停止冲刺、
+   -  | ``avail``\ ，可行动作（10 维 one-hot，长传、高脚、短传、射门、冲刺、停止运动、停止冲刺、
       | 滑铲、运球、停止运球）（参考#6）
 
-   -  ``[player_pos_x, player_pos_y]`` ，当前控制球员位置（2维坐标）
+   -  ``[player_pos_x, player_pos_y]`` ，当前控制球员位置（2 维坐标）
 
-   -  ``player_direction*100``\ ，当前控制球员运动方向（2维坐标）
+   -  ``player_direction*100``\ ，当前控制球员运动方向（2 维坐标）
 
-   -  ``*player_speed*100`` ，当前控制球员速度（1维标量）
+   -  ``*player_speed*100`` ，当前控制球员速度（1 维标量）
 
-   -  ``layer_role_onehot`` ，当前控制球员角色（10维one-hot）
+   -  ``layer_role_onehot`` ，当前控制球员角色（10 维one-hot）
 
    -  | ``[ball_far, player_tired, is_dribbling, is_sprinting]``
         ，球是否过远，当前控制球
-      | 员疲劳度，是否在带球、是否在冲刺（4维0/1）
+      | 员疲劳度，是否在带球、是否在冲刺（4 维 0/1）
 
 -  ``Ball``: 18维
 
-   -  ``obs['ball']`` ，球位置（3维坐标）
+   -  ``obs['ball']`` ，球位置（3 维坐标）
 
-   -  ``ball_which_zone`` ，人为划定的球所在区域（6维one-hot）
+   -  ``ball_which_zone`` ，人为划定的球所在区域（6 维 one-hot）
 
    -  ``[ball_x_relative, ball_y_relative]``
-      ，球距离当前控制球员的x、y轴距离（2维）
+      ，球距离当前控制球员的x、y轴距离（2 维）
 
-   -  ``obs['ball_direction']*20`` ，球运动方向（3维坐标）
+   -  ``obs['ball_direction']*20`` ，球运动方向（3 维坐标）
 
    -  | ``*[ball_speed*20, ball_distance, ball_owned, ball_owned_by_us]``
         ，球速，球与当前
-      | 控制球员的距离，球是否被控制、球是否被我方控制（4维）
+      | 控制球员的距离，球是否被控制、球是否被我方控制（4 维）
 
 -  ``LeftTeam``: 7维。所有我方球员的下述信息（10*7）
 
-   -  ``LeftTeamCloset``\ ：7维
+   -  ``LeftTeamCloset``\ ：7 维
 
-      -  离当前控制球员最近我方球员的位置（2维）
+      -  离当前控制球员最近我方球员的位置（2 维）
 
-      -  离当前控制球员最近我方球员的速度向量（2维）
+      -  离当前控制球员最近我方球员的速度向量（2 维）
 
-      -  当前控制球员最近我方球员的速度（1维）
+      -  当前控制球员最近我方球员的速度（1 维）
 
-      -  当前控制球员最近我方球员的距离（1维）
+      -  当前控制球员最近我方球员的距离（1 维）
 
-      -  离当前控制球员最近我方球员的疲劳度（1维）
+      -  离当前控制球员最近我方球员的疲劳度（1 维）
 
--  ``RightTeam``\ ：7维。所有对方球员的下述信息（11*7）
+-  ``RightTeam``\ ：7 维。所有对方球员的下述信息（11*7）
 
-   -  ``RightTeamCloset``\ ：7维
+   -  ``RightTeamCloset``\ ：7 维
 
-      -  离当前控制球员最近对方球员的位置（2维）
+      -  离当前控制球员最近对方球员的位置（2 维）
 
-      -  离当前控制球员最近对方球员的速度向量（2维）
+      -  离当前控制球员最近对方球员的速度向量（2 维）
 
-      -  离当前控制球员最近对方球员的速度（1维）
+      -  离当前控制球员最近对方球员的速度（1 维）
 
-      -  离当前控制球员最近对方球员的距离（1维）
+      -  离当前控制球员最近对方球员的距离（1 维）
 
-      -  离当前控制球员最近对方球员的疲劳度（1维）
+      -  离当前控制球员最近对方球员的疲劳度（1 维）
 
 .. _header-n524:
 
 动作空间
 --------
 
-Gfootball的动作空间为19维离散动作：
+Gfootball 的动作空间为 19 维离散动作：
 
 -  无状态动作
 
@@ -370,7 +367,7 @@ DI-zoo可运行代码示例
 --------------------
 
 完整的训练入口见\ `DI-zoo
-gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entry>`__\ 。使用ppo-lstm进行self-play训练的配置文件如下。
+gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entry>`__\ 。使用 ppo-lstm 进行self-play 训练的配置文件如下。
 
 .. code:: python
 
@@ -486,9 +483,9 @@ gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entr
 训练实例
 --------
 
-在DI-engine的状态空间下，经过reward设计和动作空间约束，self
-play训练中对内置hard AI胜率曲线如下图所示：
+在 DI-engine 的状态空间下，经过 reward 设计和动作空间约束，self play 训练中对内置 hard AI 胜率曲线如下图所示：
 
-.. figure:: images/gfootball_train.png
-   :alt:
+.. image:: images/gfootball_train.png
    :align: center
+   :scale: 80%
+

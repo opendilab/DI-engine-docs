@@ -4,20 +4,21 @@ Atari
 概述
 =======
 
-Atari是最经典最常用的离散动作空间强化学习环境，常作为离散动作空间强化学习算法的基准测试环境。它是一个由57个子环境构成的集合，不同的子环境对应的游戏类型差别很大，常用的子环境有Pong，SpaceInvaders，QBert，Enduro，Breakout，MontezumaRevenge等等，下图所示为其中的SpaceInvaders游戏。
+Atari是最经典最常用的离散动作空间强化学习环境，常作为离散动作空间强化学习算法的基准测试环境。它是一个由 57 个子环境构成的集合，不同的子环境对应的游戏类型差别很大，常用的子环境有 Pong，SpaceInvaders，QBert，Enduro，Breakout，MontezumaRevenge 等等，下图所示为其中的 SpaceInvaders 游戏。
 
 .. image:: ./images/atari.gif
    :align: center
+   :scale: 70%
 
 安装
-====
+=======
 
 安装方法
 --------
 
-安装gym和ale-py两个库即可，可以通过pip一键安装或结合DI-engine安装
+安装 gym 和 ale-py 两个库即可，可以通过 pip 一键安装或结合 DI-engine 安装
 
-注：atari-py库目前已被开发者废弃，建议使用\ `ale-py <https://github.com/mgbellemare/Arcade-Learning-Environment>`__
+注：atari-py 库目前已被开发者废弃，建议使用\ `ale-py <https://github.com/mgbellemare/Arcade-Learning-Environment>`__
 
 .. code:: shell
 
@@ -31,7 +32,7 @@ Atari是最经典最常用的离散动作空间强化学习环境，常作为离
 验证安装
 --------
 
-安装完成后，运行如下Python程序，如果没有报错则证明安装成功。
+安装完成后，运行如下 Python 程序，如果没有报错则证明安装成功。
 
 .. code:: python
 
@@ -43,29 +44,29 @@ Atari是最经典最常用的离散动作空间强化学习环境，常作为离
 镜像
 ----
 
-DI-engine准备好了配备有框架本身和Atari环境的镜像，可通过\ ``docker pull opendilab/ding:nightly-atari``\ 获取，或访问\ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多镜像
+DI-engine 准备好了配备有框架本身和 Atari 环境的镜像，可通过\ ``docker pull opendilab/ding:nightly-atari``\ 获取，或访问\ `docker
+hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像 
 
 .. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
-========================
+==========================
 
 .. _观察空间-1:
 
 观察空间
 --------
 
--  实际的游戏画面，RGB三通道图片，具体尺寸为\ ``(210, 160, 3)``\ ，数据类型为\ ``uint8``
+-  实际的游戏画面，RGB 三通道图片，具体尺寸为\ ``(210, 160, 3)``\ ，数据类型为\ ``uint8``
 
 .. _动作空间-1:
 
 动作空间
 --------
 
--  游戏操作按键空间，一般是大小为N的离散动作空间（N随具体子环境变化），数据类型为\ ``int``\ ，需要传入python数值（或是0维np数组，例如动作3为\ ``np.array(3)``\ ）
+-  游戏操作按键空间，一般是大小为 N 的离散动作空间（N 随具体子环境变化），数据类型为\ ``int``\ ，需要传入 python 数值（或是 0 维 np 数组，例如动作 3 为\ ``np.array(3)``\ ）
 
--  如在Pong环境中，N的大小为6，即动作在0-5中取值，具体的含义是：
+-  如在 Pong 环境中，N 的大小为 6，即动作在 0-5 中取值，具体的含义是：
 
    -  0：NOOP
 
@@ -91,40 +92,40 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 其他
 ----
 
--  游戏结束即为当前环境episode结束
+-  游戏结束即为当前环境 episode 结束
 
 关键事实
 ========
 
 1. 2D
-   RGB三通道图像输入，但单帧图像蕴含的信息不足（比如运动方向），需要堆叠多帧图像来解决
+   RGB 三通道图像输入，但单帧图像蕴含的信息不足（比如运动方向），需要堆叠多帧图像来解决
 
 2. 离散动作空间
 
-3. Atari环境集合中的奖励类型比较复杂，既有稠密奖励(SpaceInvaders)，又有稀疏奖励 (Pitfall，MontezumaRevenge)，需要的算法探索能力也不同
+3. Atari 环境集合中的奖励类型比较复杂，既有稠密奖励 (SpaceInvaders)，又有稀疏奖励 (Pitfall, MontezumaRevenge)，需要的算法探索能力也不同
 
 4. 奖励取值尺度变化较大
 
 .. _变换后的空间rl环境）:
 
-变换后的空间（RL环境）
-======================
+变换后的空间（RL 环境）
+=========================
 
 .. _观察空间-2:
 
 观察空间
 --------
 
--  变换内容：灰度图，空间尺寸缩放，最大最小值归一化，堆叠相邻N个游戏帧（N=4）
+-  变换内容：灰度图，空间尺寸缩放，最大最小值归一化，堆叠相邻 N 个游戏帧（N=4）
 
--  变换结果：三维np数组，尺寸为\ ``(4, 84, 84)``\ ，即为相邻的4帧灰度图，数据类型为\ ``np.float32``\ ，取值为 ``[0, 1]``
+-  变换结果：三维 np 数组，尺寸为\ ``(4, 84, 84)``\ ，即为相邻的 4 帧灰度图，数据类型为\ ``np.float32``\ ，取值为 ``[0, 1]``
 
 .. _动作空间-2:
 
 动作空间
 --------
 
--  基本无变换，依然是大小为N的离散动作空间，但一般为一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
+-  基本无变换，依然是大小为 N 的离散动作空间，但一般为一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
 .. _奖励空间-2:
 
@@ -133,9 +134,9 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 
 -  变换内容：奖励缩放和截断
 
--  变换结果：一维np数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[-1, 1]``
+-  变换结果：一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[-1, 1]``
 
-上述空间使用gym环境空间定义则可表示为：
+上述空间使用 gym 环境空间定义则可表示为：
 
 .. code:: python
 
@@ -151,17 +152,16 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 其他
 ----
 
--  ``epsiode_life``\ ：训练时的环境使用\ ``episode_life``\ 选项，即环境拥有多条生命值（一般为5），原始环境游戏失败一次生命值减一，所有生命值耗尽才视为episode结束
+-  ``epsiode_life``\ ：训练时的环境使用\ ``episode_life``\ 选项，即环境拥有多条生命值（一般为 5），原始环境游戏失败一次生命值减一，所有生命值耗尽才视为 episode 结束
 
--  ``noop_reset``\ ：环境重置时，最开始设置 x 个原始游戏帧 ( 1 =< x
-   <=30) 执行空动作（noop），以增加环境开局的随机性
+-  ``noop_reset``\ ：环境重置时，最开始设置 x 个原始游戏帧 ( 1 =< x <=30) 执行空动作（noop），以增加环境开局的随机性
 
--  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个episode的评测指标，在Atari中为整个episode的奖励累加和
+-  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在Atari中为整个episode的奖励累加和
 
 .. _其他-3:
 
 其他
-====
+========
 
 惰性初始化
 ----------
@@ -182,14 +182,14 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
 训练和测试环境的区别
 --------------------
 
--  训练环境使用动态随机种子，即每个episode的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个episode的随机种子相同，通过\ ``seed``\ 方法指定。
+-  训练环境使用动态随机种子，即每个 episode 的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个 episode 的随机种子相同，通过\ ``seed``\ 方法指定。
 
--  训练环境和测试环境使用的环境预处理wrapper不同，\ ``episode_life``\ 和\ ``clip_reward``\ 在测试时不使用。
+-  训练环境和测试环境使用的环境预处理 wrapper 不同，\ ``episode_life``\ 和\ ``clip_reward``\ 在测试时不使用。
 
 存储录像
 --------
 
-在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个episode结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境episode，并将这个episode的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
+在环境创建之后，重置之前，调用\ ``enable_save_replay``\ 方法，指定游戏录像保存的路径。环境会在每个 episode 结束之后自动保存本局的录像文件。（默认调用\ ``gym.wrapper.Monitor``\ 实现，依赖\ ``ffmpeg``\ ），下面所示的代码将运行一个环境 episode，并将这个 episode 的结果保存在形如\ ``./video/xxx.mp4``\ 这样的文件中：
 
 .. code:: python
 
@@ -207,12 +207,12 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\ 获取更多�
            print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
            break
 
-DI-zoo可运行代码示例
-====================
+DI-zoo 可运行代码示例
+=======================
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial>`__
-内，对于具体的配置文件，例如\ ``pong_dqn_config.py``\ ，使用如下的demo即可运行：
+内，对于具体的配置文件，例如\ ``pong_dqn_config.py``\ ，使用如下的 demo 即可运行：
 
 .. code:: python
 
@@ -273,29 +273,32 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/atari/config/serial
        from ding.entry import serial_pipeline
        serial_pipeline((main_config, create_config), seed=0)
 
-注：对于某些特殊的算法，比如PPG，需要使用专门的入口函数，示例可以参考
+注：对于某些特殊的算法，比如 PPG，需要使用专门的入口函数，示例可以参考
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/entry/atari_ppg_main.py>`__
 
 基准算法性能
-============
+===============
 
--  Pong（平均奖励大于等于20视为较好的Agent）
+-  Pong（平均奖励大于等于 20 视为较好的 Agent）
 
    - Pong + DQN
 
    .. image:: images/pong_dqn.png
      :align: center
+     :scale: 60%
 
--  Qbert（10M env step下，平均奖励大于15000）
+-  Qbert（10M env step 下，平均奖励大于 15000）
 
    - Qbert + DQN
 
    .. image:: images/qbert_dqn.png
      :align: center
+     :scale: 60%
 
--  Space Invaders（10M env step下，平均奖励大于1000）
+-  Space Invaders（10M env step 下，平均奖励大于 1000）
 
    - Space Invaders + DQN
 
    .. image:: images/spaceinvaders_dqn.png
      :align: center
+     :scale: 60%
