@@ -30,13 +30,12 @@ The TD-loss used in DQN is:
    \mathrm{L}(w)=\mathbb{E}\left[(\underbrace{r+\gamma \max _{a^{\prime}} Q_{\text {target }}\left(s^{\prime}, a^{\prime}, \theta^{-}\right)}-Q(s, a, \theta))^{2}\right]
    
 
-where the target network :math:`Q_{\text {target }`, with parameters :math:`\theta^{-}`, is the same as the online network except that its parameters are copied every ``target_update_freq`` steps from the online network (The hyper-parameter ``target_update_freq`` can be modified in the configuration file. Please refer to `TargetNetworkWrapper <https://github.com/opendilab/DI-engine/blob/main/ding/model/wrapper/model_wrappers.py>`_ for more details).
+where the target network :math:`Q_{\text {target }}`, with parameters :math:`\theta^{-}`, is the same as the online network except that its parameters are copied every ``target_update_freq`` steps from the online network (The hyper-parameter ``target_update_freq`` can be modified in the configuration file. Please refer to `TargetNetworkWrapper <https://github.com/opendilab/DI-engine/blob/main/ding/model/wrapper/model_wrappers.py>`_ for more details).
 
 Pseudo-code
 ---------------
 .. image:: images/DQN.png
    :align: center
-   :scale: 55%
 
 .. note::
    Compared with the version published in Nature, DQN has been dramatically modified. In the algorithm parts, **n-step TD-loss, PER** and **dueling head** are widely used, interested users can refer to the paper `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_ . 
@@ -53,7 +52,6 @@ DQN can be combined with:
 
       .. image:: images/PERDQN.png
          :align: center
-         :scale: 55%
 
       In DI-engine, PER can be enabled by modifying two fields ``priority`` and ``priority_IS_weight`` in the configuration file, and the concrete code can refer to `PER code <https://github.com/opendilab/DI-engine/blob/dev-treetensor/ding/worker/replay_buffer/advanced_buffer.py>`_ . For a specific example, users can refer to `PER example <../best_practice/priority.html>`_
 

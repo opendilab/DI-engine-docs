@@ -130,6 +130,7 @@ Here we provide examples of `QAC` model as default model for `DDPG`.
 
 .. autoclass:: ding.model.template.qac.QAC
     :members: forward, compute_actor, compute_critic
+    :noindex:
 
 Train actor-critic model
 ~~~~~~~~~~~~~~~~~~~~~~~~~

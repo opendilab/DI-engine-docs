@@ -29,7 +29,7 @@ DQN 中的 TD-loss 是：
    \mathrm{L}(w)=\mathbb{E}\left[(\underbrace{r+\gamma \max _{a^{\prime}} Q_{\text {target }}\left(s^{\prime}, a^{\prime}, \theta^{-}\right)}-Q(s, a, \theta))^{2}\right]
   
 
-其中目标网络:math:`Q_{\text {target}`，带有参数:math:`\theta^{-}`，与在线网络相同，只是它的参数会每 ``target_update_freq`` 个环境步数从在线网络复制更新一次（超参数 ``target_update_freq`` 可以在配置文件中修改。请参考 `TargetNetworkWrapper <https://github.com/opendilab/DI-engine/blob/main/ding/model /wrapper/model_wrappers.py>`_ 了解更多详情）。
+其中目标网络 :math:`Q_{\text {target}}` ，带有参数 :math:`\theta^{-}` ，与在线网络相同，只是它的参数会每 ``target_update_freq`` 个环境步数从在线网络复制更新一次（超参数 ``target_update_freq`` 可以在配置文件中修改。请参考 `TargetNetworkWrapper <https://github.com/opendilab/DI-engine/blob/main/ding/model /wrapper/model_wrappers.py>`_ 了解更多详情）。
 
 
 
@@ -37,7 +37,6 @@ DQN 中的 TD-loss 是：
 ---------------
 .. image:: images/DQN.png
    :align: center
-   :scale: 55%
 
 .. note::
    与发表在 Nature 的版本相比，现代的 DQN 在算法和实现方面都得到了显著改进。譬如，在算法部分，**TD-loss, PER, n-step, target network** and **dueling head** 等技巧被广泛使用，感兴趣的读者可参考论文 `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_。
@@ -52,9 +51,8 @@ DQN 可以和以下方法相结合：
 
       优先级经验回放（PER）有两种实现方式，其中一种较常用方式的伪代码如下图所示：
 
-        .. image:: images/PERDQN.png
-           :align: center
-           :scale: 55%
+      .. image:: images/PERDQN.png
+         :align: center
       
       在DI-engine中，PER可以通过修改配置文件中的 ``priority`` 和 ``priority_IS_weight`` 两个字段来控制，具体的代码实现可以参考 `PER code <https://github.com/opendilab/DI-engine/blob/dev-treetensor/ding/worker/replay_buffer/advanced_buffer.py>`_ 。具体的示例讲解可以参考
       `PER example <../best_practice/priority.html>`_
@@ -63,16 +61,16 @@ DQN 可以和以下方法相结合：
 
       在 Single-step TD-loss 中，Q-learning 通过贝尔曼方程更新 :math:`Q(s,a)`:
 
-        .. math::
+      .. math::
 
           r(s,a)+\gamma \max_{a^{'}}Q(s',a')
       
       在 Multi-step TD-loss 中，贝尔曼方程是:
 
-        .. math::
+      .. math::
            \sum_{t=0}^{n-1}\gamma^t r(s_t,a_t) + \gamma^n \max_{a^{'}}Q(s_n,a')
         
-        .. note::
+      .. note::
           在DQN中使用 Multi-step TD-loss 有一个潜在的问题：采用 epsilon 贪心收集数据时， Q值的估计是有偏的。 因为t >= 1时，:math:`r(s_t,a_t)` 是在 epsilon-greedy 策略下采样的，而不是通过正在学习的策略本身来采样。但实践中发现 Multi-step TD-loss 与 epsilon-greedy 结合使用，一般都可以明显提升智能体的最终性能。
 
       在DI-engine中，Multi-step TD-loss 可以通过修改配置文件中的 ``nstep`` 字段来控制，详细的损失函数计算代码可以参考 `nstep code <https://github.com/opendilab/DI-engine/blob/dev-treetensor/ding/rl_utils/td.py>`_ 中的 ``q_nstep_td_error``

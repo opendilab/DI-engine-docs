@@ -61,7 +61,7 @@ Implementations
 ----------------
 The default config is defined as follows:
 
-    .. autoclass:: ding.policy.qmix.QTRANPolicy
+    .. autoclass:: ding.policy.qtran.QTRANPolicy
         :noindex:
 
 The network interface QTRAN used is defined as follows:

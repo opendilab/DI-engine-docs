@@ -53,19 +53,16 @@ procgen 的全称是 Procedural Generation，表示程序化生成。对于 proc
    print(obs.shape)  # (64, 64, 3)
 
 
-.. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
 ========================
 
-.. _观察空间-1:
 
 观察空间
 --------
 
 -  实际的游戏画面，RGB 三通道图片，具体尺寸为\ ``(64, 3, 3)``\ ，数据类型为\ ``float32``\
 
-.. _动作空间-1:
 
 动作空间
 --------
@@ -85,14 +82,12 @@ procgen 的全称是 Procedural Generation，表示程序化生成。对于 proc
    -  4：DOWN
 
 
-.. _奖励空间-1:
 
 奖励空间
 --------
 
 -  游戏得分，根据具体游戏内容不同会有一定的差异，一般是一个\ ``float``\ 数值， 如在 Coinrun 环境中， 吃到硬币则奖励 10.0分，除此以外没有其它奖励。
 
-.. _其他-1:
 
 其他
 ----
@@ -113,7 +108,6 @@ procgen 的全称是 Procedural Generation，表示程序化生成。对于 proc
 变换后的空间（RL环境）
 ======================
 
-.. _观察空间-2:
 
 观察空间
 --------
@@ -122,14 +116,12 @@ procgen 的全称是 Procedural Generation，表示程序化生成。对于 proc
 
 -  变换结果：三维 np 数组，尺寸为\ ``(3, 84, 84)``\ ，数据类型为\ ``np.float32``\ ，取值为 \ ``[0, 255]``\
 
-.. _动作空间-2:
 
 动作空间
 --------
 
 -  基本无变换，依然是大小为N的离散动作空间，但一般为一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
-.. _奖励空间-2:
 
 奖励空间
 --------
@@ -147,14 +139,12 @@ procgen 的全称是 Procedural Generation，表示程序化生成。对于 proc
    act_space = gym.spaces.Discrete(5)
    rew_space = gym.spaces.Box(low=0, high=10, shape=(1, ), dtype=np.float32)
 
-.. _其他-2:
 
 其他
 ----
 
 -  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在 Procgen 中为整个 episode 的奖励累加和
 
-.. _其他-3:
 
 其他
 ====
@@ -202,7 +192,7 @@ procgen 的全称是 Procedural Generation，表示程序化生成。对于 proc
            break
 
 DI-zoo 可运行代码示例
-====================
+=======================
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/entry>`__
@@ -274,7 +264,6 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/ent
 
    .. image:: images/coinrun_dqn.svg
      :align: center
-     :scale: 10%
 
 -  Maze（平均奖励等于 10 视为较好的 Agent）
 
@@ -282,5 +271,4 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/procgen/coinrun/ent
 
    .. image:: images/maze_dqn.svg
      :align: center
-     :scale: 10%
 

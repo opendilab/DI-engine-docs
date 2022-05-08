@@ -46,19 +46,16 @@ PyBullet 是用于游戏，视觉效果，机器人和强化学习的物理模�
 DI-engine 的镜像配备框架本身，可通过\ ``docker pull opendilab/ding:nightly-mujoco``\ 获取，或访问\ `docker
 hub <https://hub.docker.com/r/opendilab/ding>`_  获取更多镜像
 
-.. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
 ========================
 
-.. _观察空间-1:
 
 观察空间
 --------
 
 -  物理信息组成的向量(3D position, orientation, and joint angles etc.)，具体尺寸为\ ``(N, )``\ ，其中\ ``N``\ 根据环境决定，数据类型为\ ``float64``
 
-.. _动作空间-1:
 
 动作空间
 --------
@@ -67,14 +64,12 @@ hub <https://hub.docker.com/r/opendilab/ding>`_  获取更多镜像
 
 -  如在 Hopper 环境中，N 的大小为 3，动作在\ ``[-1, 1]``\ 中取值
 
-.. _奖励空间-1:
 
 奖励空间
 --------
 
 -  游戏得分，根据具体游戏内容不同会有非常大的差异，一般是一个\ ``float``\ 数值，具体的数值可以参考最下方的基准算法性能部分。
 
-.. _其他-1:
 
 其他
 ----
@@ -92,27 +87,23 @@ hub <https://hub.docker.com/r/opendilab/ding>`_  获取更多镜像
 
 4. 奖励取值尺度变化较大
 
-.. _变换后的空间rl环境）:
 
 变换后的空间（RL环境）
 ======================
 
 
-.. _观察空间-2:
 
 观察空间
 --------
 
 -  基本无变换
 
-.. _动作空间-2:
 
 动作空间
 --------
 
 -  基本无变换，依然是大小为 N 的连续动作空间，取值范围\ ``[-1, 1]``\，尺寸为\ ``(N, )``\ ，数据类型为\ ``np.float32``
 
-.. _奖励空间-2:
 
 奖励空间
 --------
@@ -130,14 +121,12 @@ hub <https://hub.docker.com/r/opendilab/ding>`_  获取更多镜像
    act_space = gym.spaces.Box(low=-1, high=1, shape=(3, ), dtype=np.float32)
    rew_space = gym.spaces.Box(low=-np.inf, high=np.inf, shape=(1, ), dtype=np.float32)
 
-.. _其他-2:
 
 其他
 ----
 
 -  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在 Pybullet 中为整个 episode 的奖励累加和
 
-.. _其他-3:
 
 其他
 ====
@@ -186,7 +175,7 @@ hub <https://hub.docker.com/r/opendilab/ding>`_  获取更多镜像
             break
 
 DI-zoo 可运行代码示例
-====================
+======================
 
 完整的训练配置文件在 `github
 链接 <https://github.com/opendilab/DI-engine/tree/main/dizoo/pybullet/config/>`__

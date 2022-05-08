@@ -44,12 +44,10 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0 等一系列环
     cd gym-minigrid
    ./manual_control.py --env MiniGrid-Empty-8x8-v0
 
-.. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
 ========================
 
-.. _观察空间-1:
 
 观察空间
 --------
@@ -81,7 +79,6 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0 等一系列环
   并将其与\ ``image``\ 字段内容拼接成一个\ ``numpy.ndarray``\ obs4，其 shape 为 (2739，)，数据类型为\ ``float32``
 
 
-.. _动作空间-1:
 
 动作空间
 --------
@@ -120,7 +117,6 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0 等一系列环
 
    - 'enter': done/noop
 
-.. _奖励空间-1:
 
 奖励空间
 --------
@@ -128,7 +124,6 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0 等一系列环
 -  游戏得分，不同的 minigrid 子环境奖励幅度差异较小，其最大值为 1，一般是一个\ ``float``\ 数值，由于是稀疏奖励环境，只有在 agent (显示为红色的点)到达 goal
    (显示为绿色的点)时才有一个大于零的奖励，具体的数值由不同环境和达到 goal 所用的总步数决定，没有达到 goal 之前的奖励都是 0。
 
-.. _其他-1:
 
 其他
 ----
@@ -144,12 +139,10 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0 等一系列环
 
 3. 稀疏奖励，奖励取值尺度变化较小，最大为 1，最小为 0。
 
-.. _变换后的空间rl环境）:
 
 变换后的空间（RL 环境）
-======================
+=======================
 
-.. _观察空间-2:
 
 观察空间
 --------
@@ -158,14 +151,12 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0 等一系列环
 
 -  变换结果：一维 np 数组，尺寸为\ ``(2739，)``\ ，数据类型为\ ``np.float32``\ ，取值为 ``[0., 7.]``
 
-.. _动作空间-2:
 
 动作空间
 --------
 
 -  基本无变换，依然是大小为 N=7 的离散动作空间，一般为一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
-.. _奖励空间-2:
 
 奖励空间
 --------
@@ -183,14 +174,12 @@ MiniGrid-ObstructedMaze-2Dlh-v0, MiniGrid-ObstructedMaze-Full-v0 等一系列环
    act_space = gym.spaces.Discrete(7)
    rew_space = gym.spaces.Box(low=0, high=1, shape=(1, ), dtype=np.float32)
 
-.. _其他-2:
 
 其他
 ----
 
 -  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在 minigrid 中为整个 episode 的奖励累加和
 
-.. _其他-3:
 
 其他
 ====

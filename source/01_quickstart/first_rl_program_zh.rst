@@ -27,7 +27,7 @@ DI-engine 使用一个全局的配置文件来控制环境和策略的所有变�
     cfg = compile_config(main_config, create_cfg=create_config, auto=True)
 
 初始化采集环境和评估环境
---------------
+------------------------
 
 在强化学习中，训练阶段和评估阶段采集环境数据的策略可能有区别，例如训练阶段往往是采集 n 个步骤就训练一次，
 而评估阶段则需要完成整局游戏才能得到评分。我们推荐将采集和评估环境分开初始化：
@@ -45,7 +45,7 @@ DI-engine 使用一个全局的配置文件来控制环境和策略的所有变�
         cfg=cfg.env.manager
     )
 
-.. note ::
+.. note::
 
     DingEnvWrapper 是 DI-engine 对不同环境库的统一封装。BaseEnvManagerV2 管理多个环境的统一对外接口，
     利用 BaseEnvManagerV2 可以同时对多个环境进行并行采集。

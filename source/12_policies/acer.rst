@@ -115,6 +115,7 @@ Here we show the ACER algorithm on the discrete action space.
 The default config is defined as follows:
 
 .. autoclass:: ding.policy.acer.ACERPolicy
+   :noindex:
 
 Usually, we hope to compute everything as a batch to improve efficiency. This is done in ``policy._get_train_sample``.
 Once we execute this function in collector, the length of samples will equal to unroll-len in config. For details, please

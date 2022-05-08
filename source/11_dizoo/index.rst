@@ -12,7 +12,7 @@ The structure of DI-zoo
 
 For a certain environment/policy pair, in order to run RL experiment in DI-engine, DI-zoo mainly provides two files: the ``config.py`` file, including the key configuration required as well as the entry point to run the RL experiment; the ``env.py`` file, containing the encapsulation of the environment to run in DI-engine.
 
-.. note ::
+.. note::
     
     Besides, some environment/policy pairs also possess a ``main.py`` entry file, which is the training pipeline left over from the previous version.
 
@@ -140,7 +140,7 @@ to call ``parallel_pipeline``.
     If you want to use your own environment in DI-engine, you can just inherit ``BaseEnv`` implemented by DI-engine. For this part you can refer to `How to migrate your environment to DI-engine <../best_practice/ding_env.html>`_
 
 List of algorithms and environments supported by DI-zoo
--------------------------------
+---------------------------------------------------------
 
 `The algorithm documentation of DI-engine <../12_policies/index.html>`_
 

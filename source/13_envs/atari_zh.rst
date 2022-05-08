@@ -49,19 +49,16 @@ Atari是最经典最常用的离散动作空间强化学习环境，常作为离
 DI-engine 准备好了配备有框架本身和 Atari 环境的镜像，可通过\ ``docker pull opendilab/ding:nightly-atari``\ 获取，或访问\ `docker
 hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像 
 
-.. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
 ==========================
 
-.. _观察空间-1:
 
 观察空间
 --------
 
 -  实际的游戏画面，RGB 三通道图片，具体尺寸为\ ``(210, 160, 3)``\ ，数据类型为\ ``uint8``
 
-.. _动作空间-1:
 
 动作空间
 --------
@@ -82,14 +79,12 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
    -  5：FIRE
 
-.. _奖励空间-1:
 
 奖励空间
 --------
 
 -  游戏得分，根据具体游戏内容不同会有非常大的差异，一般是一个\ ``float``\ 数值，具体的数值可以参考最下方的基准算法性能部分。
 
-.. _其他-1:
 
 其他
 ----
@@ -108,12 +103,10 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 4. 奖励取值尺度变化较大
 
-.. _变换后的空间rl环境）:
 
 变换后的空间（RL 环境）
 =========================
 
-.. _观察空间-2:
 
 观察空间
 --------
@@ -122,14 +115,12 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 -  变换结果：三维 np 数组，尺寸为\ ``(4, 84, 84)``\ ，即为相邻的 4 帧灰度图，数据类型为\ ``np.float32``\ ，取值为 ``[0, 1]``
 
-.. _动作空间-2:
 
 动作空间
 --------
 
 -  基本无变换，依然是大小为 N 的离散动作空间，但一般为一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
-.. _奖励空间-2:
 
 奖励空间
 --------
@@ -149,7 +140,6 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
    act_space = gym.spaces.Discrete(6)
    rew_space = gym.spaces.Box(low=-1, high=1, shape=(1, ), dtype=np.float32)
 
-.. _其他-2:
 
 其他
 ----
@@ -160,7 +150,6 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 -  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在Atari中为整个episode的奖励累加和
 
-.. _其他-3:
 
 其他
 ========

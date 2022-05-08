@@ -83,6 +83,7 @@ Here we provide examples of `QACDIST` model as default model for `D4PG`.
 
 .. autoclass:: ding.model.template.qac_dist.QACDIST
     :members: forward, compute_actor, compute_critic
+    :noindex:
 
 
 Benchmark
