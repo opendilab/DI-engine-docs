@@ -80,7 +80,7 @@ It is recommended to instantiate the object externally to pass to the middleware
     train()
 
 Runtime Function
----------------
+------------------
 
 When writing the return function of ``function`` or the ``__call__`` method of ``module``, there are a few things to keep in mind:
 

@@ -1,5 +1,5 @@
 First Reinforcement Learning Program
-============================
+======================================
 
 .. toctree::
    :maxdepth: 2
@@ -14,7 +14,7 @@ We will introduce the use of DI-engine based on CartPole + DQN.
     :align: center
 
 Using the Configuration File
---------------
+------------------------------
 
 The DI-engine uses a global configuration file to control all variables of the environment and strategy, \
 each of which has a corresponding default configuration that can be found in \
@@ -29,7 +29,7 @@ in the tutorial we use the default configuration directly:
     cfg = compile_config(main_config, create_cfg=create_config, auto=True)
 
 Initialize the Environments
---------------
+------------------------------
 
 In reinforcement learning, there may be a difference in the strategy for collecting environment data \
 between the training process and the evaluation process, for example, the training process tends to train \
@@ -49,7 +49,7 @@ We recommend that the collection and evaluation environments be initialized sepa
         cfg=cfg.env.manager
     )
 
-.. note ::
+.. note::
 
     DingEnvWrapper is a unified wrapper of DI-engine for different environment libraries. \
     BaseEnvManagerV2 is a unified external interface for managing multiple environments. \
@@ -72,7 +72,7 @@ Since DQN is off-policy, we also need to instantiate a buffer module.
     policy = DQNPolicy(cfg.policy, model=model)
 
 Build the Pipeline
---------------
+---------------------
 
 With the various middleware provided by DI-engine, we can easily build the entire pipeline:
 

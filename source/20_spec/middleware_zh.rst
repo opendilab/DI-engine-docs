@@ -128,5 +128,5 @@ DI-engine 内的中间件可分为两类，一种我们称之为 ``function``，
 
 在使用 DI-engine 内的事件机制时，我们约定事件按以下规范命名：
 
-1. 以广播数据为目的的事件，使用 ``发出位置_数据名[_参数名_参数值]`` 命名，例如： ``league_job_actor_0``（由 league 向 actor 广播数据，传递 job）
-2. 以远程调用为目的的事件，使用 ``接收位置_方法名`` 命名，例如： ``league_get_job``（由 actor 调用 league 的 get_job 方法）
+1. 以广播数据为目的的事件，使用 ``发出位置_数据名[_参数名_参数值]`` 命名，例如： ``league_job_actor_0`` （由 league 向 actor 广播数据，传递 job）
+2. 以远程调用为目的的事件，使用 ``接收位置_方法名`` 命名，例如： ``league_get_job`` （由 actor 调用 league 的 get_job 方法）

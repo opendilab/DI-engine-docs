@@ -173,7 +173,7 @@ Competitive RL 目前提供两种游戏环境：
 
 
 DI-zoo 可运行代码示例
-====================
+======================
 
 完整的训练配置文件在 `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/competitive_rl/config/cpong_dqn_config.py>`__ 

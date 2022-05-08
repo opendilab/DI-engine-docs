@@ -45,19 +45,16 @@ SMAC 是一个用于在暴雪星际争霸2上进行多智能体协同强化学�
 DI-engine 的镜像配备有框架本身和 Smac 环境，可通过\ ``docker pull opendilab/ding:nightly-smac``\ 获取，或访问\ `docker
 hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
-.. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
 ========================
 
-.. _观察空间-1:
 
 观察空间
 --------
 
 -  可以获取各个智能体是否存活，各个智能体剩余血量，各个智能体视野范围内的盟友或敌人等零碎的信息。
 
-.. _动作空间-1:
 
 动作空间
 --------
@@ -80,14 +77,12 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
    -  6-N: ATTACK ENEMY，所攻击的敌人的 ID 为 N-6
 
-.. _奖励空间-1:
 
 奖励空间
 --------
 
 -  游戏胜负，胜利为 1，失败为 0，一般是一个\ ``int``\ 数值。
 
-.. _其他-1:
 
 其他
 ----
@@ -104,12 +99,10 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 3. 奖励为稀疏奖励，我们设置 fake_reward，使得训练时所用的奖励为稠密奖励。
 
 
-.. _变换后的空间rl环境）:
 
 变换后的空间（RL 环境）
-======================
+========================
 
-.. _观察空间-2:
 
 观察空间
 --------
@@ -118,14 +111,12 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 -  变换结果：一个 dict 型数据，其中包含 agent_state，global_state和action_mask，均为一个一维 Tensor 型数组
 
-.. _动作空间-2:
 
 动作空间
 --------
 
 -  基本无变换，依然是大小为N的离散动作空间
 
-.. _奖励空间-2:
 
 奖励空间
 --------
@@ -135,7 +126,6 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 -  变换结果：一个一维且只包含一个 float32 类型数据的 Tensor
 
 
-.. _其他-2:
 
 其他
 ----
@@ -148,7 +138,6 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 -  环境\ ``step``\ 方法最终返回的\ ``reward``\ 为胜利与否
 
-.. _其他-3:
 
 其他
 ====

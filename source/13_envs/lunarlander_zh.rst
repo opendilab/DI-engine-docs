@@ -46,12 +46,10 @@ LunarLander，即月球登陆，任务目标是通过导航一个登陆器登录
 
 DI-engine 的镜像配备有框架本身和 Lunarlander 环境，可通过\ ``docker pull opendilab/ding:nightly``\ 获取，或访问\ `docker hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
-.. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
 ========================
 
-.. _观察空间-1:
 
 观察空间
 --------
@@ -67,7 +65,6 @@ DI-engine 的镜像配备有框架本身和 Lunarlander 环境，可通过\ ``do
 -  s[7] 如果第二只脚着陆, 此值为1, 其余情况为 0
 
 
-.. _动作空间-1:
 
 动作空间
 --------
@@ -84,7 +81,6 @@ DI-engine 的镜像配备有框架本身和 Lunarlander 环境，可通过\ ``do
 
    -  3：Fire left engine
 
-.. _奖励空间-1:
 
 奖励空间
 --------
@@ -92,7 +88,6 @@ DI-engine 的镜像配备有框架本身和 Lunarlander 环境，可通过\ ``do
 -  一个\ ``int``\ 数值
 -  从屏幕顶部移动到着陆点并且速度到零的奖励大约是 100...140 分。如果登陆器向着远离着陆台的方向行进，就会失去奖励。如果登陆器坠落或停止，episode 就会结束，获得额外的 -100 或 +100 分。每条腿的地面接触是 +10 的奖励。发射主引擎每帧为 -0.3 奖励。成功着陆到着陆点是200  分。在起落架外着陆是可能的。燃料是无限的。
 
-.. _其他-1:
 
 其他
 ----
@@ -104,26 +99,22 @@ DI-engine 的镜像配备有框架本身和 Lunarlander 环境，可通过\ ``do
 
 1. 离散和连续动作空间
 
-.. _变换后的空间rl环境）:
 
 变换后的空间（RL 环境）
-======================
+=======================
 
-.. _观察空间-2:
 
 观察空间
 --------
 
 -  无变化
 
-.. _动作空间-2:
 
 动作空间
 --------
 
 -  依然是大小为 4 的离散动作空间，但数据类型由 ``int`` 转为 ``np.int64``, 尺寸为\ ``( )``\, 即 0-dim 的 array
 
-.. _奖励空间-2:
 
 奖励空间
 --------
@@ -141,14 +132,12 @@ DI-engine 的镜像配备有框架本身和 Lunarlander 环境，可通过\ ``do
    act_space = gym.spaces.Discrete(4)
 
 
-.. _其他-2:
 
 其他
 ----
 
 -  环境\ ``step``\ 方法返回的\ ``info``\ 必须包含\ ``final_eval_reward``\ 键值对，表示整个 episode 的评测指标，在lunarlander 中为整个 episode 的奖励累加和
 
-.. _其他-3:
 
 其他
 ====
@@ -288,6 +277,7 @@ link <https://github.com/opendilab/DI-engine/blob/main/dizoo/box2d/lunarlander/c
 -  LunarLander（平均奖励大于等于200视为较好的 Agent）
 
    - Lunarlander + DQFD
+
    .. image:: images/lunarlander_dqfd.png
      :align: center
 

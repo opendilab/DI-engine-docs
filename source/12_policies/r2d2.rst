@@ -63,14 +63,14 @@ R2D2 can be combined with:
 
     - Learning from demonstrations
 
-      Users can refer to `R2D3 paper <https://arxiv.org/abs/1909.01387>`_ and `R2D3 doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d3_zh.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d3.py>`_.
+      Users can refer to `R2D3 paper <https://arxiv.org/abs/1909.01387>`_ and `R2D3 doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d3_zh.html>`_ of our `R2D3 implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d3.py>`_.
       R2D3 is an agent that makes efficient use of demonstrations to solve hard exploration problems in partially observable environments with highly variable initial conditions.
 
 
     - Transformers
 
       Transformers-based agents take advantage of their powerful attention mechanism to learn better policies in those environments where long-term memory can be beneficial.
-      Users can refer to `GTrXL paper <https://arxiv.org/abs/1910.06764>`_ and `r2d2_gtrxl doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d2_gtrxl.html>`_ of our `implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2_gtrxl.py>`_.
+      Users can refer to `GTrXL paper <https://arxiv.org/abs/1910.06764>`_ and `r2d2_gtrxl doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/hands_on/r2d2_gtrxl.html>`_ of our `GTrXL implementation <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2_gtrxl.py>`_.
 
 
 Implementations

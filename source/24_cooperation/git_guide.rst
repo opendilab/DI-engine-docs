@@ -32,7 +32,7 @@ Stash is a stack. If you need to pop a non-top element, you can use \ ``git stas
 
 
 2. Git Commit Specification
-^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We have some rules for git commit:
 

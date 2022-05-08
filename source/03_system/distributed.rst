@@ -119,7 +119,7 @@ kubernetes task type called ``DIJob`` to enable the configuration of these envir
 You can install DIJob via `DI-orchestrator <https://github.com/opendilab/DI-orchestrator>`_. \
 Once installed, the following template can help you quickly deploy the DI-engine on kubernetes.
 
-.. code-block:: yml
+.. code-block:: yaml
 
     apiVersion: diengine.opendilab.org/v2alpha1
     kind: DIJob
@@ -149,6 +149,6 @@ Once installed, the following template can help you quickly deploy the DI-engine
               - |
                 ditask --package my_module --main my_module.main --parallel-workers 2
 
-.. note ::
+.. note::
 
     The above template will start 6 DI-engine processes (3 pods, two processes per pod)

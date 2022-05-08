@@ -43,13 +43,11 @@ pip 一键安装 slimevolleygym 这个库即可
 由于 Slime Volleyball 安装起来非常简单，所以 DI-engine 并没有为其专门准备镜像，可快速通过基准镜像 ``opendilab/ding:nightly`` 自定义构建，或访问 \ `docker
 hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
-.. _变换前的空间原始环境）:
 
 变换前的空间（原始环境）
 ========================
 注：这里以 SlimeVolley-v0 为例，因为对 self-play 系列算法做基准测试自然是简单优先。如要用到其他两个环境，可结合原仓库查看，并根据 `DI-engine的API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_ 进行相应适配。
 
-.. _观察空间-1:
 
 观察空间
 --------
@@ -57,7 +55,6 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 -  向量观察空间，是一个尺寸为 ``(12, )`` 的向量，包含了由连续两帧的数据拼接而成的自己，对手，球三者的绝对位置坐标，数据类型为\ ``float64``
    即（x_agent, y_agent, x_agent_next, y_agent_next, x_ball, y_ball, x_ball_next, y_ball_next, x_opponent, y_opponent, x_opponent_next, y_opponent_next）
 
-.. _动作空间-1:
 
 动作空间
 --------
@@ -90,7 +87,6 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 -  奖励即该游戏得分，如果小球落到己方场地的地面，则奖励 -1，如果落到对方场地的地面，则奖励 +1，如果游戏仍在进行中，则奖励 0
 
-.. _其他-1:
 
 其他
 ----
@@ -114,12 +110,10 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 （3） 较稀疏奖励（最大生命值为5，最大步数为 3000，只有对战双方扣除生命值时才有奖励）
 
 
-.. _变换后的空间rl环境）:
 
 变换后的空间（RL 环境）
-======================
+=======================
 
-.. _观察空间-2:
 
 观察空间
 --------
@@ -131,7 +125,6 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 
 -  将 ``MultiBinary`` 动作空间变换为大小为 6 离散动作空间（由简单笛卡尔积并去除其中无意义的动作后得到），最终结果为一维 np 数组，尺寸为\ ``(1, )``\ ，数据类型为\ ``np.int64``
 
-.. _奖励空间-2:
 
 奖励空间
 --------
@@ -149,7 +142,6 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
    act_space = gym.spaces.Discrete(6)
    rew_space = gym.spaces.Box(low=-1, high=1, shape=(1, ), dtype=np.float32)
 
-.. _其他-2:
 
 其他
 ----
@@ -158,7 +150,6 @@ hub <https://hub.docker.com/r/opendilab/ding>`__\ 获取更多镜像
 -  如果选择智能体对战内置 bot，请将环境输入配置的 ``agent_vs_agent`` 字段设置为 False，智能体对战智能体则设置为 True
 -  上述空间定义均是对单智能体的说明（即智能体对战内置 bot），多智能体的空间是将上述 obs/action/reward 进行对应拼接等操作，例如观察空间由 ``(12, )`` 变为 ``(2, 12)``，代表双方的观察信息
 
-.. _其他-3:
 
 其他
 ====

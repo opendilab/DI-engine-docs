@@ -110,7 +110,7 @@ Python 版本: 3.6-3.8
     如果在该过程中有一些特定的依赖项未能成功安装，您可以参考 "setup.py" 文件中的版本要求，然后手动安装它。
 
 使用 Docker 运行
---------------
+------------------
 
 DI-engine 的镜像可以在 `DockerHub <https://hub.docker.com/r/opendilab/ding>`_ 获得。拉取镜像的方法如下：
 

@@ -100,6 +100,7 @@ Implementations
 The default config is defined as follows:
 
 .. autoclass:: ding.policy.sql.SQLPolicy
+   :noindex:
 
 
 The Bellman update of SQIL/SQL and the Q-value function update are defined in the function ``q_nstep_sql_td_error`` of ``ding/rl_utils/td.py``:

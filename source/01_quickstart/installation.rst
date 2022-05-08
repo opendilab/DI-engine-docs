@@ -22,7 +22,7 @@ Python version: 3.6-3.8
     If your OS is Windows, please do confirm that SWIG is installed and available through the OS environment variable PATH, you can refer to `SWIG installation <https://www.swig.org/download.html>`_.
 
 Stable Release Version
---------------
+------------------------
 
 You can simply install stable release DI-engine with the following command:
 
@@ -59,7 +59,7 @@ And if you prefer to use Anaconda or Miniconda, the following command is suggest
     conda install -c opendilab di-engine
 
 Development Version
---------------
+----------------------
 
 If you need to install latest DI-engine in development from the Github source codes:
 
@@ -80,7 +80,7 @@ If you need to install latest DI-engine in development from the Github source co
     Be careful that if you are using virtual python environment created by softwares, such as virtualenv, then the option "--user" may not work. Please ignore this tip.
 
 Special Version
---------------
+-------------------
 
 If you want to enable special version of DI-engine and install the extra packages that are required, you can use the following command:
 
@@ -121,7 +121,7 @@ DI-engine docker images are available in `DockerHub <https://hub.docker.com/r/op
     docker run -it opendilab/ding:nightly /bin/bash
 
 Installation Check
---------------
+-------------------
 
 After installation, you can use the following python codes to check if DI-engine is available and show the version of it:
 
