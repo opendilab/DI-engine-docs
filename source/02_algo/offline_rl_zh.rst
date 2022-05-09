@@ -5,13 +5,13 @@
 -----------------------
 
 离线强化学习（Offline Reinforcement Learning, Offline RL），又称作批量强化学习（Batch Reinforcement Learning, BRL），是强化学习的一种变体，主要研究的是如何利用预先收集的大规模静态数据集来训练强化学习智能体。
-利用静态数据集意味着在智能体的训练过程中，Offline RL 不进行任何形式的在线交互与探索，这也是它和其它常见的强化学习方法最显著的区别。方便起见，在本文后续的阐述中，我们将非离线的强化学习（包含 On-policy 和 Off-policy）称为经典强化学习。
+利用静态数据集意味着在智能体的训练过程中，Offline RL 不进行任何形式的在线交互与探索，这也是它和其它常见的强化学习方法最显著的区别。方便起见，在本文后续的阐述中，我们将非离线的强化学习（包含 On-policy 和 Off-policy）称为在线强化学习（Online RL）。
 
 .. image:: images/offline_no_words.png
    :align: center
    :scale: 50 %
 
-在该图中，(a)是标准的 On-policy RL，智能体采用当前策略 :math:`\pi_k` 与环境进行交互，只用当前产生的数据用于更新网络。
+在该图中，(a)是标准的 On-policy RL，智能体采用当前策略 :math:`\pi_k` 与环境进行交互，只用当前策略产生的数据用于更新网络。
 (b)是 Off-policy RL，它会将历史所有策略 :math:`\pi_k` 与环境交互的数据存储在经验池 :math:`\mathcal{D}` 中，即 :math:`\mathcal{D}` 中包含了策略 :math:`\pi_0, \pi_1, ..., \pi_k` 与环境交互产生的数据，所有的数据都会被用于更新网络 :math:`\pi_{k+1}`。
 (c)是 Offline RL，它所使用的数据集 :math:`\mathcal{D}` 中的数据来自某些（可能未知）的行为策略 :math:`\pi_{\beta}` 。该数据集 :math:`\mathcal{D}` 是提前一次性收集好的，不会在训练过程中发生改变。
 在训练过程中，智能体不会与环境进行交互，只有在学习完成后才会对策略进行评估与应用。
@@ -61,7 +61,11 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 **经典强化学习算法在离线设定下的问题**
 
 很多前人的研究工作都表明经典强化学习算法在 Offline RL 场景表现不佳，甚至很差。Scott Fujimoto 在其论文 [6] 中表明这是因为在这种情况下，策略倾向于选择偏离数据集 :math:`\mathcal{D}` 的动作（out-of-distribution, OOD）。
-以基于Q-函数的经典算法为例，当待预估数据与离线训练数据分布相同时，Q-函数的估计才是准确的。
+以基于Q-函数的经典算法为例，当待预估数据与离线训练数据分布相同时，Q-函数的估计才是准确的，具体的对应关系如下图所示：
+
+.. image:: images/offline_ood.png
+   :align: center
+
 当智能体进行在线探索时，数据集随着策略的更新也不断在更新，策略的马尔科夫静态状态分布和数据集中实际的状态分布始终是一致或者相似的（取决于 on-policy 还是 off-policy）。
 但在 Offline RL 场景下，策略的马尔科夫静态状态分布相比原数据集会产生偏移（distributional shift）。如果Q-函数高估了这些训练数据中未曾见过的 :math:`(\mathbf{s}, \mathbf{a})` 对，那么在实际交互中，当智能体选择最大化期望奖励的动作时，便可能选到实际收益非常差的动作，导致整体的表现非常差。
 
@@ -76,12 +80,15 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 2. 基于不确定性的方法
 3. 值函数的正则化方法
 
-除此以外，还有针对 Model-based RL 在离线设定下的一些研究工作，这里就不再展开，有兴趣的读者可以参考 [7]_ [8]_ 等文献。
+除此以外，还有针对 Model-based RL 在离线设定下的一些研究工作，这里就不再展开，有兴趣的读者可以参考 [7]_ [8]_ 等文献。关于 Offline RL 领域整体的发展，可以参考 [9]_ 中的概述图：
+
+.. image:: images/offline_roadmap.png
+   :align: center
 
 
 **策略约束方法**
 
-该方法核心思想是让待优化策略 :math:`\pi(\mathbf{a} \mid \mathbf{s})` 和行为策略 :math:`\pi_{\beta}(\mathbf{a} \mid \mathbf{s})` 足够接近，以此来保证Q-函数的估计有效。
+该类方法核心思想是让待优化策略 :math:`\pi(\mathbf{a} \mid \mathbf{s})` 和行为策略 :math:`\pi_{\beta}(\mathbf{a} \mid \mathbf{s})` 足够接近，以此来保证Q-函数的估计有效。
 以 :math:`\mathbf{D}(\pi, \pi_{\beta})` 来表示待优化策略和行为策略的距离，有显式的约束，如在策略迭代中直接增加约束条件，使其小于某个值 :math:`\mathcal{C}`，
 
 .. math::
@@ -164,3 +171,4 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 .. [6] Kumar, A., Zhou, A., Tucker, G., and Levine, S. (2020b). Conservative q-learning for ofﬂine reinforcement learning. In Neural Information Processing Systems (NeurIPS).
 .. [7] Lerer, A., Gross, S., and Fergus, R. (2016). Learning physical intuition of block towers by example. arXiv preprint arXiv:1603.01312.
 .. [8] Battaglia, P., Pascanu, R., Lai, M., Rezende, D. J., et al. (2016). Interaction networks for learning about objects, relations and physics. In Advances in neural information processing systems, pages 4502–4510.
+.. [9] Rafael Figueiredo Prudencio, Marcos R. O. A. Maximo, Esther Luna Colombini. A Survey on Offline Reinforcement Learning: Taxonomy, Review, and Open Problems. CoRR abs/2203.01387 (2022)

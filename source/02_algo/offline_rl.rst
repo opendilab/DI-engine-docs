@@ -4,7 +4,7 @@ Offline Reinforcement Learning
 Offline Reinforcement Learning(RL), also known as Batch Reinforcement Learning, is a variant of RL that effectively leverages large, previously collected datasets for large-scale real-world applications.
 See Figure 1 for a pictorial illustration of the relationship among on-policy RL, off-policy RL, and offline RL.
 
-.. image:: images/offline.png
+.. image:: images/offline_no_words.png
    :align: center
    :scale: 50 %
 
