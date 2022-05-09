@@ -106,8 +106,8 @@ Benchmark
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |Pong                 |  20             |.. image:: images/benchmark/pong_gtrxl_r2d2.png      |atari/config/serial/      |                      |
-|                     |                 |                                                     |pong/pong_dqn_config      |                      |
-|(PongNoFrameskip-v4) |                 |                                                     |.py>`_                    |                      |
+|                     |                 |                                                     |pong/pong_r2d2_gtrxl_     |                      |
+|(PongNoFrameskip-v4) |                 |                                                     |config.py>`_              |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
