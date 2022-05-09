@@ -100,7 +100,7 @@ task 对象上面提供了五个与事件系统有关的方法 —— ``emit``, 
 您可以通过 `DI-orchestrator <https://github.com/opendilab/DI-orchestrator>`_ 安装 DIJob，
 安装以后，下面的模板可以帮助您快速在 kubernetes 上部署 DI-engine：
 
-.. code-block:: yml
+.. code-block:: yaml
 
     apiVersion: diengine.opendilab.org/v2alpha1
     kind: DIJob
@@ -130,6 +130,6 @@ task 对象上面提供了五个与事件系统有关的方法 —— ``emit``, 
               - |
                 ditask --package my_module --main my_module.main --parallel-workers 2
 
-.. note ::
+.. note::
 
     以上模板将启动 6 个 DI-engine 进程（3 个 pod，每个 pod 两个进程）

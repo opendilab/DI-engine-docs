@@ -2,9 +2,6 @@
 envs.env
 ========================
 
-base_env
------------------
-
 Please Reference ding/ding/envs/env/base_env.py for usage
 
 BaseEnv
