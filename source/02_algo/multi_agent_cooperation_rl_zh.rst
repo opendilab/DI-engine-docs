@@ -2,6 +2,10 @@
 ===============================
 
 
+问题定义与研究动机
+-----------------------------
+
+
 考虑到在现实场景中通常会同时存在多个智能体（agent），对于强化学习的研究逐渐从单智能体领域延伸到多智能体。近年来，深度强化学习在多智能体环境和游戏中取得了巨大的成功，通过与环境进行有效的交互，我们可以得到性能卓著的智能体。例如星际争霸 StarCraftII 的子环境 SMAC ,足球游戏 Gfootball ,以及一些自动驾驶环境。未来，MARL 还可能被更广泛地应用于资源管理、交通系统等各个领域。
 
 在多智能体强化学习（Multi-agent Reinforcement Learning, MARL）中，同时存在多个智能体与环境交互，每个智能体仍然是遵循着强化学习的目标，也就是最大化能够获得的累积回报，而此时环境全局状态（global state）的改变以及奖励值（reward）就和所有智能体的联合动作（joint action）相关了。因此在智能体策略学习的过程中，需要考虑联合动作的影响。
@@ -14,9 +18,6 @@
 在训练过程中，各个智能体分别与环境进行交互，系统会反馈回联合奖励。
 
 
-
-问题定义与研究动机
------------------------------
 总的来说，多智能体强化学习与单智能体强化学习的主要区别在于以下四点：
 
 环境的非稳定性：智能体在做决策的同时，其他智能体也在采取动作，而环境状态的变化与所有智能体的联合动作相关，这会导致在MARL训练中的非平稳性(non-stationary)
@@ -33,7 +34,13 @@
 ------------------------------------
 对于 MARL cooperation 任务来说，最简单的思路就是将单智能体强化学习方法直接套用在多智能体系统中，即每个智能体把其他智能体都当做环境中的因素，仍然按照单智能体学习的方式、通过与环境的交互来更新策略；这是 independent Q-learning， independent PPO方法的思想，但是由于环境的非平稳性和智能体观测的局部性，这些方法很难取得不错的效果。
 
-目前MARL cooperation主要是采用 CTDE(centralized training and decentralized execute) 的方法，主要有两类解决思路， Valued-based MARL和Actor-Critic MARL。
+目前 MARL cooperation 主要是采用 CTDE(centralized training and decentralized execute) 的方法，主要有两类解决思路， Valued-based MARL和Actor-Critic MARL。具体可以参考下图：
+
+.. image:: images/MARL_cooperation_algo.png
+   :align: center
+   :scale: 50 %
+
+**Valued-based MARL**
 
 对于 Valued-based MARL， 主要的思路是将全局的 reward 值分解为可以供各个 agent 学习的局部 reward 值，从而便于智能体的训练。主要有 QMIX， WQMIX， QTRAN 等方法。
 
@@ -42,6 +49,9 @@
 - WQMIX: WQMIX 的核心与 QMIX 相同，也是学习一个Q值混合网络，但其通过加权投影的方法学到可以突破单调性限制的Q值混合网络。具体可以参考 `WQMIX <https://github.com/opendilab/DI-engine-docs/blob/main/source/hands_on/wqmix.rst>`_ [1]_
 
 - QTRAN: QTRAN 通过学习独立 action-value 网络,混合 action-value 网络，全局 state-value 网络来突破单调性限制。具体可以参考 `QTRAN <https://github.com/opendilab/DI-engine-docs/blob/main/source/hands_on/qtran.rst>`_ [4]_
+
+
+**Actor-critic MARL**
 
 对于 Actor-critic MARL， 主要的思路是学习一个适用于多智能体的策略网络。主要有 COMA, MAPPO 等方法。
 
@@ -52,12 +62,13 @@
 
 未来展望
 ------------------------------------
-1. 对于一些Agent数量更多，更加复杂的环境如 Multi-Agent Petting Zoo,单纯的 MARL Communication 可能无法起到很好的效果
+1. 对于一些 Agent 数量更多，更加复杂的环境如 Multi-Agent Petting Zoo,单纯的 MARL Communication 可能无法起到很好的效果
 
 2. 对于一些实际情况，比如自动驾驶中，无法获得实时的全局状态，也就无法采用 CTDE 的方法进行训练
 
 在以上 1, 2情况下，可以采用多个智能体之间进行通信 （MARL Communication） 的办法来进一步提高学习效率。
 
+在未来， MARL 可以与 Offline RL 技术结合，从而更进一步提高样本效率。同时， MARL 也可应用于智能体行为分析，智能体建模，人机协作等多个领域。
 
 参考文献
 ----------
