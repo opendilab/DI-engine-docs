@@ -25,12 +25,10 @@
    
    cartpole_zh
    pendulum_zh
-   
-   lunarlander_zh
-
-   bipedalwalker_zh
    bitflip_zh
    
+   lunarlander_zh
+   bipedalwalker_zh
    minigrid_zh
 
    slime_volleyball_zh
@@ -41,7 +39,6 @@
    gfootball_zh
    multiagent_particle_zh
    pybullet_zh
-   
    
    gym_hybrid_zh
    gym_soccer_zh
