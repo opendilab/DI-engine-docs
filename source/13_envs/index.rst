@@ -20,10 +20,18 @@ Environments:
    :maxdepth: 1
 
    atari
+   
+   cartpole
+   
    overcooked
+   
    bsuite
+   
    slime_volleyball
+   
    smac
+
+   gym_hybrid
 
 
 `Chinese version doc <./index_zh.html>`_ includes more environments that you may be interested in.
