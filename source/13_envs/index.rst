@@ -23,6 +23,7 @@ Environments:
    overcooked
    bsuite
    slime_volleyball
+   smac
 
 
 `Chinese version doc <./index_zh.html>`_ includes more environments that you may be interested in.
