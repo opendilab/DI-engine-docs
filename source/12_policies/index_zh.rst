@@ -24,6 +24,7 @@
     :caption: 探索
 
     diayn_zh
+    ngu_zh
 
 .. toctree::
     :maxdepth: 3
