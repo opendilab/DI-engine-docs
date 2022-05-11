@@ -3,6 +3,7 @@ R2D3
 
 概述
 ---------
+
 R2D3 (Recurrent Replay Distributed DQN from Demonstrations) 首次在论文
 `Making Efficient Use of Demonstrations to Solve Hard Exploration Problems <https://arxiv.org/abs/1909.01387>`_ 中提出, 它可以有效地利用专家演示轨迹来解决具有以下3个属性的问题：初始条件高度可变、部分可观察、困难探索。
 此外他们还介绍了一组结合这三个属性的八个任务，并表明R2D3可以解决像这些任务，值得注意的是，在类似这样的任务上，其他一些最先进的方法，无论有还是没有专家演示轨迹，在数百亿次的探索步骤之后甚至可能
@@ -10,6 +11,7 @@ R2D3 (Recurrent Replay Distributed DQN from Demonstrations) 首次在论文
 
 核心要点
 -------------
+
 1.R2D3的基线强化学习算法是 `R2D2 <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`_, 可以参考我们的实现 `r2d2 <https://github.com/opendilab/DI-engine/blob/main/ding/policy/r2d2.py>`_ ,
 它本质上是一个基于分布式框架，采用了双Q网络(Double Q Networks), 决斗Q结构(Dueling Architecture)，多步时间差分损失函数(n-step TD loss)的DQN算法。
 
@@ -45,7 +47,7 @@ R2D3算法的Q网络结构图如下：
 
 (a)R2D3智能体使用的recurrent head。 (b)DQfD智能体使用的feedforward head。(c)表示输入的是大小为96x72的图像帧，
 接着通过一个ResNet，然后将前一时刻的动作，前一时刻的奖励和当前时刻的其他本体感受特征(proprioceptive features) :math:`f_{t}` （包括加速度、avatar是否握住物体以及手与avatar的相对距离等辅助信息
-连接(concat)为一个新的向量，传入a)和b)中的head，用于计算Q值。
+连接(concat)为一个新的向量，传入(a)和(b)中的head，用于计算Q值。
 
 下面描述r2d3的损失函数设置，和DQfD一样，不过这里所有的Q值都是通过上面所描述的循环神经网络计算得到。包括：
 一步时序差分损失，n步时序差分损失，监督大间隔分类损失，神经网络参数的L2正则化损失(可选)。
@@ -69,13 +71,13 @@ R2D3算法的Q网络结构图如下：
      :align: center
      :scale: 40%
 
-  其中 :math:`a_{E}` 表示专家执行的动作。 :math:`l(a_{E}, a)`  是一个边际函数，当:math:`a = a_{E}` 时为 0，否则为一个正的常数。
-  最小化这个监督损失，可以迫使除专家演示者执行的动作以外的 **其他动作的Q值至少比专家演示者的动作Q值低一个间隔**。
+  其中 :math:`a_{E}` 表示专家执行的动作。 :math:`l(a_{E}, a)`  是一个边际函数，当 :math:`a = a_{E}` 时为 0，否则为一个正的常数。
+  最小化这个监督损失， **可以迫使除专家演示者执行的动作以外的其他动作的Q值至少比专家演示者的动作Q值低一个间隔**。
   通过加上这个损失，将专家数据集合中没有遇到过的动作的Q值变成合理范围内的值，并使学得的值函数导出的贪婪策略模仿专家演示者的策略。
 
   我们在DI-engine中的具体实现如下所示：
 
-  .. code::
+  .. code:: python
 
      l = margin_function * torch.ones_like(q)
      l.scatter_(1, action.unsqueeze(1).long(), torch.zeros_like(q))
@@ -111,7 +113,7 @@ A个actor会定期获取learner上最新的参数。
 其具体实现方式如下，通过从<batch_size>大小个的[0，1]均匀分布中采样，如果采样值大于pho则选择一个专家演示轨迹
 这<batch_size>个采样值中大于pho的采样值的个数即为本次mini-batch中专家演示所占的个数。
 
-.. code::
+.. code:: python
 
    # The hyperparameter pho, the demo ratio, control the propotion of data coming
    # from expert demonstrations versus from the agent's own experience.
@@ -127,7 +129,7 @@ A个actor会定期获取learner上最新的参数。
 作为整个序列样本的优先级。由于专家数据和经验数据对应的loss函数不一样， 在R2D2中我们设置了独立的2个replay_buffer, 分别为专家演示的 ``expert_buffer`` ，和智能体经验的 ``replay_buffer`` ，
 并且分开进行优先级采样和buffer中相关参数的更新。
 
-.. code::
+.. code:: python
 
    # using the mixture of max and mean absolute n-step TD-errors as the priority of the sequence
    td_error_per_sample = 0.9 * torch.max(
@@ -160,7 +162,7 @@ A个actor会定期获取learner上最新的参数。
 3.对于专家演示样本和智能体经验样本，我们分别对原数据增加一个键 ``is_expert`` 加以区分, 如果是专家演示样本，此键值为1，
 如果是智能体经验样本，此键值为0，
 
-.. code::
+.. code:: python
 
    # 如果是专家演示样本，此键值为1，
    for i in range(len(expert_data)):
@@ -173,7 +175,7 @@ A个actor会定期获取learner上最新的参数。
 
 4. 预训练。在智能体与环境交互之前，我们可以先利用专家演示样本预训练Q网络，期望能得到一个好的初始化参数，加速后续的训练进程。
 
-.. code::
+.. code:: python
 
     for _ in range(cfg.policy.learn.per_train_iter_k):  # pretrain
         if evaluator.should_eval(learner.train_iter):
@@ -296,12 +298,12 @@ dqfd的损失函数 ``nstep_td_error_with_rescale`` 的接口定义如下：
 
 - Paine T L, Gulcehre C, Shahriari B, et al. Making efficient use of demonstrations to solve hard exploration problems[J]. arXiv preprint arXiv:1909.01387, 2019.
 
-- Kapturowski S, Ostrovski G, Quan J, et al. Recurrent experience replay in distributed reinforcement learning[C]//International conference on learning representations. 2018.
+- Kapturowski S, Ostrovski G, Quan J, et al. Recurrent experience replay in distributed reinforcement learning[C]//International conference on learning representations(ICLR). 2018.
 
 - Badia A P, Sprechmann P, Vitvitskyi A, et al. Never give up: Learning directed exploration strategies[J]. arXiv preprint arXiv:2002.06038, 2020.
 
 - Burda Y, Edwards H, Storkey A, et al. Exploration by random network distillation[J]. https://arxiv.org/abs/1810.12894v1. arXiv:1810.12894, 2018.
 
-- Pathak D, Agrawal P, Efros A A, et al. Curiosity-driven exploration by self-supervised prediction[C]//International conference on machine learning. PMLR, 2017: 2778-2787.
+- Pathak D, Agrawal P, Efros A A, et al. Curiosity-driven exploration by self-supervised prediction[C]//International conference on machine learning(ICML). PMLR, 2017: 2778-2787.
 
 - Piot, B.; Geist, M.; and Pietquin, O. 2014a. Boosted bellman residual minimization handling expert demonstrations. In European Conference on Machine Learning (ECML).
