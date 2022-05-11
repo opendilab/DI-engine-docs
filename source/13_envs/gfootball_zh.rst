@@ -1,7 +1,6 @@
 Google Research Football (Gfootball)
 ====================================
 
-.. _header-n12:
 
 概述
 ----
@@ -12,8 +11,6 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
 .. figure:: images/gfootballenv.png
    :alt: 
    :align: center
-
-.. _header-n9:
 
 安装
 ----
@@ -76,7 +73,6 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
 
 更多安装环境相关的问题，可以参考\ `Gfootball 官网 github <https://github.com/google-research/football>`__\ 。此外，官方也提供了 docker image 用于在 docker 环境中部署环境，可以参考 `docker 部署文档 <https://github.com/google-research/football/blob/master/gfootball/doc/docker.md>`__ 。
 
-.. _header-n60:
 
 环境创建API
 -----------
@@ -136,8 +132,6 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
    from dizoo.gfootball.envs.gfootballsp_env import GfootballEnv
    env = GfootballEnv({})
 
-
-.. _header-n99:
 
 状态空间
 --------
@@ -308,8 +302,6 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
 
       -  离当前控制球员最近对方球员的疲劳度（1 维）
 
-.. _header-n524:
-
 动作空间
 --------
 
@@ -360,8 +352,6 @@ Gfootball 的动作空间为 19 维离散动作：
    -  ``action_dribble`` = 17, 运球.
 
    -  ``action_release_dribble`` = 18, 停止运球.
-
-.. _header-n614:
 
 DI-zoo可运行代码示例
 --------------------
@@ -477,8 +467,6 @@ gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entr
    if __name__ == '__main__':
        config = tuple([deepcopy(main_config), deepcopy(create_config), deepcopy(system_config)])
        parallel_pipeline(config, seed=0)
-
-.. _header-n282:
 
 训练实例
 --------

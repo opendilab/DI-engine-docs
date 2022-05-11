@@ -42,21 +42,15 @@ DI-engine Mirrors
 Due to Slime Volleyball is easy to install, DI-engine does not have Mirror specifically for it. You can customize your build with the benchmark Mirror ``opendilab/ding:nightly``, or visit the `docker
 hub <https://hub.docker.com/r/opendilab/ding>`__ for more mirrors.
 
-.. _Original environment space:
-
 Original Environment
 ========================
 Note: SlimeVolley-v0 is used here as an example, because benchmarking the self-play series of algorithms naturally gives priority to simplicity. If you want to use the other two environments, you can check the original repository and adapt the environment according to the `DI-engine's API <https://di-engine-docs.readthedocs.io/en/main-zh/feature/env_overview.html>`_.
-
-.. _Observation Space-1:
 
 Observation Space
 --------------------------
 
 - The observation space is a vector of size ``(12, )`` containing the absolute coordinates of self, opponent, and ball with two consecutive frames stitched togerther. The data type is \ ``float64``
   i.e. (x_agent, y_agent, x_agent_next, y_agent_next, x_ball, y_ball, x_ball_next, y_ball_next, x_opponent, y_opponent, x_opponent_next, y_opponent_next)
-
-.. _Action Space-1:
 
 Action Space
 ------------------
@@ -94,8 +88,6 @@ Reward Space
 
 - The reward is the score of the game. If the ball lands on the ground of your field, -1 is given. If it lands on the ground of the opponent‘s field, +1 is given. If the game is still in progress, 0 is given.
 
-.. _Other-1:
-
 Other
 --------
 
@@ -120,12 +112,9 @@ Key Facts
 
 3. sparser rewards (maximum life value of 5, maximum number of steps of 3,000, the reward can be gain only when the life value is deducted)
 
-.. _RL Environment Space) :
 
 RL Environment Space
 ======================
-
-.. _Observation Space-2:
 
 Observation Space
 ------------------
@@ -136,8 +125,6 @@ Action Space
 ---------------
 
 - Transform the ``MultiBinary`` action space into a discrete action space of size 6 (a simple Cartesian product is sufficient). The final result is a one-dimensional np array of size \ ``(1, )``\. The data type is \ ``np.int64``
-
-.. _Reward Space-2:
 
 Reward Space
 -------------
@@ -154,8 +141,6 @@ Using Slime Volleyball in 'OpenAI Gym' format:
    act_space = gym.spaces.Discrete(6)
    rew_space = gym.spaces.Box(low=-1, high=1, shape=(1, ), dtype=np.float32)
 
-.. _Other-2:
-
 Other
 ------
 
@@ -164,8 +149,6 @@ Other
 - The above spatial definitions are all descriptions of single intelligences. The multi-intelligence space splices the corresponding obs/action/reward information.
 
 i.e. The observation space changes from ``(12, )`` to ``(2, 12)``, thar represents the observation information of both sides.
-
-.. _Other-3:
 
 Other
 ======

@@ -137,102 +137,102 @@ self.residual: 参与ICM网络的前向模型，通过多次将action与中间�
 
 self.forward_net: 参与ICM网络的前向模型，负责输出 :math:`s_{t+1}` 时刻的feature
 
-        .. code-block:: python
+.. code-block:: python
 
-            class ICMNetwork(nn.Module):
-                r"""
-                Intrinsic Curiosity Model (ICM Module)
-                Implementation of:
-                [1] Curiosity-driven Exploration by Self-supervised Prediction
-                Pathak, Agrawal, Efros, and Darrell - UC Berkeley - ICML 2017.
-                https://arxiv.org/pdf/1705.05363.pdf
-                [2] Code implementation reference:
-                https://github.com/pathak22/noreward-rl
-                https://github.com/jcwleo/curiosity-driven-exploration-pytorch
+    class ICMNetwork(nn.Module):
+        r"""
+        Intrinsic Curiosity Model (ICM Module)
+        Implementation of:
+        [1] Curiosity-driven Exploration by Self-supervised Prediction
+        Pathak, Agrawal, Efros, and Darrell - UC Berkeley - ICML 2017.
+        https://arxiv.org/pdf/1705.05363.pdf
+        [2] Code implementation reference:
+        https://github.com/pathak22/noreward-rl
+        https://github.com/jcwleo/curiosity-driven-exploration-pytorch
 
-                1) Embedding observations into a latent space
-                2) Predicting the action logit given two consecutive embedded observations
-                3) Predicting the next embedded obs, given the embeded former observation and action
-                """
+        1) Embedding observations into a latent space
+        2) Predicting the action logit given two consecutive embedded observations
+        3) Predicting the next embedded obs, given the embeded former observation and action
+        """
 
-                def __init__(self, obs_shape: Union[int, SequenceType], hidden_size_list: SequenceType, action_shape: int) -> None:
-                    super(ICMNetwork, self).__init__()
-                    if isinstance(obs_shape, int) or len(obs_shape) == 1:
-                        self.feature = FCEncoder(obs_shape, hidden_size_list)
-                    elif len(obs_shape) == 3:
-                        self.feature = ConvEncoder(obs_shape, hidden_size_list)
-                    else:
-                        raise KeyError(
-                            "not support obs_shape for pre-defined encoder: {}, please customize your own ICM model".
-                            format(obs_shape)
-                        )
-                    self.action_shape = action_shape
-                    feature_output = hidden_size_list[-1]
-                    self.inverse_net = nn.Sequential(nn.Linear(feature_output * 2, 512), nn.ReLU(), nn.Linear(512, action_shape))
-                    self.residual = nn.ModuleList(
-                        [
-                            nn.Sequential(
-                                nn.Linear(action_shape + 512, 512),
-                                nn.LeakyReLU(),
-                                nn.Linear(512, 512),
-                            ) for _ in range(8)
-                        ]
-                    )
-                    self.forward_net_1 = nn.Sequential(nn.Linear(action_shape + feature_output, 512), nn.LeakyReLU())
-                    self.forward_net_2 = nn.Linear(action_shape + 512, feature_output)
+        def __init__(self, obs_shape: Union[int, SequenceType], hidden_size_list: SequenceType, action_shape: int) -> None:
+            super(ICMNetwork, self).__init__()
+            if isinstance(obs_shape, int) or len(obs_shape) == 1:
+                self.feature = FCEncoder(obs_shape, hidden_size_list)
+            elif len(obs_shape) == 3:
+                self.feature = ConvEncoder(obs_shape, hidden_size_list)
+            else:
+                raise KeyError(
+                    "not support obs_shape for pre-defined encoder: {}, please customize your own ICM model".
+                    format(obs_shape)
+                )
+            self.action_shape = action_shape
+            feature_output = hidden_size_list[-1]
+            self.inverse_net = nn.Sequential(nn.Linear(feature_output * 2, 512), nn.ReLU(), nn.Linear(512, action_shape))
+            self.residual = nn.ModuleList(
+                [
+                    nn.Sequential(
+                        nn.Linear(action_shape + 512, 512),
+                        nn.LeakyReLU(),
+                        nn.Linear(512, 512),
+                    ) for _ in range(8)
+                ]
+            )
+            self.forward_net_1 = nn.Sequential(nn.Linear(action_shape + feature_output, 512), nn.LeakyReLU())
+            self.forward_net_2 = nn.Linear(action_shape + 512, feature_output)
 
-                def forward(self, state: torch.Tensor, next_state: torch.Tensor,
-                            action_long: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-                    r"""
-                    Overview:
-                        Use observation, next_observation and action to genearte ICM module
-                        Parameter updates with ICMNetwork forward setup.
-                    Arguments:
-                        - state (:obj:`torch.Tensor`):
-                            The current state batch
-                        - next_state (:obj:`torch.Tensor`):
-                            The next state batch
-                        - action_long (:obj:`torch.Tensor`):
-                            The action batch
-                    Returns:
-                        - real_next_state_feature (:obj:`torch.Tensor`):
-                            Run with the encoder. Return the real next_state's embedded feature.
-                        - pred_next_state_feature (:obj:`torch.Tensor`):
-                            Run with the encoder and residual network. Return the predicted next_state's embedded feature.
-                        - pred_action_logit (:obj:`torch.Tensor`):
-                            Run with the encoder. Return the predicted action logit.
-                    Shapes:
-                        - state (:obj:`torch.Tensor`): :math:`(B, N)`, where B is the batch size and N is ''obs_shape''
-                        - next_state (:obj:`torch.Tensor`): :math:`(B, N)`, where B is the batch size and N is ''obs_shape''
-                        - action_long (:obj:`torch.Tensor`): :math:`(B)`, where B is the batch size''
-                        - real_next_state_feature (:obj:`torch.Tensor`): :math:`(B, M)`, where B is the batch size
-                        and M is embedded feature size
-                        - pred_next_state_feature (:obj:`torch.Tensor`): :math:`(B, M)`, where B is the batch size
-                        and M is embedded feature size
-                        - pred_action_logit (:obj:`torch.Tensor`): :math:`(B, A)`, where B is the batch size
-                        and A is the ''action_shape''
-                    """
-                    action = one_hot(action_long, num=self.action_shape)
-                    encode_state = self.feature(state)
-                    encode_next_state = self.feature(next_state)
-                    # get pred action logit
-                    concat_state = torch.cat((encode_state, encode_next_state), 1)
-                    pred_action_logit = self.inverse_net(concat_state)
-                    # ---------------------
+        def forward(self, state: torch.Tensor, next_state: torch.Tensor,
+                    action_long: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+            r"""
+            Overview:
+                Use observation, next_observation and action to genearte ICM module
+                Parameter updates with ICMNetwork forward setup.
+            Arguments:
+                - state (:obj:`torch.Tensor`):
+                    The current state batch
+                - next_state (:obj:`torch.Tensor`):
+                    The next state batch
+                - action_long (:obj:`torch.Tensor`):
+                    The action batch
+            Returns:
+                - real_next_state_feature (:obj:`torch.Tensor`):
+                    Run with the encoder. Return the real next_state's embedded feature.
+                - pred_next_state_feature (:obj:`torch.Tensor`):
+                    Run with the encoder and residual network. Return the predicted next_state's embedded feature.
+                - pred_action_logit (:obj:`torch.Tensor`):
+                    Run with the encoder. Return the predicted action logit.
+            Shapes:
+                - state (:obj:`torch.Tensor`): :math:`(B, N)`, where B is the batch size and N is ''obs_shape''
+                - next_state (:obj:`torch.Tensor`): :math:`(B, N)`, where B is the batch size and N is ''obs_shape''
+                - action_long (:obj:`torch.Tensor`): :math:`(B)`, where B is the batch size''
+                - real_next_state_feature (:obj:`torch.Tensor`): :math:`(B, M)`, where B is the batch size
+                and M is embedded feature size
+                - pred_next_state_feature (:obj:`torch.Tensor`): :math:`(B, M)`, where B is the batch size
+                and M is embedded feature size
+                - pred_action_logit (:obj:`torch.Tensor`): :math:`(B, A)`, where B is the batch size
+                and A is the ''action_shape''
+            """
+            action = one_hot(action_long, num=self.action_shape)
+            encode_state = self.feature(state)
+            encode_next_state = self.feature(next_state)
+            # get pred action logit
+            concat_state = torch.cat((encode_state, encode_next_state), 1)
+            pred_action_logit = self.inverse_net(concat_state)
+            # ---------------------
 
-                    # get pred next state
-                    pred_next_state_feature_orig = torch.cat((encode_state, action), 1)
-                    pred_next_state_feature_orig = self.forward_net_1(pred_next_state_feature_orig)
+            # get pred next state
+            pred_next_state_feature_orig = torch.cat((encode_state, action), 1)
+            pred_next_state_feature_orig = self.forward_net_1(pred_next_state_feature_orig)
 
-                    # residual
-                    for i in range(4):
-                        pred_next_state_feature = self.residual[i * 2](torch.cat((pred_next_state_feature_orig, action), 1))
-                        pred_next_state_feature_orig = self.residual[i * 2 + 1](
-                            torch.cat((pred_next_state_feature, action), 1)
-                        ) + pred_next_state_feature_orig
-                    pred_next_state_feature = self.forward_net_2(torch.cat((pred_next_state_feature_orig, action), 1))
-                    real_next_state_feature = encode_next_state
-                    return real_next_state_feature, pred_next_state_feature, pred_action_logit
+            # residual
+            for i in range(4):
+                pred_next_state_feature = self.residual[i * 2](torch.cat((pred_next_state_feature_orig, action), 1))
+                pred_next_state_feature_orig = self.residual[i * 2 + 1](
+                    torch.cat((pred_next_state_feature, action), 1)
+                ) + pred_next_state_feature_orig
+            pred_next_state_feature = self.forward_net_2(torch.cat((pred_next_state_feature_orig, action), 1))
+            real_next_state_feature = encode_next_state
+            return real_next_state_feature, pred_next_state_feature, pred_action_logit
 
 实验结果
 ---------
