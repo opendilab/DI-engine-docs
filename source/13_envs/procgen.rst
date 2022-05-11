@@ -107,14 +107,10 @@ Observation Space
 
 - Transformation result: 3D np array with size \ ``(3, 84, 84)`` \ , data type \ ``np.float32`` \ , value \ ``[0, 255]`` \
 
-.. _Action Space-2:
-
 Action Space
 -------------
 
 -  Basically no transformation, it is still a discrete action space of size N, but generally a one-dimensional np array, the size is \ ``(1, )`` \ , the data type is \ ``np.int64``
-
-.. _Bonus Space-2:
 
 Bonus Space
 ------------

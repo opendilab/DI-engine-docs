@@ -44,12 +44,8 @@ After the installation is complete, you can run the following command on the Pyt
     cd gym-minigrid
    ./manual_contril.py --env MiniGrid-Empty-8x8-v0
 
-.. _spatial original environment before transformation):
-
 Space before Transformation (Original Environment)
 =========================
-
-.. _ObservationSpace-1:
 
 Observation Space
 ------------------
@@ -79,9 +75,6 @@ Observation Space
 - After passing \ ``ImgObsWrapper``\, obs3 is a \ ``numpy.ndarray``, shape is (56, 56, 3), data type is \ ``uint8``
 - Our codebase uses a 4th \ ``FlatObsWrapper``\ method, which encodes the mission string in the \ ``mission``\ field in a one-hot way,
   And concatenate it with the \ ``image``\ field content into a \ ``numpy.ndarray`` obs4 with shape (2739,) and data type \ ``float32``
-
-
-.. _actionspace-1:
 
 Action Space
 --------------
@@ -120,14 +113,10 @@ Action Space
 
    - 'enter': done/noop
 
-.. _BONUS SPACE-1:
-
 Bonus Space
 ------------
 
 - Game score, different minigrid sub-environments have a small difference in the reward range, the maximum value is 1, which is generally a \ ``float``\ value. Because it is a sparse reward environment, it can only be reached when the agent (displayed as a red point) reaches goal(displayed as green dots), there is a reward greater than zero. The specific value is determined by different environments and the total number of steps used to reach the goal. The reward before reaching the goal is all 0.
-
-.. _other-1:
 
 Other
 ------
@@ -143,12 +132,9 @@ Key Facts
 
 3. Sparse reward, the scale of reward value changes is small, the maximum is 1, and the minimum is 0.
 
-.. _transformed spatial rl environment:
 
 Transformed Space (RL environment)
 ===================================
-
-.. _ObservationSpace-2:
 
 Observation Space
 ------------------
@@ -157,14 +143,10 @@ Observation Space
 
 - Transformation result: one-dimensional np array with size \ ``(2739,)``\ , data type \ ``np.float32``\ , value ``[0., 7.]``
 
-.. _Action Space-2:
-
 Action Space
 --------------
 
 - Basically no transformation, it is still a discrete action space of size N=7, generally a one-dimensional np array, the size is \ ``(1, )``\ , and the data type is \ ``np.int64``
-
-.. _Bonus Space-2:
 
 Bonus Space
 ------------
@@ -182,14 +164,10 @@ The above space can be expressed as:
    act_space = gym.spaces.Discrete(7)
    rew_space = gym.spaces.Box(low=0, high=1, shape=(1, ), dtype=np.float32)
 
-.. _other-2:
-
 Other
 --------
 
 - The \ ``info``\ returned by the environment \ ``step``\ method must contain the \ ``final_eval_reward``\ key-value pair, which represents the evaluation index of the entire episode, and is the cumulative sum of the rewards of the entire episode in minigrid
-
-.. _other-3:
 
 Other
 ======

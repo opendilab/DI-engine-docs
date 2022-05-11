@@ -47,8 +47,6 @@ DI-engine Mirror
 DI-engine has a mirror including the system itself and Atari environment. You can acquire through command ``docker pull opendilab/ding:nightly-atari`` , or visit `docker
 hub <https://hub.docker.com/r/opendilab/ding>`__.
 
-.. _变换前的空间原始环境）:
-
 Space before transformation (Original environment)
 ========================================================
 
@@ -57,8 +55,6 @@ Observation Space
 ----------------------
 
 -  Real game screen. RGB 3-channel image. Shape is ``(210, 160, 3)``. Data type is ``uint8``.
-
-.. _动作空间-1:
 
 Action Space
 ------------------

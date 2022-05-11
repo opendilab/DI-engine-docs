@@ -44,12 +44,8 @@ Image
 The image of DI-engine is equipped with the framework itself and the Lunarlander environment, which can be obtained by \ ``docker pull opendilab/ding:nightly``\, or by visiting \ `docker
 hub <https://hub.docker.com/repository/docker/opendilab/ding>`__\  for more images
 
-.. _spatial original environment before transformation):
-
 Space before Transformation (Original Environment)
 ===========================================================================
-
-.. _ObservationSpace-1:
 
 Observation Space
 ------------------------
@@ -63,9 +59,6 @@ Observation Space
 - s[5] is the angular velocity
 - s[6] 1 if one foot lands, 0 otherwise
 - s[7] 1 if the second foot lands, 0 otherwise
-
-
-.. _actionspace-1:
 
 Action Space
 -------------
@@ -82,15 +75,11 @@ Action Space
 
 - 3: Fire left engine
 
-.. _BONUS SPACE-1:
-
 Bonus Space
 -------------
 
 - a \ ``int``\ value
 - The reward for moving from the top of the screen to the landing point and going to zero speed is about 100...140 points. If the lander travels in a direction away from the landing pad, it loses the reward. If the lander falls or stops, the episode ends, earning an extra -100 or +100 points. Ground contact for each leg is a +10 bonus. The launch main engine is -0.3 bonus per frame. A successful landing to the landing site is 200 points. Landing outside the landing gear is possible. Fuel is unlimited.
-
-.. _other-1:
 
 Other
 -------
@@ -102,26 +91,18 @@ Key Facts
 
 1. Discrete and continuous action spaces
 
-.. _transformed spatial rl environment:
-
 Transformed Space (RL Environment)
 ======================================
-
-.. _ObservationSpace-2:
 
 Observation Space
 ----------------------------
 
 - no change
 
-.. _Action Space-2:
-
 Action Space
 ----------------------------
 
 - It is still a discrete action space of size 4, but the data type is changed from ``int`` to ``np.int64``, the size is \ ``( )``\, that is, an array of 0-dim
-
-.. _Bonus Space-2:
 
 Bonus Space
 ----------------------------
@@ -136,14 +117,11 @@ The above space can be expressed as:
    import gym
    obs_space = gym.spaces.spaces.Box(-np.inf, np.inf, shape=(8,), dtype=np.float32)
    act_space = gym.spaces.Discrete(4)
-.. _other-2:
 
 Other
 ------------------------
 
 - The \ ``info``\ returned by the environment \ ``step``\ method must contain the \ ``final_eval_reward``\ key-value pair, which represents the evaluation index of the entire episode, and is the cumulative sum of the rewards of the entire episode in lunarlander
-
-.. _other-3:
 
 Other
 ========
