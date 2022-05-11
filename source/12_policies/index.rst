@@ -45,6 +45,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
 
     rnd
     her
+    icm
     mcts
 
 .. toctree::
@@ -55,6 +56,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
     sqil
     gail
     trex
+    r2d3
 
 .. toctree::
     :maxdepth: 3
