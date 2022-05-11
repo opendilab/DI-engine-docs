@@ -21,6 +21,12 @@
 
 .. toctree::
     :maxdepth: 3
+    :caption: 探索
+
+    diayn_zh
+
+.. toctree::
+    :maxdepth: 3
     :caption: 模仿学习
 
     icm_zh
