@@ -162,6 +162,7 @@ The experimental results using the DDPG algorithm are as follows. The abscissa i
 
 .. image:: ./images/pendulum_ddpg.png
    :align: center
+   :scale: 20 %
 
 
 References

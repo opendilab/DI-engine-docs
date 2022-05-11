@@ -7,7 +7,7 @@ Overview
 In the BipedalWalker environment, the agent needs to output 4-dimensional continuous actions to control the 2D biped robot to move forward on rough terrain. Applying motor torque at each step will get a negative reward, and each step forward will get a positive reward. If you successfully move to the farthest point, you can get more than 300 points reward. If the robot falls on the way, it will get -100 points and the game will end. The state of the agent is a 24-dimensional continuous vector, including hull angle speed, angular velocity, horizontal velocity, vertical velocity, joint position and joint angular velocity, marks that the leg touches the ground, and 10 lidar rangefinder measurements . Note that the state vector does not contain the coordinates of the robot.
 
 .. image:: ./images/bipedal_walker.gif
-   :align : center
+   :align: center
 
 Install
 ========
@@ -111,7 +111,7 @@ The full training configuration file is at `github
 link <https://github.com/opendilab/DI-engine/tree/main/dizoo/box2d/bipedalwalker/config>`__
 For specific configuration files, such as \ ``bipedalwalker_td3_config.py``\, use the following demo to run:
 
-    .. code:: python
+.. code:: python
     
     bipedalwalker_td3_config = dict(
         env=dict(

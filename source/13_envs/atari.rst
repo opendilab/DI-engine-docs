@@ -270,6 +270,7 @@ Algorithm Benchmark
 
    .. image:: images/pong_dqn.png
      :align: center
+     :scale: 60%
 
 -  Qbert (Average reward > 15000 at 10M env step)
 
@@ -277,6 +278,7 @@ Algorithm Benchmark
 
    .. image:: images/qbert_dqn.png
      :align: center
+     :scale: 60%
 
 -  Space Invaders (Average reward > 1000 at 10M env step)
 
@@ -284,3 +286,4 @@ Algorithm Benchmark
 
    .. image:: images/spaceinvaders_dqn.png
      :align: center
+     :scale: 60%

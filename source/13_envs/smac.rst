@@ -344,25 +344,25 @@ Benchmark Algorithm Performance
    - MMM + MAPPO
 
    .. image:: images/MMM_mappo.png
-     :align : center
+      :align: center
 
 - 3s5z (1 win rate under 3M env step is considered better performance)
 
    - 3s5z + MAPPO
 
    .. image:: images/3s5z_mappo.png
-     :align : center
+      :align: center
 
 - 5m_vs_6m (0.75 win rate under 5M env step is considered as good performance)
 
    - 5m_vs_6m + MAPPO
 
    .. image:: images/5m6m_mappo.png
-     :align : center
+      :align: center
 
 - MMM2 (1 win rate under 5M env step is considered better performance)
 
    - MMM2 + MAPPO
 
    .. image:: images/MMM2_mappo.png
-     :align : center
+      :align: center

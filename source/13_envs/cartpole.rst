@@ -195,7 +195,7 @@ The experimental results using the DQN algorithm are as follows. The abscissa is
 
 .. image:: ./images/cartpole_dqn.png
    :align: center
-
+   :scale: 20%
 
 References
 ======================
