@@ -12,7 +12,7 @@
    :scale: 50 %
 
 在该图中，(a)是标准的 On-policy RL，智能体采用当前策略 :math:`\pi_k` 与环境进行交互，只用当前策略产生的数据用于更新网络。
-(b)是 Off-policy RL，它会将历史所有策略 :math:`\pi_k` 与环境交互的数据存储在经验池 :math:`\mathcal{D}` 中，即 :math:`\mathcal{D}` 中包含了策略 :math:`\pi_0, \pi_1, ..., \pi_k` 与环境交互产生的数据，所有的数据都会被用于更新网络 :math:`\pi_{k+1}`。
+(b)是 Off-policy RL，它会将历史所有策略与环境交互的数据存储在经验池 :math:`\mathcal{D}` 中。即 :math:`\mathcal{D}` 中包含了策略 :math:`\pi_0, \pi_1, ..., \pi_k` 与环境交互产生的数据，所有的数据都会被用于更新网络 :math:`\pi_{k+1}`。
 (c)是 Offline RL，它所使用的数据集 :math:`\mathcal{D}` 中的数据来自某些（可能未知）的行为策略 :math:`\pi_{\beta}` 。该数据集 :math:`\mathcal{D}` 是提前一次性收集好的，不会在训练过程中发生改变。
 在训练过程中，智能体不会与环境进行交互，只有在学习完成后才会对策略进行评估与应用。
 
@@ -23,14 +23,14 @@ Offline RL成为了最近的研究热点，具体原因可以归结为两方面�
 第一方面是 Offline RL 本身的优势。深度强化学习在游戏等模拟任务中已经取得了巨大的成功，通过与环境进行有效的交互，我们可以得到性能卓著的智能体。
 然而，在现实世界的任务中，通过反复探索环境，收集大类数据，用来训练强化学习智能体，通常需要非常昂贵的代价，甚至于在很多现实世界的任务中，探索环境是极度危险的，例如自动驾驶和机器人操作。
 Offline RL 正好研究的是如何从固定数据集学习到近似最优的策略，由于不需要任何额外探索，可以显著减轻潜在风险和成本。
-另外，在过去十余年中，数据驱动学习方法在机器学习领域中取得了巨大的成功，一般来说使用更多数据能获得更好的训练效果。相比于经典强化学习，能够充分利用好大规模静态数据集是 Offline RL 的一大优势。
+另外，在过去十余年中，数据驱动学习方法在机器学习领域中取得了巨大的成功，一般来说使用更多数据能获得更好的训练效果。相比于在线强化学习，能够充分利用好大规模静态数据集是 Offline RL 的一大优势。
 
-第二方面，经典强化学习算法在离线设定下学习效果往往非常差，学到的策略无法在实际部署中取得令人满意的表现（具体原因见后文）。因此，如何将经典强化学习算法中的思想技巧迁移到离线场景是一个充满挑战的研究领域。
+第二方面，在线强化学习算法在离线设定下学习效果往往非常差，学到的策略无法在实际部署中取得令人满意的表现（具体原因见后文）。因此，如何将在线强化学习算法中的思想技巧迁移到离线场景是一个充满挑战的研究领域。
 
 
 **Offline RL 的训练过程**
 
-在训练阶段，离线 Offline RL 要求智能体不能和环境进行交互。 
+在训练阶段，Offline RL 要求智能体不能和环境进行交互。 
 在这个设定下, 我们先根据行为策略 :math:`\pi_{\beta}(\mathbf{a}\mid \mathbf{s})` 与环境交互得到数据集 :math:`\mathcal{D}`，然后
 再利用该数据集训练智能体。以演员-评论家 （Actor-Critic） 范式为例，给定数据集 :math:`\mathcal{D} = \left\{ (\mathbf{s}, \mathbf{a}, r, \mathbf{s}^{\prime})\right\}`, 
 我们可以将价值迭代（value iteration）和策略优化（policy optimization）表示为:
@@ -40,7 +40,7 @@ Offline RL 正好研究的是如何从固定数据集学习到近似最优的策
    \\
    \hat{\pi}^{k+1} \leftarrow \arg\max_{\pi} \mathbb{E}_{\mathbf{s} \sim \mathcal{D}, \mathbf{a} \sim \pi^{k}(\mathbf{a} \mid \mathbf{s})}\left[\hat{Q}^{k+1}(\mathbf{s}, \mathbf{a})\right],
 
-其中， :math:`\hat{\mathcal{B}}^\pi` 表示遵循策略 :math:`\hat{\pi} \left(\mathbf{a} \mid \mathbf{s}\right)` 的贝尔曼操作符, :math:`\hat{\mathcal{B}}^\pi \hat{Q}\left(\mathbf{s}, \mathbf{a}\right) = \mathbb{E}_{\mathbf{s}, \mathbf{a}, \mathbf{s}^{\prime} \sim \mathcal{D}}[ r(\mathbf{s}, \mathbf{a})+\gamma \mathbb{E}_{\mathbf{a}^{\prime} \sim \hat{\pi}^{k}\left(\mathbf{a}^{\prime} \mid \mathbf{s}^{\prime}\right)}\left[\hat{Q}^{k}\left(\mathbf{s}^{\prime}, \mathbf{a}^{\prime}\right)\right] ]`
+其中， :math:`\hat{\mathcal{B}}^\pi` 表示遵循策略 :math:`\hat{\pi} \left(\mathbf{a} \mid \mathbf{s}\right)` 的贝尔曼操作符, :math:`\hat{\mathcal{B}}^\pi \hat{Q}\left(\mathbf{s}, \mathbf{a}\right) = \mathbb{E}_{\mathbf{s}, \mathbf{a}, \mathbf{s}^{\prime} \sim \mathcal{D}}[ r(\mathbf{s}, \mathbf{a})+\gamma \mathbb{E}_{\mathbf{a}^{\prime} \sim \hat{\pi}^{k}\left(\mathbf{a}^{\prime} \mid \mathbf{s}^{\prime}\right)}\left[\hat{Q}^{k}\left(\mathbf{s}^{\prime}, \mathbf{a}^{\prime}\right)\right] ]`。
 
 **Offline RL VS 模仿学习**
 
@@ -58,7 +58,7 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 然而，Off-policy RL 在学习过程中仍然经常使用额外的交互（即在线数据收集）。
 
 
-**经典强化学习算法在离线设定下的问题**
+**在线强化学习算法在离线设定下的问题**
 
 很多前人的研究工作都表明经典强化学习算法在 Offline RL 场景表现不佳，甚至很差。Scott Fujimoto 在其论文 [6] 中表明这是因为在这种情况下，策略倾向于选择偏离数据集 :math:`\mathcal{D}` 的动作（out-of-distribution, OOD）。
 以基于Q-函数的经典算法为例，当待预估数据与离线训练数据分布相同时，Q-函数的估计才是准确的，具体的对应关系如下图所示：
@@ -122,7 +122,7 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 .. math::
    \hat{\mathcal{E}}(\mathcal{B}, \mathcal{\phi}) = \alpha\mathcal{C}(\mathcal{B}, \mathcal{\phi}) + \mathcal{E}(\mathcal{B}, \mathbf{\phi}),
 
-其中，:math:`\mathcal{E}(\mathcal{B}, \mathcal{\phi})` 表示贝尔曼误差，也就是经典强化学习的目标，:math:`\mathcal{C}(\mathcal{B}, \mathcal{\phi})` 表示额外添加的保守惩罚项。
+其中，:math:`\mathcal{E}(\mathcal{B}, \mathcal{\phi})` 表示贝尔曼误差，也就是一般DQN的目标，:math:`\mathcal{C}(\mathcal{B}, \mathcal{\phi})` 表示额外添加的保守惩罚项。
 选择不同类型的惩罚项可能会导致算法具有不同的特性。例如：
 
 .. math::
@@ -149,12 +149,12 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 在 Offline RL 领域，研究者们提出了很多诸如策略约束、不确定性估计之类的方法，来解决分布偏移的问题。
 更普遍地说，这些方法揭示了离线强化学习的核心是一个反事实推理问题：给定一组某未知决策产生的数据，推断出一组不同于前者分布的结果。
 在常规机器学习中，我们通常假设训练和测试数据是独立同分布的（i.i.d.）。而 Offline RL 要求我们放弃这一假设，无疑是充满挑战的。
-要使这成为可能，需要突破性的创新来实现复杂的统计方法，并将它们与经典强化学习中序列决策的基础相结合。
+要使这成为可能，需要突破性的创新来实现复杂的统计方法，并将它们与在线强化学习中序列决策的基础相结合。
 解决分布偏移，限制动作分布，对分布下边界的评估等等方法，都有可能在当前的 Offline RL 研究水平上得到突破。
 
 在机器学习领域，过去十余年的惊人成就很大一部分需要归功于数据驱动的学习范式。
 在计算机视觉和自然语言领域，尽管架构和模型的改进推动了性能的快速提升，但数据集的规模和多样性不断增加一直都是进步的重要推动力。尤其是在现实世界的应用中。
-经典强化学习通常被理解为“行动——学习”这一范式，而 Offline RL 有希望将其转化为数据驱动的学习范式，同时有机会享受到数据驱动的宏利。
+在线强化学习通常被理解为“行动——学习”这一范式，而 Offline RL 有希望将其转化为数据驱动的学习范式，同时有机会享受到数据驱动的宏利。
 然而在大多数在线强化学习方法的标准设定中，收集大型和多样化的数据集通常是不切实际的，并且在许多应用中，如自动驾驶和人机交互领域，风险与成本是巨大的。
 因此，我们期待在未来能够见证新一代数据驱动的强化学习。使得强化学习既能够解决此前无法解决的一系列现实问题，又能够在现有应用（驾驶，机器人等）中充分利用更大量，更多元，更具有表现力的数据集。
 
