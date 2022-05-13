@@ -60,7 +60,7 @@ Off-policy RL 通常指能够允许产生训练样本的策略（与环境交互
 
 **在线强化学习算法在离线设定下的问题**
 
-很多前人的研究工作都表明经典强化学习算法在 Offline RL 场景表现不佳，甚至很差。Scott Fujimoto 在其论文 [6] 中表明这是因为在这种情况下，策略倾向于选择偏离数据集 :math:`\mathcal{D}` 的动作（out-of-distribution, OOD）。
+很多前人的研究工作都表明经典强化学习算法在 Offline RL 场景表现不佳，甚至很差。论文 [6] 的作者表明，这个问题是因为在这种情况下，策略倾向于选择偏离数据集 :math:`\mathcal{D}` 的动作（out-of-distribution, OOD）。
 以基于Q-函数的经典算法为例，当待预估数据与离线训练数据分布相同时，Q-函数的估计才是准确的，具体的对应关系如下图所示：
 
 .. image:: images/offline_ood.png
