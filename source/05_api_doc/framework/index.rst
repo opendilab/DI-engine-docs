@@ -2,8 +2,9 @@ Framework
 =========
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 4
 
     task
     context
     parallel
+    middleware/index
