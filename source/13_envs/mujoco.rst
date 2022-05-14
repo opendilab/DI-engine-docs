@@ -276,7 +276,7 @@ Inside, for specific configuration files, such as\ ``hopper_sac_default_config.p
        serial_pipeline((main_config, create_config), seed=0)
 Note: For some special algorithms, such as PPO, special entry functions need to be used. For examples, please refer to
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/mujoco/entry/mujoco_ppo_main.py>`__
-You can also use ``serial_pipeline_onpolicy`` to enter with one click
+You can also use ``serial_pipeline_onpolicy`` to enter with one click.
 
 Benchmark Algorithm Performance
 ================================
