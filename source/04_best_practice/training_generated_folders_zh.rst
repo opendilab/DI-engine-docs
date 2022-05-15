@@ -6,7 +6,7 @@ DI-engine 在训练过程中会生成很多文件夹：
     - 在 **串行（serial）** 模式下, DI-engine 生成 log 和 checkpoint 文件夹.
     - 在 **并行（parallel）** 模式下, DI-engine 生成 log, checkpoint, data 和 policy 文件夹.
 
-我们将一一介绍这两种模式。
+我们将分别介绍这两种模式。
 
 串行模式
 --------------------
@@ -58,7 +58,7 @@ DI-engine 在训练过程中会生成很多文件夹：
 
 - log/collector
 
-    在收集器文件夹中，有一个名为“collector_logger.txt”的文件，其中包含一些有关与环境交互的信息。
+    在收集器文件夹中，有一个名为“collector_logger.txt”的文件，其中包含一些与环境交互相关的信息。
 
     - 设默认置 n_sample 模式。 collector 的基本信息: n_sample 和 env_num. n_sample 表示采集的数据样本数. 对于 env_num，它表示collector将与多少个环境交互。
     

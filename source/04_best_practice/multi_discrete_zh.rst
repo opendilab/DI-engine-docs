@@ -56,7 +56,7 @@ gym库使用 ``多重离散（multi-discrete）`` 去描述具有多个离散动
 
 此外，在 config.env 中的键 multi_discrete 应该设置为 True 以使用 MultiDiscreteEnv wrapper。
 
-我们也提供了一个多离散版本的 DQN 实现. 多重离散版本``DQNMultiDiscretePolicy``继承``DQNPolicy``并且只覆盖``_forward_learn``接口. 在这个多重离散动作空间版本的 Q-learning 的 ``_forward_learn`` 中，每个动作空间使用全局奖励计算自己的 q 值、动作和 td 损失，计算遵循与单个动作空间计算相同的过程。
+我们也提供了一个多离散版本的 DQN 实现. 多重离散版本``DQNMultiDiscretePolicy``继承``DQNPolicy``并且只覆盖``_forward_learn``接口. 在这个多重离散动作空间版本的 Q-learning 的 ``_forward_learn`` 中，每层动作空间使用全局奖励计算自己的 q 值、动作和 td 损失，计算遵循与单个动作空间计算相同的过程。
 
 .. code:: python
 

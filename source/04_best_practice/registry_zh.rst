@@ -19,7 +19,7 @@
    - league
    - player
 
-然后我们将通过 ``Policy`` 来举例说明在实施新策略时如何使用 ``Registry``。
+下面我们将通过 ``Policy`` 来举例说明，在实现新策略时如何使用 ``Registry``。
 
 1.  为新策略添加 ``Registry`` 装饰器 (decorator)。
 

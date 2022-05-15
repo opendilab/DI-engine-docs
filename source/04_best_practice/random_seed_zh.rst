@@ -45,8 +45,8 @@
         self._env_dynamic_seed = dynamic_seed
 
 为了让环境更加多样化, DI-engine 也支持在每一个环境跑很多个episode的时候启用 ``dynamic_seed``。
-如链接所示的那样 ``ding/envs/env/DI-engine_env_wrapper.py``, 首先，DI-engine在重置环境时设置环境种子， 并且如果 ``dynamic_seed`` 是 True, DI-engine 会在原始种子中添加一个随机整数，以使每个
-episode 不同。 并且可以通过设置这个随机生成器的种子（通常是 numpy.random）来保证重现性。
+如链接所示的那样 ``ding/envs/env/DI-engine_env_wrapper.py``, 首先，DI-engine 在重置环境时设置环境种子， 并且如果 ``dynamic_seed`` 是 True, DI-engine 会在原始种子中添加一个随机整数，以使每个
+episode 不同。 并且可以通过设置这个随机生成器的种子来保证重现性。 这个随机生成器一般是 ``numpy.random``。
 
 默认情况下，我们在收集数据时启用 dynamic_seed，在评估时禁用它。这样做的好处是可以让我们收集更多样化的训练数据，提高最终性能，但可能会降低收敛速度。
 在评估时关闭 dynamic_seed 可以保证每次评估策略时，是在一组相同的随机种子上评估的，增加不同训练步数上模型评估结果的可比性。

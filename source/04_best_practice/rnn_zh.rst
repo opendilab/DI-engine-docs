@@ -4,15 +4,10 @@
 RNN简介
 -------------------
 
-循环神经网络（RNN）是一类神经网络，其中
-节点之间的连接沿时间序列形成了有向图。 这个性质允许它可以捕捉时间动态行为。
-从前馈神经网络中衍生出来，RNN 可以使用它们的内部状态 （hidden state）
-（内存）处理可变长度的输入序列. 这使他们
-适用于未分段的、连起来的的手写识别或语音识别等任务。
+循环神经网络（RNN）是神经网络中的一类。RNN 是从前馈神经网络中衍生出来的，额外增加了内部状态 （hidden state）来存储历史输入信息，可以处理可变长度的输入序列。其中RNN网络在不同时刻之间的连接关系沿时间维度形成了有向图，这个性质允许它可以捕捉与时间相关的动态行为。从而适用于处理输入为可变长度序列的手写识别或语音识别等任务。
 
-在深度强化学习中，RNN首先用于 `DRQN <https://arxiv.org/abs/1507.06527>`__ (Deep Recurrent
-Q-Learning Network), 旨在解决atari游戏中不完全信息观测的问题. 之后，RNN 就成为了一个重要的
-解依赖于复杂时序环境的方法。
+在深度强化学习中， `DRQN <https://arxiv.org/abs/1507.06527>`__ (Deep Recurrent
+Q-Learning Network) 算法首先将 RNN 网络应用于RL算法中, 旨在解决atari游戏中不完全信息观测的问题。 之后，RNN 就成为了RL研究中解决复杂时序决策任务的一个重要方法。
 
 经过多年的研究，RNN 有很多变体，如 LSTM、GRU 等。
 但是核心的更新过程仍然非常相似。在MDP的每个时间步
@@ -123,7 +118,7 @@ sqn     ×
 使用模型 Wrapper 将您的 RNN 模型包装在策略中
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-由于 RNN 模型需要保持数据的隐藏状态，DI-engine 提供 ``HiddenStateWrapper`` 来支持这个功能。 用户只需要在
+由于 RNN 模型需要维护数据的隐藏状态（hidden states），DI-engine 提供 ``HiddenStateWrapper`` 来支持这个功能。 用户只需要在
 策略的学习/收集/评估初始化阶段来包装模型。 Wrapper 会帮助智能体在模型计算时保留隐藏状态（hidden states），并在下一次模型计算时发送这些隐藏状态（hidden states）。
 
 
@@ -159,7 +154,7 @@ sqn     ×
 数据处理
 ~~~~~~~~~~~~~~~~
 
-用于 RNN 的 mini-batch 数据不同于通常的 RL 数据。 这些数据通常应按时间序列排列. 对于 DI-engine, 这个处理是在
+用于训练 RNN 的 mini-batch 数据不同于通常的数据。 这些数据通常应按时间序列排列. 对于 DI-engine, 这个处理是在
 ``collector`` 阶段完成的。 用户需要在配置文件中指定 ``unroll_len`` 以确保序列数据的长度与算法匹配。 对于大多数情况，
 ``unroll_len`` 应该等于 RNN 的历史长度（a.k.a 时间序列长度），但在某些情况下并非如此，比如，在r2d2中， 我们使用burn-in操作， 序列长度等于
 ``unroll_len`` + ``burnin_step``. 这里将在下一节中具体解释。
@@ -197,7 +192,7 @@ sqn     ×
 
     def _get_train_sample(self, data: list) -> Union[None, List[Any]]:
         data = get_nstep_return_data(data, self._nstep, gamma=self._gamma)
-        return get_train_sample(data, self._unroll_len_add_burnin_step)
+        return get_train_sample(data, self._unroll_len)
 
 有关这两个数据处理功能的更多详细信息，请参见`ding/rl_utilrs/adder.py <https://github.com/opendilab/DI-engine/blob/main/ding/rl_utils/adder.py#L125>`_ ,
 其数据处理的工作流程见下图：
@@ -241,21 +236,21 @@ sqn     ×
 Burn-in(in R2D2)
 ~~~~~~~~~~~~~~~~~
 
-这个概念来自 R2D2（Recurrent Experience Replay in Distributed
-强化学习）。在使用 LSTM 时，最基础的方式是：
+Burn-in的概念来自 `R2D2 <https://www.deepmind.com/publications/recurrent-experience-replay-in-distributed-reinforcement-learning>`__ （Recurrent Experience Replay In Distributed Reinforcement Learning）论文。论文指出在使用 LSTM 时，最基础的方式是：
 
-1.使用全部为0的tensor在采样序列的开头初始化网络的输入。
+1.将完整的 episode 轨迹切分为很多序列样本。在每个序列样本的初始时刻，使用全部为0的 tensor 作为 RNN 网络的初始化 hidden state。
 
-2.重放整个 episode 的轨迹. 
+2.使用完整的 episode 轨迹用于 RNN 训练。
 
-前者带来很大的 bias ，后者难以实际操作。
+对于第一种方法，由于每个序列样本的初始时刻的 hidden state 应该包含之前时刻的信息，这里简单使用全为0的 Tensor 带来很大的 bias
+对于第二种方法，往往在不同环境上，完整的一个episode的长度是变化的，很难直接用于 RNN 的训练。
 
-Burn-in 给予网络一个
-``burn-in period``。 他的机制是将 ``replay sequence`` 的一部分数据仅用于产生一个开始的隐藏状态。 然后仅用数据序列的剩余部分更新网络。
+Burn-in 给予 RNN 网络一个
+``burn-in period``。  即使用 ``replay sequence`` 的前面一部分数据产生一个开始的隐藏状态 (hidden state)，然后仅在 ``replay sequence`` 的后面一部分数据上更新 RNN 网络。
 
 在 DI-engine 中，r2d2 使用 n-step td error， 即， ``self._nstep`` 是 n 的数量。
-``sequence length = burnin_step + unroll_len``.
-所以在配置文件中， ``unroll_len`` 应该设置为 ``sequence length -burnin_step``。
+``sequence length = burnin_step + learn_unroll_len``.
+所以在配置文件中， ``learn_unroll_len`` 应该设置为 ``sequence length - burnin_step``。
 
 在此设置中，原始展开的 obs 序列被拆分为 ``burnin_nstep_obs`` ， ``main_obs`` 和 ``marget_obs``。``burnin_nstep_obs`` 是
 用于计算 rnn 的初始隐藏状态，用便未来用于计算 q_value、target_q_value 和 target_q_action。

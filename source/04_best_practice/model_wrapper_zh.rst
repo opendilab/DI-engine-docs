@@ -32,7 +32,7 @@ DI-engine 提供以下模型 wrapper：
    ``ding/model/wrappers/model_wrappers.py``;
 
 2. 将 wrapper 的名称添加到 ding/model/wrappers/model_wrappers.py: wrapper_name_map 或使用 wrapper
-   注册以确保可以通过 ding 检索您的 wrapper。前者的话， 无需额外注册即可按名称直接使用模型 wrapper，
+   注册以确保可以通过 ding 检索您的 wrapper。前者的话， 无需额外注册即可通过 wrapper_name 指定调用的模型 wrapper，
    后者的话，您需要注册这个 wrapper 。通常格式如下：
 
 .. code:: python
@@ -54,7 +54,7 @@ DI-engine 提供以下模型 wrapper：
 
 我们将在下面展示 DI-engine 中 HiddenStateWrapper 的实现，以用来解释如何自定义模型 wrapper。
 
-如果我们想在我们的模型中使用 RNN，我们必须在训练过程中保存hidden state。通过使用 Hidden StateWrapper， 我们可以在不更改政策代码的情况下实现这一点。
+如果我们想在我们的模型中使用 RNN，我们必须在训练过程中保存 hidden state。通过使用 Hidden StateWrapper， 我们可以在不更改政策代码的情况下实现这一点。
 
 HiddenStateWrapper 的结构如下：
 
