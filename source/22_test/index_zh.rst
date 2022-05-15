@@ -81,7 +81,7 @@
 
 固件（fixture）是 ``pytest`` 中非常重要的机制，其可以完成测试所需资源的初始化，并作为测试函数的参数传入，供测试函数使用。不仅如此，还可以实现对运行资源的回收，确保后续运行不受影响。此外，还可以通过对作用域的定义，轻松地实现代码复用。
 
-这篇 `中文教程 <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-fixture.html>`_ 写的很详细，可以作为参考。在DI-engine的现有代码中，可以参考 `ding/league/tests/test_player.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/test_player.py>`_ 。
+这篇 `fixture 中文教程 <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-fixture.html>`_ 写的很详细，可以作为参考。在DI-engine的现有代码中，可以参考 `ding/league/tests/test_player.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/test_player.py>`_ 。
 
 固件一般在单个文件中使用，即在当前文件下定义固件后使用。如果需要跨文件使用固件，可以使用测试配置（conftest，config of test的缩写）机制实现。在测试文件中不需要显式地进行导入， ``pytest`` 框架会自动完成加载。可以参考这篇 `中文教程 <https://www.cnblogs.com/linuxchao/p/linuxchao-pytest-conftest.html>`_，在现有的代码中可以参考 `ding/league/tests/conftest.py <https://github.com/opendilab/DI-engine/tree/main/ding/league/tests/conftest.py>`_ 。
 

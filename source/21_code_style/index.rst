@@ -33,7 +33,7 @@ Considering the large scale of the whole project and the large number of files, 
    make format RANGE_DIR=./ding/xxx
 
 
-In this project, we use the `yapf <https://github.com/opendilab/DI-engine/blob/main/.style.yapf>`_ code specification configuration based on PEP8. For details about the configuration, you can refer to `the description on the Github homepage <https://github.com/google/yapf#knobs>`_. `PEP8 <https://peps.python.org/pep-0008/>`_ is the code style configuration officially recommended by Python. Paying attention to code style can improve the readability of the code and minimize unintended behavior.
+In this project, we use the `yapf config <https://github.com/opendilab/DI-engine/blob/main/.style.yapf>`_ code specification configuration based on PEP8. For details about the configuration, you can refer to `the description on the Github homepage <https://github.com/google/yapf#knobs>`_. `PEP8 <https://peps.python.org/pep-0008/>`_ is the code style configuration officially recommended by Python. Paying attention to code style can improve the readability of the code and minimize unintended behavior.
 
 In addition, yapf can also integrate with pycharm through the plug-in yapf pycharm:
 

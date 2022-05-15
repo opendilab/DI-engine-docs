@@ -86,7 +86,7 @@ The Benchmark result of COMA in SMAC (Samvelyan et al. 2019), for StarCraft micr
 |                     |                 |                                                     |smac_MMM_coma_config      |                      |
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link <https://    |                      |
+|                     |                 |                                                     |`config_link_3 <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |  Pymarl(0.0)         |
 |3s5z                 |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
 |                     |  1.00           |.. image:: images/benchmark/COMA_3s5z.png            |smac/config/              |                      |

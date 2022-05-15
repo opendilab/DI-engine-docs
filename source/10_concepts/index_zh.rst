@@ -5,4 +5,4 @@
 .. toctree::
     :maxdepth: 2
 
-    basic_zh
+    basic_rl_zh

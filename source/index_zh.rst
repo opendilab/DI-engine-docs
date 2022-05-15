@@ -20,7 +20,7 @@
    02_algo/index_zh
    03_system/index_zh
    04_best_practice/index_zh
-   05_api_doc/index_zh
+   05_api_doc/index
    06_faq/index_zh
 
 .. toctree::

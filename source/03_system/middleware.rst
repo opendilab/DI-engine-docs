@@ -78,7 +78,7 @@ a single loop, simplifying the logic and reducing the risk of memory leaks. If y
 and other values that need to be accumulated, you can set it as a reserved field with the ctx.keep method.
 
 Using task to execute tasks asynchronously
--------------------------------
+---------------------------------------------
 
 ``Task`` is a global object used by DI-engine to manage reinforcement learning interaction tasks. All runtime state is maintained within task, \
 and some syntactic sugar is provided to help make the process easier.
