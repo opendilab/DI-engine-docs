@@ -20,9 +20,22 @@ Environments:
    :maxdepth: 1
 
    atari
+   mujoco
+   
+   cartpole
+   pendulum
+   
+   lunarlander
+   bipedalwalker
+   minigrid
+
+   slime_volleyball
+   procgen
+   smac
+   
+   gym_hybrid
+
    overcooked
    bsuite
-   slime_volleyball
-
 
 `Chinese version doc <./index_zh.html>`_ includes more environments that you may be interested in.

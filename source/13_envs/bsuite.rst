@@ -50,8 +50,6 @@ Observations Space
 
 -  Array representing the state of the environment, dimensions and size can vary according to the specific environment. Its datatype is \ ``np.float32``.
 
-.. _Actions space-1:
-
 Actions Space
 ---------------
 

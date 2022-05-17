@@ -21,8 +21,15 @@
 
 .. toctree::
     :maxdepth: 3
-    :caption: 模仿学习
+    :caption: 探索
 
     icm_zh
+    ngu_zh
+    diayn_zh
+
+.. toctree::
+    :maxdepth: 3
+    :caption: 模仿学习
+
     guided_cost_zh
     r2d3_zh

@@ -61,7 +61,7 @@ Nevertheless, off-policy RL still often uses additional interactions (i.e. onlin
 **The Obstacle of Applying Online RL Algorithms to Offline Setting**
 
 Many previous research works have shown that online reinforcement learning algorithms perform poorly in offline RL scenarios.
-Scott Fujimoto showed in paper [6] that it is because the policy tends to choose out-of-distribution actions (out-of-distribution, OOD).
+In paper [6], the author shows that it is because the policy tends to choose out-of-distribution actions (out-of-distribution, OOD).
 The estimation of the Q-function is accurate only when the distribution of the data to be estimated follows the distribution of training data.
 The relationship is shown in the following figure:
 
