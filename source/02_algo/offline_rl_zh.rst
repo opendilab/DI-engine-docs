@@ -94,7 +94,7 @@ Off-policy RL 指的是能够使用历史策略收集到的数据来优化当前
 .. math::
    \mathbf{D}_f(\pi, \pi_{\beta}) \le \mathcal{C}, \forall \pi.
 
-也有隐式的约束，如通过策略重建等方式，使其与行为策略 :math:`\pi_{\beta}(\mathbf{a} \mid \mathbf{s})` 相似。
+也可以使用隐式的约束，如通过策略重建等方式，使其与行为策略 :math:`\pi_{\beta}(\mathbf{a} \mid \mathbf{s})` 相似。
 在 BCQ [2]_ 中，作者提出训练一个生成模型（VAE）来模拟数据集中的动作。在策略更新过程中，策略从 VAE 扰动产生的动作中选择 Q 值最高的，从而确保被选择的动作和数据集中的动作相近。
 在 BCQ 的基础上，选择 TD3 作为网络结构，衍生出了 TD3BC 算法，具体内容可参考 [3]_。
 
