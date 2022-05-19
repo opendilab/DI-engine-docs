@@ -4,3 +4,5 @@
 
 .. toctree::
    :maxdepth: 2
+   
+      buffer_zh.rst
