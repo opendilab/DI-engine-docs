@@ -5,7 +5,7 @@ Buffer 入门
 -------------------------------
 
 在 Off-policy 算法中，我们通常需要使用缓存池来实现经验回放（Experience Replay）机制。
-DI-engine 提供了 \ **DequeBuffer**\ 来实现一般缓存池的功能，其本质是一个先入先出（FIFO）队列。用户可以通过以下命令创建 DequeBuffer 对象:
+DI-engine 提供了 \ **DequeBuffer** \ 来实现一般缓存池的功能，其本质是一个先入先出（FIFO）队列。用户可以通过以下命令创建 DequeBuffer 对象:
 
 .. code-block:: python
 
@@ -13,7 +13,7 @@ DI-engine 提供了 \ **DequeBuffer**\ 来实现一般缓存池的功能，其�
 
     buffer = DequeBuffer(size=10)
 
-接下来，可以直接使用封装好的中间件来调用该 buffer 对象，完成训练中数据的缓存和采样操作（\ **推荐方式**\）。
+接下来，用户可以直接通过 DI-engine 中封装好的中间件来调用该 buffer 对象，完成训练任务（\ **推荐方式**\）。
 
 .. code-block:: python
 
@@ -21,7 +21,7 @@ DI-engine 提供了 \ **DequeBuffer**\ 来实现一般缓存池的功能，其�
     task.use(OffPolicyLearner(cfg, policy.learn_mode, buffer))
 
 
-此外，用户也可以通过自定义的方式实现数据的存储与采样，例如：
+此外，当用户有其它使用 buffer 缓存数据的需求时，也可以通过自定义的方式实现数据的存储与采样，例如：
 
 .. code-block:: python
 
@@ -39,7 +39,7 @@ DI-engine 提供了 \ **DequeBuffer**\ 来实现一般缓存池的功能，其�
 Buffer 进阶
 -------------------------------
 
-在上一节中，我们提供了 buffer 最基本的应用场景。接下来，将为用户展示 buffer 更全面的功能。
+在上一节中，我们提供了 buffer 最基本的应用场景。接下来，将为用户深入展示 buffer 更全面的功能。
 
 
 **优先级采样**
@@ -92,7 +92,7 @@ Buffer 进阶
     # 根据关键字 "episode" 来分组，需要保证 buffer 中不同的组的数量不小于采样数量。
     grouped_data = buffer.sample(2, groupby="episode")
 
-之后，可以通过 group_sample 中间件实现样本的后处理工作，如：选择是否打乱组内数据，以及设定每组数据的最大长度。
+(可选)另外，在分组采样的基础上，还通过 group_sample 中间件实现样本的后处理工作，如：选择是否打乱同组内数据，以及设定每组数据的最大长度。
 
 .. code-block:: python
     
