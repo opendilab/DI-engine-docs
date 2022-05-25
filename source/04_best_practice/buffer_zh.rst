@@ -54,7 +54,8 @@ Dataclass 是 python3 的一种特性，以装饰器的形式作用在类（clas
 
 **使用 Buffer 加载专家数据**
 
-在 SQIL、DQFD 这类模仿学习任务中，我们需要使用专家数据参与训练。这时，用户可以额外使用一个 buffer 来加载专家数据，如：
+在 SQIL、DQFD 这类模仿学习任务中，我们需要使用专家数据参与训练。
+这时，用户可以额外使用一个 buffer 来加载专家数据，完整版代码可见 \ `./ding/example/sqil.py <https://github.com/opendilab/DI-engine/blob/main/ding/example/sqil.py>`_：
 
 .. code-block:: python
     
@@ -131,7 +132,8 @@ Buffer 进阶
 - **通过中间件实现**
 
   以 R2D2 算法为例，训练样本以 episode 为单位经过 LSTM 网络，这里就需要用到分组采样。
-  在 DI-engine 中，每个 env 对应一条独立的决策轨迹，因此使用 env 作为分组的关键字就能够起到区分 episode 的效果。相关代码示例如下：
+  在 DI-engine 中，每个 env 对应一条独立的决策轨迹，因此使用 env 作为分组的关键字就能够起到区分 episode 的效果。
+  相关代码示例如下，完整版代码可见 \ `./ding/example/r2d2.py <https://github.com/opendilab/DI-engine/blob/main/ding/example/r2d2.py>`_：
 
   .. code-block:: python
 
