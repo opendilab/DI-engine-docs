@@ -2,6 +2,8 @@
 多重离散动作空间示例
 ============================================
 
+多重离散动作空间指多维度的离散动作空间，可以理解为是离散动作空间的n维形式。比如我们每次执行的动作有n个维度，每个维度都由一个离散动作空间构成。
+
 gym库使用 ``多重离散（multi-discrete）`` 去描述具有多个离散动作空间的环境。一个简单的例子如下所示：
 
 .. code:: python
@@ -48,7 +50,7 @@ gym库使用 ``多重离散（multi-discrete）`` 去描述具有多个离散动
             Arguments:
                 - action (:obj:`list`): a list contains the action output of each discrete dimension, e.g.: [1, 1] means 1 * 3 + 1 = 4 for a factorized action 2 * 3 = 6
             """
-            action = action[0] * self.action_shape[1] + action[0]
+            action = action[0] * self.action_shape[1] + action[1]
             obs, reward, done, info = self.env.step(action)
             return obs, reward, done, info
 
