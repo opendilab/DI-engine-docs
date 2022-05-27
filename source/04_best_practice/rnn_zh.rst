@@ -155,24 +155,24 @@ sqn     ×
 ~~~~~~~~~~~~~~~~
 
 用于训练 RNN 的 mini-batch 数据不同于通常的数据。 这些数据通常应按时间序列排列. 对于 DI-engine, 这个处理是在
-``collector`` 阶段完成的。 用户需要在配置文件中指定 ``unroll_len`` 以确保序列数据的长度与算法匹配。 对于大多数情况，
-``unroll_len`` 应该等于 RNN 的历史长度（a.k.a 时间序列长度），但在某些情况下并非如此，比如，在r2d2中， 我们使用burn-in操作， 序列长度等于
-``unroll_len`` + ``burnin_step``. 这里将在下一节中具体解释。
+``collector`` 阶段完成的。 用户需要在配置文件中指定 ``learn_unroll_len`` 以确保序列数据的长度与算法匹配。 对于大多数情况，
+``learn_unroll_len`` 应该等于 RNN 的历史长度（a.k.a 时间序列长度），但在某些情况下并非如此，比如，在r2d2中， 我们使用burn-in操作， 序列长度等于
+``learn_unroll_len`` + ``burnin_step``. 这里将在下一节中具体解释。
 
 比如原始采样数据是:math:`[x_1,x_2,x_3,x_4,x_5,x_6]`，每个
 :math:`x` 表示 :math:`[s_t,a_t,r_t,d_t,s_{t+1}]` （也许
 :math:`log_\pi(a_t|s_t)`，隐藏状态等），我们需要 RNN
 的序列长度为 3。
 
-1. ``n_sample`` >= ``unroll_len`` 并且 ``n_sample`` 可以被 ``unroll_len`` 除尽:
-例如``unroll_len=3``，数据将被排列为:math:`[[x_1,x_2,x_3],[x_4,x_5,x_6]]`。
+1. ``n_sample`` >= ``learn_unroll_len`` 并且 ``n_sample`` 可以被 ``learn_unroll_len`` 除尽:
+例如``learn_unroll_len=3``，数据将被排列为:math:`[[x_1,x_2,x_3],[x_4,x_5,x_6]]`。
 
-2. ``n_sample`` >= ``unroll_len`` 并且 ``n_sample`` 不可以被 ``unroll_len`` 除尽:
-默认情况下，残差数据将由上一个样本中的一部分数据填充，例如如果 ``n_sample=6`` 和 ``unroll_len=4`` ，数据将被排列为
+2. ``n_sample`` >= ``learn_unroll_len`` 并且 ``n_sample`` 不可以被 ``learn_unroll_len`` 除尽:
+默认情况下，残差数据将由上一个样本中的一部分数据填充，例如如果 ``n_sample=6`` 和 ``learn_unroll_len=4`` ，数据将被排列为
 :math:`[[x_1,x_2,x_3,x_4],[x_3,x_4,x_5,x_6]]`。
 
 
-3. ``n_sample`` < ``unroll_len``：例如如果 ``n_sample=6`` 和 ``unroll_len=7``，默认情况下，算法将使用 ``null_padding`` 方法，数据将被排列为
+3. ``n_sample`` < ``learn_unroll_len``：例如如果 ``n_sample=6`` 和 ``learn_unroll_len=7``，默认情况下，算法将使用 ``null_padding`` 方法，数据将被排列为
 :math:`[[x_1,x_2,x_3,x_4,x_5,x_6,x_{null}]]`。 :math:`x_{null}` 类似于 :math:`x_6` 但它的 ``done=True`` 和 ``reward=0``。
 
 ..
@@ -192,7 +192,7 @@ sqn     ×
 
     def _get_train_sample(self, data: list) -> Union[None, List[Any]]:
         data = get_nstep_return_data(data, self._nstep, gamma=self._gamma)
-        return get_train_sample(data, self._unroll_len)
+        return get_train_sample(data, self._sequence_len)
 
 有关这两个数据处理功能的更多详细信息，请参见`ding/rl_utilrs/adder.py <https://github.com/opendilab/DI-engine/blob/main/ding/rl_utils/adder.py#L125>`_ ,
 其数据处理的工作流程见下图：
