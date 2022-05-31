@@ -16,9 +16,9 @@ DI-engine 提供了 \ **DequeBuffer** \ 来实现经验回放池的常见功能�
     buffer = DequeBuffer(size=10)
 
 
-在 DI-engine 的 buffer 以及一些其它组件中，我们使用 dataclass 作为数据的结构载体。
-Dataclass 是 python3 的一种特性，相比于 Dict，它能够明确规定类中某个字段（类的属性）的数据类型，使得数据整齐一致；
-相比于 namedtuple，它可以通过设置默认值，在初始化阶段实现参数的缺省，也可以在使用过程中完成灵活的赋值操作。
+在 DI-engine 的 buffer 以及一些其它组件中，我们使用数据类（dataclass）作为数据的结构载体。
+Dataclass 是 python3 的一种特性，相比于字典（Dict），它能够明确规定类中某个字段（类的属性）的数据类型，使得数据整齐一致；
+相比于命名元组（Namedtuple），它可以通过设置默认值，在初始化阶段实现参数的缺省，也可以在使用过程中完成灵活的赋值操作。
 以下，我们将为用户介绍 buffer 的具体操作方式。
 
 
@@ -33,7 +33,7 @@ Dataclass 是 python3 的一种特性，相比于 Dict，它能够明确规定�
         buffer.push('a', meta={})
 
     # 数据采样每次处理多条样本，用户需要明确指定采样的数量，参数 replace 表示采样时是否放回，默认值为 False。
-    # 采样操作返回一个名叫 BufferedData 的 dataclass 对象，例如：BufferedData(data='a', index='67bdfadcd', meta={})
+    # 采样操作返回一个名叫 BufferedData 的数据类对象，例如：BufferedData(data='a', index='67bdfadcd', meta={})
     buffered_data = buffer.sample(3, replace=False)
     data = [d.data for d in buffered_data]
 
@@ -45,6 +45,7 @@ Dataclass 是 python3 的一种特性，相比于 Dict，它能够明确规定�
 
 .. code-block:: python
     
+    from ding.framework import task
     from ding.framework.middleware import data_pusher, OffPolicyLearner
 
     task.use(data_pusher(cfg, buffer))
@@ -167,5 +168,5 @@ Buffer 进阶
     # 设置单条样本的最大使用次数为2
     buffer.use(use_time_check(buffer, max_use=2))
 
-实际采样时，该中间件会维持一个样本使用次数的计数，并将其写入 meta 中的 'use_count' 字段。
+实际采样时，该中间件会维持一个样本使用次数的计数，并将其写入 meta 中的 use_count 字段。
 当使用计数大于等于 buffer 设定的最大次数时，该样本将会被永久删除。
