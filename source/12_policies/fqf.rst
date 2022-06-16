@@ -7,7 +7,7 @@ FQF was proposed in `Fully Parameterized Quantile Function for Distributional Re
 
 Quick Facts
 -----------
-1. FQF is a **model-free** and **value-based** RL algorithm.
+1. FQF is a **model-free** and **value-based** distibutional RL algorithm.
 
 2. FQF only support **discrete action spaces**.
 
@@ -32,9 +32,7 @@ to the optimizer.
 
 .. math::
 
-    \frac{\partial W_{1}}{\partial \tau_{i}}=2 F_{Z}^{-1}\left(\tau_{i}\right)-F_{Z}^{-1}\left(\hat{\tau}_{i}\right)-F_{Z}^{-1}\left(\hat{\tau}_{i-1}\right)
-
-:math:`\forall i \in(0, N)`.
+    \frac{\partial W_{1}}{\partial \tau_{i}}=2 F_{Z}^{-1}\left(\tau_{i}\right)-F_{Z}^{-1}\left(\hat{\tau}_{i}\right)-F_{Z}^{-1}\left(\hat{\tau}_{i-1}\right), \forall i \in(0, N).
 
 Like implicit quantile networks, a learned quantile tau is encoded into an embedding vector via:
 
@@ -43,6 +41,12 @@ Like implicit quantile networks, a learned quantile tau is encoded into an embed
         \phi_{j}(\tau):=\operatorname{ReLU}\left(\sum_{i=0}^{n-1} \cos (\pi i \tau) w_{i j}+b_{j}\right)
 
 Then the quantile embedding is element-wise multiplied by the embedding of the observation of the environment, and the subsequent fully-connected layers map the resulted product vector to the respective quantile value.
+
+The advantage of FQF over IQN can be showed in this picture:
+
+.. image:: images/fqf_iqn_compare.png
+   :align: center
+   :scale: 100%
 
 Pseudo-code
 -------------
@@ -53,10 +57,12 @@ Pseudo-code
 Extensions
 -----------
 FQF can be combined with:
+
   - PER (Prioritized Experience Replay)
 
     .. tip::
         Whether PER improves FQF depends on the task and the training strategy.
+
   - Multi-step TD-loss
   - Double (target) Network
   - RNN
@@ -65,7 +71,7 @@ Implementation
 ------------------
 
 .. tip::
-      Our benchmark result of FQF uses the same hyper-parameters as DQN except the FQF's exclusive hyper-parameter, ``the number of quantiles``, which is empirically set as 32. The number of quantiles are not recommended to set larger than 64, which brings marginal gain and much more forward latency.
+      Our benchmark result of FQF uses the same hyper-parameters as DQN except the FQF's exclusive hyper-parameter, ``the number of quantiles``, which is empirically set as 32. Intuitively, the advantage of trained quantile fractions compared to random ones will be more observable at smaller N. At larger N when both trained quantile fractions and random ones are densely distributed over [0, 1], the differences between FQF and IQN becomes negligible.
 
 The default config of FQF is defined as follows:
 
@@ -96,7 +102,7 @@ Benchmark
 |                     |                 |                                                     |`config_link_q <https://  |                      |
 |                     |                 |                                                     |github.com/opendilab/     |  Tianshou(16172.5)   |
 |Qbert                |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  18200          |.. image:: images/benchmark/IQN_qbert.png            |atari/config/serial/      |                      |
+|                     |  23416          |.. image:: images/benchmark/FQF_qbert.png            |atari/config/serial/      |                      |
 |(QbertNoFrameskip-v4)|                 |                                                     |qbert/qbert_fqf_config    |                      |
 |                     |                 |                                                     |.py>`_                    |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
