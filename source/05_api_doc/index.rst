@@ -11,6 +11,7 @@ API Doc
     reward_model/index
     league/index
     framework/index
+    data/index
 
     worker/learner/index
     worker/collector/index
