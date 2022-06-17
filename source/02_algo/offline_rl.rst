@@ -2,11 +2,7 @@ Offline Reinforcement Learning
 ===============================
 
 Problem Definition and Motivation
-<<<<<<< HEAD
-------------------------------————————
-=======
 ---------------------------------
->>>>>>> main
 
 Offline Reinforcement Learning(RL), also known as Batch Reinforcement Learning, is a variant of RL that effectively leverages large, previously collected datasets for large-scale real-world applications.
 The use of static datasets means that during the training process of the agent, offline RL does not perform any form of online interaction and exploration, which is also the most significant difference from online reinforcement learning methods.
@@ -33,11 +29,7 @@ Furthermore, the success of machine learning methods over the past decade can la
 
 **Offline RL Training**
 
-<<<<<<< HEAD
-Offline RL prohibits any kinds of interaction and exploration during training。 
-=======
 Offline RL prohibits any kinds of interaction and exploration during training。
->>>>>>> main
 Under this setting, we train agents utilizing static dataset :math:`\mathcal{D}`, which is collected by some behavioral policy :math:`\pi_{\beta}(\mathbf{a}\mid \mathbf{s})`.
 Given :math:`\mathcal{D} = \left\{ (\mathbf{s}, \mathbf{a}, r, \mathbf{s}^{\prime})\right\}`, the value iteration and policy optimization process can be represented as:
 
@@ -52,11 +44,6 @@ where the Bellman Operator :math:`\hat{\mathcal{B}}^\pi` of policy :math:`\hat{\
 **Offline RL VS Imitation Learning**
 
 Offline RL is closely related to imitation learning (IL) in that the latter also learns from a fixed dataset without exploration. However, there are several key differences:
-<<<<<<< HEAD
-     
-=======
-
->>>>>>> main
 - So far, offline RL algorithms have been built on top of standard off-policy Deep Reinforcement Learning (Deep RL) algorithms, which tend to optimize some form of a Bellman equation or TD difference error.
 - Most IL problems assume an optimal, or at least a high-performing, demonstrator which provides data, whereas offline RL may have to handle highly suboptimal data.
 - Most IL problems do not have a reward function. Offline RL considers rewards, which furthermore can be processed after-the-fact and modified.
@@ -139,11 +126,7 @@ In CQL [6]_, a regularization term is plugged into the objective.
 This approach can be appealing for several reasons, such as being applicable to both actor-critic and Q-learning methods, even when a policy is not represented explicitly, and avoiding the need for explicit modeling of the behavior policy.
 
 
-<<<<<<< HEAD
-Similar to uncertainty-based method, CQL aims to derive a conservative Q-estimation. 
-=======
 Similar to uncertainty-based method, CQL aims to derive a conservative Q-estimation.
->>>>>>> main
 
 .. math::
    \hat{\mathcal{E}}(\mathcal{B}, \mathcal{\phi}) = \alpha\mathcal{C}(\mathcal{B}, \mathcal{\phi}) + \mathcal{E}(\mathcal{B}, \mathbf{\phi}),

@@ -1,6 +1,4 @@
 最佳实践
-<<<<<<< HEAD
-====================
 
 
 .. toctree::
@@ -19,4 +17,3 @@
    rnn_zh
    training_generated_folders_zh
    buffer_zh
->>>>>>> main
