@@ -44,7 +44,6 @@ where the Bellman Operator :math:`\hat{\mathcal{B}}^\pi` of policy :math:`\hat{\
 **Offline RL VS Imitation Learning**
 
 Offline RL is closely related to imitation learning (IL) in that the latter also learns from a fixed dataset without exploration. However, there are several key differences:
-
 - So far, offline RL algorithms have been built on top of standard off-policy Deep Reinforcement Learning (Deep RL) algorithms, which tend to optimize some form of a Bellman equation or TD difference error.
 - Most IL problems assume an optimal, or at least a high-performing, demonstrator which provides data, whereas offline RL may have to handle highly suboptimal data.
 - Most IL problems do not have a reward function. Offline RL considers rewards, which furthermore can be processed after-the-fact and modified.
