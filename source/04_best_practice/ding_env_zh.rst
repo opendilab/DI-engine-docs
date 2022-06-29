@@ -5,21 +5,21 @@
 
 下面的介绍，首先将从 **基础** 和 **进阶** 两部分开始。 **基础** 部分说明了必须实现的功能，并特别提醒了要注意的细节； **进阶** 则说明了一些拓展功能。
 
-然后介绍 ``DingEnvWrapper`` 这样一个可以快速将 ClassicControl, Box2d, Atari, Mujoco, GymHybrid 等简单环境转换为符合 ``BaseEnv`` 的环境的“神奇”。并在最后针对常见问题进行 Q & A。
+然后介绍 ``DingEnvWrapper`` 这样一个可以快速将 ClassicControl, Box2d, Atari, Mujoco, GymHybrid 等简单环境转换为符合 ``BaseEnv`` 的环境的“神器”。并在最后针对常见问题进行 Q & A。
 
 基础
 ~~~~~~~~~~~~~~
 
-本节将介绍迁移环境时，用户必须满足的规范约束、以及必须实现的功能。
+本节将介绍迁移环境时，用户 **必须** 满足的规范约束、以及必须实现的功能。
 
-如果要在 DI-engine 中使用环境，需要实现一个继承自 ``BaseEnv`` 的子类环境，例如 ``YourEnv`` 。 ``YourEnv`` 和你自己的环境之间是 `组合 <https://en.wikipedia.org/wiki/Object_composition>`_ 关系，即在一个 ``YourEnv`` 实例中，会持有一个你自己的环境的实例。
+如果要在 DI-engine 中使用环境，需要实现一个继承自 ``BaseEnv`` 的子类环境，例如 ``YourEnv`` 。 ``YourEnv`` 和你自己的环境之间是 `组合 <https://en.wikipedia.org/wiki/Object_composition>`_ 关系，即在一个 ``YourEnv`` 实例中，会持有一个使用者原生的环境（例如 gym 格式的环境）的实例。
 
 强化学习的环境有一些普遍的、被大多数环境实现了的主要接口，如 ``reset()``, ``step()``, ``seed()`` 等。在 DI-engine 中， ``BaseEnv`` 将对这些接口进行进一步的封装，下面大部分情况下将以 Atari 为例进行说明。具体代码可以参考 `Atari Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_env.py>`_ 和 `Atari Env Wrapper <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_wrappers.py>`_
 
 
 1. ``__init__()``
 
-   一般情况下，可能会在 ``__init__`` 方法中将环境实例化， **但是** 在 DI-engine 中，为了便于支持 ``EnvManager`` 中的“环境向量化”等并行操作，环境实例一般采用 **Lazy Init** 的方式，即 ``__init__`` 方法不初始化真正的原始环境实例，只是设置相关 **参数配置值** ，在第一次调用 ``reset`` 方法时，才会进行实际的环境初始化。
+   一般情况下，可能会在 ``__init__`` 方法中将环境实例化， **但是** 在 DI-engine 中，为了便于支持像 ``EnvManager`` 这样“环境向量化”的模块，环境实例一般采用 **Lazy Init** 的方式，即 ``__init__`` 方法不初始化真正的原始环境实例，只是设置相关 **参数配置值** ，在第一次调用 ``reset`` 方法时，才会进行实际的环境初始化。
 
    以 Atari 为例。 ``__init__`` 并不实例化环境，只是设置参数配置值 ``self._cfg`` ，并初始化变量 ``self._init_flag`` 为 ``False`` （表明还没有实例化环境）。
 
@@ -110,9 +110,9 @@
 
 5. ``self._final_eval_reward``
 
-   在 Atari 环境中， ``self._final_eval_reward`` 是指一个 episode 的全部 reward 的累加和。
+   在 Atari 环境中， ``self._final_eval_reward`` 是指一个 episode 的全部 reward 的累加和， ``self._final_eval_reward`` 的数据类型必须是 python 原生类型，不能是 ``np.array``。
 
-      - 在 ``reset`` 方法中，将当前 ``self._final_eval_reward`` 置0；
+      - 在 ``reset`` 方法中，将当前 ``self._final_eval_reward`` 置 0；
       - 在 ``step`` 方法中，将每个时间步获得的实际 reward 加到 ``self._final_eval_reward`` 中。
       - 在 ``step`` 方法中，如果当前 episode 已经结束（ ``done == True`` ），那么就添加到 ``info`` 这个字典中并返回： ``info['final_eval_reward'] = self._final_eval_reward``
 
@@ -120,7 +120,7 @@
 
 6. 数据规格
 
-   DI-engine 中要求环境中每个方法的输入输出的数据必须为 ``np.ndarray`` 格式，数据类型dtype 需要是 ``np.int64`` (整数) 或 ``np.float32`` (浮点数)。包括：
+   DI-engine 中要求环境中每个方法的输入输出的数据必须为 ``np.ndarray`` 格式，数据类型dtype 需要是 ``np.int64`` (整数)、 ``np.float32`` (浮点数) 或 ``np.uint8`` (图像)。包括：
 
       -  ``reset`` 方法返回的 ``obs``
       -  ``step`` 方法接收的 ``action``
@@ -218,9 +218,9 @@
 
    ``DI-engine`` 并没有强制要求实现 ``render`` 方法，如果想完成可视化，我们推荐实现 ``enable_save_replay`` 方法，对游戏视频进行保存。
    
-   该方法在 ``reset`` 方法之前， ``seed`` 方法之后被调用，在该方法中指定录像存储的路径。需要注意的是，该方法并 **不直接存储录像**，只是设置一个是否保存录像的 flag。真正存储录像的代码和逻辑需要自己实现。（由于可能会开启多个环境，每个环境运行多个 episode，因此我们建议在文件名中用 episode_id 和 env_id 进行区分）
+   该方法在 ``reset`` 方法之前， ``seed`` 方法之后被调用，在该方法中指定录像存储的路径。需要注意的是，该方法并 **不直接存储录像**，只是设置一个是否保存录像的 flag。真正存储录像的代码和逻辑需要自己实现。（由于可能会开启多个环境，每个环境运行多个 episode，因此需要在文件名中进行区分）
 
-   此处，给出 DI-engine 中的一个例子，该例子利用 ``gym`` 提供的装饰器封装环境，如代码所示：
+   此处，给出 DI-engine 中的一个例子，该例子在 ``reset`` 方法，利用 ``gym`` 提供的装饰器封装环境，赋予其存储游戏视频的功能，如代码所示：
 
    .. code:: python
 
@@ -230,9 +230,28 @@
             if replay_path is None:
                replay_path = './video'
             self._replay_path = replay_path
-            self._env = gym.wrappers.Monitor(
-               self._env, self._replay_path, video_callable=lambda episode_id: True, force=True
-            )
+
+         def reset():
+            # ...
+            if self._replay_path is not None:
+               self._env = gym.wrappers.RecordVideo(
+                  self._env,
+                  video_folder=self._replay_path,
+                  episode_trigger=lambda episode_id: True,
+                  name_prefix='rl-video-{}'.format(id(self))
+               )
+            # ...
+   
+   在实际使用时，调用这几个方法的顺序应当为：
+
+   .. code:: python
+      
+      atari_env = AtariEnv(easydict_cfg)
+      atari_env.seed(413)
+      atari_env.enable_save_replay('./replay_video')
+      obs = atari_env.reset()
+      # ...
+
 
 4. 训练环境和测试环境使用不同 config
 
@@ -289,6 +308,10 @@
                   )
                )
          return random_action
+
+6. ``default_config()``
+
+   如果某环境有一些默认或常用的配置项，可以考虑实现类方法 ``default_config``，返回一个 ``EasyDict`` 类型的 config。这样在单个实验的配置文件中，可以省略这部分键值对，通过 ``deep_merge_dicts`` 来合并新 config 与默认 config。
 
 DingEnvWrapper
 ~~~~~~~~~~~~~~~~~~~~~~~~
