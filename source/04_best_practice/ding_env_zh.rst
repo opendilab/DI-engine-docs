@@ -311,7 +311,40 @@
 
 6. ``default_config()``
 
-   如果某环境有一些默认或常用的配置项，可以考虑实现类方法 ``default_config``，返回一个 ``EasyDict`` 类型的 config。这样在单个实验的配置文件中，可以省略这部分键值对，通过 ``deep_merge_dicts`` 来合并新 config 与默认 config。
+   如果某环境有一些默认或常用的配置项，可以考虑设置类变量 ``config`` 作为 **默认 config** （为了方便外界获取，还可以实现类方法 ``default_config``，返回 config ）。如以下代码所示：
+   
+   当进行某个实验时，会配置一份针对这个实验的 **用户 config** 文件，如 ``dizoo/mujoco/config/ant_ddpg_config.py``。在用户 config 文件中，可以省略这部分键值对，通过 ``deep_merge_dicts`` 将 **默认 config** 与 **用户 config** 进行合并（此处记得将默认 config 作为第一个参数，用户 config 作为第二个参数，保证用户 config 的优先级更高）。如以下代码所示：
+   
+   .. code:: python
+      
+      class MujocoEnv(BaseEnv):
+
+         @classmethod
+         def default_config(cls: type) -> EasyDict:
+            cfg = EasyDict(copy.deepcopy(cls.config))
+            cfg.cfg_type = cls.__name__ + 'Dict'
+            return cfg
+
+         config = dict(
+            use_act_scale=False,
+            delay_reward_step=0,
+         )
+
+         def __init__(self, cfg) -> None:
+            self._cfg = deep_merge_dicts(self.config, cfg)
+
+
+7. 环境实现正确性检查
+
+   我们为用户自己实现的环境提供了一套检查工具，用于检查：
+  
+   - observation/action/reward 的数据类型
+   - reset/step 方法
+   - 相邻两个时间步的 observation 中是否存在不合理的相同引用（即应当通过 deepcopy 来避免相同引用）
+   
+   检查工具的实现在 ``ding/envs/env/env_implementation_check.py``；检查工具的使用方法可以参考 ``ding/envs/env/tests/test_env_implementation_check.py`` 的 ``test_an_implemented_env``。
+
+
 
 DingEnvWrapper
 ~~~~~~~~~~~~~~~~~~~~~~~~
