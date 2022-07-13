@@ -1,4 +1,4 @@
-Imitation learning
+Imitation Learning
 ==================
 
 Problem Definition and Research Motivation
