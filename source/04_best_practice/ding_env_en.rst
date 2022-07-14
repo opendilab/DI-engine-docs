@@ -1,10 +1,9 @@
 How to migrate your own environment to DI-engine
 ==============================================================
 
-``DI-zoo`` provides users with a large number of commonly used environments for reinforcement learning（ `supported environments <https://github.com/opendilab/DI-engine#environment-versatility>`_ ）
-, but in many research In and engineering scenarios, users still need to implement an environment by themselves, and expect to quickly migrate it to ``DI-engine`` to meet the relevant specifications of ``DI-engine``. Therefore, in this section, we will introduce how to perform the above migration step by step to meet the specification of the base environment base class  ``BaseEnv``  of  ``DI-engine`` , so that it can be easily applied in the training pipeline.
+``DI-zoo`` provides users with a large number of commonly used environments for reinforcement learning（ `supported environments <https://github.com/opendilab/DI-engine#environment-versatility>`_ ），but in many research In and engineering scenarios, users still need to implement an environment by themselves, and expect to quickly migrate it to ``DI-engine`` to meet the relevant specifications of ``DI-engine``. Therefore, in this section, we will introduce how to perform the above migration step by step to meet the specification of the base environment base class  ``BaseEnv``  of  ``DI-engine`` , so that it can be easily applied in the training pipeline.
 
-The following introduction will start with **Basic** and **Advanced** . **basic** describes the functions that must be implemented, and reminds you to pay attention to the details; **advanced** describes some extended functions.
+The following introduction will start with **Basic** and **Advanced** . **Basic** describes the functions that must be implemented, and reminds you to pay attention to the details; **Advanced** describes some extended functions.
 
 Then introduce ``DingEnvWrapper`` ,an "artifact" that can quickly convert simple environments such as ClassicControl, Box2d, Atari, Mujoco, GymHybrid, etc. into environments that conform to ``BaseEnv``. And at the end do a Q & A for frequently asked questions.
 
@@ -32,13 +31,14 @@ Reinforcement learning environments have some common major interfaces that are i
          def __init__(self, cfg: dict) -> None:
             self._cfg = cfg
             self._init_flag = False
+
 2. ``seed()``
 
-``seed`` is used to set the random seed in the environment. There are two parts of the random seed in the environment that need to be set, one is the random seed of the original environment, and the other is the calling library in various environment transformations. The random seed for when (e.g. ``random`` ``np.random``, etc.).
+   ``seed`` is used to set the random seed in the environment. There are two parts of the random seed in the environment that need to be set, one is the random seed of the **original environment**, and the other is the calling library in various **environment transformations**. The random seed for when (e.g. ``random`` ``np.random``, etc.).
 
-For the second type, the setting of the seed of the random library is relatively simple, and it is set directly in the ``seed`` method of the environment.
+   For the second type, the setting of the seed of the random library is relatively simple, and it is set directly in the ``seed`` method of the environment.
 
-For the first category, the seed of the original environment is only assigned in the ``seed`` method, but not really set; the real setting is inside the ``reset`` method of the calling environment, the specific original environment ``reset`` before setting.
+   For the first category, the seed of the original environment is only assigned in the ``seed`` method, but not really set; the real setting is inside the ``reset`` method of the calling environment, the specific original environment ``reset`` before setting.
 
    .. code:: python
 
@@ -49,17 +49,17 @@ For the first category, the seed of the original environment is only assigned in
             self._dynamic_seed = dynamic_seed
             np.random.seed(self._seed)
 
-For the seeds of the original environment, DI-engine has the concepts of **static seeds** and **dynamic seeds**.
+   For the seeds of the original environment, DI-engine has the concepts of **static seeds** and **dynamic seeds**.
    
-**Static seed** is used in the test environment (evaluator_env) to ensure that the random seed of each episode is the same, that is, only the fixed static seed value of ``self._seed`` is used when ``reset``. Need to manually pass the ``dynamic_seed`` parameter to ``False`` in the ``seed`` method.
+   **Static seed** is used in the test environment (evaluator_env) to ensure that the random seed of each episode is the same, that is, only the fixed static seed value of ``self._seed`` is used when ``reset``. Need to manually pass the ``dynamic_seed`` parameter to ``False`` in the ``seed`` method.
 
-**Dynamic seed** is used for the training environment (collector_env), try to make the random seed of each episode different, that is, when ``reset``, a random number generator will be used ``100 * np.random.randint( 1, 1000)`` (but the seed of this random number generator is fixed by the environment's ``seed`` method, so the reproducibility of the experiment is guaranteed). You need to manually pass in the ``dynamic_seed`` parameter as ``True`` in ``seed`` (or you can not pass it, because the default parameter is ``True``).
+   **Dynamic seed** is used for the training environment (collector_env), try to make the random seed of each episode different, that is, when ``reset``, a random number generator will be used ``100 * np.random.randint(1, 1000)`` (but the seed of this random number generator is fixed by the environment's ``seed`` method, so the reproducibility of the experiment is guaranteed). You need to manually pass in the ``dynamic_seed`` parameter as ``True`` in ``seed`` (or you can not pass it, because the default parameter is ``True``).
 
 3. ``reset()``
 
-The **Lazy Init** initialization method of DI-engine has been introduced in the ``__init__`` method, that is, the actual environment initialization is performed when **the first call** ``reset`` method is performed.
+   The **Lazy Init** initialization method of DI-engine has been introduced in the ``__init__`` method, that is, the actual environment initialization is performed when **the first call** ``reset`` method is performed.
 
-The ``reset`` method will judge whether the actual environment needs to be instantiated according to ``self._init_flag`` (if it is ``False``, it will be instantiated; otherwise, it has already been instantiated and can be used directly), and Set the random seed, then call the ``reset`` method of the original environment to get the observation value ``obs`` in the initial state, and convert it to the ``np.ndarray`` data format (will be explained in detail in 4) , and initialize the value of ``self._final_eval_reward`` (will be explained in detail in 5), in Atari ``self._final_eval_reward`` refers to the cumulative sum of the real rewards obtained by a whole episode, used to evaluate the agent Performance on this environment, not used for training.
+   The ``reset`` method will judge whether the actual environment needs to be instantiated according to ``self._init_flag`` (if it is ``False``, it will be instantiated; otherwise, it has already been instantiated and can be used directly), and Set the random seed, then call the ``reset`` method of the original environment to get the observation value ``obs`` in the initial state, and convert it to the ``np.ndarray`` data format (will be explained in detail in 4) , and initialize the value of ``self._final_eval_reward`` (will be explained in detail in 5), in Atari ``self._final_eval_reward`` refers to the cumulative sum of the real rewards obtained by a whole episode, used to evaluate the agent Performance on this environment, not used for training.
 
    .. code:: python
       
@@ -85,11 +85,11 @@ The ``reset`` method will judge whether the actual environment needs to be insta
 
 4. ``step()``
 
-The ``step`` method is responsible for receiving the ``action`` of the current moment, and then giving the ``reward`` of the current moment and the ``obs`` of the next moment. In DI-engine, you also need to give: The flag ``done`` of whether the current episode ends (here requires ``done`` must be of type ``bool``, not ``np.bool``), other information in the form of a dictionary ``info`` (which includes at least the key ``self._final_eval_reward``).
+   The ``step`` method is responsible for receiving the ``action`` of the current moment, and then giving the ``reward`` of the current moment and the ``obs`` of the next moment. In DI-engine, you also need to give: The flag ``done`` of whether the current episode ends (here requires ``done`` must be of type ``bool``, not ``np.bool``), other information in the form of a dictionary ``info`` (which includes at least the key ``self._final_eval_reward``).
 
-After getting ``reward`` ``obs`` ``done`` ``info`` and other data, it needs to be processed and converted into ``np.ndarray`` format to conform to the DI-engine specification. ``self._final_eval_reward`` will accumulate the actual reward obtained at the current step at each time step, and return the accumulated value at the end of an episode ( ``done == True``).
+   After getting ``reward`` ``obs`` ``done`` ``info`` and other data, it needs to be processed and converted into ``np.ndarray`` format to conform to the DI-engine specification. ``self._final_eval_reward`` will accumulate the actual reward obtained at the current step at each time step, and return the accumulated value at the end of an episode ( ``done == True``).
 
-Finally, put the above four data into ``BaseEnvTimestep`` defined as ``namedtuple`` and return (defined as: ``BaseEnvTimestep = namedtuple('BaseEnvTimestep', ['obs', 'reward', 'done ', 'info'])`` )
+   Finally, put the above four data into ``BaseEnvTimestep`` defined as ``namedtuple`` and return (defined as: ``BaseEnvTimestep = namedtuple('BaseEnvTimestep', ['obs', 'reward', 'done ', 'info'])`` )
    
    .. code:: python
 
@@ -110,75 +110,72 @@ Finally, put the above four data into ``BaseEnvTimestep`` defined as ``namedtupl
 
 5. ``self._final_eval_reward``
 
-In the Atari environment, ``self._final_eval_reward`` refers to the cumulative sum of all rewards of an episode, and the data type of ``self._final_eval_reward`` must be a python native type, not ``np.array``.
+   In the Atari environment, ``self._final_eval_reward`` refers to the cumulative sum of all rewards of an episode, and the data type of ``self._final_eval_reward`` must be a python native type, not ``np.array``.
 
-- In the ``reset`` method, set the current ``self._final_eval_reward`` to 0;
-- In the ``step`` method, add the actual reward obtained at each time step to ``self._final_eval_reward``.
-- In the ``step`` method, if the current episode has ended ( ``done == True`` ), then add to the ``info`` dictionary and return: ``info['final_eval_reward'] = self._final_eval_reward``
+      - In the ``reset`` method, set the current ``self._final_eval_reward`` to 0;
+      - In the ``step`` method, add the actual reward obtained at each time step to ``self._final_eval_reward``.
+      - In the ``step`` method, if the current episode has ended ( ``done == True`` ), then add to the ``info`` dictionary and return: ``info['final_eval_reward'] = self._final_eval_reward``
 
-However, in other environments, the sum of the rewards for an episode may not be required. For example, in smac, the winning percentage of the current episode is required, so it is necessary to modify the simple accumulation in the second step ``step`` method, record the game situation, and finally return the calculated winning percentage at the end of the episode.
+   However, in other environments, the sum of the rewards for an episode may not be required. For example, in smac, the winning percentage of the current episode is required, so it is necessary to modify the simple accumulation in the second step ``step`` method, record the game situation, and finally return the calculated winning percentage at the end of the episode.
 
 6. Data Specifications
 
-DI-engine requires that the input and output data of each method in the environment must be in ``np.ndarray`` format, and the data type dtype must be ``np.int64`` (integer), ``np.float32`` ( float) or ``np.uint8`` (image). include:
+   DI-engine requires that the input and output data of each method in the environment must be in ``np.ndarray`` format, and the data type dtype must be ``np.int64`` (integer), ``np.float32`` ( float) or ``np.uint8`` (image). include:
 
-- ``obs`` returned by the ``reset`` method
-- the ``action`` received by the ``step`` method
-- ``obs`` returned by the ``step`` method
-- The ``reward`` returned by the ``step`` method, here also requires that ``reward`` must be **one-dimensional**, not zero-dimensional, for example, Atari will expand zero-dimensional to one-dimensional ``rew = to_ndarray([rew])``
-- The ``done`` returned by the ``step`` method must be of type ``bool``, not ``np.bool``
+      -  ``obs`` returned by the ``reset`` method
+      -  ``action`` received by the ``step`` method
+      -  ``obs`` returned by the ``step`` method
+      -  ``reward`` returned by the ``step`` method, here also requires that ``reward`` must be **one-dimensional**, not zero-dimensional, for example, Atari will expand zero-dimensional to one-dimensional ``rew = to_ndarray([rew])``
+      -  ``done`` returned by the ``step`` method must be of type ``bool``, not ``np.bool``
 
 
 Advanced
 ~~~~~~~~~~~~
 
-1.  Environment preprocessing wrapper
+1. Environment preprocessing wrapper
 
-If many environments are to be used in reinforcement learning training, some preprocessing is required to achieve the purpose of increasing randomness, data normalization, and ease of training. These preprocessing are implemented in the form of wrappers (for the introduction of wrappers, please refer to `here <./env_wrapper_zh.html>`_ ）
-.
+   If many environments are to be used in reinforcement learning training, some preprocessing is required to achieve the purpose of increasing randomness, data normalization, and ease of training. These preprocessing are implemented in the form of wrappers (for the introduction of wrappers, please refer to `here <./env_wrapper_zh.html>`_ ）.
    
-Each wrapper for environment preprocessing is a subclass of ``gym.Wrapper``. For example, ``NoopResetEnv`` is to perform a random number of No-Operation actions at the beginning of the episode. It is a means of increasing randomness. It is used as follows:
+   Each wrapper for environment preprocessing is a subclass of ``gym.Wrapper``. For example, ``NoopResetEnv`` is to perform a random number of No-Operation actions at the beginning of the episode. It is a means of increasing randomness. It is used as follows:
    
    .. code:: python
       
       env = gym.make('PongNoFrameskip-v4')
       env = NoopResetEnv(env)
    
-Since the ``reset`` method is implemented in ``NoopResetEnv``, the corresponding logic in ``NoopResetEnv`` will be executed when ``env.reset()``.
+   Since the ``reset`` method is implemented in ``NoopResetEnv``, the corresponding logic in ``NoopResetEnv`` will be executed when ``env.reset()``.
 
-The following env wrapper has been implemented in DI-engine: (in ``ding/envs/env_wrappers/env_wrappers.py``)
+   The following env wrapper has been implemented in DI-engine:( in ``ding/envs/env_wrappers/env_wrappers.py``)
 
-- ``NoopResetEnv``: perform a random number of No-Operation actions at the beginning of the episode
-- ``MaxAndSkipEnv``: Returns the maximum value in several frames, which can be considered as a kind of max pooling on time steps
-- ``WarpFrame``: Convert the original image to the color code using ``cvtColor`` of the ``cv2`` library, and resize it into an image of a certain length and width (usually 84x84)
-- ``ScaledFloatFrame``: normalize the observation to the interval [0, 1] (keep the dtype as ``np.float32``)
-- ``ClipRewardEnv``: Pass the reward through a symbolic function to ``{+1, 0, -1}``
-- ``FrameStack``: stacks a certain number (usually 4) of frames together as a new observation, which can be used to deal with POMDP situations, for example, the speed direction of the movement cannot be known by a single frame of information
-- ``ObsTransposeWrapper``: converts an image of ``(H, W, C)`` to an image of ``(C, H, W)``
-- ``ObsNormEnv``: use ``RunningMeanStd`` to normalize the observation for sliding windows
-- ``RewardNormEnv``: use ``RunningMeanStd`` to normalize the reward with sliding window
-- ``RamWrapper``: converts the observation shape of an environment of type Ram to an image-like (128, 1, 1)
-- ``EpisodicLifeEnv``: treat environments with multiple lives built in (eg Qbert), and treat each life as an episode
-- ``FireResetEnv``: execute action 1 (fire) immediately after environment reset
-- ``GymHybridDictActionWrapper``: Convert the Gym-Hybrid environment's primitive ``gym.spaces.Tuple`` type action spaces to ``gym.spaces.Dict`` type action spaces.
+      - ``NoopResetEnv``: perform a random number of No-Operation actions at the beginning of the episode
+      - ``MaxAndSkipEnv``: Returns the maximum value in several frames, which can be considered as a kind of max pooling on time steps
+      - ``WarpFrame``: Convert the original image to the color code using ``cvtColor`` of the ``cv2`` library, and resize it into an image of a certain length and width (usually 84x84)
+      - ``ScaledFloatFrame``: normalize the observation to the interval [0, 1] (keep the dtype as ``np.float32``)
+      - ``ClipRewardEnv``: Pass the reward through a symbolic function to ``{+1, 0, -1}``
+      - ``FrameStack``: stacks a certain number (usually 4) of frames together as a new observation, which can be used to deal with POMDP situations, for example, the speed direction of the movement cannot be known by a single frame of information
+      - ``ObsTransposeWrapper``: converts an image of ``(H, W, C)`` to an image of ``(C, H, W)``
+      - ``ObsNormEnv``: use ``RunningMeanStd`` to normalize the observation for sliding windows
+      - ``RewardNormEnv``: use ``RunningMeanStd`` to normalize the reward with sliding window
+      - ``RamWrapper``: converts the observation shape of an environment of type Ram to an image-like (128, 1, 1)
+      - ``EpisodicLifeEnv``: treat environments with multiple lives built in (eg Qbert), and treat each life as an episode
+      - ``FireResetEnv``: execute action 1 (fire) immediately after environment reset
+      - ``GymHybridDictActionWrapper``: Convert the Gym-Hybrid environment's primitive ``gym.spaces.Tuple`` type action spaces to ``gym.spaces.Dict`` type action spaces
 
-If the above wrappers cannot meet your needs, you can also customize the wrappers yourself.
+   If the above wrappers cannot meet your needs, you can also customize the wrappers yourself.
 
-It is worth mentioning that each wrapper must not only complete the change of the corresponding observation/action/reward value, but also modify its space accordingly (if and only when shpae, dtype, etc. are modified), this method will be described in the next described in detail in the section.
+   It is worth mentioning that each wrapper must not only complete the change of the corresponding observation/action/reward value, but also modify its space accordingly (if and only when shpae, dtype, etc. are modified), this method will be described in the next described in detail in the section.
 
 2. Three space attributes ``observation/action/reward space``
 
-If you want to automatically create a neural network based on the dimensions of the environment, or use the ``shared_memory`` technique in the ``EnvManager`` to speed up the transmission of large tensor data returned by the environment, you need to let the environment support provide the attribute  ``observation_space`` ``action_space`` ``reward_space``  .
+   If you want to automatically create a neural network based on the dimensions of the environment, or use the ``shared_memory`` technique in the ``EnvManager`` to speed up the transmission of large tensor data returned by the environment, you need to let the environment support provide the attribute  ``observation_space`` ``action_space`` ``reward_space``  .
 
-   .. code:: python
+   .. note::
       
-For the sake of code extensibility, we **strongly recommend implementing these three spatial properties**.
+      For the sake of code extensibility, we **strongly recommend implementing these three spatial properties**.
    
+   The spaces here are all instances of subclasses of ``gym.spaces.Space``, the most commonly used ``gym.spaces.Space`` include ``Discrete`` ``Box`` ``Tuple`` ``Dict``  etc. **shape** and **dtype** need to be given in space. In the original gym environment, most of them will support ``observation_space``, ``action_space`` and ``reward_range``. In DI-engine, ``reward_range`` is also expanded into ``reward_space``, so that this All three remain the same.
 
-The spaces here are all instances of subclasses of ``gym.spaces.Space``, the most commonly used ``gym.spaces.Space`` include ``Discrete`` ``Box`` ``Tuple`` ``Dict``  etc. **shape** and **dtype** need to be given in space. In the original gym environment, most of them will support ``observation_space``, ``action_space`` and ``reward_range``. In DI-engine, ``reward_range`` is also expanded into ``reward_space``, so that this All three remain the same.
-
-For example, here are the three properties of cartpole:
-
+   For example, here are the three properties of cartpole:
 
    .. code:: python
 
@@ -206,9 +203,7 @@ For example, here are the three properties of cartpole:
          def reward_space(self) -> gym.spaces.Space:
             return self._reward_space
 
-
-Since the cartpole does not use any wrapper, its three spaces are fixed. However, if an environment like Atari has been decorated with multiple wrappers, it is necessary to modify the corresponding space after each wrapper wraps the original environment. For example, Atari will use ``ScaledFloatFrameWrapper`` to normalize the observation to the interval [0, 1], then it will modify its ``observation_space`` accordingly:
-
+   Since the cartpole does not use any wrapper, its three spaces are fixed. However, if an environment like Atari has been decorated with multiple wrappers, it is necessary to modify the corresponding space after each wrapper wraps the original environment. For example, Atari will use ``ScaledFloatFrameWrapper`` to normalize the observation to the interval [0, 1], then it will modify its ``observation_space`` accordingly:
 
    .. code:: python
 
@@ -218,13 +213,14 @@ Since the cartpole does not use any wrapper, its three spaces are fixed. However
             # ...
             self.observation_space = gym.spaces.Box(low=0., high=1., shape=env.observation_space.shape, dtype=np.float32)
 
+
 3. ``enable_save_replay()``
 
-``DI-engine`` does not require the implementation of the ``render`` method. If you want to complete the visualization, we recommend implementing the ``enable_save_replay`` method to save the game video.
+   ``DI-engine`` does not require the implementation of the ``render`` method. If you want to complete the visualization, we recommend implementing the ``enable_save_replay`` method to save the game video.
    
-This method is called before the ``reset`` method and after the ``seed`` method, in which the path to the recording storage is specified. It should be noted that this method does not directly store the video, but only sets a flag for whether to save the video. The code and logic for actually storing the video needs to be implemented by yourself. (Because multiple environments may be opened, and each environment runs multiple episodes, it needs to be distinguished in the file name)
+   This method is called before the ``reset`` method and after the ``seed`` method, in which the path to the recording storage is specified. It should be noted that this method **does not directly store the video**, but only sets a flag for whether to save the video. The code and logic for actually storing the video needs to be implemented by yourself. (Because multiple environments may be opened, and each environment runs multiple episodes, it needs to be distinguished in the file name)
 
-Here, an example in DI-engine is given. The ``reset`` method uses the decorator provided by ``gym`` to encapsulate the environment, giving it the function of storing game videos, as shown in the code:
+   Here, an example in DI-engine is given. The ``reset`` method uses the decorator provided by ``gym`` to encapsulate the environment, giving it the function of storing game videos, as shown in the code:
 
    .. code:: python
 
@@ -246,7 +242,7 @@ Here, an example in DI-engine is given. The ``reset`` method uses the decorator 
                )
             # ...
    
-In actual use, the order of calling these methods should be:
+   In actual use, the order of calling these methods should be:
 
    .. code:: python
       
@@ -259,7 +255,7 @@ In actual use, the order of calling these methods should be:
 
 4. Use different config for training environment and test environment
 
-The environment used for training (collector_env) and the environment used for testing (evaluator_env) may use different configuration items. You can implement a static method in the environment to implement custom configuration for different environment configuration items. Take Atari as an example:
+   The environment used for training (collector_env) and the environment used for testing (evaluator_env) may use different configuration items. You can implement a static method in the environment to implement custom configuration for different environment configuration items. Take Atari as an example:
 
    .. code:: python
 
@@ -279,7 +275,7 @@ The environment used for training (collector_env) and the environment used for t
             cfg.is_train = False
             return [cfg for _ in range(evaluator_env_num)]
 
-In actual use, the original configuration item ``cfg`` can be converted to obtain two versions of configuration items for training and testing:
+   In actual use, the original configuration item ``cfg`` can be converted to obtain two versions of configuration items for training and testing:
 
    .. code:: python
 
@@ -287,13 +283,13 @@ In actual use, the original configuration item ``cfg`` can be converted to obtai
       collector_env_cfg = env_fn.create_collector_env_cfg(cfg)
       evaluator_env_cfg = env_fn.create_evaluator_env_cfg(cfg)
 
-Setting the ``cfg.is_train`` item will use different decorations in the wrapper accordingly. For example, if ``cfg.is_train == True``, a symbolic function of reward will be used to map to ``{+1, 0, -1}`` to facilitate training, if ``cfg.is_train == False`` Then the original reward value will remain unchanged, which is convenient for evaluating the performance of the agent during testing.
+   Setting the ``cfg.is_train`` item will use different decorations in the wrapper accordingly. For example, if ``cfg.is_train == True``, a symbolic function of reward will be used to map to ``{+1, 0, -1}`` to facilitate training, if ``cfg.is_train == False`` Then the original reward value will remain unchanged, which is convenient for evaluating the performance of the agent during testing.
 
 5. ``random_action()``
 
-Some off-policy algorithms hope to use a random strategy to collect some data to fill the buffer before training starts, and complete the initialization of the buffer. For such a need, DI-engine encourages the implementation of the ``random_action`` method.
+   Some off-policy algorithms hope to use a random strategy to collect some data to fill the buffer before training starts, and complete the initialization of the buffer. For such a need, DI-engine encourages the implementation of the ``random_action`` method.
 
-Since the environment already implements ``action_space``, you can directly call the ``Space.sample()`` method provided in the gym to randomly select actions. But it should be noted that since DI-engine requires all returned actions to be in ``np.ndarray`` format, some necessary format conversions may be required. The ``int`` and ``dict`` types are converted to the ``np.ndarray`` type using the ``to_ndarray`` function, as shown in the following code:
+   Since the environment already implements ``action_space``, you can directly call the ``Space.sample()`` method provided in the gym to randomly select actions. But it should be noted that since DI-engine requires all returned actions to be in ``np.ndarray`` format, some necessary format conversions may be required. The ``int`` and ``dict`` types are converted to the ``np.ndarray`` type using the ``to_ndarray`` function, as shown in the following code:
 
    .. code:: python
 
@@ -315,9 +311,9 @@ Since the environment already implements ``action_space``, you can directly call
 
 6. ``default_config()``
 
-If an environment has some default or commonly used configuration items, you can consider setting the class variable ``config`` as **default config** (for the convenience of external access, you can also implement the class method ``default_config``, which returns config). As shown in the following code:
+   If an environment has some default or commonly used configuration items, you can consider setting the class variable ``config`` as **default config** (for the convenience of external access, you can also implement the class method ``default_config``, which returns config). As shown in the following code:
    
-When running an experiment, a **user config** file for this experiment is configured, such as ``dizoo/mujoco/config/ant_ddpg_config.py``. In the user config file, you can omit this part of the key-value pair, and merge **default config** with **user config** through ``deep_merge_dicts`` (remember to use the default config as the first parameter here, the user config is used as the second parameter to ensure that the user config has a higher priority). As shown in the following code:
+   When running an experiment, a **user config** file for this experiment is configured, such as ``dizoo/mujoco/config/ant_ddpg_config.py``. In the user config file, you can omit this part of the key-value pair, and merge **default config** with **user config** through ``deep_merge_dicts`` (remember to use the default config as the first parameter here, the user config is used as the second parameter to ensure that the user config has a higher priority). As shown in the following code:
    
    .. code:: python
       
@@ -340,22 +336,23 @@ When running an experiment, a **user config** file for this experiment is config
 
 7. Environment implementation correctness check
 
-We provide a set of inspection tools for user-implemented environments to check:
+   We provide a set of inspection tools for user-implemented environments to check:
   
-- data type of observation/action/reward
-- reset/step method
-- Whether there are unreasonable identical references in the observation of two adjacent time steps (that is, deepcopy should be used to avoid identical references)
+   - data type of observation/action/reward
+   - reset/step method
+   - Whether there are unreasonable identical references in the observation of two adjacent time steps (that is, deepcopy should be used to avoid identical references)
    
-The implementation of the check tool is in ``ding/envs/env/env_implementation_check.py``; for the usage of the check tool, please refer to ``test_an_implemented_env`` in ``ding/envs/env/tests/test_env_implementation_check.py``.
+   The implementation of the check tool is in ``ding/envs/env/env_implementation_check.py``；for the usage of the check tool, please refer to ``ding/envs/env/tests/test_env_implementation_check.py`` 的 ``test_an_implemented_env``。
 
 
 
 DingEnvWrapper
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``DingEnvWrapper`` can quickly convert simple environments such as ClassicControl, Box2d, Atari, Mujoco, GymHybrid, etc., to ``BaseEnv`` compliant environments.
 
 Note: The specific implementation of ``DingEnvWrapper`` can be found in ``ding/envs/env/ding_env_wrapper.py``, in addition, you can see `Example <https://github.com/opendilab/DI-engine/blob/main/ding/envs/env/tests/test_ding_env_wrapper.py>`_ for more info.
+
 
 
 Q & A
@@ -365,14 +362,13 @@ Q & A
    
    You can refer to `Competitive RL <../env_tutorial/competitive_rl_zh.html>`_ 
 
-- If the environment supports both single-agent, double-agent or even multi-agent, consider different mode classifications
-- In a multi-agent environment, the number of action and observation matches the number of agents, but the reward and done are not necessarily the same. It is necessary to clarify the definition of reward
-- Note how the original environment requires actions and observations to be combined (tuples, lists, dictionaries, stacked arrays...)
+   - If the environment supports both single-agent, double-agent or even multi-agent, consider different mode classifications
+   - In a multi-agent environment, the number of action and observation matches the number of agents, but the reward and done are not necessarily the same. It is necessary to clarify the definition of reward
+   - Note how the original environment requires actions and observations to be combined (tuples, lists, dictionaries, stacked arrays...)
 
 
 2. How should the environment of the hybrid action space be migrated?
    
-	You can refer to `Gym-Hybrid <../env_tutorial/gym_hybrid_zh.html>`_
+   You can refer to  `Gym-Hybrid <../env_tutorial/gym_hybrid_zh.html>`_
 
-- Some discrete actions (Accelerate, Turn) in Gym-Hybrid need to give corresponding 1-dimensional continuous parameters to represent acceleration and rotation angle, so similar environments need to focus on the definition of their action space
-
+   - Some discrete actions (Accelerate, Turn) in Gym-Hybrid need to give corresponding 1-dimensional continuous parameters to represent acceleration and rotation angle, so similar environments need to focus on the definition of their action space
