@@ -6,9 +6,13 @@ Problem Definition and Research Motivation
 Distributed reinforcement learning (Distributed RL) is the only way for deep reinforcement learning to be applied to large-scale applications and solve complex decision spaces and long-term planning problems. In order to solve super-large-scale decision-making problems like StarCraft 2 (SC2) [1]_ and DOTA2 [2]_, the computing power of a single process or even a single machine is far from enough, and it is necessary to expand each of computing and storage devices. Researchers hope to design a complete set of ‘algorithm + system’ solutions, which can allow the DRL training program to efficiently run under various computing scales and improve the efficiency of each link as much as possible while ensuring the convergence of algorithm optimization. 
 
 Generally speaking, a reinforcement learning training program has three types of core modules:
+
 - The Collector for interacting with the Environment (Env) to generate data, which contains the environment itself,
+
 - The Actor that generates actions,
+
 - The Learner for training using these data, each of which requires different number and types of computing resources supported.
+
 
 Depending on the algorithm and environment, some extended auxiliary modules will be added. For example, most off-policy algorithms will require a data queue (Replay Buffer) to store training data, and the ENV model will be learning for model-based RL-related algorithms. For the relevant training modules of environmental dynamics and algorithms that require a large number of self-play, a centralized Coordinator is also required to control and coordinate various components (such as dynamically communicating with both sides of the game).
 
