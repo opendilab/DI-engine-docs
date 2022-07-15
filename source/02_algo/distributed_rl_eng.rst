@@ -10,11 +10,11 @@ Generally speaking, a reinforcement learning training program has three types of
 - The Actor that generates actions,
 - The Learner for training using these data, each of which requires different number and types of computing resources supported.
 
-Depending on the algorithm and environment, some extended auxiliary modules will be added. For example, most off-policy algorithms will require a data queue (Replay Buffer) to store training data, and there will be learning for model-based RL-related algorithms. For the relevant training modules of environmental dynamics and algorithms that require a large number of self-play, a centralized Coordinator is also required to control and coordinate various components (such as dynamically specifying both sides of the game).
+Depending on the algorithm and environment, some extended auxiliary modules will be added. For example, most off-policy algorithms will require a data queue (Replay Buffer) to store training data, and the ENV model will be learning for model-based RL-related algorithms. For the relevant training modules of environmental dynamics and algorithms that require a large number of self-play, a centralized Coordinator is also required to control and coordinate various components (such as dynamically communicating with both sides of the game).
 
-From a system perspective, it is necessary to allow sufficient parallel scalability for similar modules in the entire training program. For example, the number of interacting environments can be increased according to demand (consume more CPU), or the throughput of the training side can be increased (generally, more GPUs are needed). For different modules, it is hoped that all modules can be executed asynchronously as much as possible, and the cost of various communication methods (network communication, database, file system) in module time is reduced. But in general, the theoretical upper limit of the efficiency optimization of a system is that the Learner can continuously train efficiently without waiting; that is, when the Learner completes one training iteration efficiently, the data for the next training iteration is ready.
+From a system perspective, it is necessary to allow sufficient parallel scalability for similar modules in the entire training program. For example, the number of interacting environments can be increased according to the availability of resources (utilize more CPUs), or the throughput of the training side can be increased according to the number of parallel devices (generally, having more GPUs). For different modules, it is hoped that all modules can be executed asynchronously as much as possible, and the cost of various communication methods (network communication, database, file system) in module time is reduced. But in general, the theoretical upper limit of the efficiency optimization of a system is achieved when the Learner can continuously train efficiently without waiting; that is, when the Learner completes one training iteration efficiently, the data for the next training iteration is already available. 
 
-From the algorithm point of view, it is hoped to reduce the algorithm’s requirements for data throughput (such as tolerating older and more off-policy data) while ensuring the convergence of the algorithm, and improving the efficiency of data exploration and utilization of collected data (For example, modify the data sampling method, or combine some research related to data-efficiency in RL). So that it provides more space and possibilities for system design.
+From the algorithmic point of view, it is hoped to reduce the algorithm’s requirements for data throughput (such as tolerating older and more off-policy data) while ensuring the convergence of the algorithm, and improving the efficiency of data exploration and the utilization of collected data (for example, modify the data sampling method, or combine some research related to data-efficiency in RL). So that it provides more space and possibilities for system design.
 
 To sum up, distributed reinforcement learning is a more comprehensive research subfield, which requires mutual perception and coordination of deep reinforcement learning algorithm + distributed system design.
 
@@ -27,12 +27,12 @@ System
 
 Overall Architecture
 ^^^^^^^^^^
-For common decision problems, the two most commonly used distributed architectures are IMPALA [3]_ and SEED RL [4]_
+For common decision problems, the two most commonly used distributed architectures are IMPALA [3]_ and SEED RL [4]_.
 
 .. image:: ./images/impala.png
   :align: center
   
-- The former is the classic Actor-Learner mode; that is, the data collection and training sides are entirely separated, and the latest neural network model is regularly passed from the Learner to the Actor, and the Actor is sent to the Learner after collecting a certain amount of data (i.e. observations). If there are multiple Learners, they also periodically synchronize the gradients of the neural network (i.e. the data-parallel model in distributed deep learning).
+- The former is the classic Actor-Learner mode; that is, the data collection and training sides are entirely separated, and the latest neural network model is regularly passed from the Learner to the Actor, and the observations collected by the Actor are sent to the Learner after collecting a certain amount of data (i.e. observations). If there are multiple Learners, they also periodically synchronize their gradients to update the neural network (i.e. the data-parallel model in distributed deep learning).
 
 .. image:: ./images/seed_rl.png
   :scale: 50%
@@ -47,11 +47,11 @@ In addition to the above two architectures, there are many other distributed rei
 
 Single Point Efficiency Optimization
 ^^^^^^^^^^^^^
-In addition to the design and innovation of the overall structure, there are many methods for optimizing a single-point module in the entire training program. They are mainly customized and optimized for a certain sub-problem. Here are some main methods:
+In addition to the design and innovation of the overall structure, there are many methods for optimizing a single-point module in the entire training program. They are mainly customized and optimized for a certain sub-problem. Here are some of the main methods:
 
-- ``Object Store`` in Ray/RLLib [8]_: For data transfer between multiple processes and multiple machines, the Object Store in Ray/RLLib provides a very convenient and efficient way. As long as any process knows the reference of this object, it can request the Store by requesting it. Obtain the corresponding value, and the specific internal data transmission is completely managed by the Store, so that a distributed training program can be implemented like writing a local single-process program. The specific implementation of Object Store is completed by combining redis, plasma and gRPC.
+- ``Object Store`` in Ray/RLLib [8]_: For data transfer between multiple processes and multiple machines, the Object Store in Ray/RLLib provides a very convenient and efficient way. As long as any process knows the reference of an object, it can request the Store to provide it. Providing the corresponding value, and the specific internal data transmission is completely managed by the Store, so that a distributed training program can be implemented like writing a local single-process program. The specific implementation of Object Store is completed by combining redis, plasma and gRPC.
 
-- ``Sample Factory`` [9]_: Sample Factory has customized and optimized the APPO algorithm at the scale of a single machine, carefully designed an asynchronous scheme between the environment and the action-generating strategy, and used shared memory to greatly improve the transmission efficiency between modules.
+- ``Sample Factory`` [9]_: Sample Factory customized and optimized the APPO algorithm at the scale of a single machine, carefully designed an asynchronous scheme between the environment and the action-generating strategy, and used shared memory to greatly improve the transmission efficiency between modules.
 
 - ``Reverb`` in Acme [10]_: Reverb provides a set of highly flexible and efficient data manipulation and management modules. For RL, it is very suitable for implementing replay buffer related components.
 
@@ -70,7 +70,7 @@ Reduce the throughput requirements of the algorithm for data generation
 Improve data exploration efficiency + utilization efficiency of collected data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- ``Data Priority and Diversity``——Ape-x [12]_: Ape-x is a classic distributed reinforcement learning scheme. One of the core practices is to use Priority Experience Replay to set different sampling priorities for different data, so that the algorithm pays more attention to those "important" data. In addition, Ape-x also sets different exploration parameters (ie epsilon of eps greedy) in different parallel collectors to improve data diversity.
+- ``Data Priority and Diversity``——Ape-x [12]_: Ape-x is a classic distributed reinforcement learning scheme. One of the core practices is to use Priority Experience Replay to set different sampling priorities for different data, so that the algorithm pays more attention to those "important" trajctories. In addition, Ape-x also sets different exploration parameters (i.e. epsilon of eps greedy) in different parallel collectors to improve data diversity.
 
 - ``Representation Learning`` in RL——CURL [13]_: For some high-dimensional or multi-modal inputs, the representation learning method can be combined to improve the data utilization efficiency of RL. For example, for the control problem of high-dimensional image input, CURL introduces an additional contrastive learning process, and RL is based on the learned feature space for decision-making. From the perspective of system design, there is also a lot of room for optimization in the combination of representation learning and reinforcement learning training, such as the asynchrony of the two.
 
