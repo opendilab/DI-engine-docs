@@ -1,25 +1,25 @@
 How to migrate your own environment to DI-engine
 ==============================================================
 
-``DI-zoo`` provides users with a large number of commonly used environments for reinforcement learning（ `supported environments <https://github.com/opendilab/DI-engine#environment-versatility>`_ ），but in many research In and engineering scenarios, users still need to implement an environment by themselves, and expect to quickly migrate it to ``DI-engine`` to meet the relevant specifications of ``DI-engine``. Therefore, in this section, we will introduce how to perform the above migration step by step to meet the specification of the base environment base class  ``BaseEnv``  of  ``DI-engine`` , so that it can be easily applied in the training pipeline.
+``DI-zoo`` provides users with a large number of commonly used environments for reinforcement learning（ `supported environments <https://github.com/opendilab/DI-engine#environment-versatility>`_ ），but in many research and engineering scenarios, users still need to implement an environment by themselves, and expect to quickly migrate it to ``DI-engine`` to meet the relevant specifications of ``DI-engine``. Therefore, in this section, we will introduce how to perform the above migration step by step to meet the specification of the environment base class  ``BaseEnv``  of  ``DI-engine`` , so that it can be easily applied in the training pipeline.
 
-The following introduction will start with **Basic** and **Advanced** . **Basic** describes the functions that must be implemented, and reminds you to pay attention to the details; **Advanced** describes some extended functions.
+The following introduction will start with **Basic** and **Advanced** . **Basic** describes the functions that must be implemented, and the details that you should pay attention to ; **Advanced** describes some extended functions.
 
-Then introduce ``DingEnvWrapper`` ,an "artifact" that can quickly convert simple environments such as ClassicControl, Box2d, Atari, Mujoco, GymHybrid, etc. into environments that conform to ``BaseEnv``. And at the end do a Q & A for frequently asked questions.
+Then ``DingEnvWrapper`` will be introduced , it is a "tool" that can quickly convert simple environments such as ClassicControl, Box2d, Atari, Mujoco, GymHybrid, etc. into environments that conform to ``BaseEnv``. And there is a Q & A at the end.
 
 Basic
 ~~~~~~~~~~~~~~
 
 This section describes the specification constraints that users **MUST** meet, and the features that must be implemented when migrating environments.
 
-If you want to use the environment in the DI-engine, you need to implement a subclass environment that inherits from  ``BaseEnv``, such as  ``YourEnv``. The relationship between  ``YourEnv``  and your own environment is a `composition <https://en.wikipedia.org/wiki/Object_composition>`_ relationship, that is, within a  ``YourEnv`` instance, there will be a An instance of an environment that is native to the user (eg, a gym-formatted environment).
+If you want to use the environment in the DI-engine, you need to implement a subclass environment that inherits from  ``BaseEnv``, such as  ``YourEnv``. The relationship between  ``YourEnv``  and your own environment is a `composition <https://en.wikipedia.org/wiki/Object_composition>`_ relationship, that is, within a  ``YourEnv`` instance, there will be an instance of an environment that is native to the user (eg, a gym-type environment).
 
 Reinforcement learning environments have some common major interfaces that are implemented by most environments, such as ``reset()``, ``step()``, ``seed()``, etc. In DI-engine, ``BaseEnv`` will further encapsulate these interfaces. In most cases, Atari will be used as an example to illustrate. For specific code, please refer to `Atari Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_env.py>`_  and  `Atari Env Wrapper <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/envs/atari_wrappers.py>`_
 
 
 1. ``__init__()``
 
-   In general, the environment may be instantiated in the ``__init__`` method, **but** in DI-engine, in order to facilitate the support of "environment vectorization" modules like ``EnvManager`` , the environment Instances generally use the **Lazy Init** method, that is, the ``__init__`` method does not initialize the real original environment instance, but only sets the relevant **parameter configuration values**. When the ``reset`` method is called for the first time , the actual environment initialization will take place.
+   In general, the environment may be instantiated in the ``__init__`` method, **but** in DI-engine, in order to facilitate the support of "environment vectorization" modules like ``EnvManager`` , the environment instances generally use the **Lazy Init** mechanism, that is, the ``__init__`` method does not initialize the real original environment instance, but only sets the relevant **parameter configuration**. When the ``reset`` method is called for the first time , the actual environment initialization will take place.
 
    Take Atari for example. ``__init__`` does not instantiate the environment, it just sets the parameter configuration value ``self._cfg``, and initializes the variable ``self._init_flag`` to ``False`` (indicating that the environment has not been instantiated).
 
@@ -34,11 +34,11 @@ Reinforcement learning environments have some common major interfaces that are i
 
 2. ``seed()``
 
-   ``seed`` is used to set the random seed in the environment. There are two parts of the random seed in the environment that need to be set, one is the random seed of the **original environment**, and the other is the calling library in various **environment transformations**. The random seed for when (e.g. ``random`` ``np.random``, etc.).
+   ``seed`` is used to set the random seed in the environment. There are two types of the random seed in the environment that need to be set, one is the random seed of the **original environment**, the other is the library seeds (e.g. ``random`` ``np.random``, etc.) in various **environment transformations**.
 
    For the second type, the setting of the seed of the random library is relatively simple, and it is set directly in the ``seed`` method of the environment.
 
-   For the first category, the seed of the original environment is only assigned in the ``seed`` method, but not really set; the real setting is inside the ``reset`` method of the calling environment, the specific original environment ``reset`` before setting.
+   For the first type, the seed of the original environment is only assigned in the ``seed`` method, but not really set; the real setting is inside the ``reset`` method of the calling environment, the specific original environment ``reset`` before setting.
 
    .. code:: python
 
@@ -51,7 +51,7 @@ Reinforcement learning environments have some common major interfaces that are i
 
    For the seeds of the original environment, DI-engine has the concepts of **static seeds** and **dynamic seeds**.
    
-   **Static seed** is used in the test environment (evaluator_env) to ensure that the random seed of each episode is the same, that is, only the fixed static seed value of ``self._seed`` is used when ``reset``. Need to manually pass the ``dynamic_seed`` parameter to ``False`` in the ``seed`` method.
+   **Static seed** is used in the test environment (evaluator_env) to ensure that the random seed of all episodes are the same, that is, only the fixed static seed value of ``self._seed`` is used when ``reset``. Need to manually pass the ``dynamic_seed`` parameter to ``False`` in the ``seed`` method.
 
    **Dynamic seed** is used for the training environment (collector_env), try to make the random seed of each episode different, that is, when ``reset``, a random number generator will be used ``100 * np.random.randint(1, 1000)`` (but the seed of this random number generator is fixed by the environment's ``seed`` method, so the reproducibility of the experiment is guaranteed). You need to manually pass in the ``dynamic_seed`` parameter as ``True`` in ``seed`` (or you can not pass it, because the default parameter is ``True``).
 
@@ -85,7 +85,7 @@ Reinforcement learning environments have some common major interfaces that are i
 
 4. ``step()``
 
-   The ``step`` method is responsible for receiving the ``action`` of the current moment, and then giving the ``reward`` of the current moment and the ``obs`` of the next moment. In DI-engine, you also need to give: The flag ``done`` of whether the current episode ends (here requires ``done`` must be of type ``bool``, not ``np.bool``), other information in the form of a dictionary ``info`` (which includes at least the key ``self._final_eval_reward``).
+   The ``step`` method is responsible for receiving the ``action`` of the current timestep, and then giving the ``reward`` of the current timestep and the ``obs`` of the next timestep. In DI-engine, you also need to give: The flag ``done`` of whether the current episode ends (here requires ``done`` must be of type ``bool``, not ``np.bool``), other information in the form of a dictionary ``info`` (which includes at least the key ``self._final_eval_reward``).
 
    After getting ``reward`` ``obs`` ``done`` ``info`` and other data, it needs to be processed and converted into ``np.ndarray`` format to conform to the DI-engine specification. ``self._final_eval_reward`` will accumulate the actual reward obtained at the current step at each time step, and return the accumulated value at the end of an episode ( ``done == True``).
 
@@ -116,11 +116,11 @@ Reinforcement learning environments have some common major interfaces that are i
       - In the ``step`` method, add the actual reward obtained at each time step to ``self._final_eval_reward``.
       - In the ``step`` method, if the current episode has ended ( ``done == True`` ), then add to the ``info`` dictionary and return: ``info['final_eval_reward'] = self._final_eval_reward``
 
-   However, in other environments, the sum of the rewards for an episode may not be required. For example, in smac, the winning percentage of the current episode is required, so it is necessary to modify the simple accumulation in the second step ``step`` method, record the game situation, and finally return the calculated winning percentage at the end of the episode.
+   However, other environments may not require the sum of ``self._final_eval_reward``. For example, in smac, the winning percentage of the current episode is required, so it is necessary to modify the simple accumulation in the second step ``step`` method. Instead, we should record the game situation and finally return the calculated winning percentage at the end of the episode.
 
 6. Data Specifications
 
-   DI-engine requires that the input and output data of each method in the environment must be in ``np.ndarray`` format, and the data type dtype must be ``np.int64`` (integer), ``np.float32`` ( float) or ``np.uint8`` (image). include:
+   DI-engine requires that the input and output data of each method in the environment must be in ``np.ndarray`` format, and the data dtype must be ``np.int64`` (integer), ``np.float32`` ( float) or ``np.uint8`` (image). include:
 
       -  ``obs`` returned by the ``reset`` method
       -  ``action`` received by the ``step`` method
@@ -171,11 +171,11 @@ Advanced
 
    .. note::
       
-      For the sake of code extensibility, we **strongly recommend implementing these three spatial properties**.
+      For the sake of code extensibility, we **strongly recommend implementing these three space attributes**.
    
    The spaces here are all instances of subclasses of ``gym.spaces.Space``, the most commonly used ``gym.spaces.Space`` include ``Discrete`` ``Box`` ``Tuple`` ``Dict``  etc. **shape** and **dtype** need to be given in space. In the original gym environment, most of them will support ``observation_space``, ``action_space`` and ``reward_range``. In DI-engine, ``reward_range`` is also expanded into ``reward_space``, so that this All three remain the same.
 
-   For example, here are the three properties of cartpole:
+   For example, here are the three attributes of cartpole:
 
    .. code:: python
 
@@ -289,7 +289,7 @@ Advanced
 
    Some off-policy algorithms hope to use a random strategy to collect some data to fill the buffer before training starts, and complete the initialization of the buffer. For such a need, DI-engine encourages the implementation of the ``random_action`` method.
 
-   Since the environment already implements ``action_space``, you can directly call the ``Space.sample()`` method provided in the gym to randomly select actions. But it should be noted that since DI-engine requires all returned actions to be in ``np.ndarray`` format, some necessary format conversions may be required. The ``int`` and ``dict`` types are converted to the ``np.ndarray`` type using the ``to_ndarray`` function, as shown in the following code:
+   Since the environment already implements ``action_space``, you can directly call the ``Space.sample()`` method provided in the gym to randomly select actions. But it should be noted that since DI-engine requires all returned actions to be in ``np.ndarray`` format, some necessary dtype conversions may be required. The ``int`` and ``dict`` types are converted to the ``np.ndarray`` type using the ``to_ndarray`` function, as shown in the following code:
 
    .. code:: python
 
