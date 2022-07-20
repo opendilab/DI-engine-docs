@@ -13,6 +13,7 @@ Generally speaking, a reinforcement learning training program has three types of
 
 - The Learner for training using these data, each of which requires different number and types of computing resources supported.
 
+P.S. the module including env and actor is usually referred to collector.
 
 Depending on the algorithm and environment, some extended auxiliary modules will be added. For example, most off-policy algorithms will require a data queue (Replay Buffer) to store training data; for model-based RL algorithms, there will be related training modules for learning the dynamics of the environment; for algorithms that require a lot of self-play, a centralized Coordinator is needed to control and coordinate each component(such as dynamically communicating with both sides of the game).
 
@@ -49,8 +50,8 @@ There is no absolute superiority or inferiority between these two schemes. If it
 
 In addition to the above two architectures, there are many other distributed reinforcement learning design schemes, such as A3C [5]_ and Gossip A2C [6]_ that introduce asynchronous neural network update schemes. In order to support large-scale self-play, AlphaStar [1]_ with a complex League mechanism was designed, and MuZero [7]_ combined with model-based RL and MCTS-related modules will not be described here. Interested readers can refer to the specific Papers or refer to our `Algorithm Raiders Collection section <../12_policies/index_zh.html>`_.
 
-Single Point Efficiency Optimization
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Efficiency Optimization on Some Sub Topics/Modules/Objectives
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In addition to the design and innovation of the overall structure, there are many methods for optimizing a single-point module in the entire training program. They are mainly customized and optimized for a certain sub-problem. Here are some of the main methods:
 
 - ``Object Store`` in Ray/RLLib [8]_: For data transfer between multiple processes and multiple machines, the Object Store in Ray/RLLib provides a very convenient and efficient way. As long as any process knows the reference of an object, it can request the Store to provide it. Providing the corresponding value, and the specific internal data transmission is completely managed by the Store, so that a distributed training program can be implemented like writing a local single-process program. The specific implementation of Object Store is completed by combining redis, plasma and gRPC.
