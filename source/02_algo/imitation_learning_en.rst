@@ -1,18 +1,18 @@
 Imitation Learning
-==================
+====================
 
 Problem Definition and Research Motivation
-----------
+--------------------------------------------
 
 Imitation Learning (IL) generally refers to a large class of learning methods in which an agent extracts knowledge from expert data and then imitates the behavior contained in these expert data. Due to the inherent characteristics of IL. It has two main characteristics: it usually requires a large amount of training data, and generally requires that the quality of the training data is good enough. In general, IL can be divided into three directions: IRL (inverse reinforcement learning), BC (behavioral cloning), Adversarial Structured IL, Below we briefly analyze each research direction in this field.
 
 
 
 Research Direction
---------
+--------------------
 
 Behavioral Cloning (BC)
-~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 BC was first proposed in [1], which proposes a supervised learning method, which directly establishes the state-action mapping relationship by fitting expert data.
 
@@ -22,7 +22,7 @@ The current research hotspots of BC algorithms mainly focus on two aspects: meta
 
 
 Inverse Reinforcement Learning (IRL)
-~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Inverse reinforcement learning (IRL) is the problem of inferring the reward function of an agent, given its policy or observed behavior. Specifically, IRL first learns a reward function from expert data, and then uses this reward function for subsequent RL training. IRL can theoretically outperform expert data.
 
@@ -38,7 +38,7 @@ On this basis, many works have made related improvements to GAIL. For example, I
 
 
 Future Study
---------
+--------------
 
 There are still many challenges in imitation learning, mainly including the following:
 
@@ -51,7 +51,7 @@ There are still many challenges in imitation learning, mainly including the foll
 - The local optimum can be found, but the global optimum can often not be found.
 
 Reference
---------
+-----------
 
 .. [1] Michael Bain and Claude Sammut. 1999. A framework for behavioural cloning. In *Machine Intelligence 15*. Oxford University Press, 103-129.
 
