@@ -153,13 +153,13 @@ Advanced
       - ``ScaledFloatFrame``: normalize the observation to the interval [0, 1] (keep the dtype as ``np.float32``)
       - ``ClipRewardEnv``: Pass the reward through a symbolic function to ``{+1, 0, -1}``
       - ``FrameStack``: stacks a certain number (usually 4) of frames together as a new observation, which can be used to deal with POMDP situations, for example, the speed direction of the movement cannot be known by a single frame of information
-      - ``ObsTransposeWrapper``: converts an image of ``(H, W, C)`` to an image of ``(C, H, W)``
+      - ``ObsTransposeWrapper``: Transpose observation to put channel to first dim
       - ``ObsNormEnv``: use ``RunningMeanStd`` to normalize the observation for sliding windows
       - ``RewardNormEnv``: use ``RunningMeanStd`` to normalize the reward with sliding window
-      - ``RamWrapper``: converts the observation shape of an environment of type Ram to an image-like (128, 1, 1)
+      - ``RamWrapper``: Wrap ram env into image-like env
       - ``EpisodicLifeEnv``: treat environments with multiple lives built in (eg Qbert), and treat each life as an episode
       - ``FireResetEnv``: execute action 1 (fire) immediately after environment reset
-      - ``GymHybridDictActionWrapper``: Convert the Gym-Hybrid environment's primitive ``gym.spaces.Tuple`` type action spaces to ``gym.spaces.Dict`` type action spaces
+      - ``GymHybridDictActionWrapper``: Transform Gym-Hybrid's original ``gym.spaces.Tuple`` action space to ``gym.spaces.Dict``
 
    If the above wrappers cannot meet your needs, you can also customize the wrappers yourself.
 
