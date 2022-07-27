@@ -76,9 +76,9 @@ Sokoban是一种离散动作空间环境。在该游戏中，智能体需要在�
 
    -  8：Move Right
 
--  其中 Move 表示仅移动，即对应方向上的下一个格子没有箱子或墙。
+-  其中 Move 表示仅移动，需要对应方向上的下一个格子没有箱子或墙。
 
--  Push 表示移动相邻的箱子，需要箱子的下一格是空闲的，即不能直接推动两个相邻的箱子。如果对应方向上的相邻格子没有箱子，则 Push 和 Move 效果一致。
+-  Push 表示移动相邻的箱子，需要箱子的下一格是空闲的，不能直接推动两个相邻的箱子。如果对应方向上的相邻格子没有箱子，则 Push 和 Move 效果一致。
 
 奖励空间
 --------
@@ -97,13 +97,13 @@ Sokoban是一种离散动作空间环境。在该游戏中，智能体需要在�
 终止条件
 ----
 
--  所有箱子都推到目标点上，或者最大步数用完，即为当前环境 episode 结束
+-  所有箱子都推到目标点上，或者最大步数用完，则当前环境 episode 结束
 
 
 内置环境
 ----
 
--  Sokoban内置了9个环境，分别为 ``Sokoban-v0``, ``Sokoban-v1``， ``Sokoban-v2``， ``Sokoban-small-v0``， ``Sokoban-small-v1``， ``Sokoban-large-v0``， ``Sokoban-large-v1``， ``Sokoban-large-v2``， ``Sokoban-huge-v0``。环境仅有房间大小和箱子数量差异，房间内部环境均为随机生成。
+-  Sokoban 内置了9个环境，分别为 ``Sokoban-v0``, ``Sokoban-v1``， ``Sokoban-v2``， ``Sokoban-small-v0``， ``Sokoban-small-v1``， ``Sokoban-large-v0``， ``Sokoban-large-v1``， ``Sokoban-large-v2``， ``Sokoban-huge-v0``。环境仅有房间大小和箱子数量差异，房间内部环境均为随机生成。
 
 
 关键事实
