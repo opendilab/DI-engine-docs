@@ -53,6 +53,26 @@ extensions = [
     'enum_tools.autoenum',
     # 'sphinxcontrib.pseudocode',
 ]
+imgmath_image_format = 'svg'
+imgmath_font_size = 14
+imgmath_latex_preamble = r'''
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsmath}
+\usepackage{cancel}
+\usepackage[verbose=true,letterpaper]{geometry}
+\geometry{
+    textheight=12in,
+    textwidth=6.5in,
+    top=1in,
+    headheight=12pt,
+    headsep=25pt,
+    footskip=30pt
+    }
+\newcommand{\E}{{\mathrm E}}
+\newcommand{\underE}[2]{\underset{\begin{subarray}{c}#1 \end{subarray}}{\E}\left[ #2 \right]}
+\newcommand{\Epi}[1]{\underset{\begin{subarray}{c}\tau \sim \pi \end{subarray}}{\E}\left[ #1 \right]}
+'''
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
