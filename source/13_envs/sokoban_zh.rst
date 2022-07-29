@@ -4,7 +4,7 @@ Sokoban
 概述
 =======
 
-Sokoban是一种离散动作空间环境。在该游戏中，智能体需要在离散动作集合中选择动作，目标是将房间中所有的箱子推到指定位置。这里的Sokoban环境实现了房间的随机生成，避免深度神经网络因为预定义的房间而训练过拟合。
+Sokoban 是一种离散动作空间环境。在该游戏中，智能体需要在离散动作集合中选择动作，目标是将房间中所有的箱子推到指定位置。这里的 Sokoban 环境实现了房间的随机生成，避免深度神经网络因为预定义的房间而训练过拟合。
 
 .. image:: ./images/sokoban.gif
    :align: center
@@ -24,7 +24,7 @@ Sokoban是一种离散动作空间环境。在该游戏中，智能体需要在�
 
    # Method1: Install Directly
    pip install gym-sokoban
-   # Method2: Install with DI-engine requirements
+   # Method2: Install from source code
    git clone git@github.com:mpSchrader/gym-sokoban.git
    cd gym-sokoban
    pip install -e .
@@ -56,7 +56,7 @@ Sokoban是一种离散动作空间环境。在该游戏中，智能体需要在�
 动作空间
 --------
 
--  游戏提供了9种环境交互动作，形成大小为 9 的离散动作空间，数据类型为\ ``int``\ ，需要传入 python 数值（或是 0 维 np 数组，例如动作 3 为\ ``np.array(3)``\ ）。动作在 0-8 中取值，具体的含义是：
+-  游戏提供了 9 种环境交互动作，形成大小为 9 的离散动作空间，数据类型为\ ``int``\ ，需要传入 python 数值（或是 0 维 np 数组，例如动作 3 为\ ``np.array(3)``\ ）。动作在 0-8 中取值，具体的含义是：
 
    -  0：No Operation
 
@@ -97,19 +97,23 @@ Sokoban是一种离散动作空间环境。在该游戏中，智能体需要在�
 终止条件
 ----
 
--  所有箱子都推到目标点上，或者最大步数用完，则当前环境 episode 结束
+-  所有箱子都推到目标点上，或者行动步数到达最大步数 max_step ，则当前环境 episode 结束。默认 max_step 为 120 步。
 
 
 内置环境
 ----
 
--  Sokoban 内置了9个环境，分别为 ``Sokoban-v0``, ``Sokoban-v1``， ``Sokoban-v2``， ``Sokoban-small-v0``， ``Sokoban-small-v1``， ``Sokoban-large-v0``， ``Sokoban-large-v1``， ``Sokoban-large-v2``， ``Sokoban-huge-v0``。环境仅有房间大小和箱子数量差异，房间内部环境均为随机生成。
+-  Sokoban 内置了 9 个环境，分别为 ``Sokoban-v0``, ``Sokoban-v1``， ``Sokoban-v2``， ``Sokoban-small-v0``， ``Sokoban-small-v1``， ``Sokoban-large-v0``， ``Sokoban-large-v1``， ``Sokoban-large-v2``， ``Sokoban-huge-v0``。环境仅有房间大小和箱子数量差异，房间内部环境均为随机生成。
+
+-  例如 ``Sokoban-v0`` 即为房间大小为 10×10，房间里有 3 个箱子。每次 reset 后，会根据房间大小和箱子数量随机生成环境。
+
+-  由于随机生成过程中，箱子首先生成在目标点上，然后经过反向移动到达起始点，因此所有环境都有解。
 
 
 关键事实
 ========
 
-1. 稀疏奖励环境，仅在箱子推到目标点时能获得奖励。奖励取值范围较小，最大值为 10+N ， N 为箱子数量。最小值为 -max_step。
+1. 稀疏奖励环境，仅在箱子推到目标点时能获得正奖励。奖励取值范围较小，最大值为 10+N ， N 为箱子数量。最小值为 -max_step 。
 
 2. 离散动作空间
 
