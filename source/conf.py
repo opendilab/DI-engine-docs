@@ -45,33 +45,14 @@ release = '0.1.0'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
-    'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
     'sphinx.ext.imgmath',
-    'enum_tools.autoenum'
+    # 'sphinx.ext.mathjax',  # can only use one of imgmath and mathjax
+    'enum_tools.autoenum',
+    # 'sphinxcontrib.pseudocode',
 ]
-imgmath_image_format = 'svg'
-imgmath_font_size = 14
-imgmath_latex_preamble = r'''
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\usepackage{amsmath}
-\usepackage{cancel}
-\usepackage[verbose=true,letterpaper]{geometry}
-\geometry{
-    textheight=12in,
-    textwidth=6.5in,
-    top=1in,
-    headheight=12pt,
-    headsep=25pt,
-    footskip=30pt
-    }
-\newcommand{\E}{{\mathrm E}}
-\newcommand{\underE}[2]{\underset{\begin{subarray}{c}#1 \end{subarray}}{\E}\left[ #2 \right]}
-\newcommand{\Epi}[1]{\underset{\begin{subarray}{c}\tau \sim \pi \end{subarray}}{\E}\left[ #1 \right]}
-'''
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -132,23 +113,51 @@ html_css_files = ['css/style.css']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'DI-enginedoc'
 
-# -- Options for LaTeX output ------------------------------------------------
+# -- Options for LaTeX output (+ image type math) ------------------------------------------------
+
+# imgmath settings
+imgmath_image_format = 'svg'
+imgmath_font_size = 14
+
+imgmath_latex_preamble = r'''
+    \usepackage{algorithm}
+    \usepackage{algorithmic}
+    \usepackage{amsmath}
+    \usepackage{cancel}
+    \usepackage[verbose=true,letterpaper]{geometry}
+    \geometry{
+        textheight=12in,
+        textwidth=6.5in,
+        top=1in,
+        headheight=12pt,
+        headsep=25pt,
+        footskip=30pt
+        }
+    \newcommand{\E}{{\mathrm E}}
+    \newcommand{\underE}[2]{\underset{\begin{subarray}{c}#1 \end{subarray}}{\E}\left[ #2 \right]}
+    \newcommand{\Epi}[1]{\underset{\begin{subarray}{c}\tau \sim \pi \end{subarray}}{\E}\left[ #1 \right]}
+'''
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    #
     # 'papersize': 'letterpaper',
 
     # The font size ('10pt', '11pt' or '12pt').
-    #
     # 'pointsize': '10pt',
 
     # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
+    'preamble':
+    r'''
+        \usepackage{algorithm}
+        \usepackage{algorithmic}
+        \usepackage{amsmath}
+        \usepackage{cancel}
+        \newcommand{\E}{{\mathrm E}}
+        \newcommand{\underE}[2]{\underset{\begin{subarray}{c}#1 \end{subarray}}{\E}\left[ #2 \right]}
+        \newcommand{\Epi}[1]{\underset{\begin{subarray}{c}\tau \sim \pi \end{subarray}}{\E}\left[ #1 \right]}
+    ''',
 
     # Latex figure (float) alignment
-    #
     # 'figure_align': 'htbp',
 }
 
