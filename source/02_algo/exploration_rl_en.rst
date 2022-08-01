@@ -23,20 +23,20 @@ Direction
 
 The exploration mechanism in reinforcement learning can be roughly divided into the following research directions:
 
-1. Classic exploration mechanism
+1. Classic Exploration Mechanism
 
-2. Exploration based on intrinsic reward
+2. Exploration based on Intrinsic Reward
 
     - Count-based intrinsic rewards
     - Intrinsic reward based on prediction error
     - Intrinsic rewards based on information theory
 
-3. Memory-based exploration
+3. Memory-Based Exploration
 
     - Episodic Memory
-    - Direct exploration
+    - Direct Exploration
 
-4. Other exploration mechanisms
+4. Other Exploration Mechanisms
 
 The representative algorithms of each research direction and their key points are shown in the following figure:
 
@@ -49,7 +49,7 @@ Classic Exploration Mechanism
 
 In traditional multi-armed bandit problems, commonly used classical exploration mechanisms include:
 
--  Epsilon-Greedy：At a certain moment, all actions have a choice probability greater than 0. The agent performs random actions (exploration) with a small probability\ :math:`\epsilon`\, and performs the action with the largest Q value with a large probability\ :math:`1-\epsilon`\ (using ).
+-  Epsilon-Greedy：At a certain moment, all actions have a choice probability greater than 0. The agent performs random actions (exploration) with a small probability\ :math:`\epsilon`\, and performs the action with the largest Q value with a large probability\ :math:`1-\epsilon`\ (using).
 
 -  Upper Confidence
    Bounds: The agent greedily chooses the action that maximizes the upper bound on the confidence \ :math:`\hat{Q}_{t}(a)+\hat{U}_{t}(a)`\, where \ :math:`\hat{Q}_{t}(a)`\ is in :math:`t` The average reward associated with the action:math:`a`\, \ :math:`\hat{U}_{t}(a)` is a reward associated with taking the action :math:`a`\ function that is inversely proportional to the number of times.
@@ -61,13 +61,13 @@ The following mechanisms can be used to get better exploration performance in de
 -  Entropy
    Loss：The agent is encouraged to perform more diverse actions by adding an additional entropy regularization term to the loss function.
 
--  Noise-based
+-  Noise-Based
    Exploration：Exploration is achieved by adding noise to the parameter space of observations, actions, and even the network.
 
-Intrinsic reward-based exploration
+Intrinsic Reward-Based Exploration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-One of the more important methods in exploring mechanism design is to design special rewards to stimulate the "curiosity" of the agent. Generally, we refer to the rewards given by the environment as \**extrinsic rewards**\ , and the reward given by the exploration mechanism is called \**intrinsic reward**\.
+One of the more important methods in exploring mechanism design is to design special rewards to stimulate the "curiosity" of the agent. Generally, we refer to the rewards given by the environment as \ **extrinsic rewards**\ , and the reward given by the exploration mechanism is called \ **intrinsic reward**\.
 
 We hope to achieve two things by adding this additional intrinsic reward:
 
@@ -90,7 +90,7 @@ Count-based intrinsic reward adopts the simplest idea of measuring novelty by co
    Motivation <https://arxiv.org/abs/1606.01868>`__
    [1]_ uses a density model to approximate the frequency of state visits and proposes a novel pseudo-count derived from the density model algorithm.
 
--  `#Exploration: A Study of Count-Based Exploration for Deep
+-  `Exploration: A Study of Count-Based Exploration for Deep
    Reinforcement Learning <https://arxiv.org/abs/1611.04717>`__
    [2]_ proposes to use Locality-Sensitive Hash (LSH ) to convert continuous high-dimensional state data into discrete hash codes. Thus, the statistics of the frequency of occurrence of states become feasible.
 
@@ -100,12 +100,12 @@ However, count-based methods for measuring novelty have many obvious limitations
 
 -  The visit count does not accurately measure the agent's awareness of :math:`( s,a )`.
 
-Intrinsic reward based on prediction error
+Intrinsic Reward Based on Prediction Error
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Intrinsic reward based on prediction error is  \ **to use the prediction error of a state on a prediction problem (usually a supervised learning problem) to measure novelty**\. According to the characteristics of neural network fitting datasets in supervised learning, if the agent has a larger prediction error in a certain state \ :math:`s`\, the approximate state space in the vicinity of the state \ :math:`s`\. The number of previous visits by the upper agent is small, so the state\ :math:`s`\ is more novel.
 
-Prediction problems are often problems related to the dynamics of the environment, such as the paper [3]_ `Curiosity-driven Exploration by Self-supervised Prediction <http://proceedings.mlr.press/v70/pathak17a/pathak17a.pdf>`__ (ICM) proposed a new Intrinsic Curiosity module based on prediction error. Module, ICM), by using the inverse dynamics model and the forward dynamics model to learn a new feature space on the original problem space, so that the learned feature space only encodes the part that affects the agent's decision-making, while ignoring the environment noise and other irrelevant interference. Then on this purer feature space, the prediction error of the forward model is used to provide the intrinsic for RL training reward. For more details about ICM, please refer to \ `blog <https://zhuanlan.zhihu.com/p/473676311>`__\。
+Prediction problems are often problems related to the dynamics of the environment, such as the paper [3]_ `Curiosity-driven Exploration by Self-supervised Prediction <http://proceedings.mlr.press/v70/pathak17a/pathak17a.pdf>`__ (ICM) proposed a new Intrinsic Curiosity module based on prediction error. Module, ICM), by using the inverse dynamics model and the forward dynamics model to learn a new feature space on the original problem space, so that the learned feature space only encodes the part that affects the agent's decision-making, while ignoring the environment noise and other irrelevant interference. Then on this purer feature space, the prediction error of the forward model is used to provide the intrinsic for RL training reward. For more details about ICM, please refer to \ `blog <https://zhuanlan.zhihu.com/p/473676311>`__\ .
 
 But ICM has the following problems:
 
@@ -114,9 +114,9 @@ But ICM has the following problems:
 -  In some environments, the state transition function of the environment is a random function, such as an environment containing noise-TV properties, and the agent cannot accurately predict the next state through the usual neural network.
 
 In order to alleviate the above problems, the paper [4]_ `Exploration by Random Network
-Distillation <https://arxiv.org/abs/1810.12894v1>`__\ proposes the RND algorithm, which is also an exploration method based on the prediction problem, but special is that the prediction in the RND algorithm The problem is a stochastic distillation problem related only to the observation state, not a forward or inverse dynamical model of the environment. Specifically, RND utilizes two neural networks with the same structure: a target network with fixed random initialization parameters. A predictor network network), the predictor network is used to output the predicted value of the state encoding given to the target network. Then the RND intrinsic exploration reward is defined as being proportional to the state feature predicted by the predictor network\ :math:`\hat{f}( s_t )`\ and the state feature of the target network :math:`f(s_t)`\  . For more details about RND, please refer to \ `blog <https://zhuanlan.zhihu.com/p/473676311>`__\.
+Distillation <https://arxiv.org/abs/1810.12894v1>`__\  proposes the RND algorithm, which is also an exploration method based on the prediction problem, but special is that the prediction in the RND algorithm The problem is a stochastic distillation problem related only to the observation state, not a forward or inverse dynamical model of the environment. Specifically, RND utilizes two neural networks with the same structure: a target network with fixed random initialization parameters. A predictor network network), the predictor network is used to output the predicted value of the state encoding given to the target network. Then the RND intrinsic exploration reward is defined as being proportional to the state feature predicted by the predictor network\ :math:`\hat{f}( s_t )`\ and the state feature of the target network :math:`f(s_t)`\  . For more details about RND, please refer to \ `blog <https://zhuanlan.zhihu.com/p/473676311>`__\.
 
-Intrinsic rewards based on information theory
+Intrinsic Rewards Based on Information Theory
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To encourage exploration, another idea is to design intrinsic rewards based on information theory.
@@ -125,7 +125,7 @@ The paper [12]_ proposes the EMI algorithm (Exploration with Mutual Information)
 They experimentally verified that the forward prediction signal extracted in such a representation space can guide exploration well.
 In addition, there are also methods such as DIYAN [13]_, which is based on the objective function of mutual information to learn skill variables, which can automatically learn the distribution of state and skill by setting intrinsic rewards related to mutual information without external rewards. In subsequent hierarchical learning, imitation learning and exploration tasks.
 
-Memory-based exploration
+Memory-Based Exploration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Intrinsic reward-based exploration methods such as ICM and RND propose to measure the novelty of a state by predicting the error of the problem, providing a large intrinsic reward for a state with a large novelty and promoting exploration. These methods are difficult to explore under many sparse reward settings. Good results have been achieved on the task of , but there is a problem: \ **As the number of training steps of the agent increases, the prediction error of the prediction problem begins to decrease, and the exploration signal becomes smaller, that is, the agent is no longer encouraged to visit a certain Some states, but it is possible that these states are the states that must be visited to obtain extrinsic rewards**\ . And there may also be the following problems:
@@ -161,23 +161,23 @@ Benchmark <https://arxiv.org/abs/2003.13350>`__\ made the following improvements
 
 -  Finally used a larger Backprop Through Time Window Size.
 
-Explore Directly
-^^^^^^^^^^^^^^^^^^
+Direct Exploration
+^^^^^^^^^^^^^^^^^^^^
 
 Go-Explore
 ''''''''''''''''
 
-`Go-Explore <https://www.nature.com/articles/s41586-020-03157-9>`__ [8]_ [9]_ pointed out that there are currently two factors hindering the agent's exploration: forgetting how to reach a previously visited state (detachment); the agent cannot first return to a certain state, and then start exploration (derailment) from that state. For this reason, the author proposes a simple mechanism of\ **remembering a state, returning to that state, and exploring**\  from that state to deal with the above problem: by maintaining a memory of the states of interest and the trajectory leading to these states, The agent can return (assuming the simulator is deterministic) to these promising states and continue stochastic exploration from there. Novelty is measured by the prediction error of a state on a prediction problem (usually a supervised learning problem)
+`Go-Explore <https://www.nature.com/articles/s41586-020-03157-9>`__ [8]_ [9]_  pointed out that there are currently two factors hindering the agent's exploration: forgetting how to reach a previously visited state (detachment); the agent cannot first return to a certain state, and then start exploration (derailment) from that state. For this reason, the author proposes a simple mechanism of\ **remembering a state, returning to that state, and exploring**\  from that state to deal with the above problem: by maintaining a memory of the states of interest and the trajectory leading to these states, The agent can return (assuming the simulator is deterministic) to these promising states and continue stochastic exploration from there. Novelty is measured by the prediction error of a state on a prediction problem (usually a supervised learning problem)
 
 
 Specifically, first the state is mapped into a short discrete code (called a cell) for storage. If a new state appears or a better/shorter trajectory is found, the memory updates the corresponding state and trajectory. The agent can choose a state to return uniformly and randomly in the memory, or according to some heuristic rules, for example, it can select the returned state according to the related indicators such as the newness, the access count, the count of its neighbors in the memory and so on. Then start exploring in this state. Go-Explore repeats the above process until the task is solved, i.e. at least one successful trajectory is found.
 
-Other exploration mechanisms
+Other Exploration Mechanisms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to the above exploration mechanism, there are also Q-value-based exploration [10]_ and so on. Interested readers can refer to this review of exploration strategies in reinforcement learning\ `blog <https://lilianweng.github.io/posts/2020-06-07-exploration-drl/>`__\ [14]_ 。
+In addition to the above exploration mechanism, there are also Q-value-based exploration [10]_ and so on. Interested readers can refer to this review of exploration strategies in reinforcement learning\ `blog <https://lilianweng.github.io/posts/2020-06-07-exploration-drl/>`__\ [14]_ .
 
-Future outlook
+Future Study
 ----------------
 
 -  In the current exploration methods based on intrinsic rewards, how to adaptively set the relative weights of intrinsic rewards and rewards given by the environment is a problem worthy of research.
