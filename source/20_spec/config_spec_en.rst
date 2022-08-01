@@ -5,7 +5,7 @@ The config submitted by the developer needs to comply with the following specifi
 
 The config of DI-engine includes two parts: main_config and create_config.
 
-example link
+Example Link
 -------------
 
 Example of a common algorithm (DQN):
@@ -16,22 +16,22 @@ Example of an algorithm (SQIL) containing a model or data:
 
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_sqil_config.py
 
-normative content
+Normative Content
 ------------------
 
-Grammar specification
+Grammar Specification
 ~~~~~~~~~~~~~~~~~~~~~~
 
--  config needs to satisfy flake8 python syntax check and yapf format.
+-  Config needs to satisfy flake8 python syntax check and yapf format.
 
-Naming conventions
+Naming Conventions
 ~~~~~~~~~~~~~~~~~~~
 
 -  config.py file name, main_config and create_config related variable names
 
-   -  unified with <environment name>\_<algorithm name>\_config.py. The name of the file and related variable names in the file do not need to add the default field. For example, the filename hopper_onppo_default_config.py should be changed to hopper_onppo_config.py.
+   -  Unified with <environment name>\_<algorithm name>\_config.py. The name of the file and related variable names in the file do not need to add the default field. For example, the filename hopper_onppo_default_config.py should be changed to hopper_onppo_config.py.
 
-   -  similar For the ICM algorithm, the general algorithm is the module proposed in the paper combined with a baseline algorithm, and the corresponding config name is in accordance with <environment name>\_<module name>\_<baseline algorithm name>\_config.py Name it like cartpole_icm_offppo_config.py
+   -  Similar For the ICM algorithm, the general algorithm is the module proposed in the paper combined with a baseline algorithm, and the corresponding config name is in accordance with <environment name>\_<module name>\_<baseline algorithm name>\_config.py Name it like cartpole_icm_offppo_config.py
 
    -  If the algorithm has different versions of on-policy and off-policy, unify the file name of config.py and the relevant variable name in the file, and use onppo/offppo to distinguish the algorithm of on-policy and off-policy version. For example, for the config of the PPO algorithm, hopper_ppo_config.py should be changed to hopper_onppo_config.py.
 
@@ -41,7 +41,7 @@ Naming conventions
 
    -  The naming convention is environment+algorithm+seed, eg:\ ``qbert_sqil_seed0``
 
--  file pathname
+-  File pathname
 
    -  See the sql example and comment accordingly. If multiple models need to be loaded, the model path (model_path) variables are named as follows: prefix1_model_path, prefix2_model_path, ..., The data path (data_path) variable is named similarly.
 
@@ -60,7 +60,7 @@ Naming conventions
    )
 
 
-main specification
+Main Specification
 ~~~~~~~~~~~~~~~~~~~
 
 -  For the env_manager field in create_config, except for simple environmentscartpole, pendulum, bitflip, The environment uses base, and other environments generally use subprocess:
@@ -89,7 +89,7 @@ main specification
               ),
           ),
       )
--  create config
+-  Create Config
 
    -  In the env field, only need to include ``type`` and ``import_names``\ fields, E.g:
 
@@ -110,7 +110,7 @@ main specification
 
    -  Use secondary references to avoid circular import: i.e. use\ ``from ding.entry import serial_pipeline``\ instead of\ ``from ding.entry.serial_entry import serial_pipeline``
 
-   -  use \ ``[main_config, create_config]`` 以统一风格，如果算法需要调用其他 config，可以不遵循此In a unified style, if the algorithm needs to call other configs, this convention may not be followed. e.g. imitation The learning algorithm needs to introduce expert config, see the example of sql for details.
+   -  Use \ ``[main_config, create_config]`` in a uniform style, if the algorithm needs to call other configs, it is not necessary to follow this convention. For example, the imitation learning algorithm needs to introduce expert config, see the example of sqil for details.
 
    -  Each config must have a startup command written in a format similar to the following
 
@@ -121,9 +121,9 @@ main specification
              from ding.entry import serial_pipeline
              serial_pipeline([main_config, create_config], seed=0)
 
-   -  Note that \ ``from ding.entry import serial_pipeline``\ this line should not be written at the beginning of the file, To be written below \ ``if ___name___ == "___main___":``\.
+   -  Note that \ ``from ding.entry import serial_pipeline``\ this line should not be written at the beginning of the file, but to be written below \ ``if ___name___ == "___main___":``\.
 
-   -  if the algorithm uses a different serial_pipeline_X, Need to add the corresponding startup command in https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ ``serial_X``\ .
+   -  If the algorithm uses a different serial_pipeline_X, Need to add the corresponding startup command in https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ ``serial_X``\ .
 
 -  seed is set in the entry function, do not include seed in config.
 
