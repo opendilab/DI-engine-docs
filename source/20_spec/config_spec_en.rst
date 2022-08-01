@@ -12,7 +12,7 @@ Example of a common algorithm (DQN):
 
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_dqn_config.py
 
-Example of an algorithm (SQIL) containing a model or data:
+Example of an algorithm (Soft Q Imitation Learning) containing a model or data:
 
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_sqil_config.py
 
@@ -43,7 +43,7 @@ Naming Conventions
 
 -  File pathname
 
-   -  See the sql example and comment accordingly. If multiple models need to be loaded, the model path (model_path) variables are named as follows: prefix1_model_path, prefix2_model_path, ..., The data path (data_path) variable is named similarly.
+   -  See the Soft Q Learning example and comment accordingly. If multiple models need to be loaded, the model path (model_path) variables are named as follows: prefix1_model_path, prefix2_model_path, ..., The data path (data_path) variable is named similarly.
 
 .. code:: python
 
@@ -110,7 +110,7 @@ Main Specification
 
    -  Use secondary references to avoid circular import: i.e. use\ ``from ding.entry import serial_pipeline``\ instead of\ ``from ding.entry.serial_entry import serial_pipeline``
 
-   -  Use \ ``[main_config, create_config]`` in a uniform style, if the algorithm needs to call other configs, it is not necessary to follow this convention. For example, the imitation learning algorithm needs to introduce expert config, see the example of sqil for details.
+   -  Use \ ``[main_config, create_config]`` in a uniform style, if the algorithm needs to call other configs, it is not necessary to follow this convention. For example, the imitation learning algorithm needs to introduce expert config, see the example of Soft Q Learning for details.
 
    -  Each config must have a startup command written in a format similar to the following
 
@@ -127,7 +127,7 @@ Main Specification
 
 -  Seed is set in the entry function, do not include seed in config.
 
--  If the hyperparameters in the algorithm have a certain reasonable range, please write a comment on the corresponding hyperparameters in the algorithm config, such as the alpha value in sqil:
+-  If the hyperparameters in the algorithm have a certain reasonable range, please write a comment on the corresponding hyperparameters in the algorithm config, such as the alpha value in SQIL:
 
    .. code:: python
 
