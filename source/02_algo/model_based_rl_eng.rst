@@ -42,7 +42,7 @@ Model utilization mainly emphasizes that Model-Based RL algorithms use environme
 Research Direction
 --------------------
 
-The papers of Model-Based RL in recent years have been sorted out and summarized in `awesome-model-based-RL <https://github.com/opendilab/awesome-model-based-RL>`_ [1]_。
+The papers of Model-Based RL in recent years have been sorted out and summarized in `awesome-model-based-RL <https://github.com/opendilab/awesome-model-based-RL>`_ [1]_.
 One of the most classic Model-Based RL algorithms is Dyna-type reinforcement learning, which is a type of architecture that combines Model-Based RL and Model-Free RL.
 In addition to the classic Dyna-type reinforcement learning, there are roughly the following categories of model-based reinforcement learning:
 
