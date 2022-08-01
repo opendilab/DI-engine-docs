@@ -63,7 +63,7 @@ Naming Conventions
 Main Specification
 ~~~~~~~~~~~~~~~~~~~
 
--  For the env_manager field in create_config, except for simple environmentscartpole, pendulum, bitflip, The environment uses base, and other environments generally use subprocess:
+-  For the env_manager field in create_config, in addition to the simple environment cartpole, pendulum, bitflip environment uses base, other environments generally use subprocess:
  
    .. code:: python
 
@@ -133,7 +133,7 @@ Main Specification
 
       alpha=0.1,  # alpha: 0.08-0.12
 
--  Make sure all parameters in config are valid, you need to delete unused keys.
+-  Make sure all parameters in config are valid. you need to delete unused keys.
 
--  Generally, the TODO item is not included in the config. If it is really necessary to write it into the config, you need to write the content clearly, for example: TODO(name):
+-  Generally, the TODO item is not included in the config. If it's  necessary to write  into the config, you need to write the content clearly, for example: TODO(name):
 
