@@ -125,7 +125,7 @@ Main Specification
 
    -  If the algorithm uses a different serial_pipeline_X, Need to add the corresponding startup command in https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ ``serial_X``\ .
 
--  seed is set in the entry function, do not include seed in config.
+-  Seed is set in the entry function, do not include seed in config.
 
 -  If the hyperparameters in the algorithm have a certain reasonable range, please write a comment on the corresponding hyperparameters in the algorithm config, such as the alpha value in sqil:
 
