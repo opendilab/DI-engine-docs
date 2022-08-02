@@ -7,14 +7,14 @@ Problem Definition and Research Motivation
 
 Reinforcement learning is to guide the update of the strategy through the reward signal given by the environment, and strive to obtain the maximum cumulative discount reward. But in many real-world environments the rewards are sparse or even non-existent. In this case, how to guide the agent to efficiently explore the state and action space, and then find the optimal strategy to complete the task?
 
-Because if the agent becomes greedy after a finite number of steps of training, i.e. chooses only the actions it currently thinks are optimal in a certain state, it may never learn the optimal policy, as it may well have converged to a suboptimal policy , will never reach a state of truly meaningful rewards. This is the so-called exploration and exploitation dilemma.
+If the agent becomes greedy after a finite number of steps of training, i.e. chooses only the actions it currently thinks are optimal in a certain state, it may never learn the optimal policy, as it may well have converged to a suboptimal policy , will never reach a state of truly meaningful rewards. This is the so-called exploration and exploitation dilemma.
 In layman's terms, the so-called exploration: refers to doing things you have never done before in order to expect higher returns; the so-called utilization: refers to doing what you currently know can produce the greatest returns.
 
-Referring to \ `Go-Explore <https://www.nature.com/articles/s41586-020-03157-9>`__ [9]_, the difficult problem of exploration mainly includes two difficulties:
+Referring to \ `Go-Explore <https://www.nature.com/articles/s41586-020-03157-9>`__ [9]_, exploration mainly includes two difficulties:
 
 -  The rewards given by the environment are sparse. The agent needs to make a specific sequence of actions to get a non-zero reward. If only random exploration is used in each step, it is likely that a non-zero reward will not be encountered in the entire learning process. For example, in Montezuma's Revenge, the agent needs to perform a long sequence of actions to obtain a key or enter a new room, and only then will there be a reward.
 
--  The rewards given by the environment are misleading. For example, in the Pitfall game, not only are the rewards very sparse, but many actions of the agent will get a negative reward. Before the agent learns how to obtain a positive reward, it may stop in place due to the existence of these negative rewards. Not moving, resulting in a lack of exploration.
+-  The rewards given by the environment are misleading. For example, in the Pitfall game, not only are the rewards very sparse, but many actions of the agent will get a negative reward. Before the agent learns how to obtain a positive reward, it may stop in place due to the existence of these negative rewards resulting in a lack of exploration.
 
 In the above cases, an efficient exploration mechanism is crucial for the agent to complete the task.
 
@@ -71,20 +71,20 @@ One of the more important methods in exploring mechanism design is to design spe
 
 We hope to achieve two things by adding this additional intrinsic reward:
 
-1.  Exploration of the state space: motivating the agent to explore more novel states. (need to evaluate the novelty of state \ :math:`s`\  )
+1.  Exploration of the state space: motivating the agent to explore more novel states. (Need to evaluate the novelty of state \ :math:`s`\  )
 
-2. Exploration of the state-action space: Incentivize the agent to perform actions that help reduce uncertainty about the environment. (Need to evaluate state-action pairs:math:`(s,a)` novelty)
+2. Exploration of the state-action space: Incentivizing the agent to perform actions that help reduce uncertainty about the environment. (Need to evaluate state-action pairs :math:`( s,a )` novelty)
 
-First give the definition of \**novelty**\ qualitatively:
+First give the definition of \ **novelty**\  qualitatively:
 
 -  For a state \ :math:`s`\ , among all states visited by the agent before, if the number of states similar to\ :math:`s`\ is less, we call the state\ :math:`s`\ is more novel (state-action pair :math:`( s,a )` is defined similarly for novelty).
 
-The more novel a certain state\ :math:`s`\ is, the more often the corresponding agent has insufficient cognition of the state\ :math:`s`\, and the agent needs to explore this state more when interacting with the environment later \ :math:`s`\ , so this specially designed exploration mechanism confers a greater intrinsic reward on that state. How to measure the novelty of the state\ :math:`s`\? There are two main ways, one is to measure the state by counting the state in some way, and the other is to measure based on the prediction error of a certain prediction problem, so as to obtain \ **Exploration based on intrinsic reward**\ the following 2 large subclasses of algorithms: \ **Count-based intrinsic reward**\ and \ **Prediction error-based intrinsic reward**\.
+The more novel a certain state\ :math:`s`\ is, the more often the corresponding agent has insufficient cognition of the state\ :math:`s`\, and the agent needs to explore this state more when interacting with the environment later \ :math:`s`\ , so this specially designed exploration mechanism confers a greater intrinsic reward on that state. How to measure the novelty of the state\ :math:`s`\? There are two main ways, one is to measure the state by counting the state in some way, and the other is to measure based on the prediction error of a certain prediction problem, so as to obtain \ **Exploration based on intrinsic reward**\  the following 2 large subclasses of algorithms: \ **Count-based intrinsic reward**\  and \ **Prediction error-based intrinsic reward**\.
 
 Count-Based Intrinsic Reward
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Count-based intrinsic reward adopts the simplest idea of measuring novelty by counting, i.e. each :math:`s` corresponds to a visit count\ :math:`N(s)`\  , the larger the value, the more times the agent has visited it before, that is, the exploration of:math:`s`  The more sufficient (or:math:`s` less novel). The exploration module gives an intrinsic reward that is inversely proportional to the state count.
+Count-based intrinsic reward adopts the simplest idea of measuring novelty by counting, i.e. each :math:`s` corresponds to a visit count\ :math:`N(s)`\  , the larger the value, the more times the agent has visited it before, that is, the exploration of:math:`s`  is more sufficient (or:math:`s` less novel). The exploration module gives an intrinsic reward that is inversely proportional to the state count.
 
 -  `Unifying Count-Based Exploration and Intrinsic
    Motivation <https://arxiv.org/abs/1606.01868>`__
@@ -121,7 +121,7 @@ Intrinsic Rewards Based on Information Theory
 
 To encourage exploration, another idea is to design intrinsic rewards based on information theory.
 The paper [11]_ introduced Variational information maximizing exploration (VIME), the core idea is the maximization of information gain about the agent's belief of environment dynamics, using variational inference in Bayesian neural networks, which can efficiently handle continuous state and action spaces.
-The paper [12]_ proposes the EMI algorithm (Exploration with Mutual Information), which does not learn representations through the usual encoding/decoding raw state or action space, but learns the relationship between states and actions by maximizing the mutual information between related state-action representations. sign,
+The paper [12]_ proposes the EMI algorithm (Exploration with Mutual Information), which does not learn representations through the usual encoding/decoding raw state or action space, but learns the relationship between states and actions by maximizing the mutual information between related state-action representations. 
 They experimentally verified that the forward prediction signal extracted in such a representation space can guide exploration well.
 In addition, there are also methods such as DIYAN [13]_, which is based on the objective function of mutual information to learn skill variables, which can automatically learn the distribution of state and skill by setting intrinsic rewards related to mutual information without external rewards. In subsequent hierarchical learning, imitation learning and exploration tasks.
 
@@ -147,13 +147,13 @@ Directed Exploration
 Strategies <https://arxiv.org/abs/2002.06038>`__\  (Never
 Give Up)
 The agent adopts a new intrinsic reward generation mechanism that integrates the novelty of 2 dimensions: namely the life-long dimension of the inter-game intrinsic reward and the single-game dimension of the intra-game intrinsic reward , and also proposed to simultaneously learn a set of strategies with different degrees of exploration (directed
-exploratory policies) to collect more abundant samples for training. Among them, the intrinsic reward between games is maintained by maintaining an Episodic that stores the state of the game. Memory, calculated by calculating the distance between the current state and the k most similar samples in Memory. More details about NGU can be found in the blog [TODO].
+exploratory policies) to collect more abundant samples for training. Among them, the intrinsic reward between games is maintained by maintaining an Episodic that stores the state of the game calculated by calculating the distance between the current state and the k most similar samples in Memory. More details about NGU can be found in the blog [TODO].
 
 Agent57
 ''''''''
 
 Paper [6]_ `Agent57: Outperforming the Atari Human
-Benchmark <https://arxiv.org/abs/2003.13350>`__\ made the following improvements on the basis of NGU:
+Benchmark <https://arxiv.org/abs/2003.13350>`__\  made the following improvements on the basis of NGU:
 
 -  Parameterization of the Q function: The Q network is divided into two parts, and the Q value corresponding to the intrinsic reward and the Q value corresponding to the extrinsic reward are learned respectively.
 
@@ -167,7 +167,7 @@ Direct Exploration
 Go-Explore
 ''''''''''''''''
 
-`Go-Explore <https://www.nature.com/articles/s41586-020-03157-9>`__ [8]_ [9]_  pointed out that there are currently two factors hindering the agent's exploration: forgetting how to reach a previously visited state (detachment); the agent cannot first return to a certain state, and then start exploration (derailment) from that state. For this reason, the author proposes a simple mechanism of\ **remembering a state, returning to that state, and exploring**\  from that state to deal with the above problem: by maintaining a memory of the states of interest and the trajectory leading to these states, The agent can return (assuming the simulator is deterministic) to these promising states and continue stochastic exploration from there. Novelty is measured by the prediction error of a state on a prediction problem (usually a supervised learning problem)
+`Go-Explore <https://www.nature.com/articles/s41586-020-03157-9>`__ [8]_ [9]_  pointed out that there are currently two factors hindering the agent's exploration: forgetting how to reach a previously visited state (detachment); the agent cannot first return to a certain state, and then start exploration (derailment) from that state. For this reason, the author proposes a simple mechanism of \ **remembering a state, returning to that state, and exploring**\   from that state to deal with the above problem: by maintaining a memory of the states of interest and the trajectory leading to these states, The agent can return (assuming the simulator is deterministic) to these promising states and continue stochastic exploration from there. Novelty is measured by the prediction error of a state on a prediction problem (usually a supervised learning problem)
 
 
 Specifically, first the state is mapped into a short discrete code (called a cell) for storage. If a new state appears or a better/shorter trajectory is found, the memory updates the corresponding state and trajectory. The agent can choose a state to return uniformly and randomly in the memory, or according to some heuristic rules, for example, it can select the returned state according to the related indicators such as the newness, the access count, the count of its neighbors in the memory and so on. Then start exploring in this state. Go-Explore repeats the above process until the task is solved, i.e. at least one successful trajectory is found.
@@ -175,7 +175,7 @@ Specifically, first the state is mapped into a short discrete code (called a cel
 Other Exploration Mechanisms
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to the above exploration mechanism, there are also Q-value-based exploration [10]_ and so on. Interested readers can refer to this review of exploration strategies in reinforcement learning\ `blog <https://lilianweng.github.io/posts/2020-06-07-exploration-drl/>`__\ [14]_ .
+In addition to the above exploration mechanism, there are also Q-value-based exploration [10]_ and so on. Interested readers can refer to this review of exploration strategies in reinforcement learning \ `blog <https://lilianweng.github.io/posts/2020-06-07-exploration-drl/>`__\ [14]_ .
 
 Future Study
 ----------------
