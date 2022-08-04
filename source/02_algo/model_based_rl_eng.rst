@@ -2,21 +2,21 @@ Model-Based Reinforcement Learning
 ######################################
 
 
-Model-Based Reinforcement Learning (Model-Based RL) is an important branch of reinforcement learning. The agent learns an environmental dynamics model through information interacting with the environment, and then uses the model to generate data to optimize action strategies, or use the model for planning.
-Model-Based RL methods first let the agent learn the environment dynamics model from the data obtained by interacting with the environment, and then use the environment model to generate a large number of virtual samples, thereby reducing the number of interactions with the real environment. Therefore, the sample utilization efficiency can be naturally improved.
+Model-Based Reinforcement Learning (Model-Based RL) is an important branch of reinforcement learning. The agent learns a dynamics model by interacting with the environment and then uses the model to generate data to optimize policy or use the model for planning.
+The Model-Based RL method first learns a dynamics model from the data obtained by interacting with the environment and then uses the dynamics model to generate a large number of simulated samples. In this way, the number of interactions with the real environment will be reduced, or in other words, the sample efficiency can be greatly improved.
 
 .. image:: ./images/model-based_rl.png
   :align: center
   :scale: 55%
 
 The environment model can generally be abstracted mathematically into a state transition function and a reward function.
-After learning the environment model, ideally, the agent does not need to interact with the real environment, but only in the simulated environment, which maximizes the cumulative discount reward through the RL algorithm to obtain the optimal policy.
+In the ideal case, the agent does not need to interact with the real environment anymore after learning the dynamics model. The agent can now query the dynamics model to produce simulated samples, by which the cumulative discount reward can be maximized to obtain the optimal policy.
 
 
 Problem Definition and Research Motivation
 ----------------------------------------------
 
-In general, the problems of Model-Based RL research can be divided into two categories: one is how to learn an accurate environment model, and the other is how to use the environment model for policy optimization.
+In general, the problems of Model-Based RL research can be divided into two categories: how to learn an accurate dynamics model, and how to use the dynamics model for policy optimization.
 
 **How to build an accurate environment model?** 
 
@@ -27,12 +27,12 @@ Model learning mainly emphasizes the process of building an environment model by
 
   But Model-Based RL also has several problems in the model learning part, for example,
 
-  - There will be errors in the environment model, and with the iterative interaction between the algorithm and the environment model, the accumulated error will become larger and larger, making it difficult for the algorithm to converge to the optimal solution.
+  - There will be errors in the dynamics model, and with the iterative interaction between the agent and the dynamics model, the error induced by the model will compound over time, making it difficult for the algorithm to converge to the optimal solution.
   - The environment model lacks generality, and every time a problem is changed, the model must be re-modeled.
 
 **How to use the environment model for policy optimization?**
 
-Model utilization mainly emphasizes that Model-Based RL algorithms use environmental models to assist policy learning, such as model-based planning or model-based policy learning.
+Model utilization mainly emphasizes that Model-Based RL algorithms use dynamics models to assist policy learning, such as model-based planning or model-based policy learning.
 
   - Both `ExIt <https://arxiv.org/abs/1705.08439>`_ [5]_ and `AlphaZero <https://arxiv.org/abs/1712.01815>`_ [6]_ are based on expert iteration and Monte Carlo tree search methods to learn strategies.
   - `POPLIN <https://openreview.net/forum?id=H1exf64KwH>`_ [7]_ does online planning based on the environment model, and proposes optimization ideas for action space and parameter space respectively.
@@ -43,8 +43,8 @@ Research Direction
 --------------------
 
 The papers of Model-Based RL in recent years have been sorted out and summarized in `awesome-model-based-RL <https://github.com/opendilab/awesome-model-based-RL>`_ [1]_.
-One of the most classic Model-Based RL algorithms is Dyna-type reinforcement learning, which is a type of architecture that combines Model-Based RL and Model-Free RL.
-In addition to the classic Dyna-type reinforcement learning, there are roughly the following categories of model-based reinforcement learning:
+One of the most classic Model-Based RL algorithms is Dyna-style reinforcement learning, which is a type of algorithm that combines Model-Based RL and Model-Free RL.
+In addition to the classic Dyna-style reinforcement learning, there are roughly the following categories of model-based reinforcement learning:
 
 1. Model-Based Planning Algorithms
 
@@ -57,7 +57,7 @@ In addition to the classic Dyna-type reinforcement learning, there are roughly t
 Model-Based Planning Algorithms
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After learning the dynamic model of the environment, the model can be directly used for planning. At this time, reinforcement learning can be transformed into an optimal control problem: the optimal strategy can be obtained through the planning algorithm, and the planning algorithm can also be used to generate better sample-assisted learning. 
+After learning the dynamics model of the environment, the model can be directly used for planning. At this time, reinforcement learning can be transformed into an optimal control problem: the optimal strategy can be obtained through the planning algorithm, and the planning algorithm can also be used to generate better samples to assist learning.
 The most common of this type of algorithms is the Cross Entropy Method (CEM). Its idea is to assume that the action sequence obeys a certain prior distribution, sample actions to obtain trajectories, and select a good trajectory to update the prior distribution a posteriori. 
 
 The model-based planning algorithm is roughly divided into three steps in each iteration:
