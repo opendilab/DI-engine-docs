@@ -103,7 +103,7 @@ However, count-based methods for measuring novelty have many obvious limitations
 Intrinsic Reward Based on Prediction Error
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Intrinsic reward based on prediction error is  \ **to use the prediction error of a state on a prediction problem (usually a supervised learning problem) to measure novelty**\. According to the characteristics of neural network fitting datasets in supervised learning, if the agent has a larger prediction error in a certain state \ :math:`s`\, the approximate state space in the vicinity of the state \ :math:`s`\. The number of previous visits by the upper agent is small, so the state\ :math:`s`\ is more novel.
+Intrinsic reward based on prediction error is \ **to use the prediction error of a state on a prediction problem (usually a supervised learning problem) to measure novelty**\. According to the characteristics of the neural network fitting data set in supervised learning, if the prediction error of the agent in a certain state  \ :math:`s`\ is larger, it approximately means that the number of previous visits by the agent in the state space near the state  \ :math:`s`\ is small, so the state \ :math:`s`\ is more novel.
 
 Prediction problems are often problems related to the dynamics of the environment, such as the paper [3]_ `Curiosity-driven Exploration by Self-supervised Prediction <http://proceedings.mlr.press/v70/pathak17a/pathak17a.pdf>`__ (ICM) proposed a new Intrinsic Curiosity module based on prediction error. Module, ICM), by using the inverse dynamics model and the forward dynamics model to learn a new feature space on the original problem space, so that the learned feature space only encodes the part that affects the agent's decision-making, while ignoring the environment noise and other irrelevant interference. Then on this purer feature space, the prediction error of the forward model is used to provide the intrinsic for RL training reward. For more details about ICM, please refer to \ `blog <https://zhuanlan.zhihu.com/p/473676311>`__\ .
 
@@ -114,7 +114,7 @@ But ICM has the following problems:
 -  In some environments, the state transition function of the environment is a random function, such as an environment containing noise-TV properties, and the agent cannot accurately predict the next state through the usual neural network.
 
 In order to alleviate the above problems, the paper [4]_ `Exploration by Random Network
-Distillation <https://arxiv.org/abs/1810.12894v1>`__\  proposes the RND algorithm, which is also an exploration method based on the prediction problem, but special is that the prediction in the RND algorithm The problem is a stochastic distillation problem related only to the observation state, not a forward or inverse dynamical model of the environment. Specifically, RND utilizes two neural networks with the same structure: a target network with fixed random initialization parameters. A predictor network network), the predictor network is used to output the predicted value of the state encoding given to the target network. Then the RND intrinsic exploration reward is defined as being proportional to the state feature predicted by the predictor network\ :math:`\hat{f}( s_t )`\ and the state feature of the target network :math:`f(s_t)`\  . For more details about RND, please refer to \ `blog <https://zhuanlan.zhihu.com/p/473676311>`__\.
+Distillation <https://arxiv.org/abs/1810.12894v1>`__\  proposes the RND algorithm, which is also an exploration method based on the prediction problem, but special, the prediction problem in the RND algorithm is only related to the observation state (observation). The related stochastic distillation problem is not about forward or inverse kinetic models of the environment. Specifically, RND uses two neural networks with the same structure: a target network with fixed random initialization parameters; a predictor network, which is used to output the state encoding given by the target network. Then the RND intrinsic exploration reward is defined as being proportional to the state feature predicted by the predictor network\ :math:`\hat{f}( s_t )`\ and the state feature of the target network :math:`f(s_t)`\  . For more details about RND, please refer to \ `blog <https://zhuanlan.zhihu.com/p/473676311>`__\.
 
 Intrinsic Rewards Based on Information Theory
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -123,12 +123,13 @@ To encourage exploration, another idea is to design intrinsic rewards based on i
 The paper [11]_ introduced Variational information maximizing exploration (VIME), the core idea is the maximization of information gain about the agent's belief of environment dynamics, using variational inference in Bayesian neural networks, which can efficiently handle continuous state and action spaces.
 The paper [12]_ proposes the EMI algorithm (Exploration with Mutual Information), which does not learn representations through the usual encoding/decoding raw state or action space, but learns the relationship between states and actions by maximizing the mutual information between related state-action representations. 
 They experimentally verified that the forward prediction signal extracted in such a representation space can guide exploration well.
-In addition, there are also methods such as DIYAN [13]_, which is based on the objective function of mutual information to learn skill variables, which can automatically learn the distribution of state and skill by setting intrinsic rewards related to mutual information without external rewards. In subsequent hierarchical learning, imitation learning and exploration tasks.
+In addition, there are also methods such as DIYAN [13]_, which is based on the objective function of mutual information to learn skill variables, which can automatically learn the distribution of state and skill by setting intrinsic rewards related to mutual information without external rewards， so as to use in subsequent tasks such as hierarchical learning, imitation learning, and exploration.
+
 
 Memory-Based Exploration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Intrinsic reward-based exploration methods such as ICM and RND propose to measure the novelty of a state by predicting the error of the problem, providing a large intrinsic reward for a state with a large novelty and promoting exploration. These methods are difficult to explore under many sparse reward settings. Good results have been achieved on the task of , but there is a problem: \ **As the number of training steps of the agent increases, the prediction error of the prediction problem begins to decrease, and the exploration signal becomes smaller, that is, the agent is no longer encouraged to visit a certain Some states, but it is possible that these states are the states that must be visited to obtain extrinsic rewards**\ . And there may also be the following problems:
+Intrinsic reward-based exploration methods such as ICM and RND propose to measure the novelty of a state by predicting the error of the problem, and provide a large intrinsic reward for a state with high novelty to promote exploration. These methods achieve promising results on exploration-difficult tasks under many sparse reward settings. But there is a problem:  \ **As the number of training steps of the agent increases, the prediction error of the prediction problem begins to decrease, and the exploration signal becomes smaller, that is, the agent is no longer encouraged to visit a certain Some states, but it is possible that these states must be visited to obtain extrinsic rewards**\ .And there may also be the following problems:
 
 -  The function approximation speed is relatively slow, and sometimes it cannot keep up with the speed of the agent's exploration, resulting in the intrinsic reward not well describing the novelty of the state.
 
@@ -142,10 +143,7 @@ Episodic Memory
 NGU
 ''''''''
 
-In order to solve the aforementioned problem of gradual attenuation of the exploration signal, the paper [5]_ `Never Give Up: Learning
-Directed Exploration
-Strategies <https://arxiv.org/abs/2002.06038>`__\  (Never
-Give Up)
+In order to solve the aforementioned problem of gradual attenuation of the exploration signal, the paper [5]_ `Never Give Up: Learning Directed Exploration Strategies <https://arxiv.org/abs/2002.06038>`__\  (Never Give Up)
 The agent adopts a new intrinsic reward generation mechanism that integrates the novelty of 2 dimensions: namely the life-long dimension of the inter-game intrinsic reward and the single-game dimension of the intra-game intrinsic reward , and also proposed to simultaneously learn a set of strategies with different degrees of exploration (directed
 exploratory policies) to collect more abundant samples for training. Among them, the intrinsic reward between games is maintained by maintaining an Episodic that stores the state of the game calculated by calculating the distance between the current state and the k most similar samples in Memory. More details about NGU can be found in the blog [TODO].
 
