@@ -5,7 +5,7 @@ dmc2gym
 =======
 
 dmc2gym 是针对\ `DeepMind Control Suite <https://github.com/deepmind/dm_control>`__\ 的轻量级wrapper，提供标准的 OpenAI Gym 接口。
-DeepMind Control Suite 是一组具有标准化结构和可解释奖励的连续控制任务，旨在作为强化学习代理的性能基准。
+DeepMind Control Suite 是一组具有标准化结构和可解释奖励的连续控制任务，旨在作为强化学习agent的性能基准。
 
 
 .. image:: ./images/dmc2gym.png
@@ -17,17 +17,17 @@ DeepMind Control Suite 是一组具有标准化结构和可解释奖励的连续
 安装方法
 --------
 
-需安装 gym 、 dm_control 和 dmc2gym , 用户可以选择通过 pip 一键安装（这里我不确定）
+需安装 gym 、 dm_control , 用户可以选择通过 pip 一键安装（这里我不确定）
 
-注：如果用户没有 root 权限，请在 install 的命令后面加上 ``--user``
+注：如果要把相应的包安装到用户目录（例如用户没有 root 权限，需将相应的包安装到用户目录），请在 install 的命令后面加上 ``--user``
 
 
 .. code:: shell
 
-   # Install Directly
-   pip install gym
-   pip install dm_control
-   pip install git+git://github.com/denisyarats/dmc2gym.git
+    # Install Directly
+    pip install gym
+    pip install dm_control
+    pip install git+git://github.com/denisyarats/dmc2gym.git
 
 验证安装
 --------
@@ -36,7 +36,7 @@ DeepMind Control Suite 是一组具有标准化结构和可解释奖励的连续
 
 .. code:: python
 
-   import dmc2gym
+    import dmc2gym
     env = dmc2gym.make(domain_name='point_mass', task_name='easy', seed=1)
     obs = env.reset()
     print(obs.shape)    # (4,)
@@ -52,43 +52,61 @@ DI-engine 的镜像配备有框架本身和 dmc2gym 环境，可通过\ ``docker
 选择任务
 ----------------
 
-dm_control 包含多个任务，我们这里暂时实现了如下任务：
+dm_control 包含多个domain （即物理模型），而不同domain有不同的task（具有特定 MDP 结构的模型的实例）。我们这里暂时实现了如下 domain 及其 task ：
 
--  Ball in cup (8, 2, 8)
+-  Ball in cup
+
+    .. image:: ./images/dmc2gym-ball_in_cup.png
+        :align: center
    
    平面球杯任务。一个被驱动的平面容器可以在垂直平面上平移，以便摆动并接住一个连接在其底部的球。当球在杯子里时，接球任务的奖励为 1，否则为 0。
 
    -  catch
   
--  Cart-pole (4, 1, 5)
+-  Cart-pole
 
-   通过在其底部向推车施加力来摆动并平衡未驱动的杆。本环境实现了如下任务
+    .. image:: ./images/dmc2gym-cartpole.png
+        :align: center
+
+   符合 \ `Barto等人1983年 <https://ieeexplore.ieee.org/abstract/document/6313077>`__\ 提出的物理模型。通过在其底部向推车施加力来摆动并平衡未驱动的杆。本环境实现了如下任务
 
    -  balance: 初始杆靠近立柱
 
    -  swingup: 初始杆指向下方
 
--  Cheetah (18, 6, 17)
-  
-   平面的奔跑中的两足动物，奖励\ ``r``\ 与前向速度 \ ``v``\ 成线性比例，最大为 10m/s，即 \ ``r(v) = max(0, min(v/10, 1))``\
+-  Cheetah
+
+    .. image:: ./images/dmc2gym-cheetah.png
+        :align: center
+
+   平面奔跑的两足动物，基于 \ `Wawrzyński等人2009年 <https://www.sciencedirect.com/science/article/abs/pii/S0893608009001026>`__\ 提出的模型，奖励\ ``r``\ 与前向速度 \ ``v``\ 成线性关系，最大为 10m/s，即 \ ``r(v) = max(0, min(v/10, 1))``\ 。
 
    -  run
 
--  Finger (6, 2, 12)
-   
-   基于 xxxpaper 的 3 自由度玩具操纵问题。 平面上用一个“手指”在无其他驱动力的铰链上旋转物体，使得自由体的尖端必须与目标重叠。
+-  Finger
+
+    .. image:: ./images/dmc2gym-finger.png
+        :align: center
+
+   基于 \ `Tassa等人2010年 <https://homes.cs.washington.edu/~todorov/papers/TassaRSS10.pdf>`__\ 提出模型的 3 自由度玩具操纵问题。 平面上用一个“手指”在无其他驱动力的铰链上旋转物体，使得物体的尖端与目标重叠。
 
    -  spin: 在此任务中，物体必须不断地旋转。
 
--  Reacher (4, 2, 7)
+-  Reacher
 
-   具有随机目标位置的简单两连杆平面伸展器。 奖励是杆末端执行器穿透目标球体时的奖励。
+    .. image:: ./images/dmc2gym-reacher.png
+        :align: center
 
-   -  easy: 目标球体比在困难任务中更大
+   目标位置随机的简单两连杆平面伸展器。 在杆末端穿透目标球体时奖励为1。
 
--  Walker (18, 6, 24)
+   -  easy: 目标球体比在困难任务中更大.
 
-   基于 xxxpaper 中介绍的改进的平面步行器。 walk 任务包括一个鼓励前进速度的组件。
+-  Walker
+
+    .. image:: ./images/dmc2gym-walker.png
+        :align: center
+
+   基于 \ `Lillicrap等人2015年 <https://arxiv.org/abs/1509.02971>`__\ 提出模型的改进的平面步行器。 walk 任务包含一个组件激励快速前进。
 
    -  walk
 
@@ -104,7 +122,9 @@ dm_control 包含多个任务，我们这里暂时实现了如下任务：
     }))
 
 
--  按照论文中的任务，相应的状态空间、动作空间、观察空间\ ``(dim(S), dim(A), dim(O))``\ 如下表所示：
+-  
+
+-  相应的状态空间、动作空间、观察空间\ ``(dim(S), dim(A), dim(O))``\ 如下表所示：
 
 +------------+----------+------------+------------+-----------+
 |   Domain   |   Task   |   dim(S)   |   dim(A)   |   dim(O)  |
@@ -115,7 +135,7 @@ dm_control 包含多个任务，我们这里暂时实现了如下任务：
 +            +----------+------------+------------+-----------+
 |            |swingup   |4           |1           |5          |
 +------------+----------+------------+------------+-----------+
-|cheetah     |run       |18          |6           |7          |
+|cheetah     |run       |18          |6           |17         |
 +------------+----------+------------+------------+-----------+
 |finger      |spin      |6           |2           |12         |
 +------------+----------+------------+------------+-----------+
@@ -124,7 +144,12 @@ dm_control 包含多个任务，我们这里暂时实现了如下任务：
 |walker      |walk      |18          |6           |24         |
 +------------+----------+------------+------------+-----------+
 
+.. note::
+    dm_control 中的 task 均遵循马尔可夫决策过程( MDP )。
 
+    - 状态 \ ``s``\ 除空间方向外是一个实数向量 :math:`\cal{S} \equiv \mathbb{R}^{dim(\cal{S})}` ，其中空间方向由单位四元数 :math:`\in SU(2)` 表示。
+
+    - 观察 \ ``o(s, a)``\ 描述了 agent 可获取的观察结果。我们实现的 task 均为强可观测的，即可以从单个观察中复原状态。仅取决于状态（位置和速度）的观测特征是当前状态的函数。也依赖于控件（例如触摸传感器读数）的观测特征是之前transition的函数。
 
 观察空间
 ----------------
@@ -178,16 +203,6 @@ dm_control 包含多个任务，我们这里暂时实现了如下任务：
 其他
 ====
 
-游戏结束
----------------------
-
-什么时候算结束？
-
-随机种子
-----------------------
-
-暂时没有很懂，但是有dynamic_seed
-
 存储录像
 ----------------------
 
@@ -219,7 +234,6 @@ dm_control 包含多个任务，我们这里暂时实现了如下任务：
 DI-zoo 可运行代码示例
 ======================
 
-! 这里的config有点问题
 
 完整的示例文件在 `github
 link <https://github.com/opendilab/DI-engine/blob/main/dizoo/dmc2gym/entry/dmc2gym_save_replay_example.py>`__
@@ -295,22 +309,11 @@ link <https://github.com/opendilab/DI-engine/blob/main/dizoo/dmc2gym/entry/dmc2g
     create_config = cartpole_balance_create_config
 
 
-基准算法性能
-==============
-
--  dmc2gym
-
-   - Cartpole Balance + DDPG
-
--  等结果
-
 文档问题
 ==============
 
-! 需要说一下可以cfg调整的参数吗
+! dim(S)需要吗？为什么cheetah的dim(A)>dim(S)?
 
-! dim(S)需要吗？
+! 什么时候算游戏结束？
 
-! 开头的简介好像需要再多点？感觉都没说清动作、奖励的含义等等，简单说一下？
-
-! 各任务基于paper需要写出来吗？图可以用吗
+! 随机种子
