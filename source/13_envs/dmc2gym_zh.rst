@@ -17,9 +17,9 @@ DeepMind Control Suite 是一组具有标准化结构和可解释奖励的连续
 安装方法
 --------
 
-需安装 gym 、 dm_control , 用户可以选择通过 pip 一键安装（这里我不确定）
+需安装 gym 、 dm_control , 用户可以选择通过 pip 一键安装。
 
-注：如果要把相应的包安装到用户目录（例如用户没有 root 权限，需将相应的包安装到用户目录），请在 install 的命令后面加上 ``--user``
+注：如果要把相应的包安装到用户目录（例如用户没有 root 权限，需将相应的包安装到用户目录），请在 install 的命令后面加上 ``--user``。
 
 
 .. code:: shell
@@ -57,6 +57,7 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 -  Ball in cup
 
     .. image:: ./images/dmc2gym-ball_in_cup.png
+        :width: 300
         :align: center
    
    平面球杯任务。一个被驱动的平面容器可以在垂直平面上平移，以便摆动并接住一个连接在其底部的球。当球在杯子里时，接球任务的奖励为 1，否则为 0。
@@ -66,6 +67,7 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 -  Cart-pole
 
     .. image:: ./images/dmc2gym-cartpole.png
+        :width: 300
         :align: center
 
    符合 \ `Barto等人1983年 <https://ieeexplore.ieee.org/abstract/document/6313077>`__\ 提出的物理模型。通过在其底部向推车施加力来摆动并平衡未驱动的杆。本环境实现了如下任务
@@ -77,6 +79,7 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 -  Cheetah
 
     .. image:: ./images/dmc2gym-cheetah.png
+        :width: 300
         :align: center
 
    平面奔跑的两足动物，基于 \ `Wawrzyński等人2009年 <https://www.sciencedirect.com/science/article/abs/pii/S0893608009001026>`__\ 提出的模型，奖励\ ``r``\ 与前向速度 \ ``v``\ 成线性关系，最大为 10m/s，即 \ ``r(v) = max(0, min(v/10, 1))``\ 。
@@ -86,6 +89,7 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 -  Finger
 
     .. image:: ./images/dmc2gym-finger.png
+        :width: 300
         :align: center
 
    基于 \ `Tassa等人2010年 <https://homes.cs.washington.edu/~todorov/papers/TassaRSS10.pdf>`__\ 提出模型的 3 自由度玩具操纵问题。 平面上用一个“手指”在无其他驱动力的铰链上旋转物体，使得物体的尖端与目标重叠。
@@ -95,6 +99,7 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 -  Reacher
 
     .. image:: ./images/dmc2gym-reacher.png
+        :width: 300
         :align: center
 
    目标位置随机的简单两连杆平面伸展器。 在杆末端穿透目标球体时奖励为1。
@@ -104,6 +109,7 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 -  Walker
 
     .. image:: ./images/dmc2gym-walker.png
+        :width: 300
         :align: center
 
    基于 \ `Lillicrap等人2015年 <https://arxiv.org/abs/1509.02971>`__\ 提出模型的改进的平面步行器。 walk 任务包含一个组件激励快速前进。
@@ -120,9 +126,6 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
         "domain_name": "cartpole",
         "task_name": "balance",
     }))
-
-
--  
 
 -  相应的状态空间、动作空间、观察空间\ ``(dim(S), dim(A), dim(O))``\ 如下表所示：
 
@@ -165,7 +168,7 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 
    -  \ ``channels_first=True``\观察空间shape为[3, height, width]
 
-   -  \ ``channels_first=False``\ ，观察空间shape为[3, height, width]
+   -  \ ``channels_first=False``\ ，观察空间shape为[height, width, 3]
 
 -  每个channel的单个像素值范围为\ ``[0, 255]``\ ， 数据类型为\ ``uint8``\
 
@@ -193,15 +196,32 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 
 -  范围为\ ``[0, frame_skip]``\ ，类型为\ ``float32``\ ，默认\ ``frame_skip = 1``\
 
-   -  即每帧画面的奖励空间为 [0, 1] ，\ ``frame_skip``\ 对奖励进行了进行叠加（这个说法不是很好）
+   -  即每帧画面的奖励空间为 \ ``[0, 1] ``\ ，将\ ``frame_skip``\ 帧的 reward 叠加在一起作为整体的 reward
 
 非基于图像观察 
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
--  维度为\ ``1``\ ，范围 [0, 1] ，类型为\ ``float32``\
+-  维度为\ ``(1, )``\ ，范围 \ ``[0, 1] ``\ ，类型为\ ``float32``\
 
 其他
 ====
+
+中止条件
+--------
+
+控制任务分为 finite-horizon, firstexit 以及 infinite-horizon ，Control Suite 属于 infinite-horizon ，所以任务没有中止状态或时间限制。
+
+随机种子
+--------
+
+-  环境中有两部分随机种子需要设置，一是原始环境的随机种子，二是各种环境变换使用到的随机库的随机种子（例如\ ``random``\ ，\ ``np.random``\ ）
+
+-  对于环境调用者，只需通过环境的\ ``seed``\ 方法进行设置这两个种子，无需关心具体实现细节
+
+-  环境内部的具体实现：对于原始环境的种子，在调用环境的\ ``reset``\ 方法内部，具体的原始环境\ ``reset``\ 之前设置
+
+-  环境内部的具体实现：对于随机库种子，则在环境的\ ``seed``\ 方法中直接设置该值; 对于原始环境的种子，在调用环境的\ ``reset``\ 方法内部，具体的原始环境\ ``reset``\ 之前设置为seed + np_seed, 其中seed为前述的随机库种子的值,
+   np_seed = 100 * np.random.randint(1, 1000)。
 
 存储录像
 ----------------------
@@ -307,13 +327,3 @@ link <https://github.com/opendilab/DI-engine/blob/main/dizoo/dmc2gym/entry/dmc2g
     )
     cartpole_balance_create_config = EasyDict(cartpole_balance_create_config)
     create_config = cartpole_balance_create_config
-
-
-文档问题
-==============
-
-! dim(S)需要吗？为什么cheetah的dim(A)>dim(S)?
-
-! 什么时候算游戏结束？
-
-! 随机种子
