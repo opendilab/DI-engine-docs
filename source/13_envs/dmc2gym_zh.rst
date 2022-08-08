@@ -162,13 +162,13 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 
 -  即当设置\ ``from_pixels=True``\时，观察空间为三通道，长宽分别为height, width的游戏图像
 
--  可以通过设置cfg中的\ ``height, width``\ 参数调整所观察图像尺寸。
+-  可以通过设置\ ``height, width``\ 参数调整所观察图像尺寸。
 
 -  通过设置\ ``channels_first``\ 来决定观察空间的具体shape
 
-   -  \ ``channels_first=True``\观察空间shape为[3, height, width]
+   -  \ ``channels_first=True``\观察空间shape为 \ ``[3, height, width]``\
 
-   -  \ ``channels_first=False``\ ，观察空间shape为[height, width, 3]
+   -  \ ``channels_first=False``\ ，观察空间shape为 \ ``[height, width, 3]``\
 
 -  每个channel的单个像素值范围为\ ``[0, 255]``\ ， 数据类型为\ ``uint8``\
 
@@ -192,16 +192,16 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 基于图像观察 
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
--  与 cfg 设置的\ ``frame_skip``\ 参数有关，即表示每一步基于\ ``frame_skip``\ 帧的图像，维度为\ ``1``\
+-  与 \ ``frame_skip``\ 参数有关，即表示每一步基于\ ``frame_skip``\ 帧的图像，维度为\ ``(1,)``\
 
 -  范围为\ ``[0, frame_skip]``\ ，类型为\ ``float32``\ ，默认\ ``frame_skip = 1``\
 
-   -  即每帧画面的奖励空间为 \ ``[0, 1] ``\ ，将\ ``frame_skip``\ 帧的 reward 叠加在一起作为整体的 reward
+   -  即每帧画面的奖励空间为 \ ``[0, 1]``\ ，将 \ ``frame_skip``\ 帧的 reward 叠加在一起作为整体的 reward
 
 非基于图像观察 
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
--  维度为\ ``(1, )``\ ，范围 \ ``[0, 1] ``\ ，类型为\ ``float32``\
+-  维度为 \ ``(1, )``\ ，范围 \ ``[0, 1]``\ ，类型为 \ ``float32``\ 
 
 其他
 ====
@@ -209,7 +209,13 @@ dm_control 包含多个domain （即物理模型），而不同domain有不同�
 中止条件
 --------
 
-控制任务分为 finite-horizon, firstexit 以及 infinite-horizon ，Control Suite 属于 infinite-horizon ，所以任务没有中止状态或时间限制。
+控制任务分为 finite-horizon, firstexit 以及 infinite-horizon ， DeepMind Control Suite 属于 infinite-horizon ，所以任务没有中止状态或时间限制。
+
+惰性初始化
+----------
+
+为了便于支持环境向量化等并行操作，环境实例一般实现惰性初始化，即\ ``__init__``\ 方法不初始化真正的原始环境实例，只是设置相关参数和配置值，在第一次调用\ ``reset``\ 方法时初始化具体的原始环境实例。
+
 
 随机种子
 --------
