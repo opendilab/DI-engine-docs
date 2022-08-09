@@ -17,7 +17,7 @@ DeepMind Control Suite 是一组具有标准化结构和可解释奖励的连续
 安装方法
 --------
 
-需安装 gym 、 dm_control , 用户可以选择通过 pip 一键安装。
+需要安装 \ ``gym``\ ， \ ``dm_control``\ 和 \ ``dmc2gym``\  , 用户可以选择通过下列 pip 命令一键安装。（注意 \ ``dm_control``\  如果存在问题请参考官方的\ `相关说明 <https://github.com/deepmind/dm_control>`__\ ）
 
 注：如果要把相应的包安装到用户目录（例如用户没有 root 权限，需将相应的包安装到用户目录），请在 install 的命令后面加上 ``--user``。
 
