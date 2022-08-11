@@ -17,7 +17,7 @@ Quick Facts
 
 Key Graphs
 ----------
-PLR selectively samples the next training level based on an estimated learning potential of replaying each level anew. The next level is either sampled from a distribution with support over unseen levels (top), which could be the environment’s (perhaps implicit) full training-level distribution, or alternatively, sampled from the replay distribution, which prioritizes levels based on future learning potential (bottom).
+PLR selectively samples the next training level based on an estimated learning potential of replaying each level anew. The next level is either sampled from a distribution with support over unseen levels (top), which could be the environment’s (perhaps implicit) full training-level distribution, or alternatively, sampled from the replay distribution, which prioritizes levels based on future learning potential (bottom).
 
 .. image:: images/PLR_pic.png
    :align: center
@@ -27,7 +27,7 @@ Key Equations
 -------------
 The Scoring Levels for Learning Potential is:
 
-.. image:: images/PLR_score.png
+.. image:: images/PLR_Score.png
    :align: center
    :height: 250
 
@@ -81,7 +81,7 @@ Benchmark
      - evaluation results
      - config link
    * - | BigFish
-     - .. image:: images/benchmark/PLR_result.png
+     - .. image:: images/PLR_result.png
      - `config_link_p <https://github.com/opendilab/DI-engine/blob/main/dizoo/procgen/entry/bigfish_plr_config.py>`_
 
 References
