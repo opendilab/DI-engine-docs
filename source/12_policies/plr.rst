@@ -57,14 +57,14 @@ As the scores used to parameterize :math:`P_{S}` are a function of the state of 
 Pseudo-code
 -----------
 
-  Policy-gradient training loop with PLR
+Policy-gradient training loop with PLR
 
-  .. image:: images/PLR_1.png
+.. image:: images/PLR_1.png
 
 
-  Experience collection with PLR
+Experience collection with PLR
 
-  .. image:: images/PLR_2.png
+.. image:: images/PLR_2.png
 
 
 Benchmark
