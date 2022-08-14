@@ -43,7 +43,7 @@ Given level scores, we use normalized outputs of a prioritization function :math
 
 where :math:`\operatorname{rank}\left(S_{i}\right)` is the rank of level score :math:`S_{i}` among all scores sorted in descending order.
 
-As the scores used to parameterize :math:`P_{S}` are a function of the state of the policy at the time the associated level was last played, they come to reflect a gradually more off-policy measure the longer they remain without an update through replay. We mitigate this drift towards “off-policy-ness” by explicitly mixing the sampling distribution with a stalenessprioritized distribution :math:`P_{C}` :
+As the scores used to parameterize :math:`P_{S}` are a function of the state of the policy at the time the associated level was last played, they come to reflect a gradually more off-policy measure the longer they remain without an update through replay. We mitigate this drift towards “off-policy-ness” by explicitly mixing the sampling distribution with a staleness prioritized distribution :math:`P_{C}` :
 
 .. math::
 
@@ -59,16 +59,12 @@ Pseudo-code
 
   Policy-gradient training loop with PLR
 
-.. image:: images/PLR_1.png
-   :align: center
-   :scale: 50%
+  .. image:: images/PLR_1.png
 
 
   Experience collection with PLR
 
-.. image:: images/PLR_2.png
-   :align: center
-   :scale: 50%
+  .. image:: images/PLR_2.png
 
 
 Benchmark
