@@ -39,7 +39,7 @@ DI-engine 使用全局配置文件来控制环境和策略的所有变量，每�
 
 .. note::
 
-    如果找不到合适的 Env Wrapper， 您可以按照 ``gym.Wrapper`` 格式定义自己的 Wrapper ，也可以根据 `Customized Env doc <https://di-engine-docs.readthedocs.io/en/latest/04_best_practice/ding_env.html>`_实现符合 DI-engine 的环境格式
+    如果找不到合适的 Env Wrapper， 您可以按照 ``gym.Wrapper`` 格式定义自己的 Wrapper ，也可以根据 `Customized Env doc <https://di-engine-docs.readthedocs.io/en/latest/04_best_practice/ding_env.html>`_ 实现符合 DI-engine 的环境格式
 
 
 .. code-block:: python
