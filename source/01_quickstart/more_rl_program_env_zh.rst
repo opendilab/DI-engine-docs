@@ -15,7 +15,7 @@
 使用配置文件
 ------------------------------
 
-DI-engine 使用全局配置文件来控制环境和策略的所有变量，每个变量都有对应的默认配置可以在 ` mario_dqn_config <https://github.com/opendilab/DI-engine/blob/main/dizoo/mario/mario_dqn_config.py>`_ 中找到，在本次教程中我们直接使用默认配置：
+DI-engine 使用全局配置文件来控制环境和策略的所有变量，每个变量都有对应的默认配置可以在 `mario_dqn_config <https://github.com/opendilab/DI-engine/blob/main/dizoo/mario/mario_dqn_config.py>`_ 中找到，在本次教程中我们直接使用默认配置：
 
 .. code-block:: python
 
@@ -27,7 +27,7 @@ DI-engine 使用全局配置文件来控制环境和策略的所有变量，每�
 初始化环境
 ------------------------------
 
-``超级马里奥兄弟`` 是一个 **图像输入** 观察环境, 所以我们不只是通过 ``DingEnvWrapper``封装原始的 gym 环境，而是需要添加一些额外的 Wrapper 在发送给DQN    Policy 之前对观测进行预处理。
+``超级马里奥兄弟`` 是一个 **图像输入** 观察环境, 所以我们不只是通过 ``DingEnvWrapper`` 封装原始的 gym 环境，而是需要添加一些额外的 Wrapper 在发送给DQN    Policy 之前对观测进行预处理。
 在本教程中，我们使用以下5个 Wrapper 来预处理数据并转换为 DI-engine 的环境格式，下列是一些基本描述，你可以在这里找到 `完整代码实现和注释 <https://github.com/opendilab/DI-engine/blob/main/ding/envs/env_wrappers/env_wrappers.py>`_
 
   - ``MaxAndSkipWrapper`` : 由于连续帧变化不大，我们可以跳过n个中间帧来简化它而不会损失太多信息。
@@ -39,7 +39,7 @@ DI-engine 使用全局配置文件来控制环境和策略的所有变量，每�
 
 .. note::
 
-    如果找不到合适的 Env Wrapper， 您可以按照 ``gym.Wrapper`` 格式定义自己的 Wrapper ，也可以根据 ` Customized Env doc <https://di-engine-docs.readthedocs.io/en/latest/04_best_practice/ding_env.html>`_ 实现符合 DI-engine 的环境格式
+    如果找不到合适的 Env Wrapper， 您可以按照 ``gym.Wrapper`` 格式定义自己的 Wrapper ，也可以根据 `Customized Env doc <https://di-engine-docs.readthedocs.io/en/latest/04_best_practice/ding_env.html>`_实现符合 DI-engine 的环境格式
 
 
 .. code-block:: python
@@ -75,7 +75,7 @@ DI-engine 使用全局配置文件来控制环境和策略的所有变量，每�
 
 .. note::
 
-    以下内容与 `` CartPole + DQN `` 示例相同, 只需要选择策略并搭建整个训练管线
+    以下内容与 ``CartPole + DQN`` 示例相同, 只需要选择策略并搭建整个训练管线
 
 选择策略
 --------------
