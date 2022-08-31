@@ -13,7 +13,7 @@ In many real-world scenarios, people need to control multiple agents that exist 
    :scale: 50 %
 
 
-In MARL, the policy controls multiple agents to interact with the environment simultaneously, and the goal is still to maximize the cumulative reward that can be obtained. At this time, the transition of the global state of the environment and the reward value are related to the joint action of all agents rather than the action of a single agent. Therefore, in the process of policy learning, the update of each agent's policy needs to consider the current policies of other agents.
+In MARL, the policy controls multiple agents to interact with the environment simultaneously, and the goal is still to maximize the cumulative reward. In this case, the state transition function and the reward function of the environment are conditioned on the joint action of all agents rather than the single action of one agent. Therefore, in the process of policy learning, the update of each agent's policy needs to consider the current policies of other agents.
 
 .. image:: images/MARL_summary.png
    :align: center
