@@ -19,7 +19,7 @@ In MARL, the policy controls multiple agents to interact with the environment si
    :align: center
    :scale: 50 %
 
-In this figure 1, :math:`system` represents a multi-agent environment, :math:`Agent_i` represents the ith agent,:math:`a_i` represents the action taken by the ith agent,:math:`r_i` represents the local reward obtained by the ith agent.
+In this figure 1, :math:`system` represents a multi-agent environment, :math:`Agent_i` represents the ith agent, :math:`a_i` represents the action taken by the ith agent, :math:`r_i` represents the local reward obtained by the ith agent.
 During the training process, each agent interacts with the environment separately, and the system feeds back a joint reward.
 
 
