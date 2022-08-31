@@ -6,7 +6,7 @@ Problem Definition and Research Motivation
 -----------------------------------------------
 
 
-In many real-world scenarios, people need to control multiple agents that exist at the same time to complete specific tasks, such as traffic control, robot collaboration, autonomous driving, and multiplayer online games. Therefore, the research on reinforcement learning has gradually extended from the field of single agent to multi-agent reinforcement learning (MARL). In recent years, deep reinforcement learning has shown great potential in multi-agent environments and games, such as the sub-environment SMAC of StarCraft II, the football game Gfootball, and autonomous driving environments such as Carla.
+In many real-world scenarios, people need to control multiple agents that exist at the same time to complete specific tasks, such as traffic control, robot collaboration, autonomous driving, and multiplayer online games. Therefore, the research on reinforcement learning has gradually extended from the field of single agent to multi-agent reinforcement learning (MARL). In recent years, deep reinforcement learning has shown great potential in multi-agent environments and games, such as the sub-environment 'SMAC <https://github.com/oxwhirl/smac>'_ of StarCraft II, the football game 'Gfootball <https://github.com/google-research/football>'_ , and autonomous driving environments such as 'Carla <https://carla.org/>'_ .
 
 .. image:: images/smac.gif
    :align: center
