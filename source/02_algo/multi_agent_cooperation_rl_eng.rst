@@ -37,9 +37,9 @@ In general, the main difference between multi-agent reinforcement learning and s
 
 Research Direction
 -----------------------
-For the MARL cooperation task, the simplest idea is to directly apply the single-agent reinforcement learning method to the multi-agent system, that is, each agent regards other agents as factors in the environment, and still learns according to the single agent way to update the policy by interacting with the environment; This is the idea of independent Q-learning, independent PPO methods, but due to the non-stationarity of the environment and the locality of agent observations, these methods are difficult to achieve good results.
+For MARL cooperation tasks, the simplest idea is to directly apply single-agent reinforcement learning methods to multi-agent systems. Specifically, each agent regards other agents as part of the environment, and then utilize the single agent reinforcement learning paradigms. This is the basic idea of independent Q-learning, independent PPO, but due to the non-stationarity of the environment and the locality of agent observation, these methods are difficult to achieve good results.
 
-At present, MARL cooperation mainly adopts the method of CTDE (centralized training and decentralized execute), and there are two main types of solutions, Valued-based MARL and Actor-Critic MARL. For details, please refer to the following figure:
+At present, the cooperative tasks in MARL mainly adopt the CTDE paradigm (centralized training and decentralized execution), which mainly include two types of learning methods, Valued-based MARL and Actor-Critic MARL. Please refer to Figure 2 for details:
 
 .. image:: images/MARL_cooperation_algo.png
    :align: center
@@ -57,9 +57,9 @@ For Valued-based MARL, the main idea is to decompose the global reward value int
 
 - QPLEX: QPLEX decomposes the joint Q-value :math:`Q_tot` and the Q-value of each agent :math:`Q_i` using a Dueling structure, respectively. The IGM consistency is transformed into an easy-to-implement advantage function value range constraint, which facilitates the learning of value functions with a linear decomposition structure. For details, please refer to `QPLEX <https://arxiv.org/abs/2008.01062>`_ [10]_
 
-**Actor-critic MARL**
+**Actor-Critic MARL**
 
-For Actor-critic MARL, the main idea is to learn a multi-agent policy network. There are mainly COMA, MAPPO and other methods:
+For Actor-Critic MARL, the main idea is to use the policy gradient theorem to update the policy networks while learning a fully centralized state-action value function and use it to guide the optimization of decentralized policies.
 
 - COMA: COMA uses counterfactual baselines to address the challenge of credit assignment across multiple agents and a critic network to efficiently compute counterfactual baselines. For details, please refer to `COMA <https://github.com/opendilab/DI-engine-docs/blob/main/source/hands_on/coma.rst>`_ [5]_
 
