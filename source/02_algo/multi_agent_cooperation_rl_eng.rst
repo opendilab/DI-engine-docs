@@ -47,7 +47,7 @@ At present, the cooperative tasks in MARL mainly adopt the CTDE paradigm (centra
 
 **Valued-based MARL**
 
-For Valued-based MARL, the main idea is to decompose the global reward value into local reward values that can be learned by each agent, so as to facilitate the training of the agent. There are mainly QMIX, WQMIX, QTRAN and other methods:
+For Valued-based MARL, the main idea is the factorization of the joint action-value function :math:`Q_tot` into individual ones :math:`Q_a` for decentralized execution. In order to achieve CTDE, we need to ensure that factorization satisfy the IGM assumption: the a global argmax performed on :math:`Q_tot` yields the same result as a set of individual argmax operations performed on each :math:`Q_a`. There are mainly QMIX, WQMIX, QTRAN and other methods:
 
 - QMIX: The core of QMIX is to learn a monotonic Q-value mixed network, and the Q-value of each agent is summed by nonlinear transformation to generate :math:`Q_tot`. For details, please refer to `QMIX <https://github.com/opendilab/DI-engine-docs/blob/main/source/hands_on/qmix.rst>`_ [2]_
 
