@@ -8,7 +8,7 @@ Offline Reinforcement Learning(RL), also known as Batch Reinforcement Learning, 
 The use of static datasets means that during the training process of the agent, offline RL does not perform any form of online interaction and exploration, which is also the most significant difference from online reinforcement learning methods.
 For convenience, we refer to non-offline reinforcement learning, including both on-policy and off-policy RL, as online reinforcement learning (Online RL) in the following sections.
 
-.. image:: images/offline_no_words_edit1.png
+.. image:: images/offline_no_words.png
    :align: center
    :scale: 50 %
 
