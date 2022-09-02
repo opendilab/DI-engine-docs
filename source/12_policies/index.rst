@@ -101,5 +101,4 @@ All pages relative to our algorithms are grouped by category and follow the stru
     :maxdepth: 3
     :caption: Generalization
 
-    ppg
     plr
