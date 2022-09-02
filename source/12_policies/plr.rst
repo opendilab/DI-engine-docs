@@ -9,7 +9,7 @@ Quick Facts
 -----------
 1. PLR supports the **multi-level environments**.
 
-2. PLR updata **policy** and **level score** at the same time.
+2. PLR updates **policy** and **level score** at the same time.
 
 3. In the implementation of DI-engine, PLR is combined with **PPG** algorithm.
 
@@ -17,6 +17,7 @@ Quick Facts
 
 Key Graphs
 ----------
+Game levels are determined by a random seed and can vary in navigational layout, visual appearance, and starting positions of entities. 
 PLR selectively samples the next training level based on an estimated learning potential of replaying each level anew. The next level is either sampled from a distribution with support over unseen levels (top), which could be the environment’s (perhaps implicit) full training-level distribution, or alternatively, sampled from the replay distribution, which prioritizes levels based on future learning potential (bottom).
 
 .. image:: images/PLR_pic.png
