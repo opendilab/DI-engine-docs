@@ -34,14 +34,16 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
 ----------------------------------
 
 1. 明确 env, task, policy
-   
+++++++++++++++++++++++
+
 -  比如这里选定 \ ``dmc2gym``\ 环境 \ ``cartpole-swingup``\  任务，且设置 \ ``from_pixel = True, channels_first = True``\ （详情见  \ `dmc2gym 环境文档 <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ ） 
    ，即此时观察空间为图像 \ ``obs_shape = (3, height, width)``\ ，并选择 \ ``sac``\ 算法进行学习。
 
 
 2. 查阅 policy 中的 default_model 是否适用
+++++++++++++++++++++++
 
--  此时根据\ `policy-default_model 链接 <https://xxx>`__\ 或者直接查阅源码 \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ ，找到 SAC 的 default_model：
+-  此时根据\ `policy-default_model 链接 <https://xxx>`__\ 或者直接查阅源码 \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ ，找到 SAC 的  \ ``default_model``\：
 
 .. code:: python
 
@@ -61,6 +63,7 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
    因此我们需要根据需求自定义 model 并应用到 policy。
 
 3. custom_model 实现
+++++++++++++++++++++++
 
 根据已有的 defaul_model 来决定 custom_model 所需实现的功能:
 
@@ -176,12 +179,15 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
 
 -  再对 \ ``compute_actor``\ 和  \ ``compute_critic``\ 分别进行修改即可。
 
-1. 如何应用自定义模型
+4. 如何应用自定义模型
+++++++++++++++++++++++
 
-  -  如新pipeline是直接定义model，传入 policy 进行初始化即可
+  -  新 pipeline ： 直接定义model，传入 policy 进行初始化，如：
   
     .. code:: python
         
+        ...
+        from ding.model.template.qac import QACPixel
         ...
         model = QACPixel(**cfg.policy.model)
         policy = SACPolicy(cfg.policy, model=model) 
@@ -190,12 +196,45 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
 
   -  旧pipeline
   
-    -  修改相应policy中的default_model
+    -  修改相应 policy py 文件中的 default_model ，如将 \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ 中的 \ ``default_model``\ 为：
+    
+      .. code:: python
+        
+        ...
+        @POLICY_REGISTRY.register('sac')
+        class SACPolicy(Policy):
+          ...
+          def default_model(self) -> Tuple[str, List[str]]:
+            if self._cfg.multi_agent:
+                return 'maqac_continuous', ['ding.model.template.maqac']
+            elif not hasattr(self._cfg, 'model_type') or self._cfg.model_type == 'state':
+                return 'qac', ['ding.model.template.qac']
+            elif self._cfg.model_type == 'pixel':
+                return 'qac_pixel', ['ding.model.template.qac']
+          ...
   
-    -  通过在https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22 这里传入 model, 
-       在这里https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L59 被调用
+ 
+    -  通过给 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ 传入 model, 
+       传入的 model 将在 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L59>`__\ 
+       通过 \ ``create_policy``\  被调用：
 
-5. 进行测试
+      .. code:: python
+        
+        ...
+        def serial_pipeline(
+          input_cfg: Union[str, Tuple[dict, dict]],
+          seed: int = 0,
+          env_setting: Optional[List[Any]] = None,
+          model: Optional[torch.nn.Module] = None,
+          max_train_iter: Optional[int] = int(1e10),
+          max_env_step: Optional[int] = int(1e10),
+          ) -> 'Policy':
+          ...
+          policy = create_policy(cfg.policy, model=model, enable_field=['learn', 'collect', 'eval', 'command'])
+          ...
+
+5. 测试
+++++++++++++++++++++++
 
 -  todo: 详细写一下如何写test，如何启动测试，如何评价测试结果
 
@@ -205,3 +244,5 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
 1. encoder 和 head 的介绍有点不知道怎么写
 
 2. “如何通过encoder_cls指定encoder的类型”？
+
+3. 如何写test：是指怎么用pytest吗？
