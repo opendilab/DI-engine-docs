@@ -73,7 +73,7 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
 
 具体实现可利用 \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\ 下 \ ``encoder.py``\ / \ ``head.py``\ 已实现的 \ ``encoder``\ 和 \ ``head``\ 
 
-- 已实现的 encoder ：
+-  encoder 用于对输入的 \ ``obs``\ 或者 \ ``action``\ 等进行编码，便于进行后续处理， DI-engine 中已实现的 encoder 如下：
 
 +-----------------------+-------------------------------------+
 |encoder                |usage                                |
@@ -85,12 +85,12 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
 |StructEncoder          |                                     |
 +-----------------------+-------------------------------------+
 
-- 已实现的 head ：
+-  head 用于对已经编码的数据进行相应处理，输出 policy 所需信息或者辅助 RL 过程， DI-engine 中已实现的 head ：
 
 +-----------------------+-------------------------------------+
 |head                   |usage                                |
 +=======================+=====================================+
-|DiscreteHead           |输出离散动作指                       |
+|DiscreteHead           |输出离散动作值                       |
 +-----------------------+-------------------------------------+
 |DistributionHead       |输出 q-value 分布                    |
 +-----------------------+-------------------------------------+
@@ -152,7 +152,7 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
               )
           )
 
--  我们通过定义encoder_cls指定encoder的类型，加入 \ ``ConvEncoder``\ ，并且因为需要对 obs 进行encode 后和 action 进行拼接，
+-  我们通过定义 encoder_cls 指定 encoder 的类型，加入 \ ``ConvEncoder``\ ，并且因为需要对 obs 进行encode 后和 action 进行拼接，
    将 \ ``self.critic``\ 分为  \ ``self.critic_encoder``\ 和 \ ``self.critic_head``\ 两部分
 
 .. code:: python
@@ -233,16 +233,40 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
           policy = create_policy(cfg.policy, model=model, enable_field=['learn', 'collect', 'eval', 'command'])
           ...
 
-5. 测试
+5. 测试自定义 model 
 ++++++++++++++++++++++
 
 -  todo: 详细写一下如何写test，如何启动测试，如何评价测试结果
 
+-  DI-engine 中 model 的同目录  \ `tests 文件夹 <https://github.com/opendilab/DI-engine/tree/main/ding/model/template/tests>`__\ 下有相应的测试文件，命名格式为 \ ``test_model.py``\ 。
+   可以通过参照已有 model 的测试，学习 model 的使用方法，例如：
 
-文档问题
-----------------------------------
-1. encoder 和 head 的介绍有点不知道怎么写
+-  编写新的 model 测试，一般而言，首先需要构造 \ ``obs``\  \ ``action``\ 等输入，传入 model ，验证输出的维度、类型的正确性。其次如果涉及神经网络，需要验证 model 是否可微。
+   如对于我们编写的新模型 \ ``QACPixel``\ 编写测试，首先构造维度为 \ ``(B, channel, height, width)``\ （B = batch_size）的 \ ``obs``\ 和维度为 \ ``(B, action_shape)``\ 的 \ ``obs``\ ，传入 \ ``QACPixel``\ 的 \ ``actor``\ 和 \ ``critic``\ 得到输出.
+   检查输出的 \ ``q, mu, sigma``\ 的维度是否正确，以及相应的 \ ``actor``\ 和 \ ``critic``\ model 是否可微：
 
-2. “如何通过encoder_cls指定encoder的类型”？
+  .. code:: python
 
-3. 如何写test：是指怎么用pytest吗？
+    class TestQACPiexl:
+
+      def test_qacpixel(self, action_shape, twin):
+        inputs = {'obs': torch.randn(B, 3, 100, 100), 'action': torch.randn(B, squeeze(action_shape))}
+        model = QACPixel(
+            obs_shape=(3,100,100 ),
+            action_shape=action_shape,
+            ...
+        )
+        ...
+        q = model(inputs, mode='compute_critic')['q_value']
+        if twin:
+            is_differentiable(q[0].sum(), model.critic[0])
+            is_differentiable(q[1].sum(), model.critic[1])
+        else:
+            is_differentiable(q.sum(), model.critic_head)
+
+        (mu, sigma) = model(inputs['obs'], mode='compute_actor')['logit']
+        assert mu.shape == (B, *action_shape)
+        assert sigma.shape == (B, *action_shape)
+        is_differentiable(mu.sum() + sigma.sum(), model.actor)
+
+-  单元测试编写运行可参考 \ `单元测试指南 <https://di-engine-docs.readthedocs.io/zh_CN/latest/22_test/index_zh.html>`__\ 
