@@ -1,10 +1,10 @@
-如何自定义 model 模型
+如何自定义神经网络模型（model）
 =================================================
 
 policy 默认 model
 ----------------------------------
 
-ding 下已实现的 policy 中均对 default_model 进行了定义，具体可看 \ `policy-default_model 链接 <https://xxx>`__\ ，例如 SAC 的 default_model：
+DI-engine 中已经实现的 policy，默认使用 default_model 方法中表明的神经网络模型，例如在 SACPolicy 中：
 
 .. code:: python
 
@@ -19,9 +19,9 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
                 return 'qac', ['ding.model.template.qac']
     ...
 
-此处return的 \ ``'maqac_continuous', ['ding.model.template.maqac'] ``\ ，前者是 model registry 的名字，后者是 model 所处的文件路径。
+此处return的 \ ``'maqac_continuous', ['ding.model.template.maqac']``\ ，前者是模型在注册器中注册的名字，后者是模型所处的文件路径。
 
-自定义 model 适用条件
+如何自定义神经网络模型
 ----------------------------------
 
 但很多时候 DI-engine 中实现的 \ ``policy``\ 中的  \ ``default_model``\ 不适用自己的任务，例如这里想要在 \ ``dmc2gym``\ 环境 \ ``cartpole-swingup``\  任务下应用 \ ``sac``\ 算法，且环境 observation 为  \ ``pixel``\ ，
@@ -33,15 +33,15 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
 自定义 model 基本步骤
 ----------------------------------
 
-1. 明确 env, task, policy
-++++++++++++++++++++++
+1. 明确 env, policy
++++++++++++++++++++++++++++++++++++++
 
 -  比如这里选定 \ ``dmc2gym``\ 环境 \ ``cartpole-swingup``\  任务，且设置 \ ``from_pixel = True, channels_first = True``\ （详情见  \ `dmc2gym 环境文档 <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ ） 
    ，即此时观察空间为图像 \ ``obs_shape = (3, height, width)``\ ，并选择 \ ``sac``\ 算法进行学习。
 
 
 2. 查阅 policy 中的 default_model 是否适用
-++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++
 
 -  此时根据\ `policy-default_model 链接 <https://xxx>`__\ 或者直接查阅源码 \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ ，找到 SAC 的  \ ``default_model``\：
 
@@ -63,13 +63,13 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
    因此我们需要根据需求自定义 model 并应用到 policy。
 
 3. custom_model 实现
-++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++
 
 根据已有的 defaul_model 来决定 custom_model 所需实现的功能:
 
--  需要实现原default model中所有的方法
+-  需要实现原 default model 中所有的 public 方法
   
--  保证返回值的类型的原default model一致
+-  保证返回值的类型的原 default model 一致
 
 具体实现可利用 \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\ 下 \ ``encoder.py``\ / \ ``head.py``\ 已实现的 \ ``encoder``\ 和 \ ``head``\ 
 
@@ -181,7 +181,7 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
 -  再对 \ ``compute_actor``\ 和  \ ``compute_critic``\ 分别进行修改即可。
 
 4. 如何应用自定义模型
-++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++
 
   -  新 pipeline ： 直接定义model，传入 policy 进行初始化，如：
   
@@ -197,7 +197,7 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
 
   -  旧pipeline
   
-    -  修改相应 policy py 文件中的 default_model ，如将 \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ 中的 \ ``default_model``\ 为：
+    -  方法一：修改相应 policy py 文件中的 default_model ，如将 \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ 中的 \ ``default_model``\ 为：
     
       .. code:: python
         
@@ -215,7 +215,7 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
           ...
   
  
-    -  通过给 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ 传入 model, 
+    -  方法二：通过给 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ 传入 model, 
        传入的 model 将在 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L59>`__\ 
        通过 \ ``create_policy``\  被调用：
 
@@ -235,12 +235,7 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
           ...
 
 5. 测试自定义 model 
-++++++++++++++++++++++
-
--  todo: 详细写一下如何写test，如何启动测试，如何评价测试结果
-
--  DI-engine 中 model 的同目录  \ `tests 文件夹 <https://github.com/opendilab/DI-engine/tree/main/ding/model/template/tests>`__\ 下有相应的测试文件，命名格式为 \ ``test_model.py``\ 。
-   可以通过参照已有 model 的测试，学习 model 的使用方法，例如：
++++++++++++++++++++++++++++++++++++++
 
 -  编写新的 model 测试，一般而言，首先需要构造 \ ``obs``\  \ ``action``\ 等输入，传入 model ，验证输出的维度、类型的正确性。其次如果涉及神经网络，需要验证 model 是否可微。
    如对于我们编写的新模型 \ ``QACPixel``\ 编写测试，首先构造维度为 \ ``(B, channel, height, width)``\ （B = batch_size）的 \ ``obs``\ 和维度为 \ ``(B, action_shape)``\ 的 \ ``obs``\ ，传入 \ ``QACPixel``\ 的 \ ``actor``\ 和 \ ``critic``\ 得到输出.
@@ -269,5 +264,8 @@ ding 下已实现的 policy 中均对 default_model 进行了定义，具体可�
         assert mu.shape == (B, *action_shape)
         assert sigma.shape == (B, *action_shape)
         is_differentiable(mu.sum() + sigma.sum(), model.actor)
+
+.. tip::
+同样，使用者也可以参考 DI-engine 中已有的单元测试，来熟悉相关神经网络模型的使用
 
 -  单元测试编写运行可参考 \ `单元测试指南 <https://di-engine-docs.readthedocs.io/zh_CN/latest/22_test/index_zh.html>`__\ 
