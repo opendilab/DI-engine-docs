@@ -1,7 +1,7 @@
 如何自定义神经网络模型（model）
 =================================================
 
-policy 默认 model
+Policy 默认使用的模型是什么
 ----------------------------------
 
 DI-engine 中已经实现的 policy，默认使用 default_model 方法中表明的神经网络模型，例如在 SACPolicy 中：
@@ -183,7 +183,7 @@ DI-engine 中已经实现的 policy，默认使用 default_model 方法中表明
 4. 如何应用自定义模型
 +++++++++++++++++++++++++++++++++++++
 
--  新 pipeline ： 直接定义model，传入 policy 进行初始化，如：
+-  新 pipeline ： 直接定义model，作为参数传入 policy 进行初始化，如：
 
 .. code:: python
    
@@ -197,49 +197,31 @@ DI-engine 中已经实现的 policy，默认使用 default_model 方法中表明
 
 -  旧pipeline
 
- -  方法一：修改相应 policy py 文件中的 default_model ，如将 \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ 中的 \ ``default_model``\ 为：
- 
- .. code:: python
-   
-   ...
-   @POLICY_REGISTRY.register('sac')
-   class SACPolicy(Policy):
-     ...
-     def default_model(self) -> Tuple[str, List[str]]:
-       if self._cfg.multi_agent:
-           return 'maqac_continuous', ['ding.model.template.maqac']
-       elif not hasattr(self._cfg, 'model_type') or self._cfg.model_type == 'state':
-           return 'qac', ['ding.model.template.qac']
-       elif self._cfg.model_type == 'pixel':
-           return 'qac_pixel', ['ding.model.template.qac']
-     ...
+将定义好的 model 作为参数传入 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ , 
+传入的 model 将在 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L59>`__\ 
+通过 \ ``create_policy``\  被调用。或者跟上述新 pipeline 一样，作为参数传入 policy 。
 
-
- -  方法二：通过给 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ 传入 model, 
-    传入的 model 将在 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L59>`__\ 
-    通过 \ ``create_policy``\  被调用：
-
- .. code:: python
-   
-   ...
-   def serial_pipeline(
-     input_cfg: Union[str, Tuple[dict, dict]],
-     seed: int = 0,
-     env_setting: Optional[List[Any]] = None,
-     model: Optional[torch.nn.Module] = None,
-     max_train_iter: Optional[int] = int(1e10),
-     max_env_step: Optional[int] = int(1e10),
-     ) -> 'Policy':
-     ...
-     policy = create_policy(cfg.policy, model=model, enable_field=['learn', 'collect', 'eval', 'command'])
-     ...
+.. code:: python
+  
+  ...
+  def serial_pipeline(
+    input_cfg: Union[str, Tuple[dict, dict]],
+    seed: int = 0,
+    env_setting: Optional[List[Any]] = None,
+    model: Optional[torch.nn.Module] = None,
+    max_train_iter: Optional[int] = int(1e10),
+    max_env_step: Optional[int] = int(1e10),
+    ) -> 'Policy':
+    ...
+    policy = create_policy(cfg.policy, model=model, enable_field=['learn', 'collect', 'eval', 'command'])
+    ...
 
 5. 测试自定义 model 
 +++++++++++++++++++++++++++++++++++++
 
 -  编写新的 model 测试，一般而言，首先需要构造 \ ``obs``\  \ ``action``\ 等输入，传入 model ，验证输出的维度、类型的正确性。其次如果涉及神经网络，需要验证 model 是否可微。
    如对于我们编写的新模型 \ ``QACPixel``\ 编写测试，首先构造维度为 \ ``(B, channel, height, width)``\ （B = batch_size）的 \ ``obs``\ 和维度为 \ ``(B, action_shape)``\ 的 \ ``obs``\ ，传入 \ ``QACPixel``\ 的 \ ``actor``\ 和 \ ``critic``\ 得到输出.
-   检查输出的 \ ``q, mu, sigma``\ 的维度是否正确，以及相应的 \ ``actor``\ 和 \ ``critic``\ model 是否可微：
+   检查输出的 \ ``q, mu, sigma``\ 的维度是否正确，以及相应的 \ ``actor``\ 和 \ ``critic``\  model 是否可微：
 
 .. code:: python
 
