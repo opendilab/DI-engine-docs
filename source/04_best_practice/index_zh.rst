@@ -13,4 +13,4 @@
    rnn_zh
    training_generated_folders_zh
    buffer_zh
-   custom_model
+   custom_model_zh
