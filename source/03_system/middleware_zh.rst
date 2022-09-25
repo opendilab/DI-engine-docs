@@ -49,18 +49,18 @@ Context 是为中间件之间传递数据的信使，不同的交互策略决定
 
 .. code-block:: python
 
+    @dataclasses.dataclass
     class OnlineRLContext(Context):
 
-        def __init__(self, *args, **kwargs) -> None:
-            ...
-            # common
-            self.total_step = 0
-            self.env_step = 0
-            self.env_episode = 0
-            self.train_iter = 0
-            self.train_data = None
-            ...
-
+        # common
+        total_step: int = 0
+        env_step: int = 0
+        env_episode: int = 0
+        train_iter: int = 0
+        train_data: Union[Dict, List] = None
+        ...
+        
+        def __post_init__(self):
             self.keep('env_step', 'env_episode', 'train_iter', 'last_eval_iter')
 
 ``OnlineRLContext`` 上面保存了在线训练所需要的数据，每个中间件的任务就是利用这些数据，并提交新的数据到 context 上面，
@@ -68,6 +68,135 @@ Context 是为中间件之间传递数据的信使，不同的交互策略决定
 
 在每个循环开始，context 会初始化为新的实例，这确保中间件只需关注一次循环内的数据流，简化了逻辑，也减少了内存泄漏的风险。
 如果您需要保存属性到下一个循环，例如 env_step，train_iter 这类需要累加的数值，可以用 ctx.keep 方法将它设置为保留字段。
+
+
+v0.4.2 更新 Context 到 dataclass
+~~~~~~
+
+在 `v0.4.2 版本 <https://github.com/opendilab/DI-engine/releases/tag/v0.4.2>`_ 中，我们将 Context 从 dict 类改为 dataclass 类。
+这样做的原因首先是防止在开发过程中随意在 Context 中添加新字段；其次是防止使用者使用字符串去访问 Context 中的具体字段。
+
+因为通过 Context 传递数据不同于通过函数的输入和输出传递数据，会有一个强制的约束。
+随意在外部定义一个新的属性，或者使用字符串访问 Context 中的字段的话，很容易在阅读代码或者多人协作时造成混乱，在拼接不同中间件时报错。
+
+通过将 Context 改为 dataclass 类，我们限定使用属性而不是字符串去访问 Context 中的具体字段，并且防止在外部添加新字段。
+如果您需要在 Context 中添加新字段的话，
+请在相关 Context 的 `初始化阶段 <https://github.com/opendilab/DI-engine/blob/main/ding/framework/context.py>`_ 添加。
+如果认为某新字段有必要添加到整个项目中的话，请向 DI-engine 的 main 分支提出 PR 并说明具体原因。
+
+
+Context 字段介绍
+~~~~~~
+注：Updated position 不包含 ctx.attribute = None 的情况。
+
+OnlineRLContext
+^^^^^^
+.. list-table::
+   :widths: 25 25 25 25 25
+   :header-rows: 1
+
+   * - Attribute
+     - Keeped
+     - Type
+     - Role
+     - Updated position
+   * - total_step
+     - True
+     - int
+     - The number of total iteration steps.
+     - Before all the other middlewares
+   * - env_step
+     - True
+     - int
+     - The number of environment steps.
+     - rolloutor
+   * - env_episode
+     - True
+     - int
+     - The number of environment episodes.
+     - rolloutor
+   * - train_iter
+     - True
+     - int
+     - The number of training iterations.
+     - trainer, multistep_trainer
+   * - train_data
+     - False
+     - Union[Dict, List]
+     - The fetched data used to be trained.
+     - gae_estimator, offpolicy_data_fetcher, offline_data_fetcher, her_data_enhancer
+   * - collect_kwargs
+     - False
+     - dict
+     - The dict include epsilon value.
+     - eps_greedy_handler
+   * - trajectories
+     - False
+     - list
+     - The trajectories collected from environment.
+     - StepCollector, nstep_reward_enhancer
+   * - episodes
+     - False
+     - list
+     - The episodes collected from environment.
+     - EpisodeCollector
+   * - trajectory_end_idx
+     - False
+     - list
+     - The end index of each trajectory in ctx.trajectories.
+     - StepCollector
+   * - eval_value
+     - False
+     - float
+     - The average reward in the current evaluation.
+     - interaction_evaluator, metric_evaluator
+   * - last_eval_iter
+     - True
+     - int
+     - The last ctx.train_iter that is evaluated.
+     - interaction_evaluator, metric_evaluator
+
+OfflineRLContext
+^^^^^^
+.. list-table::
+   :widths: 25 25 25 25 25
+   :header-rows: 1
+
+   * - Attribute
+     - Keeped
+     - Type
+     - Role
+     - Updated position
+   * - total_step
+     - True
+     - int
+     - The number of total iteration steps.
+     - Before all the other middlewares
+   * - train_epoch
+     - False
+     - int
+     - The count of training epoches.
+     - offline_data_fetcher
+   * - train_iter
+     - True
+     - int
+     - The number of training iterations.
+     - trainer, multistep_trainer
+   * - train_data
+     - False
+     - Union[Dict, List]
+     - The fetched data used to be trained.
+     - gae_estimator, offpolicy_data_fetcher, offline_data_fetcher, her_data_enhancer
+   * - eval_value
+     - False
+     - float
+     - The average reward in the current evaluation.
+     - interaction_evaluator, metric_evaluator
+   * - last_eval_iter
+     - True
+     - int
+     - The last ctx.train_iter that is evaluated.
+     - interaction_evaluator, metric_evaluator
 
 使用 task 异步执行任务
 -------------------------------
