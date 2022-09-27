@@ -2,20 +2,20 @@ Google Research Football (Gfootball)
 ====================================
 
 
-概述
-----
+Overview
+----------
 
-Google Research Football（以下简称 Gfootball）是 Google 团队在开源足球游戏 GamePlay Football的基础上创建的适用于强化学习研究的足球环境，
-兼容 OpenAI Gym API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入与内置AI或训练的智能体进行游戏。下图为渲染后的 Gfootball 游戏环境。
+Google Research Football (hereinafter referred to as Gfootball) is a football environment suitable for reinforcement learning research created by the Google team on the basis of the open source football game GamePlay Football.
+Compatible with OpenAI Gym API, it can not only be used for agent training, but also allows players to play games with built-in AI or trained agents with keyboard or gamepad input. The image below shows the rendered Gfootball game environment.
 
 .. figure:: images/gfootballenv.png
    :alt: 
    :align: center
 
-安装
-----
+Installation
+-------------
 
-1. 依赖包
+1. Dependency package
 
 **Linux**
 
@@ -41,15 +41,15 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
 
    python -m pip install --upgrade pip setuptools psutil wheel
 
-1. 安装gfootball环境
+1. Enviroment of installing gfootball
 
-**pip安装**
+**install pip**
 
 .. code:: shell
 
    python3 -m pip install gfootball
 
-**从github源码安装**
+**intall from github orgin code**
 
 .. code:: shell
 
@@ -57,13 +57,14 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
    cd football
    python3 -m pip install .
 
-1. 环境安装的验证
+1. Validation of the environment installation
 
 .. code:: shell
 
    python3 -m gfootball.play_game --action_set=full
 
-进入如下游戏界面，证明安装成功。
+Enter the following game interface to prove that the installation is successful.
+
 
 .. figure:: images/verify_gfootball.png
    :alt: 
@@ -71,13 +72,14 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
    :scale: 60%
 
 
-更多安装环境相关的问题，可以参考\ `Gfootball 官网 github <https://github.com/google-research/football>`__\ 。此外，官方也提供了 docker image 用于在 docker 环境中部署环境，可以参考 `docker 部署文档 <https://github.com/google-research/football/blob/master/gfootball/doc/docker.md>`__ 。
+For more installation environment related issues, please refer to \ `Gfootball official website github <https://github.com/google-research/football>`__\ . In addition, the official also provides a docker image for deploying the environment in the docker environment, you can refer to the `docker deployment document <https://github.com/google-research/football/blob/master/gfootball/doc/docker.md> `__ .
 
 
-环境创建API
------------
+Environment Creation API
+-----------------------------
 
-在导入并创建环境成功后，可以通过与 openAI gym 相同的代码来与环境交互：
+After importing and creating the environment successfully, you can interact with the environment through the same code as openAI gym:
+
 
 .. code:: python
 
@@ -100,27 +102,27 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
    action = get_action(obs) # your model
    next_obs, reward, done, info = env.step(action)
 
-创建环境的API如下：
+The API for creating an environment is as follows:
 
--  env name。核心参数，决定环境创建的场景，常用为 11 vs 11 stochastic，11 vs 11 easy stochastic，11 vs 11 hard stochastic，分别对应对局中等、简单和困难三种难度内置bot的完整90分钟足球游戏。此外，还有点球等场景如 academy run pass and shoot with keeper，详见 `文档 <https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md>`_ 。
+- env name. The core parameters determine the scene created by the environment. Commonly used are 11 vs 11 stochastic, 11 vs 11 easy stochastic, 11 vs 11 hard stochastic, which correspond to the three difficulty levels of medium, easy and hard games. The complete 90-minute soccer game with built-in bots. In addition, there are also scenarios such as academy run pass and shoot with keeper, see `documentation <https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md>`_ for details.
 
--  Representation。环境输出的表征类型，raw 为原始向量输入，如球员位置、球速度等信息，pixels 为原始图像像素输入，官方还提供了一些现有的环境输入封装。
+-  Representation。The representation type of the environment output, raw is the original vector input, such as player position, ball speed and other information, pixels is the original image pixel input, and the official also provides some existing environment input packages.
 
--  stacked。是否堆叠帧输入。
+-  stacked。Whether to stack frame inputs.
 
--  logdir。日志文件的保存路径。
+-  logdir。The path to save the log file.
 
 -  write_goal_dumps。是否保存进球时的二进制文件用于生成录像回放。
 
 -  write_full_episode_dumps。是否保存全程的二进制文件用于生成录像回放。
 
--  write_video。是否生成渲染的全程视频。
+-  write_video。 Whether or not to save the binary file of the time of the goal for generating the video playback.
 
--  render。是否实时渲染。
+-  render。Whether to generate a full video of the rendering.
 
--  number_of_right_players_agent_controls。选择同时控制的球员数目。
+-  number_of_right_players_agent_controls。Select the number of players to control at the same time.
 
-也可以使用由 DI-engine 封装的环境：
+It is also possible to use environments encapsulated by DI-engine:
 
 .. code:: python
 
@@ -133,14 +135,14 @@ Google Research Football（以下简称 Gfootball）是 Google 团队在开源�
    env = GfootballEnv({})
 
 
-状态空间
---------
+state space
+-------------
 
-**一般使用raw输入信息**
+**Generally use raw input information**
 
--  球信息：
+-  Ball Information：
 
-   -  ``ball`` - [x, y, z] 坐标。
+   -  ``ball`` - [x, y, z] coordinates.
 
    -  ``ball_direction`` - [x, y, z]球的速度方向。
 
@@ -468,10 +470,10 @@ gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entr
        config = tuple([deepcopy(main_config), deepcopy(create_config), deepcopy(system_config)])
        parallel_pipeline(config, seed=0)
 
-训练实例
---------
+training example
+--------------------
 
-在 DI-engine 的状态空间下，经过 reward 设计和动作空间约束，self play 训练中对内置 hard AI 胜率曲线如下图所示：
+In the state space of DI-engine, after reward design and action space constraints, the winning rate curve of built-in hard AI in self play training is shown in the following figure:
 
 .. image:: images/gfootball_train.png
    :align: center
