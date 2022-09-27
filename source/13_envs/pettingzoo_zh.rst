@@ -138,7 +138,7 @@ Key facts
 
 2. Either discrete action space or continuous action space can be selected；
 
-3. There are both cooperative environments, such as \ ``Simple Spread``, \ ``Simple Speaker Listener``, etc.; there are also competitive (competitive) environments, such as \ ``Simple Adversary``, \ ``Simple Crypto`` ``Wait.
+3. There are both cooperative environments, such as \ ``Simple Spread``, \ ``Simple Speaker Listener``, etc.; there are also competitive (competitive) environments, such as \ ``Simple Adversary``, \ ``Simple Crypto``.
 
 .. _Transformed spatial rl environment）:
 
