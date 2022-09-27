@@ -201,13 +201,13 @@ In order to facilitate parallel operations such as environment vectorization, en
 Random Seed
 --------------
 
-- There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as \ ``random``\ , \ ``np.random` `\)
+- There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as \ ``random``\ , \ ``np.random``\)
 
-- For the environment caller, just set these two seeds through the \``seed``\ method of the environment, and do not need to care about the specific implementation details
+- For the environment caller, just set these two seeds through the \ ``seed``\ method of the environment, and do not need to care about the specific implementation details
 
-- Concrete implementation inside the environment: For the seed of the original environment, set before calling the \``reset``\ method of the environment, before the concrete \``reset``\
+- Concrete implementation inside the environment: For the seed of the original environment, set before calling the \ ``reset``\ method of the environment, before the concrete \ ``reset``\ 
 
-- Concrete implementation inside the environment: For random library seeds, set the value directly in the \``seed``\ method of the environment
+- Concrete implementation inside the environment: For random library seeds, set the value directly in the \ ``seed``\ method of the environment
 
 The difference between training and testing environments
 --------------------------------------------------------------------
