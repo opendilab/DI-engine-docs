@@ -18,7 +18,7 @@ The following figure shows the mpe_simple_spread environment in it：
 .. image:: ./images/mpe_simple_spread.gif
    :align: center
 
-.. note:: It should be noted that PettingZoo maintains strict version management for reproducibility. All environments end with a suffix like \``_v0``. When the environment changes that could affect the learning outcome, the number is incremented by one (eg \``_v0``->\``_v1``) to prevent potential confusion.
+.. note:: It should be noted that PettingZoo maintains strict version management for reproducibility. All environments end with a suffix like\ ``_v0`` . When the environment changes that could affect the learning outcome, the number is incremented by one\ ``_v0``->\ ``_v1``to prevent potential confusion.
 
 Installation
 =============
