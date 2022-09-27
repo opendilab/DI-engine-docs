@@ -1,34 +1,34 @@
 PettingZoo
 ~~~~~~~~~~~~
 
-概述
-=======
+Overview
+============
 
-\ `PettingZoo <https://www.pettingzoo.ml/>`_ 是一个用于研究多智能体强化学习的 Python 库，可以认为是多智能体版本的 \ `Gym <https://gym.openai.com/>`_。它包含以下几个环境家族：
+\ `PettingZoo <https://www.pettingzoo.ml/>`_ is a Python zoo for studying multi-agent reinforcement learning，It can be considered as a multi-agent version of \ `Gym <https://gym.openai.com/>`_。It contains the following environment families：
 
-- `Atari <https://www.pettingzoo.ml/atari>`_：多人 Atari 2600 游戏，包括合作、竞争以及混合等场景
-- `Butterfly <https://www.pettingzoo.ml/butterfly>`_：PettingZoo 团队自己开发的需要高度协调的合作性图形游戏
-- `Classic <https://www.pettingzoo.ml/classic>`_：经典游戏，包括纸牌、棋盘游戏等
-- `MAgent <https://github.com/geek-ai/MAgent>`_：可配置的，具有大量数量粒子智能体的环境，源于 https://github.com/geek-ai/MAgent
-- `MPE <https://www.pettingzoo.ml/mpe>`_：一组简单的非图形通信任务，源于 https://github.com/openai/multiagent-particle-envs
-- `SISL <https://www.pettingzoo.ml/sisl>`_：3 个合作环境，源于 https://github.com/sisl/MADRL
+- `Atari <https://www.pettingzoo.ml/atari>`_：Multiplayer Atari 2600 game, including cooperative, competitive and hybrid scenarios
+- `Butterfly <https://www.pettingzoo.ml/butterfly>`_：a highly coordinated cooperative graphics game developed by the PettingZoo team
+- `Classic <https://www.pettingzoo.ml/classic>`_：Classic games, including cards, board games and so on
+- `MAgent <https://github.com/geek-ai/MAgent>`_：Configurable environment with a large number of particle agents, from https://github.com/geek-ai/MAgent
+- `MPE <https://www.pettingzoo.ml/mpe>`_：A simple set of non-graphical communication tasks, derived from https://github.com/openai/multiagent-particle-envs
+- `SISL <https://www.pettingzoo.ml/sisl>`_：3 collaborative environments from https://github.com/sisl/MADRL
 
-下图所示为其中的 mpe_simple_spread 环境：
+The following figure shows the mpe_simple_spread environment in it：
 
 .. image:: ./images/mpe_simple_spread.gif
    :align: center
 
-.. note:: 需要注意的是，PettingZoo 出于可重复的考虑，保持严格的版本管理。所有环境都以\ ``_v0`` 这样的后缀结尾。当环境发生变化而可能影响学习结果时，数字会增加一个（例如\ ``_v0``->\ ``_v1``），以防止潜在的混淆。
+.. note:: It should be noted that PettingZoo maintains strict version management for reproducibility. All environments end with a suffix like \``_v0``. When the environment changes that could affect the learning outcome, the number is incremented by one (eg \``_v0``->\``_v1``) to prevent potential confusion.
 
-安装
-====
+Installation
+=============
 
-安装方法
---------
+installation method
+-----------------------
 
-目前 PettingZoo 官方支持 Linux 和 macOS 上的 Python 3.7~3.9。
+Currently PettingZoo officially supports Python 3.7~3.9 on Linux and macOS。
 
-可以通过 pip 直接安装；此外，由于 DI-engine 中有单元测试用到了 PettingZoo，因此安装 DI-engine 也会默认安装 PettingZoo：
+It can be installed directly through pip; in addition, since PettingZoo is used in unit tests in DI-engine, installing DI-engine will also install PettingZoo by default：
 
 .. code:: shell
 
@@ -37,7 +37,7 @@ PettingZoo
    # Method2: Just install DI-engine
    pip install DI-engine
 
-由于 PettingZoo 所包含的环境非常多，不同的环境在不同的系统上安装情况也各不相同。因此以上的安装并没有包含所有环境家族的所有依赖。对于特定的环境家族依赖，你可以这样安装：
+Since PettingZoo contains a lot of environments, different environments have different installation conditions on different systems. Therefore the above installation does not contain all dependencies of all environment families. For a specific environment family dependency, you can install it like this：
 
 .. code:: shell
 
@@ -46,10 +46,10 @@ PettingZoo
     # or install all dependencies
     pip install pettingzoo[all]
 
-验证安装
----------
+Verify installation
+------------------------
 
-安装完成后，运行如下 Python 程序，如果没有报错则证明安装成功。
+After the installation is complete, run the following Python program. If no error is reported, the installation is successful.
 
 .. code:: python
 
@@ -59,45 +59,48 @@ PettingZoo
    print(obs[env.agents[0]])  # (18,)
 
 
-镜像
-----
-
-DI-engine 准备好了配备有框架本身和 PettingZoo 环境的镜像，可通过 \ ``docker pull opendilab/ding:nightly`` 获取，或访问 \ `docker
-hub <https://hub.docker.com/repository/docker/opendilab/ding>`_ 获取更多镜像
-
-.. _变换前的空间原始环境）:
-
-变换前的空间（原始环境）
-========================
-
-由于 PettingZoo 包含很多环境家族，每个的情况各不相同，难以顾全所有内容。这里以 \ ``MPE`` 中的 \ ``Simple Spread`` 环境为例进行说明。
-
-.. note:: \ ``Simple Spread`` 的游戏目标是希望智能体覆盖所有的地标的同时，避免彼此之间发生碰撞。
-
-.. _观察空间-1:
-
-观察空间
+Mirror
 --------
 
--  智能体的观测由
+DI-engine has an image ready with the framework itself and the PettingZoo environment, available via \ ``docker pull opendilab/ding:nightly``, or by visiting \ `docker
+hub <https://hub.docker.com/repository/docker/opendilab/ding>`_ Get more images
 
-   - 当前智能体的速度，self.vel, (2,)
-   - 当前智能体的位置，self.pos, (2,)
-   - 地标的相对位置，landmark_rel_positions, (n_landmarks * 2,)
-   - 其他智能体的相对位置，other_agent_rel_positions, ((n_agents-1) * 2,)
-   - 其他智能体与当前智能体的通信，communication, ((n_agents-1) * 2,)
 
-组成，具体维度为 (2 + 2 + n_landmarks*2 + (n_agents-1)*2 + (n_agents-1)*2)，数据类型为 float32。
-例如，当你生成一个具有 5 个智能体（n_agents=5）与 5 个地标（n_landmarks=5）的 simple spread 环境时，每个智能体的观测维度为 (30,)。
+.. _The original spatial environment before transformation）:
 
-.. _动作空间-1:
+space before transformation (original environment)
+=====================================================
 
-动作空间
---------
--  无法手动控制
--  离散动作空间：每个智能体的动作空间相同，大小为 \ ``(5,)``\ ，数据类型为 \ ``gym.spaces.Discrete(5)``。每个具体动作的维度为(,)，数据类型为 \ ``int``\ ，具体含义是什么都不做或向四个基本方向进行移动。
+Since PettingZoo includes many families of environments, each of which is unique, it is difficult to cover everything. Here is an example of the \ ``Simple Spread`` environment in \ ``MPE``.
 
--  连续动作空间：每个智能体的动作空间相同，数据类型为 \ ``gym.spaces.Box(0.0, 1.0, (5,))``。每个具体动作的维度为(5,)，数据类型为 \ ``array``，具体含义是什么都不做或向四个基本方向的每个方向上输入 0.0 到 1.0 之间的速度，且相反方向的速度可以叠加。
+.. note:: \ ``Simple Spread`` game‘s goal is to want agents to cover all landmarks while avoiding collisions with each other.
+
+
+.. _Observation space-1:
+
+Observation space
+--------------------
+
+-  The agent's observations are made by
+
+   - the current agent's velocity，self.vel, (2,)
+   - the current agent's position，self.pos, (2,)
+   - The relative position of the landmark, landmark_rel_positions，landmark_rel_positions, (n_landmarks * 2,)
+   - the relative positions of other agents, other_agent_rel_positions，other_agent_rel_positions, ((n_agents-1) * 2,)
+   - Communication between other agents and the current agent, communication, ((n_agents-1) * 2,)
+
+The specific dimension is (2 + 2 + n_landmarks*2 + (n_agents-1)*2 + (n_agents-1)*2), and the data type is float32.
+For example, when you generate a simple spread environment with 5 agents (n_agents=5) and 5 landmarks (n_landmarks=5), each agent has an observation dimension of (30,)。
+
+.. _Action space-1:
+
+Action space
+----------------
+-  No manual control
+-  Discrete action space: The action space of each agent is the same, the size is \ ``(5,)``\ , and the data type is \ ``gym.spaces.Discrete(5)``. The dimension of each specific action is (,), the data type is \ ``int``\ , the specific meaning is to do nothing or move in four basic directions.
+
+-  Continuous action space: The action space of each agent is the same, and the data type is \ ``gym.spaces.Box(0.0, 1.0, (5,))``. The dimension of each specific action is (5,), the data type is \ ``array``, the specific meaning is to do nothing or enter a speed between 0.0 and 1.0 in each of the four cardinal directions, and Velocities in opposite directions can be superimposed.
+
 
 .. code:: python
 
@@ -111,110 +114,110 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_ 获取更多镜�
    dis_env.action_space('agent_0').sample() # 2
    con_env.action_space('agent_0').sample() # array([0.24120373, 0.83279127, 0.4586939 , 0.4208583 , 0.97381055], dtype=float32)
 
-.. hint:: 注意这里我们使用的是 \ ``parallel_env()`` 来生成环境，该函数与普通的 \ ``env()`` 区别在于，在 \ ``paralle_env`` 环境下，所有 agent 的动作同时输入；相反，在 \ ``env`` 环境下，每个 agent 的动作是依次输入的。由于 \ ``paralle_env`` 更为方便，所以我们更为推崇，在\ ``DI-engine`` 封装的环境中，我们也是这么做的。
+.. hint:: Note that here we use \ ``parallel_env()`` to generate the environment, the difference between this function and ordinary \ ``env()`` is that in \ ``paralle_env`` environment, all The actions of the agents are entered simultaneously; in contrast, in the \``env`` environment, the actions of each agent are entered sequentially. Since \ ``paralle_env`` is more convenient, we prefer it, and we do the same in \ ``DI-engine`` encapsulated environments.
 
-.. _奖励空间-1:
+.. _Reward space-1:
 
-奖励空间
---------
+Reward space
+--------------
 
--  所有的智能体贡献一个全局奖励，依据距离每个地标的最近的智能体来判定，一个 \ ``float``\ 数值
--  具体而言，所有的智能体都根据最近的智能体离每个地标的距离（最小距离的总和）来获得全局奖励。此外，如果智能体与其它智能体发生碰撞，他们将受到惩罚。
+-  All agents contribute a global reward, based on the closest agent to each landmark, a \ ``float``\ value
+-  Specifically, all agents receive a global reward based on the distance of the nearest agent from each landmark (sum of minimum distances). Also, if agents collide with other agents, they will be penalized.
 
-.. _其他-1:
+.. _Others-1:
 
-其他
-----
+Others
+-------
 
--  游戏在执行完环境参数 \ ``max_cycles`` 所指定的周期数后就会终止。所有环境的默认值是 25 个周期。
+-  The game will terminate after executing the number of cycles specified by the environment parameter \ ``max_cycles``. The default value for all environments is 25 cycles.
 
-关键事实
-========
+Key facts
+=============
 
-1. 输入为 state 而非 raw pixel；
+1. The input is state instead of raw pixel；
 
-2. 既可以选择离散动作空间，也可以选择连续动作空间；
+2. Either discrete action space or continuous action space can be selected；
 
-3. 既有合作 (cooperation) 环境，例如 \ ``Simple Spread``、\ ``Simple Speaker Listener`` 等；也有竞争 (competitive) 环境，例如 \ ``Simple Adversary``、\ ``Simple Crypto`` 等。
+3. There are both cooperative environments, such as \ ``Simple Spread``, \ ``Simple Speaker Listener``, etc.; there are also competitive (competitive) environments, such as \ ``Simple Adversary``, \ ``Simple Crypto`` ``Wait.
 
-.. _变换后的空间 rl 环境）:
+.. _Transformed spatial rl environment）:
 
-变换后的空间（RL 环境）
-=======================
+Transformed Space (RL Environment)
+=======================================
 
-.. _观察空间-2:
+.. _Observation Space-2:
 
-观察空间
---------
+Observation Space
+--------------------
 
--  针对多智能体算法，根据变换前的 state，分别生成了局部的 agent_state 和全局的 global_state：
+-  For the multi-agent algorithm, according to the state before the transformation, the local agent_state and the global global_state are generated respectively：
 
    - agent_state: shape: (n_agent, 2 + 2 + n_landmark * 2 + (n_agent - 1) * 2 + (n_agent - 1) * 2)
 
-        1. 智能体自己的状态：速度、坐标
+        1. The state of the agent itself: speed, coordinates
 
-        2. 其他智能体与地标的相对位置
+        2. The relative positions of other agents and landmarks
    
-        3. 来自其他智能体的通信
+        3. Communication from other agents
 
    - global_state: shape: (n_agent * (2 + 2) + n_landmark * 2 + n_agent * (n_agent - 1) * 2, )
 
-        1. 所有智能体的状态：速度、坐标
+        1. The state of all agents: speed, coordinates
    
-        2. 所有地标的位置
+        2. Location of all landmarks
    
-        3. 所有智能体之间的通信
+        3. Communication between all agents
 
-   - 如果环境参数\ ``action_specific_global_state=True``，则每个智能体的 global_state 均不相同，由自己的 agent_state 和原 global_state 进行 concatenate 得到。
+   - If the environment parameter\ ``action_specific_global_state=True``，the global_state of each agent is different, which is obtained by concatenate its own agent_state and the original global_state.
 
-.. _动作空间-2:
 
-动作空间
---------
+.. _Action space-2:
 
--  离散动作空间无变换
+Action space
+----------------
 
--  连续动作空间，若环境变量\ ``act_scale=True``，则对动作值进行 affine 变换
+-  Discrete action space without transformation
 
-.. _奖励空间-2:
+-  ontinuous action space, if the environment variable \ ``act_scale=True``, the action value is affine transformed
 
-奖励空间
---------
+.. _Reward space-2:
 
--  无变化，为\ ``gym.spaces.Box(low=float("-inf"), high=float("inf"), shape=(1, ), dtype=np.float32)``
+Reward space
+----------------
 
-.. _其他-3:
+-  No change，i\ ``gym.spaces.Box(low=float("-inf"), high=float("inf"), shape=(1, ), dtype=np.float32)``
 
-其他
-====
+.. _Others -3:
 
-惰性初始化
-----------
+Others
+=======
+
+Lazy Initialization
+--------------------------
 
 为了便于支持环境向量化等并行操作，环境实例一般实现惰性初始化，即\ ``__init__``\ 方法不初始化真正的原始环境实例，只是设置相关参数和配置值，在第一次调用\ ``reset``\ 方法时初始化具体的原始环境实例。
 
-随机种子
---------
+Random Seed
+--------------
 
--  环境中有两部分随机种子需要设置，一是原始环境的随机种子，二是各种环境变换使用到的随机库的随机种子（例如\ ``random``\ ，\ ``np.random``\ ）
+- There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations (such as \ ``random``\ , \ ``np.random` `\)
 
--  对于环境调用者，只需通过环境的\ ``seed``\ 方法进行设置这两个种子，无需关心具体实现细节
+- For the environment caller, just set these two seeds through the \``seed``\ method of the environment, and do not need to care about the specific implementation details
 
--  环境内部的具体实现：对于原始环境的种子，在调用环境的\ ``reset``\ 方法内部，具体的原始环境\ ``reset``\ 之前设置
+- Concrete implementation inside the environment: For the seed of the original environment, set before calling the \``reset``\ method of the environment, before the concrete \``reset``\
 
--  环境内部的具体实现：对于随机库种子，则在环境的\ ``seed``\ 方法中直接设置该值
+- Concrete implementation inside the environment: For random library seeds, set the value directly in the \``seed``\ method of the environment
 
-训练和测试环境的区别
---------------------
+The difference between training and testing environments
+--------------------------------------------------------------------
 
--  训练环境使用动态随机种子，即每个 episode 的随机种子都不同，都是由一个随机数发生器产生，但这个随机数发生器的种子是通过环境的\ ``seed``\ 方法固定的；测试环境使用静态随机种子，即每个 episode 的随机种子相同，通过\ ``seed``\ 方法指定。
+-  The training environment uses dynamic random seeds, that is, the random seeds of each episode are different, and they are all generated by a random number generator, but the seed of this random number generator is fixed by the \``seed``\ method of the environment; The test environment uses a static random seed, that is, the random seed of each episode is the same, specified by the \ ``seed``\ method.
 
+DI-zoo runnable code example
+=================================
 
-DI-zoo 可运行代码示例
-======================
-
-完整的训练配置文件在 `github link <https://github.com/opendilab/DI-engine/tree/main/dizoo/petting_zoo/config/>`__
-内，对于具体的配置文件，例如\ ``ptz_simple_spread_mappo_config.py``\ ，使用如下的 demo 即可运行：
+The full training profile is at `github link <https://github.com/opendilab/DI-engine/tree/main/dizoo/petting_zoo/config/>`__
+，or specific configuration files such as，such as\ ``ptz_simple_spread_mappo_config.py``\ ，Use the following demo to run：
 
 .. code:: python
 
@@ -305,8 +308,8 @@ DI-zoo 可运行代码示例
         serial_pipeline_onpolicy((main_config, create_config), seed=0)
 
 
-基准算法性能
-============
+Benchmark Algorithm Performance
+========================================
 
 -  simple_spread_v2
 
