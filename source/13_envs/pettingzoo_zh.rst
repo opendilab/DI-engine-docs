@@ -114,7 +114,7 @@ Action space
    dis_env.action_space('agent_0').sample() # 2
    con_env.action_space('agent_0').sample() # array([0.24120373, 0.83279127, 0.4586939 , 0.4208583 , 0.97381055], dtype=float32)
 
-.. hint:: Note that here we use \ ``parallel_env()`` to generate the environment, the difference between this function and ordinary \ ``env()`` is that in \ ``paralle_env`` environment, all The actions of the agents are entered simultaneously; in contrast, in the \``env`` environment, the actions of each agent are entered sequentially. Since \ ``paralle_env`` is more convenient, we prefer it, and we do the same in \ ``DI-engine`` encapsulated environments.
+.. hint:: Note that here we use \ ``parallel_env()`` to generate the environment, the difference between this function and ordinary \ ``env()`` is that in \ ``paralle_env`` environment, all The actions of the agents are entered simultaneously; in contrast, in the \ ``env`` environment, the actions of each agent are entered sequentially. Since \ ``paralle_env`` is more convenient, we prefer it, and we do the same in \ ``DI-engine`` encapsulated environments.
 
 .. _Reward space-1:
 
