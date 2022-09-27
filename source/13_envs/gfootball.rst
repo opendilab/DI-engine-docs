@@ -302,64 +302,64 @@ state space
 
       -  离当前控制球员最近对方球员的距离（1 维）
 
-      -  离当前控制球员最近对方球员的疲劳度（1 维）
+      -  Fatigue of the opposing player closest to the player currently in control (1D)
 
-动作空间
---------
+Action space
+----------------
 
-Gfootball 的动作空间为 19 维离散动作：
+Gfootball's action space is a 19-dimensional discrete action:
 
--  无状态动作
+-  stateless actions
 
-   -  ``action_idle`` = 0, 空动作。
+   -  ``action_idle`` = 0, an empty action.
 
--  移动动作（均为粘滞动作）
+-  Move actions (both sticky actions)
 
-   -  ``action_left`` = 1, 向左。
+   -  ``action_left`` = 1, left.
 
-   -  ``action_top_left`` = 2, 向右上。
+   -  ``action_top_left`` = 2, top right.
 
-   -  ``action_top`` = 3, 向上。
+   -  ``action_top`` = 3, up.
 
-   -  ``action_top_right`` = 4, 向右上。
+   -  ``action_top_right`` = 4, top right.
 
-   -  ``action_right`` = 5, 向右。
+   -  ``action_right`` = 5, right.
 
-   -  ``action_bottom_right`` = 6, 向右下。
+   -  ``action_bottom_right`` = 6, bottom right.
 
-   -  ``action_bottom`` = 7, 向下。
+   -  ``action_bottom`` = 7, down.
 
-   -  ``action_bottom_left`` = 8, 向左下。
+   -  ``action_bottom_left`` = 8, bottom left.
 
--  传球/射门动作
+-  Pass/shoot action
 
-   -  ``action_long_pass`` = 9, 长传。
+   -  ``action_long_pass`` = 9, long pass.
 
-   -  ``action_high_pass`` = 10, 高传球。
+   -  ``action_high_pass`` = 10, high pass.
 
-   -  ``action_short_pass`` = 11, 短传。
+   -  ``action_short_pass`` = 11, short pass.
 
-   -  ``action_shot`` = 12, 射门。
+   -  ``action_shot`` = 12, shot.
 
--  其它
+-  other
 
-   -  ``action_sprint`` = 13, 冲刺。
+   -  ``action_sprint`` = 13, sprint.
 
-   -  ``action_release_direction`` = 14, 释放粘滞动作（如移动）。
+   -  ``action_release_direction`` = 14, releases sticky actions (like moving).
 
-   -  ``action_release_sprint`` = 15, 停止冲刺.
+   -  ``action_release_sprint`` = 15, stop sprinting.
 
-   -  ``action_sliding`` = 16, 滑铲（仅无球时可用）.
+   -  ``action_sliding`` = 16, sliding tackle (only available without the ball).
 
-   -  ``action_dribble`` = 17, 运球.
+   -  ``action_dribble`` = 17, dribble.
 
-   -  ``action_release_dribble`` = 18, 停止运球.
+   -  ``action_release_dribble`` = 18, stop dribble.
 
-DI-zoo可运行代码示例
---------------------
+DI-zoo runnable code example
+----------------------------------
+See \`DI-zoo for the complete training entry
+gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entry>`__\ . The configuration file for self-play training with ppo-lstm is as follows.
 
-完整的训练入口见\ `DI-zoo
-gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entry>`__\ 。使用 ppo-lstm 进行self-play 训练的配置文件如下。
 
 .. code:: python
 
@@ -470,7 +470,7 @@ gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entr
        config = tuple([deepcopy(main_config), deepcopy(create_config), deepcopy(system_config)])
        parallel_pipeline(config, seed=0)
 
-training example
+Training Example
 --------------------
 
 In the state space of DI-engine, after reward design and action space constraints, the winning rate curve of built-in hard AI in self play training is shown in the following figure:
