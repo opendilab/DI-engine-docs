@@ -1,21 +1,21 @@
 Google Research Football (Gfootball)
-============================================
+====================================
 
 
-Overview
-----------
+概述
+----
 
-Google Research Football (hereinafter referred to as Gfootball) is a football environment suitable for reinforcement learning research created by the Google team on the basis of the open source football game GamePlay Football.
-Compatible with OpenAI Gym API, it can not only be used for agent training, but also allows players to play games with built-in AI or trained agents with keyboard or gamepad input. The image below shows the rendered Gfootball game environment.
+Google Research Football（以下简称 Gfootball）是 Google 团队在开源足球游戏 GamePlay Football的基础上创建的适用于强化学习研究的足球环境，
+兼容 OpenAI Gym API，不仅可用于智能体训练，也允许玩家以键盘或手柄输入与内置AI或训练的智能体进行游戏。下图为渲染后的 Gfootball 游戏环境。
 
 .. figure:: images/gfootballenv.png
    :alt: 
    :align: center
 
-Installation
-----------------
+安装
+----
 
-1. Dependency package
+1. 依赖包
 
 **Linux**
 
@@ -41,15 +41,15 @@ Installation
 
    python -m pip install --upgrade pip setuptools psutil wheel
 
-1. Install gfootball enviroment
+1. 安装gfootball环境
 
-**install pip**
+**pip安装**
 
 .. code:: shell
 
    python3 -m pip install gfootball
 
-**intall from github orgin code**
+**从github源码安装**
 
 .. code:: shell
 
@@ -57,13 +57,13 @@ Installation
    cd football
    python3 -m pip install .
 
-1. Validation of the environment installation
+1. 环境安装的验证
 
 .. code:: shell
 
    python3 -m gfootball.play_game --action_set=full
 
-Enter the following game interface to prove that the installation is successful.
+进入如下游戏界面，证明安装成功。
 
 .. figure:: images/verify_gfootball.png
    :alt: 
@@ -71,12 +71,13 @@ Enter the following game interface to prove that the installation is successful.
    :scale: 60%
 
 
-For more installation environment related issues, please refer to \ `Gfootball official website github <https://github.com/google-research/football>`__\ . In addition, the official also provides a docker image for deploying the environment in the docker environment, you can refer to the `docker deployment document <https://github.com/google-research/football/blob/master/gfootball/doc/docker.md> `__ .
+更多安装环境相关的问题，可以参考\ `Gfootball 官网 github <https://github.com/google-research/football>`__\ 。此外，官方也提供了 docker image 用于在 docker 环境中部署环境，可以参考 `docker 部署文档 <https://github.com/google-research/football/blob/master/gfootball/doc/docker.md>`__ 。
 
-Environment Creation API
----------------------------
 
-After importing and creating the environment successfully, you can interact with the environment through the same code as openAI gym:
+环境创建API
+-----------
+
+在导入并创建环境成功后，可以通过与 openAI gym 相同的代码来与环境交互：
 
 .. code:: python
 
@@ -99,8 +100,7 @@ After importing and creating the environment successfully, you can interact with
    action = get_action(obs) # your model
    next_obs, reward, done, info = env.step(action)
 
-The API for creating an environment is as follows:
-
+创建环境的API如下：
 
 -  env name。核心参数，决定环境创建的场景，常用为 11 vs 11 stochastic，11 vs 11 easy stochastic，11 vs 11 hard stochastic，分别对应对局中等、简单和困难三种难度内置bot的完整90分钟足球游戏。此外，还有点球等场景如 academy run pass and shoot with keeper，详见 `文档 <https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md>`_ 。
 
@@ -133,10 +133,10 @@ The API for creating an environment is as follows:
    env = GfootballEnv({})
 
 
-state space
---------------
+状态空间
+--------
 
-**Generally use raw input information**
+**一般使用raw输入信息**
 
 -  球信息：
 
@@ -238,9 +238,9 @@ state space
 
       -  ``6`` = ``e_GameMode_Penalty``
 
-- Image: Game image information in RGB.
+-  图像：RGB的游戏图像信息。
 
-**DI-engine encapsulated state space**
+**DI-engine封装的状态空间**
 
 -  ``Players``: 29 维
 
@@ -302,10 +302,10 @@ state space
 
       -  离当前控制球员最近对方球员的疲劳度（1 维）
 
-action space
---------------
+动作空间
+--------
 
-Gfootball's action space is a 19-dimensional discrete action:
+Gfootball 的动作空间为 19 维离散动作：
 
 -  无状态动作
 
@@ -353,11 +353,11 @@ Gfootball's action space is a 19-dimensional discrete action:
 
    -  ``action_release_dribble`` = 18, 停止运球.
 
-DI-zoo runnable code example
--------------------------------
+DI-zoo可运行代码示例
+--------------------
 
-See \`DI-zoo for the complete training entry
-gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entry>`__\ . The configuration file for self-play training with ppo-lstm is as follows.
+完整的训练入口见\ `DI-zoo
+gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entry>`__\ 。使用 ppo-lstm 进行self-play 训练的配置文件如下。
 
 .. code:: python
 
@@ -468,11 +468,10 @@ gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entr
        config = tuple([deepcopy(main_config), deepcopy(create_config), deepcopy(system_config)])
        parallel_pipeline(config, seed=0)
 
-training example
------------------------
+训练实例
+--------
 
-In the state space of DI-engine, after reward design and action space constraints, the winning rate curve of built-in hard AI in self play training is shown in the following figure:
-
+在 DI-engine 的状态空间下，经过 reward 设计和动作空间约束，self play 训练中对内置 hard AI 胜率曲线如下图所示：
 
 .. image:: images/gfootball_train.png
    :align: center
