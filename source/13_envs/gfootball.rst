@@ -112,9 +112,9 @@ The API for creating an environment is as follows:
 
 -  logdir。The path to save the log file.
 
--  write_goal_dumps。是否保存进球时的二进制文件用于生成录像回放。
+-  write_goal_dumps。Whether or not to save the binary file of the time of the goal for generating the video playback.
 
--  write_full_episode_dumps。是否保存全程的二进制文件用于生成录像回放。
+-  write_full_episode_dumps。 Whether to save the entire binary file for generating video playback.
 
 -  write_video。 Whether or not to save the binary file of the time of the goal for generating the video playback.
 
@@ -126,16 +126,16 @@ It is also possible to use environments encapsulated by DI-engine:
 
 .. code:: python
 
-   ### 对局内置bot环境
+   ### Game built-in bot environment
    from dizoo.gfootball.envs.gfootball_env import GfootballEnv
    env = GfootballEnv({})
 
-   ### self play 环境
+   ### self play environment
    from dizoo.gfootball.envs.gfootballsp_env import GfootballEnv
    env = GfootballEnv({})
 
 
-state space
+State space
 -------------
 
 **Generally use raw input information**
@@ -144,29 +144,29 @@ state space
 
    -  ``ball`` - [x, y, z] coordinates.
 
-   -  ``ball_direction`` - [x, y, z]球的速度方向。
+   -  ``ball_direction`` - [x, y, z]The direction of the ball's velocity.
 
-   -  ``ball_rotation`` - [x, y, z] 球的旋转方向。
+   -  ``ball_rotation`` - [x, y, z] The rotation direction of the ball.
 
-   -  ``ball_owned_team`` - {-1, 0, 1}, -1 = 球不被球队持有, 0 = 左队, 1
-      = 右队。
+   -  ``ball_owned_team`` - {-1, 0, 1}, -1 = ball not owned by team, 0 = left team, 1
+      = right team.。
 
-   -  ``ball_owned_player`` - {0..N-1} 表明球被哪个队员持有。
+   -  ``ball_owned_player`` - {0..N-1} indicates which player the ball is held by.
 
--  左队信息：
+-  Left team information:
 
-   -  ``left_team`` - N*2维向量 [x, y]，表明球员位置。
+    - ``left_team`` - N*2 dimensional vector [x, y], indicating player positions.
 
-   -  ``left_team_direction`` - N*2 维向量 [x, y]，表明球员速度方向。
+    - ``left_team_direction`` - N*2 dimensional vector [x, y], indicating the direction of the player's velocity.
 
-   -  ``left_team_tired_factor`` - N 维向量 ，表明球员疲劳度.
-      0表示完全不疲劳。
+    - ``left_team_tired_factor`` - N-dimensional vector indicating player fatigue.
+       0 means no fatigue at all.
 
-   -  ``left_team_yellow_card`` - N 维向量，表明球员是否有黄牌。
+    - ``left_team_yellow_card`` - N-dimensional vector indicating whether the player has a yellow card.
 
-   -  ``left_team_active`` - N 维向量，表明球员是否没有红牌.
+    - ``left_team_active`` - N-dimensional vector indicating whether the player has no red cards.
 
-   -  ``left_team_roles`` - N 维向量，表明球员角色:
+    - ``left_team_roles`` - N-dimensional vector indicating player roles:
 
       -  ``0`` = e\ *PlayerRole*\ GK - goalkeeper,
 
@@ -188,15 +188,16 @@ state space
 
       -  ``9`` = e\ *PlayerRole*\ CF - central front,
 
--  右队信息：与左队对称
+-  Right team information: Symmetrical with left team
 
--  控制球员信息：
+-  Control player information:
 
-   -  ``active`` - {0..N-1} 表明控制球员号码。
+   -  ``active`` - {0..N-1} indicates the controlling player number.
 
-   -  ``designated`` - {0..N-1} 表明带球球员号码。
+   -  ``designated`` - {0..N-1} indicates the dribbler number.
 
-   -  ``sticky_actions`` - 10维向量表明如下动作是否可执行:
+   -  ``sticky_actions`` - 10dimensional vector indicating whether the following actions can be performed:
+
 
       -  ``0`` - ``action_left``
 
@@ -218,13 +219,14 @@ state space
 
       -  ``9`` - ``action_dribble``
 
--  比赛信息
+-  match information
 
-   -  ``score`` - 得分.
+   -  ``score`` - the score.
 
-   -  ``steps_left`` - 剩余步数（全局比赛 3000 步）.
+   -  ``steps_left`` - the number of steps remaining (3000 steps in the global game).
 
-   -  game_mode - 比赛状态信息:
+
+   -  game_mode - game state information:
 
       -  ``0`` = ``e_GameMode_Normal``
 
@@ -240,69 +242,57 @@ state space
 
       -  ``6`` = ``e_GameMode_Penalty``
 
--  图像：RGB的游戏图像信息。
+-  Image: Game image information in RGB.
 
-**DI-engine封装的状态空间**
+**DI-engine encapsulated state space**
 
--  ``Players``: 29 维
+-  ``Players``: 29 dimensions
 
-   -  | ``avail``\ ，可行动作（10 维 one-hot，长传、高脚、短传、射门、冲刺、停止运动、停止冲刺、
-      | 滑铲、运球、停止运球）（参考#6）
+   -  | ``avail``\ ， actionable actions (10-dimensional one-hot, long pass, high foot, short pass, shot, sprint, stop motion, stop sprint,
+      | Slide tackle, dribble, stop dribble) (Ref #6)
 
-   -  ``[player_pos_x, player_pos_y]`` ，当前控制球员位置（2 维坐标）
+   - ``[player_pos_x, player_pos_y]`` , the current control player position (2D coordinates)
 
-   -  ``player_direction*100``\ ，当前控制球员运动方向（2 维坐标）
+   - ``player_direction*100``\ , currently controls the player's movement direction (2D coordinates)
 
-   -  ``*player_speed*100`` ，当前控制球员速度（1 维标量）
+   - ``*player_speed*100`` , currently controls player speed (1D scalar)
 
-   -  ``layer_role_onehot`` ，当前控制球员角色（10 维one-hot）
+   - ``layer_role_onehot`` , the currently controlling player role (10-dimensional one-hot)
 
-   -  | ``[ball_far, player_tired, is_dribbling, is_sprinting]``
-        ，球是否过远，当前控制球
-      | 员疲劳度，是否在带球、是否在冲刺（4 维 0/1）
+   - | ``[ball_far, player_tired, is_dribbling, is_sprinting]``
+        , whether the ball is too far, currently controlling the ball
+      | Player fatigue, whether they are dribbling, whether they are sprinting (4-dimensional 0/1)
 
--  ``Ball``: 18维
+- ``Ball``: 18 dimensions
 
-   -  ``obs['ball']`` ，球位置（3 维坐标）
+   - ``obs['ball']`` , ball position (3D coordinates)
 
-   -  ``ball_which_zone`` ，人为划定的球所在区域（6 维 one-hot）
+   - ``ball_which_zone`` , the artificially defined area where the ball is located (6-dimensional one-hot)
 
-   -  ``[ball_x_relative, ball_y_relative]``
-      ，球距离当前控制球员的x、y轴距离（2 维）
+   - ``[ball_x_relative, ball_y_relative]``
+      , the distance between the ball and the currently controlled player's x, y axis (2 dimensions)
 
-   -  ``obs['ball_direction']*20`` ，球运动方向（3 维坐标）
+   - ``obs['ball_direction']*20`` , the direction of the ball movement (3D coordinates)
 
-   -  | ``*[ball_speed*20, ball_distance, ball_owned, ball_owned_by_us]``
-        ，球速，球与当前
-      | 控制球员的距离，球是否被控制、球是否被我方控制（4 维）
+   - | ``*[ball_speed*20, ball_distance, ball_owned, ball_owned_by_us]``
+        , ball speed, ball and current
+      | Control the distance of the player, whether the ball is controlled, whether the ball is controlled by us (4D)
 
--  ``LeftTeam``: 7维。所有我方球员的下述信息（10*7）
+- ``LeftTeam``: 7 dimensions. The following information for all our players (10*7)
 
-   -  ``LeftTeamCloset``\ ：7 维
 
-      -  离当前控制球员最近我方球员的位置（2 维）
+  - ``LeftTeam``: 7 dimensions. The following information for all our players (10*7)
 
-      -  离当前控制球员最近我方球员的速度向量（2 维）
+   - ``LeftTeamCloset``\ : 7 dimensions
 
-      -  当前控制球员最近我方球员的速度（1 维）
+      - The position of our player closest to the player currently in control (2D)
 
-      -  当前控制球员最近我方球员的距离（1 维）
+      - Velocity vector of our player closest to the currently controlled player (2D)
 
-      -  离当前控制球员最近我方球员的疲劳度（1 维）
+      -  Speed ​​of the opposing player closest to the player currently in control (1D)
 
--  ``RightTeam``\ ：7 维。所有对方球员的下述信息（11*7）
-
-   -  ``RightTeamCloset``\ ：7 维
-
-      -  离当前控制球员最近对方球员的位置（2 维）
-
-      -  离当前控制球员最近对方球员的速度向量（2 维）
-
-      -  离当前控制球员最近对方球员的速度（1 维）
-
-      -  离当前控制球员最近对方球员的距离（1 维）
-
-      -  Fatigue of the opposing player closest to the player currently in control (1D)
+      -  Distance to the closest opposing player to the player currently in control (1 dimension)
+      -  Fatigue of the opposing player closest to the player currently in control (1 dimension)
 
 Action space
 ----------------
