@@ -64,11 +64,13 @@ flake8
 
 建议 import 顺序：
 
-- Python 标准库模块 
+- Python 标准库模块
 
-- Python 第三方模块 
+- Python 第三方模块
 
 - 应用程序自定义模块
+
+- 相对引用模块
 
 类似如下：
 
@@ -78,5 +80,3 @@ flake8
    import xx
    import ding.xx
    from .xx
-
-？需要说明原因吗(例如import的机制等)，上面两个是否对应?
