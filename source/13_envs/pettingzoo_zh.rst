@@ -185,7 +185,7 @@ Action space
 Reward space
 ----------------
 
--  No change，i\ ``gym.spaces.Box(low=float("-inf"), high=float("inf"), shape=(1, ), dtype=np.float32)``
+-  No change，\ ``gym.spaces.Box(low=float("-inf"), high=float("inf"), shape=(1, ), dtype=np.float32)``
 
 .. _Others -3:
 
