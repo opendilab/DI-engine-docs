@@ -73,7 +73,7 @@ space before transformation (original environment)
 
 Since PettingZoo includes many families of environments, each of which is unique, it is difficult to cover everything. Here is an example of the \ ``Simple Spread`` environment in \ ``MPE``.
 
-.. “note”:: \ ``Simple Spread`` game‘s goal is to want agents to cover all landmarks while avoiding collisions with each other.
+.. note:: \ ``Simple Spread`` game‘s goal is to want agents to cover all landmarks while avoiding collisions with each other.
 
 
 .. _Observation space-1:
