@@ -104,7 +104,7 @@ After importing and creating the environment successfully, you can interact with
 
 The API for creating an environment is as follows:
 
-- env name. The core parameters determine the scene created by the environment. Commonly used are 11 vs 11 stochastic, 11 vs 11 easy stochastic, 11 vs 11 hard stochastic, which correspond to the three difficulty levels of medium, easy and hard games. The complete 90-minute soccer game with built-in bots. In addition, there are also scenarios such as academy run pass and shoot with keeper, see `documentation <https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md>`_ for details.
+- env name. The core parameters determine the scene created by the environment. Commonly used are 11 vs 11 stochastic, 11 vs 11 easy stochastic, 11 vs 11 hard stochastic, which correspond to the three difficulty levels of medium, easy and hard games. The complete 90-minute soccer game with built-in bots. In addition, there are also scenarios such as academy run pass and shoot with keeper, see `documentation <https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md>`_ `documentation<https://github.com/google-research/football/blob/master/gfootball/doc/scenarios.md>`_ for details.
 
 -  Representation。The representation type of the environment output, raw is the original vector input, such as player position, ball speed and other information, pixels is the original image pixel input, and the official also provides some existing environment input packages.
 
