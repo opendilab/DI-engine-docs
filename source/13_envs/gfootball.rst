@@ -72,7 +72,7 @@ Enter the following game interface to prove that the installation is successful.
    :scale: 60%
 
 
-For more installation environment related issues, please refer to \ `Gfootball official website github <https://github.com/google-research/football>`__\ . In addition, the official also provides a docker image for deploying the environment in the docker environment, you can refer to the `docker deployment document <https://github.com/google-research/football/blob/master/gfootball/doc/docker.md> `__ .
+For more installation environment related issues, please refer to \ `Gfootball official website github <https://github.com/google-research/football>`__\ . In addition, the official also provides a docker image for deploying the environment in the docker environment, you can refer to the `docker deployment document <https://github.com/google-research/football/blob/master/gfootball/doc/docker.md>`__  .
 
 
 Environment Creation API
