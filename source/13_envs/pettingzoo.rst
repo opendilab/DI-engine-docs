@@ -90,7 +90,7 @@ Observation space
    - Communication between other agents and the current agent, communication, ((n_agents-1) * 2,)
 
 The specific dimension is (2 + 2 + n_landmarks*2 + (n_agents-1)*2 + (n_agents-1)*2), and the data type is float32.
-For example, when you generate a simple spread environment with 5 agents (n_agents=5) and 5 landmarks (n_landmarks=5), each agent has an observation dimension of (30,)。
+For example, when you generate a simple spread environment with 5 agents (n_agents=5) and 5 landmarks (n_landmarks=5), each agent has an observation dimension of (30,)。 
 
 .. _Action space-1:
 
