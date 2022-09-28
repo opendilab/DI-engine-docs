@@ -43,7 +43,7 @@ Installation
 
 1. Enviroment of installing gfootball
 
-**install pip**
+**install from pip**
 
 .. code:: shell
 
@@ -283,17 +283,17 @@ State space
 
    -  ``LeftTeamCloset``\ ：7  dimensions.
 
-      -  离当前控制球员最近我方球员的位置（2 维）
+      -  The position of our player closest to the player currently in control（2 dimension）
 
-      -  离当前控制球员最近我方球员的速度向量（2 dimension）
+      -  Velocity vector of our player closest to the currently controlled player（2 dimension）
 
-      -  当前控制球员最近我方球员的速度（1 dimension）
+      -  The current control player's speed of the nearest allied player（1 dimension）
 
-      -  当前控制球员最近我方球员的距离（1 dimension）
+      -  The distance of the currently controlled player to the nearest allied player（1 dimension）
 
-      -  离当前控制球员最近我方球员的疲劳度（1 dimension）
+      -  Fatigue of allied players closest to the currently controlled player（1 dimension）
 
--  ``RightTeam``\ ：7 dimension。所有对方球员的下述信息（11*7）
+-  ``RightTeam``\ ：7 dimension。The following information for all opposing players（11*7）
 
    -  ``RightTeamCloset``\ ：7 dimension
 
