@@ -4,7 +4,7 @@ dmc2gym
 Overview
 =======
 
-dmc2gym is a light wrapper for \ `DeepMind Control Suite <https://github.com/deepmind/dm_control>`__\ ，providing standard OpenAI Gym interface。
+dmc2gym is a light wrapper for \ `DeepMind Control Suite <https://github.com/deepmind/dm_control>`__ \ , providing standard OpenAI Gym interface.
 DeepMind Control Suite is a set of continuous control tasks with standardized structures and interpretable rewards intended as a performance benchmark for reinforcement learning agents.
 
 
@@ -17,9 +17,9 @@ Installation
 Method
 --------
 
-\ ``gym``\ ， \ ``dm_control``\ \ ``dmc2gym``\ are required to be installed , and users could install from PyPI with the following command:（Please kindly notice \ ``dm_control``\  should you have further problems, please refer to the official \ `related instructions <https://github.com/deepmind/dm_control>`__\ ）
+\ gym\ , \ dm_control\ and \ dmc2gym\ are required to be installed, and users could install from PyPI with the following command: (Please kindly notice \ ``dm_control``\  should you have further problems, please refer to the official \ `related instructions <https://github.com/deepmind/dm_control>`__\ )
 
-Note：If you need to install the corresponding package to the user directory（If the user does not own root authority，then the corresponding package needs to be installed to the user directory），please add ``--user`` after the install command.
+Note: If you need to install the corresponding package to the user directory (If the user does not own root authority,then the corresponding package needs to be installed to the user directory),please add ``--user`` after the install command.
 
 
 .. code:: shell
@@ -29,7 +29,7 @@ Note：If you need to install the corresponding package to the user directory（
     pip install dm_control
     pip install git+git://github.com/denisyarats/dmc2gym.git
 
-Verification
+Verify Installation
 --------
 
 After the installation is complete, you can verify that the installation was successful by running the following command on the Python command line:
@@ -41,10 +41,10 @@ After the installation is complete, you can verify that the installation was suc
     obs = env.reset()
     print(obs.shape)    # (4,)
 
-Mirror
+Image
 ----
 
-DI-engine image comes with the framwork and the dmc2gym environment，which is available via \ ``docker pull opendilab/ding:nightly-dmc2gym``\ , or by visiting \ `docker hub <https://hub.docker.com/r/opendilab/ding>`__\ to get more images.
+DI-engine image comes with the framwork and the dmc2gym environment, which is available via \ ``docker pull opendilab/ding:nightly-dmc2gym``\ , or by visiting \ `docker hub  <https://hub.docker.com/r/opendilab/ding>  `__\ to get more images.
 
 Environment Introduction
 ========================
@@ -52,7 +52,7 @@ Environment Introduction
 select task
 ----------------
 
-dm_control contains multiple domains（physical models)，and different domains have different tasks（instances of models with specific MDP structures）。We have temporarily implemented the following domain and task here:
+dm_control contains multiple domains (physical models), and different domains have different tasks (instances of models with specific MDP structures). We have temporarily implemented the following domain and task here:
 
 -  Ball in cup
 
@@ -60,7 +60,7 @@ dm_control contains multiple domains（physical models)，and different domains 
         :width: 300
         :align: center
    
-   Flact Ball Cup task.A driven plane container can translate in a vertical plane in order to swing and catch a ball attached to its base. The reward for the catch task is 1 when the ball is in the cup, and 0 otherwise.
+   Flact Ball Cup task. A driven plane container can translate in a vertical plane in order to swing and catch a ball attached to its base. The reward for the catch task is 1 when the ball is in the cup, and 0 otherwise.
 
    -  catch
   
@@ -70,7 +70,7 @@ dm_control contains multiple domains（physical models)，and different domains 
         :width: 300
         :align: center
 
-   Conforms to the physical model proposed by \ `Barto et al. 1983 <https://ieeexplore.ieee.org/abstract/document/6313077>`__\ . Swing and balance the unactuated pole by applying force to the cart at its bottom. This environment implements the following tasks
+   Conforms to the physical model proposed by \ `Barto et al. 1983 <https://ieeexplore.ieee.org/abstract/document/6313077>`__\ . The target is to swing and balance the unactuated pole by applying force to the cart at its bottom. This environment implements the following tasks
 
    -  balance: the initial bar is close to the post
 
@@ -82,7 +82,7 @@ dm_control contains multiple domains（physical models)，and different domains 
         :width: 300
         :align: center
 
-   Planar running bipeds，based on the model proposed by \ `Wawrzyński et al. 2009 <https://www.sciencedirect.com/science/article/abs/pii/S0893608009001026>`__\，reward \ ``r``\ and speed of advance \ ``v``\ has a linear relationship，\ ``v``\ is up to 10m/s， \ ``r(v) = max(0, min(v/10, 1))``\ .
+   Planar running bipeds, based on the model proposed by \ `Wawrzyński et al. 2009 <https://www.sciencedirect.com/science/article/abs/pii/S0893608009001026>`__\, reward \ ``r``\ and speed of advance \ ``v``\ has a linear relationship, \ ``v``\ is up to 10m/s, \ ``r(v) = max(0, min(v/10, 1))``\ .
 
    -  run
 
@@ -150,9 +150,9 @@ Called by setting the parameters \ ``domain_name``\ ,\ ``task_name``\：
 .. note::
    The task in dm_control follows the Markov Decision Process (MDP).
 
-    - State \ ``s``\ is a real vector except for the spatial direction: math:`\cal{S} \equiv \mathbb{R}^{dim(\cal{S})}` ，where the spatial direction is represented by Unit quaternion: math:`\in SU(2)` 
+    - State \ ``s``\ is a real vector except for the spatial direction :math:`\cal{S} \equiv \mathbb{R}^{dim(\cal{S})}` , where the spatial direction is represented by Unit quaternion :math:`\in SU(2)` 
 
-    - Observation \ ``o(s, a)``\ describes the observation result to the agent. The tasks we implement are all strongly observable, that is, the state can be recovered from a single observation. The observed features that depend only on the state (position and velocity) are a function of the current state. Observations that also depend on controls (such as touch sensor readings) are functions of previous transitions.
+    - Observation \ ``o(s, a)``\ describes the state that the agent can observe. The tasks we implement are all strongly observable, that is, the state can be recovered from a single observation. The observed features that depend only on the state (position and velocity) are a function of the current state. Observations that also depend on controls (such as touch sensor readings) are functions of previous transitions.
 
 Obervation Space
 ----------------
@@ -160,7 +160,7 @@ Obervation Space
 Based on Image Observation
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
--  When setting \ ``from_pixels=True``\ ，the observation space is a three-channel game image with height and width respectively.
+-  When setting \ ``from_pixels=True``\ , the observation space is a three-channel game image with height and width respectively.
 
 -  The size of the observed image can be adjusted by setting the \ ``height, width``\ parameters.
 
@@ -168,14 +168,14 @@ Based on Image Observation
 
    -  \ ``channels_first=True``\ , observation shape is \ ``[3, height, width]``\
 
-   -  \ ``channels_first=False``\ ，observation shape is \ ``[height, width, 3]``\
+   -  \ ``channels_first=False``\ , observation shape is \ ``[height, width, 3]``\
 
--  The range of a single pixel value for each channel is \ ``[0, 255]``\ ， and the data type is \ ``uint8``\
+-  The range of a single pixel value for each channel is \ ``[0, 255]``\ , and the data type is \ ``uint8``\
 
 Non-Image Based Observation 
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
--  when \ ``from_pixels=False``\ is set，the viewing space dimension follows \ ``dim(O)``\ in the above table
+-  When \ ``from_pixels=False``\ is set, the observation space dimension follows \ ``dim(O)``\ in the above table
 
 -  The default range is \ ``[-inf, inf]``\ 
 
@@ -184,7 +184,7 @@ Action Space
 
 -  Action space dimensions follow \ ``dim(A)``\ in the above table
 
--  dmc2gym normalizes the action space, the range of each dimension is \ ``[-1, 1]``\ ，the type is \ ``float32``\ .
+-  dmc2gym normalizes the action space, the range of each dimension is \ ``[-1, 1]``\ , the type is \ ``float32``\ .
 
 Reward Space
 --------
@@ -192,16 +192,16 @@ Reward Space
 Image Based Observation 
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
--  It is related to the \ ``frame_skip``\ parameter，which means that each step is based on the image of \ ``frame_skip``\ frame ，and the dimension is \ ``(1,)``\
+-  It is related to the \ ``frame_skip``\ parameter, which means that each step is based on the image of \ ``frame_skip``\ frame , and the dimension is \ ``(1,)``\
 
-- The range is \ ``[0, frame_skip]``\ ，the type is \ ``float32``\ ，default \ ``frame_skip = 1``\
+- The range is \ ``[0, frame_skip]``\ , the type is \ ``float32``\ , default \ ``frame_skip = 1``\
 
-   - The reward space of each frame is \ ``[0, 1]``\ ，and the reward of \ ``frame_skip``\ are superimposed together as the overall reward
+   - The reward space of each frame is \ ``[0, 1]``\ , and the reward of \ ``frame_skip``\ are superimposed together as the overall reward
 
 Non-Image Based Observation 
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- The dimension is \ ``(1, )``\ ，the range is  \ ``[0, 1]``\ ，the type is \ ``float32``\ .
+- The dimension is \ ``(1, )``\ , the range is  \ ``[0, 1]``\ , the type is \ ``float32``\ .
 
 Other
 ====
@@ -214,19 +214,22 @@ Control tasks are divided into finite-horizon, firstexit and infinite-horizon. D
 Lazy Initialization
 ----------
 
-In order to facilitate parallel operations such as environment vectorization, environment instances generally implement lazy initialization ，which means \ ``__init__``\ method does not initialize the real original environment instance，but only sets relevant parameters and configuration values. The concrete original environment instance is initialized when the \ ``reset``\ method is used.
+In order to facilitate parallel operations such as environment vectorization, environment instances generally implement lazy initialization , which means \ ``__init__``\ method does not initialize the real original environment instance, but only sets relevant parameters and configuration values. The concrete original environment instance is initialized when the \ ``reset``\ method is used.
 
 
 Random Seeds
 --------
 
--  There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations（such as \ ``random``\ ，\ ``np.random``\)
+-  There are two parts of random seeds in the environment that need to be set, one is the random seed of the original environment, and the other is the random seed of the random library used by various environment transformations(such as \ ``random``\ , \ ``np.random``\)
 
--  For the environment caller, just set two seeds through the\ ``seed``\ method of the environment，and do not need to care about the specific implementation details.
+-  For the environment caller, just set two seeds through the\ ``seed``\ method of the environment, and do not need to care about the specific implementation details.
 
--  Concrete implementation inside the environment: For the seed of the original environment, set before calling the \ ``reset``\ method of the environment ，before the concrete \ ``reset``\ 
+Concrete implementation inside the environment
+----------------------------------------------
 
--  The specific implementation inside the environment: for random library seeds, set the value directly in the \ ``seed``\ method of the environment ; for the seed of the original environment, inside the \ ``reset``\ method of the calling environment, the specific original environment \ ``reset``\ was previously set to seed + np_seed, where seed is the value of the aforementioned random library seed,
+-  For the seed of the original environment, set in the \ ``reset``\ methods of the environment calling function , before the concrete environment implementation  \ ``reset``\ 
+
+-  For random library seeds, set the value directly in the \ ``seed``\ method of the environment ; for the seed of the original environment, inside the \ ``reset``\ method of the calling environment, the specific original environment \ ``reset``\ was previously set to seed + np_seed, where seed is the value of the aforementioned random library seed,
 np_seed = 100 * np.random.randint(1, 1000).
 
    np_seed = 100 * np.random.randint(1, 1000)。
