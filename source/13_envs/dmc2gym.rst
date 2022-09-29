@@ -17,7 +17,7 @@ Installation
 Method
 --------
 
-\ gym\ , \ dm_control\ and \ dmc2gym\ are required to be installed, and users could install from PyPI with the following command: (Please kindly notice \ ``dm_control``\  should you have further problems, please refer to the official \ `related instructions <https://github.com/deepmind/dm_control>`__\ )
+\\ ``gym``\\ , \\ ``dm_control`` \\ and \\ ``dmc2gym`` \\ are required to be installed, and users could install from PyPI with the following command: (Please kindly notice \ ``dm_control``\  should you have further problems, please refer to the official \ `related instructions <https://github.com/deepmind/dm_control>`__\ )
 
 Note: If you need to install the corresponding package to the user directory (If the user does not own root authority,then the corresponding package needs to be installed to the user directory),please add ``--user`` after the install command.
 
@@ -44,7 +44,7 @@ After the installation is complete, you can verify that the installation was suc
 Image
 ----
 
-DI-engine image comes with the framwork and the dmc2gym environment, which is available via \ ``docker pull opendilab/ding:nightly-dmc2gym``\ , or by visiting \ `docker hub <https://hub.docker.com/r/opendilab/ding>`__\  to get more images.
+DI-engine image comes with the framwork and the dmc2gym environment, which is available via \ ``docker pull opendilab/ding:nightly-dmc2gym``\ , or by visiting\ `docker hub <https://hub.docker.com/r/opendilab/ding>`__\ to get more images.
 
 Environment Introduction
 ========================
