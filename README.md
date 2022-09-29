@@ -2,12 +2,15 @@
 
 [![Documentation Status](https://readthedocs.org/projects/di-engine-docs/badge/?version=latest)](https://di-engine-docs.readthedocs.io/en/latest/?badge=latest)
 
+Get started at
+[English Docs](https://di-engine-docs.readthedocs.io/en/latest/index.html) | 
+[中文文档](https://di-engine-docs.readthedocs.io/zh_CN/latest/index.html)
 
 This is an educational resource produced by OpenDILab that makes it easier to learn about Decision Intelligence and DI-engine
 
 For the unfamiliar: [Decision Intelligence](https://en.wikipedia.org/wiki/Decision_intelligence#Relationship_to_artificial_intelligence_and_machine_learning) is an engineering discipline that augments data science with theory from social science, decision theory, and managerial science.
 
-This documentation website contains a variety of helpful resources, including:
+This documentation contains a variety of helpful resources, including:
 
 - an [introduction](https://di-engine-docs.readthedocs.io/en/latest/00_intro/index.html) about DI-engine
 - an [essay](https://di-engine-docs.readthedocs.io/en/latest/10_concepts/basic_rl.html) about  important Concepts of reinforcement learning
@@ -15,9 +18,7 @@ This documentation website contains a variety of helpful resources, including:
 - an [environment example](https://di-engine-docs.readthedocs.io/en/latest/13_envs/index.html) often used by reinforcement learning algorithm
 - and some [API descriptions](https://di-engine-docs.readthedocs.io/en/latest/05_api_doc/index.html) to serve as warm-ups.
 
-Get started at
-[English Docs](https://di-engine-docs.readthedocs.io/en/latest/index.html) | 
-[中文文档](https://di-engine-docs.readthedocs.io/zh_CN/latest/index.html)
+
 
 # Local Docs Generation
 ```bash
