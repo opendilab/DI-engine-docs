@@ -1,9 +1,22 @@
-# DI-engine Docs
+# Welcome to DI-engine Docs
 
 [![Documentation Status](https://readthedocs.org/projects/di-engine-docs/badge/?version=latest)](https://di-engine-docs.readthedocs.io/en/latest/?badge=latest)
 
-[English Docs](https://di-engine-docs.readthedocs.io/en/latest/index.html)
 
+This is an educational resource produced by OpenDILab that makes it easier to learn about Decision Intelligence and DI-engine
+
+For the unfamiliar: [Decision Intelligence](https://en.wikipedia.org/wiki/Decision_intelligence#Relationship_to_artificial_intelligence_and_machine_learning) application provides a framework for best practices in organizational decision-making and processes for applying machine learning at scale.
+
+This module contains a variety of helpful resources, including:
+
+- a short [introduction](https://di-engine-docs.readthedocs.io/en/latest/00_intro/index.html) about DI-engine
+- an [essay](https://spinningup.openai.com/en/latest/spinningup/spinningup.html) about  important Concepts of reinforcement learning
+- a [curated list](https://di-engine-docs.readthedocs.io/en/latest/12_policies/index.html) of reinforcement algorithms cheat sheet organized by learning methods
+- an [environment example](https://di-engine-docs.readthedocs.io/en/latest/13_envs/index.html) often used by reinforcement algorithm
+- and some [API descriptions](https://spinningup.openai.com/en/latest/spinningup/exercises.html) to serve as warm-ups.
+
+Get started at
+[English Docs](https://di-engine-docs.readthedocs.io/en/latest/index.html) | 
 [中文文档](https://di-engine-docs.readthedocs.io/zh_CN/latest/index.html)
 
 # Local Docs Generation
@@ -17,3 +30,7 @@ make live
 
 # Contact Us
 If you have any questions about documentation, please add a new issue or contact `opendilab.contact@gmail.com`
+
+# License
+
+DI-engine-Docs released under the Apache 2.0 license
