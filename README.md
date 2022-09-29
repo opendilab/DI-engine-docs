@@ -10,10 +10,10 @@ For the unfamiliar: [Decision Intelligence](https://en.wikipedia.org/wiki/Decisi
 This module contains a variety of helpful resources, including:
 
 - a short [introduction](https://di-engine-docs.readthedocs.io/en/latest/00_intro/index.html) about DI-engine
-- an [essay](https://spinningup.openai.com/en/latest/spinningup/spinningup.html) about  important Concepts of reinforcement learning
+- an [essay](https://di-engine-docs.readthedocs.io/en/latest/10_concepts/basic_rl.html) about  important Concepts of reinforcement learning
 - a [curated list](https://di-engine-docs.readthedocs.io/en/latest/12_policies/index.html) of reinforcement algorithms cheat sheet organized by learning methods
 - an [environment example](https://di-engine-docs.readthedocs.io/en/latest/13_envs/index.html) often used by reinforcement algorithm
-- and some [API descriptions](https://spinningup.openai.com/en/latest/spinningup/exercises.html) to serve as warm-ups.
+- and some [API descriptions](https://di-engine-docs.readthedocs.io/en/latest/05_api_doc/index.html) to serve as warm-ups.
 
 Get started at
 [English Docs](https://di-engine-docs.readthedocs.io/en/latest/index.html) | 
