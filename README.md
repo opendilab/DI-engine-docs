@@ -5,7 +5,7 @@
 
 This is an educational resource produced by OpenDILab that makes it easier to learn about Decision Intelligence and DI-engine
 
-For the unfamiliar: [Decision Intelligence](https://en.wikipedia.org/wiki/Decision_intelligence#Relationship_to_artificial_intelligence_and_machine_learning) application provides a framework for best practices in organizational decision-making and processes for applying machine learning at scale.
+For the unfamiliar: [Decision Intelligence](https://en.wikipedia.org/wiki/Decision_intelligence#Relationship_to_artificial_intelligence_and_machine_learning) Decision intelligence is an engineering discipline that augments data science with theory from social science, decision theory, and managerial science.
 
 This module contains a variety of helpful resources, including:
 
