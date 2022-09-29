@@ -44,7 +44,7 @@ After the installation is complete, you can verify that the installation was suc
 Image
 ----
 
-DI-engine image comes with the framwork and the dmc2gym environment, which is available via \ ``docker pull opendilab/ding:nightly-dmc2gym``\ , or by visiting \ `docker hub  <https://hub.docker.com/r/opendilab/ding>  `__\ to get more images.
+DI-engine image comes with the framwork and the dmc2gym environment, which is available via \ ``docker pull opendilab/ding:nightly-dmc2gym``\ , or by visiting \ `docker hub <https://hub.docker.com/r/opendilab/ding>`__\  to get more images.
 
 Environment Introduction
 ========================
@@ -230,9 +230,7 @@ Concrete implementation inside the environment
 -  For the seed of the original environment, set in the \ ``reset``\ methods of the environment calling function , before the concrete environment implementation  \ ``reset``\ 
 
 -  For random library seeds, set the value directly in the \ ``seed``\ method of the environment ; for the seed of the original environment, inside the \ ``reset``\ method of the calling environment, the specific original environment \ ``reset``\ was previously set to seed + np_seed, where seed is the value of the aforementioned random library seed,
-np_seed = 100 * np.random.randint(1, 1000).
-
-   np_seed = 100 * np.random.randint(1, 1000)。
+   np_seed = 100 * np.random.randint(1, 1000).
 
 Store Video
 ----------------------
