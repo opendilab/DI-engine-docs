@@ -360,8 +360,8 @@ Gfootball's action space is a 19-dimensional discrete action:
 
 DI-zoo runnable code example
 ----------------------------------
-See \`DI-zoo for the complete training entry
-gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entry>`__\ . The configuration file for self-play training with ppo-lstm is as follows.
+See \ `DI-zoo
+gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entry>`__\  for the complete training entry. The configuration file for self-play training with ppo-lstm is as follows.
 
 
 .. code:: python
