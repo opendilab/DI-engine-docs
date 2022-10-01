@@ -69,8 +69,8 @@ Context 是为中间件之间传递数据的信使，不同的交互策略决定
 在每个循环开始，context 会初始化为新的实例，这确保中间件只需关注一次循环内的数据流，简化了逻辑，也减少了内存泄漏的风险。
 
 如果您需要保存属性到下一个循环，例如 env_step，train_iter 这类需要累加的数值，可以用 ctx.keep 方法将它设置为保留字段。
-使用 ctx.keep 调用的字段将在新一轮迭代，context 初始化为新的实例时保留。注意，理论上 ctx.keep 不需要，
-也不应该被用来保存那些集合类型的数据，或者比较复杂的类，比如 list，dict，torch.Tensor 或者 torch.nn.Module 等，
+使用 ctx.keep 调用的字段将在新一轮迭代，context 初始化为新的实例时保留，而其他的字段将被重新初始化。
+注意，理论上 ctx.keep 不需要，也不应该被用来保留那些集合类型的数据，或者比较复杂的类，比如 list，dict，torch.Tensor 或者 torch.nn.Module 等，
 而只应该保存 int，float 等类型的数据到下一个迭代，如果需要的话。
 
 注：__post_init__(self) 是在 __init__(self) 后被立刻调用的方法。在我们的 Context 中，这意味着在每一个字段初始化之后调用该方法。

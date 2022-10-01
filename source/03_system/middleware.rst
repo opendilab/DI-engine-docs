@@ -78,7 +78,8 @@ a single loop, simplifying the logic and reducing the risk of memory leaks.
 
 If you need to save some variables to the next loop, such as env_step, train_iter, \
 and other values that need to be accumulated, you can set it as a reserved field with the ctx.keep method.
-The variables called by ctx.keep are reserved for the next iteration, when the context is initialized to a new instance. 
+The variables called by ctx.keep are reserved for the next iteration, when the context is initialized to a new instance,
+and the other variables will be reinitialized. 
 Note that, in theory, ctx.keep does not need and should not be used to keep collections or more complex variables,
 like list, dict, torch.tensor, or torch.nn.Module. It should only keep int, float and other types of data to the next iteration, if needed.
 
