@@ -67,10 +67,11 @@ Context 是为中间件之间传递数据的信使，不同的交互策略决定
 例如 OffPolicyLearner 中间件的任务就是利用 ctx.train_data 训练模型，并且将训练结果写回到 ctx.train_iter 上面。
 
 在每个循环开始，context 会初始化为新的实例，这确保中间件只需关注一次循环内的数据流，简化了逻辑，也减少了内存泄漏的风险。
+
 如果您需要保存属性到下一个循环，例如 env_step，train_iter 这类需要累加的数值，可以用 ctx.keep 方法将它设置为保留字段。
 使用 ctx.keep 调用的字段将在新一轮迭代，context 初始化为新的实例时保留。注意，理论上 ctx.keep 不需要，
 也不应该被用来保存那些集合类型的数据，或者比较复杂的类，比如 list，dict，torch.Tensor 或者 torch.nn.Module 等，
-而只应该保存 int，float 等类型的数据，如果需要的话。
+而只应该保存 int，float 等类型的数据到下一个迭代，如果需要的话。
 
 注：__post_init__(self) 是在 __init__(self) 后被立刻调用的方法。在我们的 Context 中，这意味着在每一个字段初始化之后调用该方法。
 我们将 self.keep 在该函数中调用，是因为我们需要先将每个字段初始化，才能调用 self.keep。
@@ -81,6 +82,7 @@ v0.4.2 更新 Context 到 dataclass
 
 在 `v0.4.2 版本 <https://github.com/opendilab/DI-engine/releases/tag/v0.4.2>`_ 中，我们将 Context 从 dict 类改为 dataclass 类。
 这个改动的原因是：
+
 - 防止在开发过程中随意在 Context 中添加新字段，即 ctx 中的字段必须在定义时明确清楚；
 - 防止使用者使用字符串去访问 Context 中的具体字段，即，禁止 ctx['xxx']。
 
@@ -117,7 +119,7 @@ Context 字段介绍
 OnlineRLContext
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. list-table::
-   :widths: 25 25 25 25 40
+   :widths: 25 25 25 40 40
    :header-rows: 1
 
    * - Attribute
@@ -204,7 +206,7 @@ OnlineRLContext
 OfflineRLContext
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. list-table::
-   :widths: 25 25 25 25 40
+   :widths: 25 25 25 40 40
    :header-rows: 1
 
    * - Attribute
