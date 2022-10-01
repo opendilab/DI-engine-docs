@@ -56,18 +56,18 @@ For example, ``OnlineRLContext`` and ``OfflineRLContext`` are provided in DI-eng
 
 .. code-block:: python
 
+    @dataclasses.dataclass
     class OnlineRLContext(Context):
 
-        def __init__(self, *args, **kwargs) -> None:
-            ...
-            # common
-            self.total_step = 0
-            self.env_step = 0
-            self.env_episode = 0
-            self.train_iter = 0
-            self.train_data = None
-            ...
-
+        # common
+        total_step: int = 0
+        env_step: int = 0
+        env_episode: int = 0
+        train_iter: int = 0
+        train_data: Union[Dict, List] = None
+        ...
+        
+        def __post_init__(self):
             self.keep('env_step', 'env_episode', 'train_iter', 'last_eval_iter')
 
 The ``OnlineRLContext`` holds the data needed for online training, and the task of each middleware is to use this data and submit new data to the context. \
