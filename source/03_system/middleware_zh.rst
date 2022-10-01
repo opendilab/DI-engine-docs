@@ -74,7 +74,7 @@ Context 是为中间件之间传递数据的信使，不同的交互策略决定
 而只应该保存 int，float 等类型的数据到下一个迭代，如果需要的话。
 
 注：__post_init__(self) 是在 __init__(self) 后被立刻调用的方法。在我们的 Context 中，这意味着在每一个字段初始化之后调用该方法。
-我们将 self.keep 在该函数中调用，是因为我们需要先将每个字段初始化，才能调用 self.keep。
+我们将 self.keep 在该函数中调用，是因为我们需要先将每个字段初始化，才能调用 self.keep 来保留那些被选择的变量。
 
 
 v0.4.2 更新 Context 到 dataclass

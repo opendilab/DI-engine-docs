@@ -81,10 +81,10 @@ and other values that need to be accumulated, you can set it as a reserved field
 The variables called by ctx.keep are reserved for the next iteration, when the context is initialized to a new instance,
 and the other variables will be reinitialized. 
 Note that, in theory, ctx.keep does not need and should not be used to keep collections or more complex variables,
-like list, dict, torch.tensor, or torch.nn.Module. It should only keep int, float and other types of data to the next iteration, if needed.
+such as list, dict, torch.tensor, or torch.nn.Module. It should only keep int, float and other types of data to the next iteration, if needed.
 
-Note: __post_init__(self) is a method called immediately after __init__(self). In our Context, this means calling this method after each field is initialized. 
-We call self.keep in this function because we need to initialize each field before we can call self.keep to keep selected variables.
+Note: __post_init__(self) is a method called immediately after __init__(self). In our Context, it means calling this method after each field is initialized. 
+We call self.keep in this function because we need to initialize each field before calling self.keep to keep selected variables.
 
 
 v0.4.2 changes: Update Context from dict to dataclass
@@ -93,7 +93,7 @@ v0.4.2 changes: Update Context from dict to dataclass
 In `v0.4.2 <https://github.com/opendilab/DI-engine/releases/tag/v0.4.2>`_, We changed the Context from dict to dataclass.
 The reason for this change is:
 
-- Prevent the arbitrary addition of new variables during development, i.e. the variables used in context must be clearly defined in the definition of Context class.
+- Prevent the arbitrary addition of new variables during development, i.e. the variables in context must be clearly defined in the definition of Context class.
 - Prevent the access of variables using string, i.e. prevent ctx['xxx'].
 
 Because for middlewares, passing data through Context is different from passing data through input and output parameters of a function, for which there is an enforced constraint.
