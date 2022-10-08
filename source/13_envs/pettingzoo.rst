@@ -23,7 +23,7 @@ The following figure shows the mpe_simple_spread environment in it：
 Installation
 =============
 
-installation method
+installation Method
 -----------------------
 
 Currently PettingZoo officially supports Python 3.7~3.9 on Linux and macOS。
@@ -46,7 +46,7 @@ Since PettingZoo contains a lot of environments, different environments have dif
     # or install all dependencies
     pip install pettingzoo[all]
 
-Verify installation
+Verify Installation
 ------------------------
 
 After the installation is complete, run the following Python program. If no error is reported, the installation is successful.
