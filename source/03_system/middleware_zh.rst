@@ -164,7 +164,7 @@ OnlineRLContext
      - eps_greedy_handler
    * - obs
      - False
-     - Union[torch.Tensor, Dict[torch.Tensor]]
+     - ttorch.Tensor
      - The input observations collected from all collector environments.
      - inferencer
    * - action
