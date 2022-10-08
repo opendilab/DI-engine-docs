@@ -154,7 +154,7 @@ OnlineRLContext
      - gae_estimator, offpolicy_data_fetcher, offline_data_fetcher, her_data_enhancer
    * - train_output
      - False
-     - Union[Dict, List]
+     - Union[Dict, List[Dict]]
      - The training output including logit, action and other info.
      - OffPolicyLearner, HERLearner(List), trainer, multistep_trainer(Dict)
    * - collect_kwargs
@@ -164,7 +164,7 @@ OnlineRLContext
      - eps_greedy_handler
    * - obs
      - False
-     - torch.Tensor
+     - Union[torch.Tensor, Dict[torch.Tensor]]
      - The input observations collected from all collector environments.
      - inferencer
    * - action
@@ -236,7 +236,7 @@ OfflineRLContext
      - gae_estimator, offpolicy_data_fetcher, offline_data_fetcher, her_data_enhancer
    * - train_output
      - False
-     - Union[Dict, List]
+     - Union[Dict, List[Dict]]
      - The training output including logit, action and other info.
      - OffPolicyLearner, HERLearner(List), trainer, multistep_trainer(Dict)
    * - eval_value
