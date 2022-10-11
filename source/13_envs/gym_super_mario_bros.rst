@@ -1,5 +1,5 @@
 Gym-Super-Mario-Bros
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 概述
 =======
@@ -44,9 +44,10 @@ Gym-Super-Mario-Bros
     env.close()
 
 安装失败的解决办法
-----------
+------------------
 
 常见的一个错误：
+
 .. code:: shell
 
     Traceback (most recent call last):
@@ -71,7 +72,7 @@ Gym-Super-Mario-Bros
 游戏规则
 ----------
 模拟器内置《超级马里奥兄弟》与《超级马里奥兄弟2》两个游戏
-详细的玩法和规则可以参照`维基百科 <https://zh.wikipedia.org/wiki/%E8%B6%85%E7%BA%A7%E9%A9%AC%E5%8A%9B%E6%AC%A7%E5%85%84%E5%BC%9F>`_。
+详细的玩法和规则可以参照`维基百科 <https://zh.wikipedia.org/wiki/%E8%B6%85%E7%BA%A7%E9%A9%AC%E5%8A%9B%E6%AC%A7%E5%85%84%E5%BC%9F>`_ 。
 对于《超级马里奥兄弟》，在寻常的三条命闯 32 关之外，游戏还提供一条命闯任何一个单独关卡、随机关卡的选项（《超级马里奥兄弟2》目前不支持）：
 
 .. code:: python 
@@ -91,14 +92,16 @@ Gym-Super-Mario-Bros
 在拥有用于渲染的显示器设备时，可以尝试用键盘操作。环境提供了命令行接口，具体的启动方式如下：
 
 .. code:: shell
+
     # 启动 1-4 关卡
     gym_super_mario_bros -e 'SuperMarioBrosRandomStages-v0' -m 'human' --stages '1-4'
+
 
 动作空间
 ----------
 
 gym-super-mario-bros 的动作空间默认包含任天堂红白机全部的 256 个离散动作。
-为了压缩这个大小（利于智能体学习），环境默认提供了动作 wrapper`JoypadSpace`来降低动作维度：可选的动作集合及其含义如下：
+为了压缩这个大小（利于智能体学习），环境默认提供了动作 wrapper ``JoypadSpace`` 来降低动作维度：可选的动作集合及其含义如下：
 
 .. code:: python
 
@@ -140,14 +143,16 @@ gym-super-mario-bros 的动作空间默认包含任天堂红白机全部的 256 
         ['up'],
     ]
 
-例如我想使用 SIMPLE_MOVEMENT：
+例如：
 
 .. code:: python
 
     env = gym_super_mario_bros.make('SuperMarioBros-v0')
+    # 使用 SIMPLE_MOVEMENT
     env = JoypadSpace(env, SIMPLE_MOVEMENT)
-    # 自己设置动作空间为只有向右和向右跳
-    JoypadSpace(env, [["right"], ["right", "A"]])
+
+    # 或者自己设置动作空间为只有向右和向右跳
+    env = JoypadSpace(env, [["right"], ["right", "A"]])
 
 
 对于 SIMPLE_MOVEMENT 所代表的 7 维离散动作空间，使用gym环境空间定义则可表示为：
@@ -159,7 +164,7 @@ gym-super-mario-bros 的动作空间默认包含任天堂红白机全部的 256 
 状态空间
 ----------
 
-gym-super-mario-bros 的状态空间输入是图像信息，及三维的张量矩阵（datatype=uint8）。此外，游戏的不同版本对应的图像分辨率（240*256*3）相同，但版本越高，图像越简略（像素块化），具体如下所示：
+gym-super-mario-bros 的状态空间输入是图像信息，及三维的张量矩阵（datatype=uint8）。此外，游戏的不同版本对应的图像分辨率 ``240*256*3`` 相同，但版本越高，图像越简略（像素块化），具体如下所示：
 
 .. code:: shell
     >>> # 查看观测空间
@@ -178,7 +183,7 @@ gym-super-mario-bros 的状态空间输入是图像信息，及三维的张量�
     [255 255 255]
     [255 255 255]]], (240, 256, 3), uint8)
 
-`v3`对应的游戏截图如下（`v0`游戏截图在文档最开始展示过了）
+`v3` 对应的游戏截图如下（ `v0` 游戏截图在文档最开始展示过了）
 
 .. image:: ./images/mario_v3.png
    :align: center
@@ -187,10 +192,18 @@ gym-super-mario-bros 的状态空间输入是图像信息，及三维的张量�
 奖励空间
 -----------
 我们希望马里奥能更多地**向右**移动、更**快**地抵达终点而**不会死亡**，因此每一帧的奖励的设置由如下三部分组成：
-1. `v`：代表连续的两帧之间，马里奥的x坐标之差（可以理解为向右的速度），有正有负；
-2. `c`：每一帧的用时，简单理解为每一帧都有一个负的reward，用来push智能体更快到达终点；
-3. `d`：死亡的惩罚，如果马里奥死亡，给与 -15 的高额惩罚；
+
+1. ``v``：代表连续的两帧之间，马里奥的x坐标之差（可以理解为向右的速度），有正有负；
+
+
+2. ``c``：每一帧的用时，简单理解为每一帧都有一个负的reward，用来push智能体更快到达终点；
+
+
+3. ``d``：死亡的惩罚，如果马里奥死亡，给与 -15 的高额惩罚；
+
+
 总的奖励为：`r = v + c + d`
+
 奖励被 clip 到`(-15,15)`
 
 
