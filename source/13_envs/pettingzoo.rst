@@ -94,7 +94,7 @@ For example, when you generate a simple spread environment with 5 agents (n_agen
 
 .. _Action space-1:
 
-Action space
+Action Space
 ----------------
 -  No manual control
 -  Discrete action space: The action space of each agent is the same, the size is \ ``(5,)``\ , and the data type is \ ``gym.spaces.Discrete(5)``. The dimension of each specific action is (,), the data type is \ ``int``\ , the specific meaning is to do nothing or move in four basic directions.
@@ -118,7 +118,7 @@ Action space
 
 .. _Reward space-1:
 
-Reward space
+Reward Space
 --------------
 
 -  All agents contribute a global reward, based on the closest agent to each landmark, a \ ``float``\ value
