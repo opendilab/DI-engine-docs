@@ -23,7 +23,7 @@ The following figure shows the mpe_simple_spread environment in it：
 Installation
 =============
 
-installation Method
+Installation Method
 -----------------------
 
 Currently PettingZoo officially supports Python 3.7~3.9 on Linux and macOS。
@@ -68,7 +68,7 @@ hub <https://hub.docker.com/repository/docker/opendilab/ding>`_ Get more images
 
 .. _The original spatial environment before transformation）:
 
-space before transformation (original environment)
+Space Before Transformation (Original Environment)
 =====================================================
 
 Since PettingZoo includes many families of environments, each of which is unique, it is difficult to cover everything. Here is an example of the \ ``Simple Spread`` environment in \ ``MPE``.
