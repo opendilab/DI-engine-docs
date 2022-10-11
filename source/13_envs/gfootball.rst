@@ -43,13 +43,13 @@ Installation
 
 1. Enviroment of installing gfootball
 
-**install from pip**
+**Install from pip**
 
 .. code:: shell
 
    python3 -m pip install gfootball
 
-**intall from github orgin code**
+**Intall from github orgin code**
 
 .. code:: shell
 
@@ -135,7 +135,7 @@ It is also possible to use environments encapsulated by DI-engine:
    env = GfootballEnv({})
 
 
-State space
+State Space
 -------------
 
 **Generally use raw input information**
@@ -307,7 +307,7 @@ State space
 
       -  Fatigue of the opposing player closest to the player currently in control（1 dimension）
 
-Action space
+Action Space
 ----------------
 
 Gfootball's action space is a 19-dimensional discrete action:
@@ -358,7 +358,7 @@ Gfootball's action space is a 19-dimensional discrete action:
 
    -  ``action_release_dribble`` = 18, stop dribble.
 
-DI-zoo runnable code example
+DI-zoo Runnable Code Example
 ----------------------------------
 See \ `DI-zoo
 gfootball <https://github.com/opendilab/DI-engine/tree/main/dizoo/gfootball/entry>`__\  for the complete training entry. The configuration file for self-play training with ppo-lstm is as follows.
