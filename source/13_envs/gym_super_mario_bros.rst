@@ -3,7 +3,7 @@ Gym-Super-Mario-Bros
 
 概述
 =======
-超级马里奥兄弟游戏大家应该都有玩过，玩家需要操控一个马里奥进行移动与跳跃，躲避通往终点过程中的深坑与敌人，吃到更多的金币来获取更高的分数。游戏中还会有许多的有趣的道具，来为你提供不同的效果。`gym-super-mario-bros <https://github.com/Kautenja/gym-super-mario-bros>`_ 环境正是任天堂超级马里奥兄弟游戏经过 OpenAI Gym 封装后的环境。
+这里是家喻户晓的 《超级马里奥兄弟》 系列游戏，游戏中玩家需要操控一个马里奥进行移动与跳跃，躲避通往终点过程中的深坑与敌人，吃到更多的金币来获取更高的分数。游戏中还会有许多的有趣的道具，来为你提供不同的效果。`gym-super-mario-bros <https://github.com/Kautenja/gym-super-mario-bros>`_ 环境正是任天堂超级马里奥兄弟游戏经过 OpenAI Gym 封装后的环境。
 游戏截图如下：
 
 .. image:: ./images/mario.png
@@ -84,7 +84,7 @@ Gym-Super-Mario-Bros
     # 1条命闯 3-2
     env = gym_super_mario_bros.make('SuperMarioBros-3-2-v0')
     # 1条命随机通关 1-4 2-4 3-4 4-4 （死亡后游戏结束，环境会继续随机选择一个关卡开始新的游戏）
-    gym.make('SuperMarioBrosRandomStages-v0', stages=['1-4', '2-4', '3-4', '4-4'])
+    env = gym.make('SuperMarioBrosRandomStages-v0', stages=['1-4', '2-4', '3-4', '4-4'])
 
 
 键盘交互
@@ -203,7 +203,7 @@ gym-super-mario-bros 的状态空间输入是图像信息，及三维的张量�
 3. ``d``：死亡的惩罚，如果马里奥死亡，给与 -15 的高额惩罚；
 
 
-总的奖励为： ``r = v + c + d``
+总的奖励 ``r = v + c + d``
 
 奖励被 clip 到 ``(-15,15)``
 
@@ -222,36 +222,84 @@ info 中包含的额外信息
 ----------------------------
 在与环境交互的每个 step，环境都会返回 `info` 字典，包含 获取的硬币、当前累计的分数、剩余的时间以及马里奥当前的坐标等信息。具体内容请参照文末的环境 github repo。
 
-.. Grid table:
+.. list-table:: More Information
+   :widths: 15 10 35
+   :header-rows: 1
 
-.. +------------+------------+------------------------------------+
-.. | Key   | Type   | Description  |
-.. +============+============+=====================================+
-.. | coins | int   | The number of collected coins  |
-.. +------------+------------+----------------------------------+
-.. | flag_get  |	bool  |	True if Mario reached a flag or ax|
-.. +------------+------------+----------------------------------+
-.. |life  |	int  |	The number of lives left, i.e., {3, 2, 1}|
-.. +------------+------------+----------------------------------+
-.. | score  |	int  |	The cumulative in-game score|
-.. +------------+------------+----------------------------------+
-.. | stage  |	int  |	The current stage, i.e., {1, ..., 4}|
-.. +------------+------------+---------------------------------------------------------+
-.. | status  |	str  |	Mario's status, i.e., {'small', 'tall', 'fireball'}|
-.. +------------+------------+----------------------------------+
-.. | time  |	int  |	The time left on the clock|
-.. +------------+------------+---------------------------------------------------------+
-.. | world  |	int  |	The current world, i.e., {1, ..., 8}|
-.. +------------+------------+---------------------------------------------------------+
-.. | x_pos  |	int  |	Mario's x position in the stage (from the left)|
-.. +------------+------------+---------------------------------------------------------+
-.. | y_pos  |	int  |	Mario's y position in the stage (from the bottom)|
-.. +------------+------------+---------------------------------------------------------+
+   * - Key
+     - Type
+     - Description
+   * - | coins
+     - int 
+     - The number of collected coins
+   * - | flag_get
+     - bool
+     - True if Mario reached a flag or ax
+   * - | life
+     - int 
+     - The number of lives left, i.e., {3, 2, 1}
+   * - | score
+     - int 
+     - The cumulative in-game score
+   * - | stage
+     - int 
+     - The current stage, i.e., {1, ..., 4}
+   * - | status
+     - str 
+     - Mario's status, i.e., {'small', 'tall', 'fireball'}
+   * - | time
+     - int 
+     - The time left on the clock
+   * - | world
+     - int 
+     - The current world, i.e., {1, ..., 8}
+   * - | x_pos 
+     - int 
+     - Mario's x position in the stage (from the left)
+   * - | y_pos 
+     - int 
+     - Mario's y position in the stage (from the bottom)
 
 内置环境
 -----------
 内置有多个环境，包含《超级马里奥兄弟》的\ ``"SuperMarioBros-v0"``、 ``"SuperMarioBros-v1"``、 ``"SuperMarioBros-v2"`` \ 和 \ ``"SuperMarioBros-v3"`` \，以及《超级马里奥兄弟2》的\ ``"SuperMarioBros2-v0"``\ 和 \ ``"SuperMarioBros2-v1"``\ 。
 此外，《超级马里奥兄弟》还可以选定特定关卡进行闯关，例如 \ ``"SuperMarioBros-1-1-v0"`` \ 。
+
+录像保存
+----------
+采用 gym.wrappers.RecordVideo 类进行录像保存：
+
+.. code:: python
+
+    import gym
+    import time
+    from nes_py.wrappers import JoypadSpace
+    import gym_super_mario_bros
+    from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
+
+    video_dir_path = 'mario_videos'
+    env = gym_super_mario_bros.make('SuperMarioBros-v0')
+    env = JoypadSpace(env, SIMPLE_MOVEMENT)
+    env = gym.wrappers.RecordVideo(
+        env,
+        video_folder=video_dir_path,
+        episode_trigger=lambda episode_id: True,
+        name_prefix='mario-video-{}'.format(time.ctime())
+    )
+
+    # run 1 episode
+    env.reset()
+    while True:
+        state, reward, done, info = env.step(env.action_space.sample())
+        if done or info['time'] < 250:
+            break
+    print("Your mario video is saved in {}".format(video_dir_path))
+    try:
+        # 环境的析构函数有问题，故需要异常来避免报错
+        del env
+    except Exception:
+        pass
+
 
 
 DI-zoo 可运行代码示例
