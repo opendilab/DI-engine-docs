@@ -60,11 +60,11 @@ Gym-Super-Mario-Bros
     ValueError: not enough values to unpack (expected 5, got 4)
 
 这是由于 gym-super-mario-bros 库的更新有时跟不上 gym 库的更新，而在执行 `pip install gym-super-mario-bros` 时会默认安装最新的 gym。 那么解决办法就是给 gym 降级。
-这里 gym-super-mario-bros 版本为 7.4.0，gym 版本为0.26.2。我们将 gym 版本降低到 0.25.2 可以解决问题。
+这里 gym-super-mario-bros 版本为 7.4.0，gym 版本为0.26.2。我们将 gym 版本降低到 0.25.1 可以解决问题。
 
 .. code:: shell
 
-    pip install gym==0.25.2
+    pip install gym==0.25.1
 
 环境介绍
 =========
