@@ -83,10 +83,11 @@ action space :math:`\mathcal{A}=\{-1,+1\}`.
 - At all future timesteps the context is equal to zero and a countdown until the end of the episode, which means :math:`c_t=0` for all :math:`t>2`.
 - At the end of the episode the agent must select the correct action corresponding to the context to reward. The reward :math:`r_t=0` for all :math:`t<N`, and :math:`r_N={Sign}\left(a_N=c_1\right)`
 
-.. figure:: ./images/memory_length.png
+.. figure:: ./images/bsuite_memory_length.png
    :align: center
 
-imgage token from paper `Behaviour Suite for Reinforcement Learning <https://arxiv.org/abs/1908.03568>`__
+   Image token from paper `Behaviour Suite for Reinforcement Learning <https://arxiv.org/abs/1908.03568>`__
+
 Key Facts
 ==========
 
