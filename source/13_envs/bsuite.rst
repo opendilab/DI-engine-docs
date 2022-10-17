@@ -12,7 +12,7 @@ Description
 .. figure:: ./images/bsuite.png
    :align: center
 
-   Imahge taken from: https://github.com/deepmind/bsuite
+   Image taken from: https://github.com/deepmind/bsuite
 
 Installation
 =============
@@ -71,6 +71,22 @@ Others
 
 -  Environments terminate once they have reached their maximum number of steps or encountered a failure state. All environments have the fixed number of maximum steps, but not all environments have a failure state.
 
+Individual challenge domains
+=================================
+
+Memory length
+-------------
+It's designed to test the number of sequential steps an agent can remember a single bit. The underlying environment is based on a stylized `T-maze <https://en.wikipedia.org/wiki/T-maze>`__, parameterized by a length :math:`N \in \mathbb{N}`. Each episode lasts N steps with observation :math:`o_t=\left(c_t, t / N\right)` and 
+action space :math:`\mathcal{A}=\{-1,+1\}`.
+
+- At the beginning of the episode the agent is provided a context of +1 or -1, which means :math:`c_1 \sim {Unif}(\mathcal{A})`.
+- At all future timesteps the context is equal to zero and a countdown until the end of the episode, which means :math:`c_t=0` for all :math:`t>2`.
+- At the end of the episode the agent must select the correct action corresponding to the context to reward. The reward :math:`r_t=0` for all :math:`t<N`, and :math:`r_N={Sign}\left(a_N=c_1\right)`
+
+.. figure:: ./images/memory_length.png
+   :align: center
+
+imgage token from paper `Behaviour Suite for Reinforcement Learning <https://arxiv.org/abs/1908.03568>`__
 Key Facts
 ==========
 
