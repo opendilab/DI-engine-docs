@@ -1,12 +1,12 @@
 Specifications of DI-engine Config
-====================
+==================================
 
 To ensure the ease of use, readability, and extensibility of the config，config submitted by the developers should comply with the following specifications.
 
 DI-engine 的 config 包括 main_config 和 create_config 两部分。
 
 Example Link
---------
+------------
 
 Examples of Deep Q-Network （DQN）：
 
@@ -16,15 +16,15 @@ https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/
 
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_sqil_config.py
 
-规范内容
+Details of the specification
 --------
 
-语法规范
+Specification of Grammar
 ~~~~~~~~
 
 -  config should satisfy flake8 python syntax checking and yapf formatting.
 
-命名规范
+Specification of naming 
 ~~~~~~~~
 
 -  config.py 文件名，main_config 和 create_config 相关变量名
