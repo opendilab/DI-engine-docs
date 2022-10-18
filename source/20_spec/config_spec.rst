@@ -1,14 +1,14 @@
-DI-engine Config规范
+Specifications of DI-engine Config
 ====================
 
-开发者提交的 config 需要遵守以下规范，以保证 config 的易用性，可读性，与可扩展性。
+To ensure the ease of use, readability, and extensibility of the config，config submitted by the developers should comply with the following specifications.
 
 DI-engine 的 config 包括 main_config 和 create_config 两部分。
 
-示例链接
+Example Link
 --------
 
-普通算法 (DQN) 的示例：
+Examples of Deep Q-Network （DQN）：
 
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_dqn_config.py
 
@@ -22,7 +22,7 @@ https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/
 语法规范
 ~~~~~~~~
 
--  config 需要满足 flake8 python 语法检查, 以及进行 yapf 格式化。
+-  config should satisfy flake8 python syntax checking and yapf formatting.
 
 命名规范
 ~~~~~~~~
@@ -45,7 +45,7 @@ https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/
 
    -  命名规范为环境+算法+seed，例如\ ``qbert_sqil_seed0``
 
--  文件路径名
+-  Name of the file path
 
    -  参见 sqil 示例，并加上相应的注释。如果需要加载多个模型 model，则模型路径 (model_path) 变量按照以下方式命名：prefix1_model_path，prefix2_model_path，...,
       数据路径 (data_path) 变量命名类似。
@@ -118,11 +118,11 @@ https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/
 
 -  serial_pipeline
 
-   -  使用二级引用避免 circular
-      import：即使用\ ``from ding.entry import serial_pipeline``\ 而不是\ ``from ding.entry.serial_entry import serial_pipeline``
+   -  Please apple secondary references to avoid circular
+      import：use \ ``from ding.entry import serial_pipeline``\ instead of \ ``from ding.entry.serial_entry import serial_pipeline``
 
-   -  使用\ ``[main_config, create_config]``
-      以统一风格，如果算法需要调用其他 config，可以不遵循此约定。例如 imitation
+   -  Use\ ``[main_config, create_config]``
+      to unify the style，If an algorithm needs to call other config，this convention can be waived。例如 imitation
       learning 算法需要引入专家 config，具体参见 sqil 的示例。
 
    -  每一个 config 必须有一个启动命令，且写成类似下面这种格式
@@ -143,13 +143,13 @@ https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/
 
 -  seed 在入口函数中设置，config 中不要包含 seed。
 
--  如果算法中超参数有确定的一个合理范围，请在算法 config 的对应超参数上写上注释，例如 sqil 中的 alpha 值：
+-  If the hyperparameters in the algorithm have a certain reasonable range, please write a comment on the corresponding hyperparameters of the algorithm config. For instance the alpha value of sqil：
 
    .. code:: python
 
       alpha=0.1,  # alpha: 0.08-0.12
 
--  确保 config 中所有参数都是有效的，需要删除没有用到的 key。
+-  Please make sure all parameters in config are valid ，unused keys should be deleted.
 
 -  一般在 config 中不包含 TODO 项，如果确实有必要写进 config，需要写清楚内容，例如：TODO(name):
    xxx.
