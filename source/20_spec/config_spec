@@ -152,4 +152,4 @@ https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/
 -  确保 config 中所有参数都是有效的，需要删除没有用到的 key。
 
 -  一般在 config 中不包含 TODO 项，如果确实有必要写进 config，需要写清楚内容，例如：TODO(name):
-   xxx.
+   xxx. 
