@@ -1,9 +1,17 @@
 如何自定义神经网络模型（model）
+
+How to customize the neural network 
+
 =================================================
 在强化学习中，我们需要根据决策问题类型和使用的策略（Policy）来选择相应的神经网络。而在 DI-engine 中，Policy 使用的神经网络可以通过配置文件中的 ``cfg.policy.model`` 来自动生成，
 也可由用户自定义实例化相应的神经网络，作为参数传入 Policy 中。而在接下来的部分，我们将会详细展开每种使用方式具体的接口和原理。
 
+In using reinforcement learning methods, one would have to choose the appropriate neural networks depending on the nature of the decision problem and the policy that is used. In the context of the DI-engine framework, a user can do so in 2 primary ways. The first way involves a user making use of the configuration file ``cfg.policy.model`` to automatically generate the desired neural network. The second way gives the user more control by allowing the desired neural network (instantiated as an object) to be passed direcly into the policy.
+
+The purpose of this guide is to explain the details with regards to these 2 primary ways of choosing the appropriate neural network and as well as the principles behind them. 
+
 Policy 默认使用的模型是什么
+What is the default 
 ----------------------------------
 
 DI-engine 中已经实现的 policy，默认使用 ``default_model`` 方法中表明的神经网络模型，例如在 SACPolicy 中：
