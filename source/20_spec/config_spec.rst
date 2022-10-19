@@ -100,7 +100,7 @@ Main Specification
 
 -  create config
 
-   -  in env field，only ``type`` 和 ``import_names``\ 两个字段,
+   -  in env field，only ``type`` 和 ``import_names``\ two fields,
       Such as：
 
    .. code:: python
