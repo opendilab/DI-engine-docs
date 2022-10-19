@@ -3,7 +3,7 @@ Specifications of DI-engine Config
 
 To ensure the ease of use, readability, and extensibility of the config，config submitted by the developers should comply with the following specifications.
 
-DI-engine 的 config 包括 main_config 和 create_config 两部分。
+Config of DI-engine includes two divisions：main_config and create_config.
 
 Example Link
 ------------
@@ -75,7 +75,7 @@ Specification of naming
 
       env_manager=dict(type='subprocess'),
 
--  保证 evaluator_env_num：n_evaluator_episode = 1:1 （ smac 环境例外）
+-  Ensure evaluator_env_num：n_evaluator_episode = 1:1 （ smac environment 例外）
 
 -  在 main_config 的 env 字段中一般不应该包含 manager 字段
    (当不包含 manager 字段时，shared_memory 默认为 True)：
@@ -85,7 +85,7 @@ Specification of naming
    -  smac 环境外的其他环境，如果由于状态维度问题运行报错，可以包含 manager 字段并设置 shared
       memory=False。
 
--  如果想开启/关闭 shared memory, 请在env.manager字段中进行控制
+-  If you want to turn on/off shared memory, please control it in env.manager filed
 
    .. code:: python
 
@@ -100,8 +100,8 @@ Specification of naming
 
 -  create config
 
-   -  env字段中，只需要包含 ``type`` 和 ``import_names``\ 两个字段,
-      例如：
+   -  in env field，只需要包含 ``type`` 和 ``import_names``\ 两个字段,
+      Such as：
 
    .. code:: python
 
@@ -110,7 +110,7 @@ Specification of naming
           import_names=['dizoo.atari.envs.atari_env'],
       ),
 
-   -  一般不需要\ ``replay_buffer``\ 字段。如果想使用存储为deque的buffer，请在create_config中指定replay_buffer的type为deque：
+   -  nnormally field \ ``replay_buffer``\ is unnecessary。If you want to use the buffer stored as deque，please specify the type of replay_buffer如果想使用存储为deque的buffer，请在create_config中指定replay_buffer的type为deque：
 
       .. code::
 
@@ -125,7 +125,7 @@ Specification of naming
       to unify the style，If an algorithm needs to call other config，this convention can be waived。例如 imitation
       learning 算法需要引入专家 config，具体参见 sqil 的示例。
 
-   -  每一个 config 必须有一个启动命令，且写成类似下面这种格式
+   -  Every config must have a starting command，and it's format should as below
 
       .. code:: python
 
@@ -134,8 +134,8 @@ Specification of naming
              from ding.entry import serial_pipeline
              serial_pipeline([main_config, create_config], seed=0)
 
-      -  注意\ ``from ding.entry import serial_pipeline``\ 这行不要写在文件开头，
-         要写在\ ``if ___name___ == "___main___":``\ 下面。
+      -  Remember \ ``from ding.entry import serial_pipeline``\ this line should not as the head of the file，
+         please note it at \ ``if ___name___ == "___main___":``\ below.
 
    -  如果算法使用了不同的 serial_pipeline_X，
       需要在\ https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ 中添加相应的启动命令对应
