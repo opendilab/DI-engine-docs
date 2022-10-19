@@ -6,7 +6,7 @@ To ensure the ease of use, readability, and extensibility of the config，config
 Config of DI-engine includes two divisions：main_config and create_config.
 
 Example Link
-------------
+--------------
 
 Examples of Deep Q-Network （DQN）：
 
@@ -17,15 +17,15 @@ https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_sqil_config.py
 
 Details of the specification
---------
+------------------------------
 
 Specification of Grammar
-~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  config should satisfy flake8 python syntax checking and yapf formatting.
 
 Specification of naming 
-~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 -  config.py 文件名，main_config 和 create_config 相关变量名
 
@@ -64,8 +64,8 @@ Specification of naming
        data_path='data_path_placeholder',
    )
 
-主要规范
-~~~~~~~~
+Main Specification
+~~~~~~~~~~~~~~~~~~~~
 
 -  对于 create_config 中的 env_manager 字段，除了简单环境
    cartpole, pendulum, bitflip
@@ -122,8 +122,8 @@ Specification of naming
       import：use \ ``from ding.entry import serial_pipeline``\ instead of \ ``from ding.entry.serial_entry import serial_pipeline``
 
    -  Use\ ``[main_config, create_config]``
-      to unify the style，If an algorithm needs to call other config，this convention can be waived。例如 imitation
-      learning 算法需要引入专家 config，具体参见 sqil 的示例。
+      to unify the style，If an algorithm needs to call other config，this convention can be waived。Such as imitation
+      learning algorithm needs to introduce expert config, see the example of sqil for details。
 
    -  Every config must have a starting command，and it's format should as below
 
@@ -137,11 +137,11 @@ Specification of naming
       -  Remember \ ``from ding.entry import serial_pipeline``\ this line should not as the head of the file，
          please note it at \ ``if ___name___ == "___main___":``\ below.
 
-   -  如果算法使用了不同的 serial_pipeline_X，
-      需要在\ https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ 中添加相应的启动命令对应
+   -  If the algorithm use different serial_pipeline_X，
+      you need to add \ https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ 中添加相应的启动命令对应
       ``serial_X``\ 。
 
--  seed 在入口函数中设置，config 中不要包含 seed。
+-  seed is set in the entry function, do not include seed in config.
 
 -  If the hyperparameters in the algorithm have a certain reasonable range, please write a comment on the corresponding hyperparameters of the algorithm config. For instance the alpha value of sqil：
 
@@ -151,5 +151,5 @@ Specification of naming
 
 -  Please make sure all parameters in config are valid ，unused keys should be deleted.
 
--  一般在 config 中不包含 TODO 项，如果确实有必要写进 config，需要写清楚内容，例如：TODO(name):
+-  Normally TODO is not include in config，, if it is really necessary to write into config，please mark the content clearly，such as：TODO(name):
    xxx.
