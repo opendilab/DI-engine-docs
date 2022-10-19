@@ -8,11 +8,11 @@ Config of DI-engine includes two divisions：main_config and create_config.
 Example Link
 --------------
 
-Examples of Deep Q-Network （DQN）：
+Example of Deep Q-Network （DQN）：
 
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_dqn_config.py
 
-包含模型或数据的算法 (SQIL) 的示例:
+Example of SQIL with model or data:
 
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_sqil_config.py
 
@@ -27,28 +27,28 @@ Specification of Grammar
 Specification of naming 
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
--  config.py 文件名，main_config 和 create_config 相关变量名
+-  file name： config.py，related variable name：main_config 和 create_config
 
-   -  统一以<环境名>\_<算法名>\_config.py
-      命名。文件的名称以及文件中相关变量名不用添加 default 字段。例如应该将文件名 hopper_onppo_default_config.py 改为 hopper_onppo_config.py。
+   -  Uniformly named after <环境名>\_<算法名>\_config.py
+      .The name of the file and related variable names in the file do not need to add the default field. For instance file name hopper_onppo_default_config.py should be changed into hopper_onppo_config.py。
 
-   -  类似
-      ICM 算法这种，总的算法是论文提出的模块再结合某个基线算法，其对应的 config 名称，按照<环境名>\_<模块名>\_<基线算法名>\_config.py
+   -  Similarly
+      For ICM algorithm，the general algorithm is the module proposed in the paper combined with a baseline algorithm,，其对应的 config 名称，按照<环境名>\_<模块名>\_<基线算法名>\_config.py
       命名，例如 cartpole_icm_offppo_config.py
 
    -  算法如果有 on-policy 和 off-policy 的不同版本，统一在 config.py 文件名和文件中相关变量名，使用 onppo/offppo 区分 on-policy 和 off-policy 版的算法。例如对于 PPO 算法的 config,
       应该将 hopper_ppo_config.py 改成 hopper_onppo_config.py。
 
--  exp_name 字段
+-  exp_name field
 
-   -  main_config 中必须添加 exp_name 字段
+   -  main_config must include exp_name filed
 
-   -  命名规范为环境+算法+seed，例如\ ``qbert_sqil_seed0``
+   -  The naming convention is environemnt+algorithm+seed，such as \ ``qbert_sqil_seed0``
 
 -  Name of the file path
 
-   -  参见 sqil 示例，并加上相应的注释。如果需要加载多个模型 model，则模型路径 (model_path) 变量按照以下方式命名：prefix1_model_path，prefix2_model_path，...,
-      数据路径 (data_path) 变量命名类似。
+   -  See the sqil example, commented accordingly.If multiple models need to be loaded, the model path (model_path) variable is named as follows：prefix1_model_path，prefix2_model_path，...,
+      varibles of data_path are named in same way.
 
 .. code:: python
 
@@ -78,7 +78,7 @@ Main Specification
 -  Ensure evaluator_env_num：n_evaluator_episode = 1:1 （ smac environment 例外）
 
 -  在 main_config 的 env 字段中一般不应该包含 manager 字段
-   (当不包含 manager 字段时，shared_memory 默认为 True)：
+   (shared_memory defaults to True when the manager field is not included)：
 
    -  smac 环境例外，由于状态维度问题，smac 需要设置 shared_memory=Fasle。
 
@@ -100,7 +100,7 @@ Main Specification
 
 -  create config
 
-   -  in env field，只需要包含 ``type`` 和 ``import_names``\ 两个字段,
+   -  in env field，only ``type`` 和 ``import_names``\ 两个字段,
       Such as：
 
    .. code:: python
