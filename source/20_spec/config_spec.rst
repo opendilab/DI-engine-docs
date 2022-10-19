@@ -138,8 +138,7 @@ Main Specification
          please note it at \ ``if ___name___ == "___main___":``\ below.
 
    -  If the algorithm use different serial_pipeline_X，
-      you need to add \ https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ 中添加相应的启动命令对应
-      ``serial_X``\ 。
+      you need to add corresponding starting command ``serial_X``\ in \ https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ .
 
 -  seed is set in the entry function, do not include seed in config.
 
