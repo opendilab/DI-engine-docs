@@ -34,7 +34,7 @@ Specification of naming
 
    -  Similarly
       For ICM algorithm，the general algorithm is the module proposed in the paper combined with a baseline algorithm,，其对应的 config 名称，按照<env_name>\_<module_name>\_<baseline_name>\_config.py
-      命名，例如 cartpole_icm_offppo_config.py
+      命名，such as cartpole_icm_offppo_config.py
 
    -  If the algorithm has verious versions of on-policy and off-policy ，please unify the name of config.py file and related varible names in the file，and use of onppo/offppo to distinguish on-policy and off-policy versions of the algorithm. For example，for the config of the PPO algorithm,
       hopper_ppo_config.py should be changed to hopper_onppo_config.py。
@@ -82,7 +82,7 @@ Main Specification
 
    -  smac 环境例外，由于状态维度问题，smac 需要设置 shared_memory=Fasle。
 
-   -  smac 环境外的其他环境， if an error is reported due to the state dimension problem，可以包含 manager 字段并设置 shared
+   -  In environments other than the smac environment， if an error is reported due to the state dimension problem，you can include manager field and set  shared
       memory=False。
 
 -  If you want to turn on/off shared memory, please control it in env.manager filed
