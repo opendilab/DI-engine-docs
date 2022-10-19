@@ -36,7 +36,7 @@ Specification of naming
       For ICM algorithm，the general algorithm is the module proposed in the paper combined with a baseline algorithm,，其对应的 config 名称，按照<env_name>\_<模块名>\_<baseline_name>\_config.py
       命名，例如 cartpole_icm_offppo_config.py
 
-   -  If the algorithm has on-policy and off-policy ，统一在 config.py 文件名和文件中相关变量名，使用 onppo/offppo 区分 on-policy 和 off-policy 版的算法。例如对于 PPO 算法的 config,
+   -  If the algorithm has verious versions of on-policy and off-policy ，please unify the name of config.py file and related varible names in the file，and use of onppo/offppo to distinguish on-policy and off-policy versions of the algorithm. For example，for the config of the PPO algorithm,
       hopper_ppo_config.py should be changed to hopper_onppo_config.py。
 
 -  exp_name field
@@ -75,9 +75,9 @@ Main Specification
 
       env_manager=dict(type='subprocess'),
 
--  Ensure evaluator_env_num：n_evaluator_episode = 1:1 （ smac environment 例外）
+-  Ensure evaluator_env_num：n_evaluator_episode = 1:1 （expect smac environment）
 
--  在 main_config 的 env 字段中一般不应该包含 manager 字段
+-  manager field shoudl generally not be included in the env field of main_config
    (shared_memory defaults to True when the manager field is not included)：
 
    -  smac 环境例外，由于状态维度问题，smac 需要设置 shared_memory=Fasle。
