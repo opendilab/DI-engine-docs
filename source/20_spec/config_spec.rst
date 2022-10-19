@@ -27,14 +27,14 @@ Specification of Grammar
 Specification of naming 
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
--  file name： config.py，related variable name：main_config 和 create_config
+-  file name： config.py，related variable name：main_config and create_config
 
    -  Uniformly named after <env_name>\_<algo_name>\_config.py
       .The name of the file and related variable names in the file do not need to add the default field. For instance file name hopper_onppo_default_config.py should be changed into hopper_onppo_config.py。
 
    -  Similarly
-      For ICM algorithm，the general algorithm is the module proposed in the paper combined with a baseline algorithm,，其对应的 config 名称，按照<env_name>\_<module_name>\_<baseline_name>\_config.py
-      命名，such as cartpole_icm_offppo_config.py
+      For ICM algorithm，the general algorithm is the module proposed in the paper combined with a baseline algorithm,，its corresponding config name should be named as <env_name>\_<module_name>\_<baseline_name>\_config.py
+      ，such as cartpole_icm_offppo_config.py
 
    -  If the algorithm has verious versions of on-policy and off-policy ，please unify the name of config.py file and related varible names in the file，and use of onppo/offppo to distinguish on-policy and off-policy versions of the algorithm. For example，for the config of the PPO algorithm,
       hopper_ppo_config.py should be changed to hopper_onppo_config.py。
@@ -110,7 +110,7 @@ Main Specification
           import_names=['dizoo.atari.envs.atari_env'],
       ),
 
-   -  nnormally field \ ``replay_buffer``\ is unnecessary。If you want to use the buffer stored as deque，please specify the type of replay_buffer如果想使用存储为deque的buffer，请在create_config中指定replay_buffer的type为deque：
+   -  nnormally field \ ``replay_buffer``\ is unnecessary。If you want to use the buffer stored as deque，please specify the type of replay_buffer：
 
       .. code::
 
