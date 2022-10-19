@@ -29,15 +29,15 @@ Specification of naming
 
 -  file name： config.py，related variable name：main_config 和 create_config
 
-   -  Uniformly named after <环境名>\_<算法名>\_config.py
+   -  Uniformly named after <env_name>\_<algo_name>\_config.py
       .The name of the file and related variable names in the file do not need to add the default field. For instance file name hopper_onppo_default_config.py should be changed into hopper_onppo_config.py。
 
    -  Similarly
-      For ICM algorithm，the general algorithm is the module proposed in the paper combined with a baseline algorithm,，其对应的 config 名称，按照<环境名>\_<模块名>\_<基线算法名>\_config.py
+      For ICM algorithm，the general algorithm is the module proposed in the paper combined with a baseline algorithm,，其对应的 config 名称，按照<env_name>\_<模块名>\_<baseline_name>\_config.py
       命名，例如 cartpole_icm_offppo_config.py
 
-   -  算法如果有 on-policy 和 off-policy 的不同版本，统一在 config.py 文件名和文件中相关变量名，使用 onppo/offppo 区分 on-policy 和 off-policy 版的算法。例如对于 PPO 算法的 config,
-      应该将 hopper_ppo_config.py 改成 hopper_onppo_config.py。
+   -  If the algorithm has on-policy and off-policy ，统一在 config.py 文件名和文件中相关变量名，使用 onppo/offppo 区分 on-policy 和 off-policy 版的算法。例如对于 PPO 算法的 config,
+      hopper_ppo_config.py should be changed to hopper_onppo_config.py。
 
 -  exp_name field
 
