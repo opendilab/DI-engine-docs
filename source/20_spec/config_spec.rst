@@ -68,8 +68,8 @@ Main Specification
 ~~~~~~~~~~~~~~~~~~~~
 
 -  For env_manager field in create_config, except for simple environments 
-   cartpole, pendulum, bitflip
-   环境使用 base, 其他环境一般使用 subprocess：
+   cartpole, pendulum, bitflip 
+   environment uses base, other environments normally use subprocess：
 
    .. code:: python
 
@@ -80,7 +80,7 @@ Main Specification
 -  manager field shoudl generally not be included in the env field of main_config
    (shared_memory defaults to True when the manager field is not included)：
 
-   -  smac 环境例外，由于状态维度问题，smac 需要设置 shared_memory=Fasle。
+   -  smac environment is an exception，due to the state dimension problem，smac needs to set shared_memory=Fasle。
 
    -  In environments other than the smac environment， if an error is reported due to the state dimension problem，you can include manager field and set  shared
       memory=False。
