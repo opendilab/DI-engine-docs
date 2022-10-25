@@ -27,27 +27,27 @@ Specification of Grammar
 Specification of naming 
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
--  file name： config.py，related variable name：main_config and create_config
+-  file name： config.py,related variable name：main_config and create_config
 
    -  Uniformly named after <env_name>\_<algo_name>\_config.py
       .The name of the file and related variable names in the file do not need to add the default field. For instance file name hopper_onppo_default_config.py should be changed into hopper_onppo_config.py。
 
    -  Similarly
-      For ICM algorithm，the general algorithm is the module proposed in the paper combined with a baseline algorithm,，its corresponding config name should be named as <env_name>\_<module_name>\_<baseline_name>\_config.py
-      ，such as cartpole_icm_offppo_config.py
+      For ICM algorithm,the general algorithm is the module proposed in the paper combined with a baseline algorithm,its corresponding config name should be named as <env_name>\_<module_name>\_<baseline_name>\_config.py
+      ,such as cartpole_icm_offppo_config.py
 
-   -  If the algorithm has verious versions of on-policy and off-policy ，please unify the name of config.py file and related varible names in the file，and use of onppo/offppo to distinguish on-policy and off-policy versions of the algorithm. For example，for the config of the PPO algorithm,
+   -  If the algorithm has verious versions of on-policy and off-policy ,please unify the name of config.py file and related varible names in the file,and use of onppo/offppo to distinguish on-policy and off-policy versions of the algorithm. For example,for the config of the PPO algorithm,
       hopper_ppo_config.py should be changed to hopper_onppo_config.py。
 
 -  exp_name field
 
    -  main_config must include exp_name filed
 
-   -  The naming convention is environemnt+algorithm+seed，such as \ ``qbert_sqil_seed0``
+   -  The naming convention is environemnt+algorithm+seed,such as \ ``qbert_sqil_seed0``
 
 -  Name of the file path
 
-   -  See the sqil example, commented accordingly.If multiple models need to be loaded, the model path (model_path) variable is named as follows：prefix1_model_path，prefix2_model_path，...,
+   -  See the sqil example, commented accordingly.If multiple models need to be loaded, the model path (model_path) variable is named as follows：prefix1_model_path,prefix2_model_path,...,
       varibles of data_path are named in same way.
 
 .. code:: python
@@ -80,9 +80,9 @@ Main Specification
 -  manager field shoudl generally not be included in the env field of main_config
    (shared_memory defaults to True when the manager field is not included)：
 
-   -  smac environment is an exception，due to the state dimension problem，smac needs to set shared_memory=Fasle。
+   -  smac environment is an exception,due to the state dimension problem,smac needs to set shared_memory=Fasle。
 
-   -  In environments other than the smac environment， if an error is reported due to the state dimension problem，you can include manager field and set  shared
+   -  In environments other than the smac environment, if an error is reported due to the state dimension problem,you can include manager field and set  shared
       memory=False。
 
 -  If you want to turn on/off shared memory, please control it in env.manager filed
@@ -100,7 +100,7 @@ Main Specification
 
 -  create config
 
-   -  in env field，only ``type`` 和 ``import_names``\ two fields,
+   -  in env field,only ``type`` 和 ``import_names``\ two fields,
       Such as：
 
    .. code:: python
@@ -122,10 +122,10 @@ Main Specification
       import：use \ ``from ding.entry import serial_pipeline``\ instead of \ ``from ding.entry.serial_entry import serial_pipeline``
 
    -  Use\ ``[main_config, create_config]``
-      to unify the style，If an algorithm needs to call other config，this convention can be waived。Such as imitation
+      to unify the style,If an algorithm needs to call other config,this convention can be waived。Such as imitation
       learning algorithm needs to introduce expert config, see the example of sqil for details。
 
-   -  Every config must have a starting command，and it's format should as below
+   -  Every config must have a starting command,and it's format should as below
 
       .. code:: python
 
@@ -134,10 +134,10 @@ Main Specification
              from ding.entry import serial_pipeline
              serial_pipeline([main_config, create_config], seed=0)
 
-      -  Remember \ ``from ding.entry import serial_pipeline``\ this line should not as the head of the file，
+      -  Remember \ ``from ding.entry import serial_pipeline``\ this line should not as the head of the file,
          please note it at \ ``if ___name___ == "___main___":``\ below.
 
-   -  If the algorithm use different serial_pipeline_X，
+   -  If the algorithm use different serial_pipeline_X,
       you need to add corresponding starting command ``serial_X``\ in \ https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ .
 
 -  seed is set in the entry function, do not include seed in config.
@@ -148,7 +148,7 @@ Main Specification
 
       alpha=0.1,  # alpha: 0.08-0.12
 
--  Please make sure all parameters in config are valid ，unused keys should be deleted.
+-  Please make sure all parameters in config are valid ,unused keys should be deleted.
 
--  Normally TODO is not include in config，, if it is really necessary to write into config，please mark the content clearly，such as：TODO(name):
+-  Normally TODO is not include in config, if it is really necessary to write into config,please mark the content clearly,such as：TODO(name):
    xxx.
