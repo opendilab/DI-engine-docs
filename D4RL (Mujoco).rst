@@ -24,7 +24,7 @@ Note: offline RL is the dataset with d4rl for training, and tests are interacted
 The Mujoco dataset is a physics engine designed to facilitate research and development in areas such as robotics, biomechanics, graphics, and animation that require fast and accurate simulations, and is often used as a benchmark testing environment for continuous space reinforcement learning algorithms. It is a collection of 20 subenvironments, in D4RL the subenvironments used are Half Cheetah, Hopper, and Walker2D.
 Each subenvironment contains 5 smaller subenvironments.
 
--  expert: train a \ `SAC <https://arxiv.org//abs/1801.01290>`__\ algorithm online until the strategy reaches the expert performance level, using the expert strategy to collect 1 million samples of data
+-  expert: train a \ `SAC <https://arxiv.org//abs/1801.01290>`__\  algorithm online until the strategy reaches the expert performance level, using the expert strategy to collect 1 million samples of data
 -  medium-expert: mix equal amounts of data collected by expert and medium strategies
 -  medium: first train a SAC algorithm online, stop training in the middle, and then use this partially trained strategy to collect 1 million samples of data
 -  medium-replay：train a SAC algorithm online until the strategy reaches a moderate performance level, collecting all the samples placed in the buffer during training
