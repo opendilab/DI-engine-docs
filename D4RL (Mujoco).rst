@@ -24,7 +24,7 @@ Note: offline RL is the dataset with d4rl for training, and tests are interacted
 The Mujoco dataset is a physics engine designed to facilitate research and development in areas such as robotics, biomechanics, graphics, and animation that require fast and accurate simulations, and is often used as a benchmark testing environment for continuous space reinforcement learning algorithms. It is a collection of 20 subenvironments, in D4RL the subenvironments used are Half Cheetah, Hopper, and Walker2D.
 Each subenvironment contains 5 smaller subenvironments.
 
--  expert: train a SAC algorithm online until the strategy reaches the expert performance level, using the expert strategy to collect 1 million samples of data
+-  expert: train a \ `SAC <https://arxiv.org//abs/1801.01290>`__\ algorithm online until the strategy reaches the expert performance level, using the expert strategy to collect 1 million samples of data
 -  medium-expert: mix equal amounts of data collected by expert and medium strategies
 -  medium: first train a SAC algorithm online, stop training in the middle, and then use this partially trained strategy to collect 1 million samples of data
 -  medium-replay：train a SAC algorithm online until the strategy reaches a moderate performance level, collecting all the samples placed in the buffer during training
@@ -35,11 +35,11 @@ The picture below shows one of the Hopper games.
 .. image:: ./images/d4rl.gif
    :align: center
 
-INSTALLATION
-======
+Installation
+==============
 
 Method
------------
+---------
 Installing d4rl, gym and mujoco-py, and d4rl can be installed with one click via pip or via clone
 
 .. code:: shell
@@ -107,7 +107,7 @@ For mujoco, you only need to install gym and mujoco-py, either via pip or in com
 
 
 Verifying the Installation
---------
+--------------------------------
 
 Once the installation is complete, you can verify that the installation was successful by running the following command from the Python command line.
 
@@ -133,42 +133,42 @@ Once the installation is complete, you can verify that the installation was succ
     dataset = d4rl.qlearning_dataset(env)
 
 Mirroring
-----
+-------------
 
 The DI-engine is ready with images of the framework itself, which can be obtained by \ ``docker pull opendilab/ding:nightly-mujoco``, or by visiting \ `docker
 hub <https://hub.docker.com/r/opendilab/ding>`__\ for more mirrors
 
 
 GYM-MUJOCO'S SPACE BEFORE TRANSFORMATION (ORIGINAL ENVIRONMENT)
-====================================
+=====================================================================
 
 
 Observation Space
---------
+---------------------
 
 -  The vector consists of physical information(3D position, orientation, and joint angles etc.), and the specific size is \ ``(N, )``\, which is determined by the environment. The data type is \ ``float64``
 -  `Fujimoto <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__ mentions that doing obs norm for the d4rl dataset will improve the stability of offline training.
 
 
 Action Space
---------
+----------------
 
 -  The vector consists of physical information(torque etc.), which is often the continuous action space.（N varies with specific subenvironments), the data type is \ ``float32``\ ，需要传入 np 数组（例如动作为\ ``array([-0.9266078 , -0.4958926 ,  0.46242517], dtype=float32)``\ ）
 
 -  If it's in the Hooper, N is 3, then the action value be chosen in \ ``[-1, 1]``\.
 
 Reward Space
---------
+----------------
 
 -  Depending on the specific game content, the game score can vary very much and is usually a float value, which can be found in the performance section of the benchmark algorithm at the bottom.
 
 Others
-----
+-----
 
 -  The end of the game is the end of the current environment episode
 
 KEY FACTS
-========
+============
 
 1. Vector physical information input, empirically it is not advisable to subtract the mean value in doing norm
 
@@ -180,24 +180,24 @@ KEY FACTS
 
 
 THE SPACE AFTER TRANSFORMATION（RL ENVIRONMENT）
-=======================
+==============================================================
 
 
 
 Observation space
---------
+-----------------------
 
 -  Basically no change
 
 
 Action space
---------
+----------------
 
 -  Basically no transformation, still a continuous action space of size N, with a range of values\ ``[-1, 1]``\，size is \ ``(N, )``\ ，data type is \ ``np.float32``
 
 
 Reward space
---------
+-------------
 
 -  Basically no change
 
@@ -214,22 +214,22 @@ The above space can be represented using the gym environment space definition as
 
 
 Others
-----
+---------
 
 -  The \ ``info``\ returned by the environment \ ``step``\ method must contain the \ ``final_eval_reward``\ key-value pair, which represents the evaluation metrics for the entire episode, which in Mujoco is the cumulative sum of the rewards for the entire episode.
 
 
 OTHERS
-====
+========
 
 Inert initialization
-----------
+----------------------
 
 To facilitate support for parallel operations such as environment vectorization, environment instances are generally implemented with inert initialization, i.e., the \``__init__`` method does not initialize the real original environment instance, but only sets the relevant parameters and configuration values, and initializes the concrete original environment instance when the \``reset`` method is called for the first time.
 
 
 Video storage
---------
+----------------
 
 After the environment is created and before it is reset, the \``enable_save_replay`` method is called to specify the path where the game footage is saved. The environment will automatically save the session's video files after each episode. (The default call \``gym.wrappers.RecordVideo`` is implemented), the code shown below will run an environment episode and save the results of that episode in \``. /video/`` \\.
 .. code:: python
@@ -249,7 +249,7 @@ After the environment is created and before it is reset, the \``enable_save_repl
            break
 
 DI-ZOO RUNNABLE CODE EXAMPLE
-======================
+=================================
 
 The complete training profile is available in `github link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
 , for specific profiles, like \ ``https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/config/hopper_medium_cql_default_config.py``\ ，it works with the following demo:
@@ -330,7 +330,7 @@ Note: For offline RL algorithms, such as TD3_bc, CQL, you need to use a special 
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__ 
 
 BENCHMARK ALGORITHM PERFORMANCE
-===============
+=================================
 
 -  Walker2d
 
