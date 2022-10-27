@@ -5,5 +5,6 @@
    :maxdepth: 2
 
    installation_zh
+   hello_world_as_an_AI_agent_zh
    first_rl_program_zh
    more_rl_program_env_zh
