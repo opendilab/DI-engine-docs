@@ -194,4 +194,4 @@ Try generating an agent model yourself, maybe it will be stronger:
         main()
 
 So far, you have completed the Hello World task of DI-engine, used the provided code and model, and learned how the reinforcement learning agent interacts with the environment.
-Please continue to read this document, `First Reinforcement Learning Program <../01_quickstart/first_rl_program.html>`_ , to understand how the RL pipeline is built in DI-engine.
+Please continue to read this document to understand how the RL pipeline is built in DI-engine.

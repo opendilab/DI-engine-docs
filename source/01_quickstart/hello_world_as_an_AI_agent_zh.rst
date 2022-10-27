@@ -193,4 +193,4 @@ DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以
         main()
 
 至此您已经完成了 DI-engine 的 Hello World 任务，使用了提供的代码和模型，学习了强化学习的智能体与环境是如何交互的。
-请继续阅读文档来,  `第一个强化学习程序 <../01_quickstart/first_rl_program_zh.html>`_，来了解 DI-engine 的强化学习算法的生产框架是如何搭建的。
+请继续阅读文档,来了解 DI-engine 的强化学习算法的生产框架是如何搭建的。
