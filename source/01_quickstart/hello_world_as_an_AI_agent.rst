@@ -137,7 +137,7 @@ DI-engine designed the environment manager env_manager to do this, we can do thi
 .. note::
     When evaluating multiple environments in parallel, the environment manager of DI-engine will also count the average, maximum and minimum rewards, as well as other indicators related to some algorithms.
 
-Make agents stronger
+Make Agents Stronger
 --------------
 
 Run the following code using DI-engine to get the agent model in the above test.
