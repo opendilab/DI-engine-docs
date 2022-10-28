@@ -11,12 +11,12 @@ In using reinforcement learning methods, one would have to choose an appropriate
 The purpose of this guide is to explain the details with regards to these 2 primary ways of choosing the appropriate neural network and as well as the principles behind them. 
 
 Policy 默认使用的模型是什么
-Default model used in a given policy 
+Default model used in a policy 
 ----------------------------------
 
 DI-engine 中已经实现的 policy，默认使用 ``default_model`` 方法中表明的神经网络模型，例如在 SACPolicy 中：
 
-For policy implemented in DI-engine, the ``default_model`` method contains the details of the default neural network model that was implemented. Take for example SACPolicy:
+For a policy implemented in DI-engine, the ``default_model`` method contains the details of the default neural network model that was implemented. Take for example SACPolicy:
 
 .. code:: python
 
@@ -41,13 +41,19 @@ Observe here that the method either returns \ ``'maqac_continuous', ['ding.model
 When using the configuration file ``cfg.policy.model``, DI-engine will sequentially pass each parameter into the model registered with DI-engine's registry mechanism. (For example, parameters ``obs_shape``, ``action_shape`` etc will be passed into `QAC <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py#L13>`_ ). The required neural network is then automatically generated in the model class based on the incoming parameters (e.g. a fully connected layer (FC) for vector input and a convolution (Conv) for image input).
 
 如何自定义神经网络模型
+
+How to customize the neural network model
 ----------------------------------
 
 但很多时候 DI-engine 中实现的 \ ``policy``\ 中的  \ ``default_model``\ 不适用自己的任务，例如这里想要在 \ ``dmc2gym``\ 环境 \ ``cartpole-swingup``\  任务下应用 \ ``sac``\ 算法，且环境 observation 为  \ ``pixel``\ ，
 即 \ ``obs_shape = (3, height, width)``\ （如果设置 \ ``from_pixel = True, channels_first = True``\ ，详情见  \ `dmc2gym 环境文档 <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ ） 
 
+It is often the case that the \ ``default_model``\ chosen in a DI-engine \ ``policy``\ is not suitable for one's task at hand. Take for example the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\ (a wrapper for the Deep Mind Control Suite). Note the default values for observation is  \ ``pixel``\, while \ ``obs_shape = (3, height, width)``\ (For settings \ ``from_pixel = True, channels_first = True``\, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ documentation for details)
+
 而此时查阅 \ `sac 源码 <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ 可知 \ ``default_model``\ 为 \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\ ，
 \ ``qac model``\ 中暂时只支持 \ ``obs_shape``\ 为一维的情况，此时我们即可根据需求自定义 model 并应用到 policy。
+
+If one were to look at the source code of \ `sac <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\, it can be seen that the \ ``default_model``\ is actually \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\. The \ ``qac model``\ currently only supports an \ ``obs_shape``\ of 1 only. Hence, it becomes apparent that one must customize a model according to one's needs and ensure that the policy is setup accordingly.
 
 自定义 model 基本步骤
 ----------------------------------
