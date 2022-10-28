@@ -27,7 +27,7 @@
     from ding.envs import DingEnvWrapper
     from ding.policy import DQNPolicy, single_env_forward_wrapper
     from ding.model import DQN
-    from lunarlander_dqn_config import main_config, create_config
+    from dizoo.box2d.lunarlander.config.lunarlander_dqn_config import main_config, create_config
 
 
     def main(main_config: EasyDict, create_config: EasyDict, ckpt_path: str):
@@ -54,7 +54,7 @@
         main(main_config=main_config, create_config=create_config, ckpt_path='./final.pth.tar')
 
 
-从代码中可见，通过使用 torch.load 可以获得模型的 Pytorch 对象，然后使用 load_state_dict 即可将模型加载至 DI-engine 的 DQN 模型中。
+从代码中可见，通过使用 torch.load 可以获得模型的 PyTorch 对象，然后使用 load_state_dict 即可将模型加载至 DI-engine 的 DQN 模型中。
 然后将 DQN 模型加载到 DQN 策略中，使用评价模式的 forward_fn 函数，即可让智能体对环境状态 obs 产生反馈的动作 action 。
 智能体的动作 action 会和环境进行一次交互，生成下一个时刻的环境状态 obs ，此次交互的奖励 rew ，环境是否结束的信号 done 以及其他信息 info 。
 所有时刻的奖励值会被累加，作为本次智能体在这个任务中的总分。

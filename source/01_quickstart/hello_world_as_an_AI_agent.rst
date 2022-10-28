@@ -29,7 +29,7 @@ Just use the following code to make the agent run, remember to replace the model
     from ding.envs import DingEnvWrapper
     from ding.policy import DQNPolicy, single_env_forward_wrapper
     from ding.model import DQN
-    from lunarlander_dqn_config import main_config, create_config
+    from dizoo.box2d.lunarlander.config.lunarlander_dqn_config import main_config, create_config
 
 
     def main(main_config: EasyDict, create_config: EasyDict, ckpt_path: str):
@@ -55,7 +55,7 @@ Just use the following code to make the agent run, remember to replace the model
     if __name__ == "__main__":
         main(main_config=main_config, create_config=create_config, ckpt_path='./final.pth.tar')
 
-As can be seen from the code, the Pytorch object of the model can be obtained by using torch.load, and then the model can be loaded into the DQN model of DI-engine using load_state_dict.
+As can be seen from the code, the PyTorch object of the model can be obtained by using torch.load, and then the model can be loaded into the DQN model of DI-engine using load_state_dict.
 Then load the DQN model into the DQN policy, and use the forward_fn function of the evaluation mode to make the agent generate feedback action for the environmental state, obs.
 The action of the agent will interact with the environment once to generate the environment state, obs, at the next moment, the reward, rew, of this interaction, the signal, done, of whether the environment is over, and other information, info.
 
