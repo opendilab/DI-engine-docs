@@ -17,7 +17,7 @@ An agent is essentially a mathematical model that accepts input and feeds back o
 Its model consists of a model structure and a set of model parameters.
 In the practice in the field of machine learning, we will write the model into a file for saving, or read the model from that file for deploying.
 Here we provide an agent model trained by the DI-engine framework using the DQN algorithm:
-`final.pth.tar <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/cartpole/config/cartpole_dqn_config.py>`_ \
+`final.pth.tar <https://opendilab.net/download/DI-engine-docs/01_quickstart/final.pth.tar>`_ \
 Just use the following code to make the agent run, remember to replace the model address in the function with the locally saved model file path:
 
 .. code-block:: python
@@ -107,7 +107,7 @@ DI-engine designed the environment manager env_manager to do this, we can do thi
             AdvancedReplayBuffer,
             save_cfg=True
         )
-        cfg.policy.load_path = 'lunarlander_dqn_seed0/ckpt/final.pth.tar'
+        cfg.policy.load_path = './final.pth.tar'
         evaluator_env_num = cfg.env.evaluator_env_num
         evaluator_env = BaseEnvManager(env_fn=[wrapped_cartpole_env for _ in range(evaluator_env_num)], cfg=cfg.env.manager)
 

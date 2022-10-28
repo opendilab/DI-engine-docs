@@ -15,7 +15,7 @@
 智能体本质上是一个接受输入，反馈输出的数学模型。它的模型由一个模型结构和一组模型参数构成。
 在机器学习领域的实践中，我们会把模型写入存放在一个文件中，或是从一个文件中读出所需要的智能体模型。
 这里我们提供了一个由 DI-engine 框架使用 DQN 算法训练的智能体模型：
-`final.pth.tar <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/cartpole/config/cartpole_dqn_config.py>`_ \
+`final.pth.tar <https://opendilab.net/download/DI-engine-docs/01_quickstart/final.pth.tar>`_ \
 只需要使用以下的代码，就可以让智能体动起来，记得要把函数中的模型地址换成本地保存的地址：
 
 .. code-block:: python
@@ -105,7 +105,7 @@ DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以
             AdvancedReplayBuffer,
             save_cfg=True
         )
-        cfg.policy.load_path = 'lunarlander_dqn_seed0/ckpt/final.pth.tar'
+        cfg.policy.load_path = './final.pth.tar'
         evaluator_env_num = cfg.env.evaluator_env_num
         evaluator_env = BaseEnvManager(env_fn=[wrapped_cartpole_env for _ in range(evaluator_env_num)], cfg=cfg.env.manager)
 
