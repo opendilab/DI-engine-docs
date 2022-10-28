@@ -56,19 +56,28 @@ It is often the case that the \ ``default_model``\ chosen in a DI-engine \ ``pol
 If one were to look at the source code of \ `sac <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\, it can be seen that the \ ``default_model``\ is actually \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\. The \ ``qac model``\ currently only supports an \ ``obs_shape``\ of 1 only. Hence, it becomes apparent that one must customize a model according to one's needs and ensure that the policy is setup accordingly.
 
 自定义 model 基本步骤
+
+Step-by-step guide to customizing a model
 ----------------------------------
 
 1. 明确 env, policy
+
+Choose your environment and policy
 +++++++++++++++++++++++++++++++++++++
 
 -  比如这里选定 \ ``dmc2gym``\ 环境 \ ``cartpole-swingup``\  任务，且设置 \ ``from_pixel = True, channels_first = True``\ （详情见  \ `dmc2gym 环境文档 <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ ） 
    ，即此时观察空间为图像 \ ``obs_shape = (3, height, width)``\ ，并选择 \ ``sac``\ 算法进行学习。
 
+-  For the purpose of this guide, let the choice of environment and policy to be the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\ (a wrapper for the Deep Mind Control Suite). (For details, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ documentation)
 
 2. 查阅 policy 中的 default_model 是否适用
+
+Check to see if the policy's default_model is suitable
 ++++++++++++++++++++++++++++++++++++++++++
 
 -  此时根据\ `policy-default_model 链接 <https://xxx>`__\ 或者直接查阅源码 \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ ，找到 SAC 的  \ ``default_model``\：
+
+-  This can be done in 1 of 2 ways. One either look up the documentation at \ `policy-default_model 链接 <https://xxx>`__\ or read the source code of \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ and find out what is being used in the \ ``default_model``\ method. 
 
 .. code:: python
 
@@ -87,7 +96,13 @@ If one were to look at the source code of \ `sac <https://github.com/opendilab/D
    发现 DI-engine 中实现的 \ ``qac model``\ 暂时只支持 \ ``obs_shape``\ 为一维的情况，但是此时环境的观察空间为图像 \ ``obs_shape = (3, height, width)``\ ，
    因此我们需要根据需求自定义 model 并应用到 policy。
 
+-  Now that we see QAC is being used here, we can then further read up \ `ding/model/template/qac:QAC <https://github.com/opendilab/DI-engine/blob/69db77e2e54a0fba95d83c9411c6b11cd25beae9/ding/model/template/qac.py#L40>`__\. The \ ``qac model``\ implemented in DI-engine currently only supports \ ``obs_shape``\ of 1. However, the observation space of the task chosen is an image of \ ``obs_shape = (3, height, width)``\
+
+Hence, we will need to do some customization.
+
 3. custom_model 实现
+
+Customizing the model
 +++++++++++++++++++++++++++++++++++++
 
 根据已有的 defaul_model 来决定 custom_model 所需实现的功能:
@@ -96,7 +111,15 @@ If one were to look at the source code of \ `sac <https://github.com/opendilab/D
   
 -  保证返回值的类型的原 default model 一致
 
+Using the default_model as a guide and reference when crafting the custom_model:
+
+-  All public methods in the default_model must be implemented in custom_model.
+
+-  Ensure that the type of return in custom_model is the same as the default_model.
+
 具体实现可利用 \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\ 下 \ ``encoder.py``\ / \ ``head.py``\ 已实现的 \ ``encoder``\ 和 \ ``head``\ 
+
+One can also reference the \ ``encoder``\ and \ ``head``\ of \ ``encoder.py``\ / \ ``head.py``\ at \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
 
 -  \ ``encoder``\ 用于对输入的 \ ``obs``\ 或者 \ ``action``\ 等进行编码，便于进行后续处理， DI-engine 中已实现的 encoder 如下：
 
