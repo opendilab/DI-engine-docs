@@ -175,7 +175,11 @@ Handle multi-dimensional action spaces
 
 例如这里需要自定义针对 sac+dmc2gym+cartpole-swingup 任务的 model ，我们把新的 custom_model 实现为 \ ``QACPixel``\  类
 
+From here, one will customize the model required specifically for the sac+dmc2gym+cartpole-swingup task combination. For now, we will name and instantiate the new custom_model as a \ ``QACPixel``\ type.
+
 -  这里对照 \ ``QAC``\ 已经实现的方法， \ ``QACPixel``\ 需要实现 \ ``init``\  ， \ ``forward``\ ，以及 \ ``compute_actor``\ 和  \ ``compute_critic``\ 。
+
+-  With reference to the \ ``QAC``\ implementation, \ ``QACPixel``\ must implement the following methods:  \ ``init``\, \ ``forward``\, \ ``compute_actor``\ and \ ``compute_critic``\.
 
 .. code:: python
 
@@ -193,6 +197,8 @@ Handle multi-dimensional action spaces
 
 -  针对图像输入， \ ``QACPixel``\ 主要需要修改的是 \ ``init``\ 中对 \ ``self.actor``\ 和 \ ``self.critic``\ 的定义。
    可以看到 \ ``QAC``\ 中 \ ``self.actor``\ 和 \ ``self.critic``\ 的 encoder 都只是一层 nn.Linear
+
+-  In the case of image inputs, the \ ``init``\ method of \ ``QACPixel``\ will have to adjust the definition its \ ``self.actor``\ and \ ``self.critic``\. By observation, we can see that the \ ``self.action``\ and \ ``self.critic``\ of \ ``QAC``\ uses an encoder that consists of only a single layer nn.Linear.
 
 .. code:: python
 
