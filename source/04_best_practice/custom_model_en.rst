@@ -119,9 +119,11 @@ Using the default_model as a guide and reference when crafting the custom_model:
 
 具体实现可利用 \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\ 下 \ ``encoder.py``\ / \ ``head.py``\ 已实现的 \ ``encoder``\ 和 \ ``head``\ 
 
-One can also reference the \ ``encoder``\ and \ ``head``\ of \ ``encoder.py``\ / \ ``head.py``\ at \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
+One can also reference the \ ``encoder``\ implementation of \ ``encoder.py``\ and \ ``head``\ implementation of / \ ``head.py``\. See \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
 
 -  \ ``encoder``\ 用于对输入的 \ ``obs``\ 或者 \ ``action``\ 等进行编码，便于进行后续处理， DI-engine 中已实现的 encoder 如下：
+
+-   The \ ``encoder``\ is used to encode inputs such as \ ``obs``\ , \ ``action``\ etc. for subsequent processing. DI-engine have thus far implemented the following encoders:
 
 +-----------------------+-------------------------------------+
 |encoder                |usage                                |
@@ -132,8 +134,12 @@ One can also reference the \ ``encoder``\ and \ ``head``\ of \ ``encoder.py``\ /
 +-----------------------+-------------------------------------+
 |StructEncoder          |                                     |
 +-----------------------+-------------------------------------+
+For encoding image inputs
+For encoding one dimensional inputs
 
 -  \ ``head``\ 用于对已经编码的数据进行相应处理，输出 policy 所需信息或者辅助 RL 过程， DI-engine 中已实现的 head ：
+
+-  The \ ``head``\ is used to process the encoded inputs and outputs data required by the policy or the overall RL process. DI-engine have thus far implemented the following heads:
 
 +-----------------------+-------------------------------------+
 |head                   |usage                                |
@@ -157,7 +163,15 @@ One can also reference the \ ``encoder``\ and \ ``head``\ of \ ``encoder.py``\ /
 +-----------------------+-------------------------------------+
 |MultiHead              |处理动作空间为多维的情况             |
 +-----------------------+-------------------------------------+
-
+Output discrete action value
+Output Q value distribution
+Output Q value distribution
+Quantile Regression DQN, output action quantiles
+Output action quantiles
+Output discrete action value logits
+Output continuous action Q values
+Output action mu and sigma
+Handle multi-dimensional action spaces
 
 例如这里需要自定义针对 sac+dmc2gym+cartpole-swingup 任务的 model ，我们把新的 custom_model 实现为 \ ``QACPixel``\  类
 
