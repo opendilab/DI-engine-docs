@@ -8,6 +8,10 @@
 
 我们首先使用"月球着陆器"这个环境来介绍 DI-engine 中的智能体，以及它是如何与环境交互的。
 
+.. image::
+    images/lunarlander.gif
+    :width: 1000
+    :align: center
 
 让智能体运行起来
 --------------
@@ -31,21 +35,21 @@
 
 
     def main(main_config: EasyDict, create_config: EasyDict, ckpt_path: str):
-        main_config.exp_name = 'lunarlander_dqn_deploy'
-        cfg = compile_config(main_config, create_cfg=create_config, auto=True)
-        env = DingEnvWrapper(gym.make(cfg.env.env_id), EasyDict(env_wrapper='default'))
-        env.enable_save_replay(replay_path='./lunarlander_dqn_deploy/video')
-        model = DQN(**cfg.policy.model)
-        state_dict = torch.load(ckpt_path, map_location='cpu')
-        model.load_state_dict(state_dict['model'])
-        policy = DQNPolicy(cfg.policy, model=model).eval_mode
-        forward_fn = single_env_forward_wrapper(policy.forward)
-        obs = env.reset()
-        returns = 0.
-        while True:
-            action = forward_fn(obs)
-            obs, rew, done, info = env.step(action)
-            returns += rew
+        main_config.exp_name = 'lunarlander_dqn_deploy' # 设置本次部署运行的实验名，即为将要创建的工程文件夹名
+        cfg = compile_config(main_config, create_cfg=create_config, auto=True) # 编译生成所有的配置
+        env = DingEnvWrapper(gym.make(cfg.env.env_id), EasyDict(env_wrapper='default')) # 在gym的环境实例的基础上添加DI-engine的环境装饰器
+        env.enable_save_replay(replay_path='./lunarlander_dqn_deploy/video') # 开启环境的视频录制，设置视频存放位置
+        model = DQN(**cfg.policy.model) # 导入模型配置，实例化DQN模型
+        state_dict = torch.load(ckpt_path, map_location='cpu') # 从模型文件加载模型参数
+        model.load_state_dict(state_dict['model']) # 将模型参数载入模型
+        policy = DQNPolicy(cfg.policy, model=model).eval_mode # 导入策略配置，导入模型，实例化DQN策略，并选择评价模式
+        forward_fn = single_env_forward_wrapper(policy.forward) # 使用简单环境的策略装饰器，装饰DQN策略的决策方法
+        obs = env.reset() # 重置初始化环境，获得初始观测
+        returns = 0. # 初始化总奖励
+        while True: #让智能体的策略与环境，循环交互直到结束
+            action = forward_fn(obs) # 根据观测状态，决定决策动作
+            obs, rew, done, info = env.step(action) # 执行决策动作，与环境交互，获得下一步的观测状态，此次交互的奖励，是否结束的信号，以及其它环境信息
+            returns += rew # 累计奖励回报
             if done:
                 break
         print(f'Deploy is finished, final epsiode return is: {returns}')
@@ -106,6 +110,8 @@ DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以
             save_cfg=True
         )
         cfg.policy.load_path = './final.pth.tar'
+
+        # build multiple environments and use env_manager to manage them
         evaluator_env_num = cfg.env.evaluator_env_num
         evaluator_env = BaseEnvManager(env_fn=[wrapped_cartpole_env for _ in range(evaluator_env_num)], cfg=cfg.env.manager)
 
@@ -134,9 +140,13 @@ DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以
 
 .. note::
     DI-engine 的环境管理器在对多个环境进行并行评估的时候，还会一并统计奖励的平均值，最大值和最小值，以及一些算法相关的其它指标。
+    .. image::
+        images/evaluator_info.png
+        :width: 600
+        :align: center
 
 
-让智能体变得更强
+从零训练出强大的智能体
 --------------
 
 使用 DI-engine 运行以下的代码，来获得上述测试中的智能体模型。
@@ -192,5 +202,10 @@ DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以
     if __name__ == "__main__":
         main()
 
+.. note::
+    上述代码在 Intel i5-10210U 1.6GHz CPU 且无GPU设备的情况下大约需要30分钟训练至默认终止点。
+    如果希望训练的时间变得更短，可以尝试更简单的 `Cartpole <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/cartpole/config/cartpole_dqn_config.py>`_ 环境。
+
+
 至此您已经完成了 DI-engine 的 Hello World 任务，使用了提供的代码和模型，学习了强化学习的智能体与环境是如何交互的。
-请继续阅读文档,来了解 DI-engine 的强化学习算法的生产框架是如何搭建的。
+请继续阅读文档， `第一个强化学习程序 <../01_quickstart/first_rl_program_zh.html>`_ ， 来了解 DI-engine 的强化学习算法的生产框架是如何搭建的。

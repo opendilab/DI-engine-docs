@@ -1,4 +1,4 @@
-Hello World
+Hello World for DI
 ======================================
 
 .. toctree::
@@ -9,6 +9,10 @@ Its general form is to use an agent to process information from an environment, 
 
 We first use the "lunarlander" environment to introduce the agent in the DI-engine and how it interacts with the environment.
 
+.. image::
+    images/lunarlander.gif
+    :width: 1000
+    :align: center
 
 Let the Agent Run
 ------------------------------
@@ -33,21 +37,21 @@ Just use the following code to make the agent run, remember to replace the model
 
 
     def main(main_config: EasyDict, create_config: EasyDict, ckpt_path: str):
-        main_config.exp_name = 'lunarlander_dqn_deploy'
-        cfg = compile_config(main_config, create_cfg=create_config, auto=True)
-        env = DingEnvWrapper(gym.make(cfg.env.env_id), EasyDict(env_wrapper='default'))
-        env.enable_save_replay(replay_path='./lunarlander_dqn_deploy/video')
-        model = DQN(**cfg.policy.model)
-        state_dict = torch.load(ckpt_path, map_location='cpu')
-        model.load_state_dict(state_dict['model'])
-        policy = DQNPolicy(cfg.policy, model=model).eval_mode
-        forward_fn = single_env_forward_wrapper(policy.forward)
-        obs = env.reset()
-        returns = 0.
-        while True:
-            action = forward_fn(obs)
-            obs, rew, done, info = env.step(action)
-            returns += rew
+        main_config.exp_name = 'lunarlander_dqn_deploy' # Set the name of the experiment to be run in this deployment, which is the name of the project folder to be created
+        cfg = compile_config(main_config, create_cfg=create_config, auto=True) # Compile and generate all configurations
+        env = DingEnvWrapper(gym.make(cfg.env.env_id), EasyDict(env_wrapper='default')) # Add the DI-engine environment decorator upon the gym's environment instance
+        env.enable_save_replay(replay_path='./lunarlander_dqn_deploy/video') # Enable the video recording of the environment and set the video saving folder
+        model = DQN(**cfg.policy.model) # Import model configuration, instantiate DQN model
+        state_dict = torch.load(ckpt_path, map_location='cpu') # Load model parameters from file
+        model.load_state_dict(state_dict['model']) # Load model parameters into the model
+        policy = DQNPolicy(cfg.policy, model=model).eval_mode # Import policy configuration, import model, instantiate DQN policy, and turn to evaluation mode
+        forward_fn = single_env_forward_wrapper(policy.forward) # Use the strategy decorator of the simple environment to decorate the decision method of the DQN strategy
+        obs = env.reset() # Reset the initialization environment to get the initial observations
+        returns = 0. # Initialize total reward
+        while True: # Let the agent's strategy and environment interact cyclically until the end
+            action = forward_fn(obs) # According to the observed state, make a decision and generate action
+            obs, rew, done, info = env.step(action) # Execute actions, interact with the environment, get the next observation state, the reward of this interaction, the signal of whether to end, and other information
+            returns += rew # Cumulative reward return
             if done:
                 break
         print(f'Deploy is finished, final epsiode return is: {returns}')
@@ -61,7 +65,10 @@ The action of the agent will interact with the environment once to generate the 
 
 .. note::
     You can see the total score of the deployed agent in the log, and you can see the replay video in the experiment folder.
-
+    .. image::
+        images/evaluator_info.png
+        :width: 600
+        :align: center
 
 To Better Evaluate Agents
 ------------------------------
@@ -108,6 +115,8 @@ DI-engine designed the environment manager env_manager to do this, we can do thi
             save_cfg=True
         )
         cfg.policy.load_path = './final.pth.tar'
+
+        # build multiple environments and use env_manager to manage them
         evaluator_env_num = cfg.env.evaluator_env_num
         evaluator_env = BaseEnvManager(env_fn=[wrapped_cartpole_env for _ in range(evaluator_env_num)], cfg=cfg.env.manager)
 
@@ -137,7 +146,7 @@ DI-engine designed the environment manager env_manager to do this, we can do thi
 .. note::
     When evaluating multiple environments in parallel, the environment manager of DI-engine will also count the average, maximum and minimum rewards, as well as other indicators related to some algorithms.
 
-Make Agents Stronger
+Training Stronger Agents from Zero
 --------------
 
 Run the following code using DI-engine to get the agent model in the above test.
@@ -193,5 +202,10 @@ Try generating an agent model yourself, maybe it will be stronger:
     if __name__ == "__main__":
         main()
 
+.. note::
+    The above code takes about 30 minutes to train to the default termination point with an Intel i5-10210U 1.6GHz CPU and no GPU device. 
+    If you want the training time to be shorter, try the simpler `Cartpole <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/cartpole/config/cartpole_dqn_config.py>`_  environment.
+
+
 So far, you have completed the Hello World task of DI-engine, used the provided code and model, and learned how the reinforcement learning agent interacts with the environment.
-Please continue to read this document to understand how the RL pipeline is built in DI-engine.
+Please continue to read this document, `First Reinforcement Learning Program <../01_quickstart/first_rl_program.html>`_, to understand how the RL pipeline is built in DI-engine.
