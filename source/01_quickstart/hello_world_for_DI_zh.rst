@@ -140,10 +140,11 @@ DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以
 
 .. note::
     DI-engine 的环境管理器在对多个环境进行并行评估的时候，还会一并统计奖励的平均值，最大值和最小值，以及一些算法相关的其它指标。
-    .. image::
-        images/evaluator_info.png
-        :width: 600
-        :align: center
+
+.. image::
+    images/evaluator_info.png
+    :width: 600
+    :align: center
 
 
 从零训练出强大的智能体

@@ -65,10 +65,11 @@ The action of the agent will interact with the environment once to generate the 
 
 .. note::
     You can see the total score of the deployed agent in the log, and you can see the replay video in the experiment folder.
-    .. image::
-        images/evaluator_info.png
-        :width: 600
-        :align: center
+
+.. image::
+    images/evaluator_info.png
+    :width: 600
+    :align: center
 
 To Better Evaluate Agents
 ------------------------------
