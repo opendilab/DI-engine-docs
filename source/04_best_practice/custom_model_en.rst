@@ -179,7 +179,7 @@ From here, one will customize the model required specifically for the sac+dmc2gy
 
 -  这里对照 \ ``QAC``\ 已经实现的方法， \ ``QACPixel``\ 需要实现 \ ``init``\  ， \ ``forward``\ ，以及 \ ``compute_actor``\ 和  \ ``compute_critic``\ 。
 
--  With reference to the \ ``QAC``\ implementation, \ ``QACPixel``\ must implement the following methods:  \ ``init``\, \ ``forward``\, \ ``compute_actor``\ and \ ``compute_critic``\.
+-  With reference to the \ ``QAC``\ implementation, the \ ``QACPixel``\ implementation must have the following methods:  \ ``init``\, \ ``forward``\, \ ``compute_actor``\ and \ ``compute_critic``\.
 
 .. code:: python
 
@@ -224,6 +224,8 @@ From here, one will customize the model required specifically for the sac+dmc2gy
 -  我们通过定义 encoder_cls 指定 encoder 的类型，加入 \ ``ConvEncoder``\ ，并且因为需要对 obs 进行encode 后和 action 进行拼接，
    将 \ ``self.critic``\ 分为  \ ``self.critic_encoder``\ 和 \ ``self.critic_head``\ 两部分
 
+-  We define the type of encoder by defining the variable encoder_cls. In this case, we have defined it as a \ ``ConvEncoder``\. Since we need to connect the encoded obs with the action, \ ``self.critic``\ is constructed from 2 parts: one part being \ ``self.critic_encoder``\ and the other part \ ``self.critic_head``\.
+
 .. code:: python
 
   @MODEL_REGISTRY.register('qac_pixel')
@@ -248,10 +250,15 @@ From here, one will customize the model required specifically for the sac+dmc2gy
 
 -  再对 \ ``compute_actor``\ 和  \ ``compute_critic``\ 分别进行修改即可。
 
+-  Finally, we will also have to make corresponding changes to \ ``compute_actor``\ and  \ ``compute_critic``\
+
 4. 如何应用自定义模型
+How to make use of a customized model
 +++++++++++++++++++++++++++++++++++++
 
 -  新 pipeline ： 直接定义model，作为参数传入 policy 进行初始化，如：
+
+-  New pipeline: Define the model with the corresponding imports, then pass the model into the policy as an argument as follows.
 
 .. code:: python
    
@@ -265,9 +272,13 @@ From here, one will customize the model required specifically for the sac+dmc2gy
 
 -  旧pipeline
 
+-  Old pipeline
+
 将定义好的 model 作为参数传入 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ , 
 传入的 model 将在 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L59>`__\ 
 通过 \ ``create_policy``\  被调用。或者跟上述新 pipeline 一样，作为参数传入 policy 。
+
+Pass the defined model into \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ as a argument. The model will then be passed on to \ ``create_policy``\. 
 
 .. code:: python
   
@@ -285,11 +296,16 @@ From here, one will customize the model required specifically for the sac+dmc2gy
     ...
 
 5. 测试自定义 model 
+Unit testing a customized model
 +++++++++++++++++++++++++++++++++++++
 
 -  编写新的 model 测试，一般而言，首先需要构造 \ ``obs``\  \ ``action``\ 等输入，传入 model ，验证输出的维度、类型的正确性。其次如果涉及神经网络，需要验证 model 是否可微。
-   如对于我们编写的新模型 \ ``QACPixel``\ 编写测试，首先构造维度为 \ ``(B, channel, height, width)``\ （B = batch_size）的 \ ``obs``\ 和维度为 \ ``(B, action_shape)``\ 的 \ ``obs``\ ，传入 \ ``QACPixel``\ 的 \ ``actor``\ 和 \ ``critic``\ 得到输出.
+   如对于我们编写的新模型 \ ``QACPixel``\ 编写测试，首先构造维度为 \ ``(B, channel, height, width)``\ （B = batch_size）的 \ ``obs``\ 和维度为 \ ``(B, action_shape)``\ 的 \ ``action``\ ，传入 \ ``QACPixel``\ 的 \ ``actor``\ 和 \ ``critic``\ 得到输出.
    检查输出的 \ ``q, mu, sigma``\ 的维度是否正确，以及相应的 \ ``actor``\ 和 \ ``critic``\  model 是否可微：
+
+-  In general, when writing unit tests, one would need to first manually construct the \ ``obs``\  and \ ``action``\ inputs, define the model and verify that output dimensions and type are correct. Following that, if the model contains a neural network, it is also necessary to verify that the model is differentiable.
+
+Take for example the unit test written for our new model \ ``QACPixel``\. We first construct \ ``obs``\ with a shape of \ ``(B, channel, height, width)``\ (where B = batch_size) and we construct \ ``action``\ with a shape of \ ``(B, action_shape)``\. Then we define the model \ ``QACPixel``\ and obtain and pass along the corresponding outputs of its \ ``actor``\ and \ ``critic``\. Finally, we make sure that the shape sizes of \ ``q, mu, sigma``\ are correct and that \ ``actor``\ and \ ``critic``\ is differentiable.
 
 .. code:: python
 
@@ -318,5 +334,10 @@ From here, one will customize the model required specifically for the sac+dmc2gy
 .. tip::
 
   同样，使用者也可以参考 DI-engine 中已有的单元测试，来熟悉相关神经网络模型的使用
+  
+  Alternatively, user can also reference existing unit tests implemented in DI-engine to get familiar with the various neural networks while customizing a model.
 
 -  单元测试编写运行可参考 \ `单元测试指南 <https://di-engine-docs.readthedocs.io/zh_CN/latest/22_test/index_zh.html>`__\ 
+
+
+ For more on writing and running unit tests, refer to \ `Unit Testing Guidelines <https://di-engine-docs.readthedocs.io/zh_CN/latest/22_test/index_zh.html>`__\ 
