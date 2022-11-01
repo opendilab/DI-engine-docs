@@ -206,7 +206,9 @@ DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以
 .. note::
     上述代码在 Intel i5-10210U 1.6GHz CPU 且无GPU设备的情况下大约需要10分钟训练至默认终止点。
     如果希望训练的时间变得更短，可以尝试更简单的 `Cartpole <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/cartpole/config/cartpole_dqn_config.py>`_ 环境。
-
+    
+.. note::
+    DI-engine 集成了 tensorboard 组件，用于记录训练过程中的关键信息。你可以在训练时开启它，这样你就可以看到实时更新的信息，比如评估器记录的平均总奖励值等等。
 
 至此您已经完成了 DI-engine 的 Hello World 任务，使用了提供的代码和模型，学习了强化学习的智能体与环境是如何交互的。
 请继续阅读文档， `第一个强化学习程序 <../01_quickstart/first_rl_program_zh.html>`_ ， 来了解 DI-engine 的强化学习算法的生产框架是如何搭建的。

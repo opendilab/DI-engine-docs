@@ -207,6 +207,8 @@ Try generating an agent model yourself, maybe it will be stronger:
     The above code takes about 10 minutes to train to the default termination point with an Intel i5-10210U 1.6GHz CPU and no GPU device. 
     If you want the training time to be shorter, try the simpler `Cartpole <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/cartpole/config/cartpole_dqn_config.py>`_  environment.
 
+.. note::
+    DI-engine integrates the tensorboard component to record key information during the training process. You can turn it on during training, so you can see real-time updated information, such as the average total reward value recorded by the evaluator, etc.
 
 So far, you have completed the Hello World task of DI-engine, used the provided code and model, and learned how the reinforcement learning agent interacts with the environment.
 Please continue to read this document, `First Reinforcement Learning Program <../01_quickstart/first_rl_program.html>`_, to understand how the RL pipeline is built in DI-engine.
