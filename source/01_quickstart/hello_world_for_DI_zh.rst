@@ -204,7 +204,7 @@ DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以
         main()
 
 .. note::
-    上述代码在 Intel i5-10210U 1.6GHz CPU 且无GPU设备的情况下大约需要30分钟训练至默认终止点。
+    上述代码在 Intel i5-10210U 1.6GHz CPU 且无GPU设备的情况下大约需要10分钟训练至默认终止点。
     如果希望训练的时间变得更短，可以尝试更简单的 `Cartpole <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/cartpole/config/cartpole_dqn_config.py>`_ 环境。
 
 

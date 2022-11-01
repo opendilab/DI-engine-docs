@@ -204,7 +204,7 @@ Try generating an agent model yourself, maybe it will be stronger:
         main()
 
 .. note::
-    The above code takes about 30 minutes to train to the default termination point with an Intel i5-10210U 1.6GHz CPU and no GPU device. 
+    The above code takes about 10 minutes to train to the default termination point with an Intel i5-10210U 1.6GHz CPU and no GPU device. 
     If you want the training time to be shorter, try the simpler `Cartpole <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/cartpole/config/cartpole_dqn_config.py>`_  environment.
 
 
