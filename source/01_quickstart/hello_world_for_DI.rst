@@ -6,8 +6,10 @@ Hello World for DI
 
 Decision intelligence is the most important direction in the field of artificial intelligence. 
 Its general form is to use an agent to process information from an environment, give reasonable feedback and responses, and make the state of the environment changing as designer's expectations.
+For example, a autodrive car will receive information about road conditions from the environment, and give real-time autonomous driving decisions, and let the vehicle drive to the set destination.
 
 We first use the "lunarlander" environment to introduce the agent in the DI-engine and how it interacts with the environment.
+In this simulated environment, the agent needs to land the lunarlander safely and smoothly to the designated area and avoid crashing.
 
 .. image::
     images/lunarlander.gif
@@ -17,23 +19,23 @@ We first use the "lunarlander" environment to introduce the agent in the DI-engi
 Let the Agent Run
 ------------------------------
 
-An agent is essentially a mathematical model that accepts input and feeds back output. 
+An agent is an object that can interact with the environment freely, and is essentially a mathematical model that accepts input and feeds back output.
 Its model consists of a model structure and a set of model parameters.
-In the practice in the field of machine learning, we will write the model into a file for saving, or read the model from that file for deploying.
+In general, we will write the model into a file for saving, or read the model from that file for deploying.
 Here we provide an agent model trained by the DI-engine framework using the DQN algorithm:
 `final.pth.tar <https://opendilab.net/download/DI-engine-docs/01_quickstart/final.pth.tar>`_ \
-Just use the following code to make the agent run, remember to replace the model address in the function with the locally saved model file path:
+Just use the following code to make the agent run, remember to replace the model address in the function ("ckpt_path='./final.pth.tar'"), with the locally saved model file path, such as "'~/Download/final.pth.tar'":
 
 .. code-block:: python
 
-    import gym
-    import torch
-    from easydict import EasyDict
-    from ding.config import compile_config
-    from ding.envs import DingEnvWrapper
-    from ding.policy import DQNPolicy, single_env_forward_wrapper
-    from ding.model import DQN
-    from dizoo.box2d.lunarlander.config.lunarlander_dqn_config import main_config, create_config
+    import gym # Load the gym library, which is used to standardize the reinforcement learning environment
+    import torch # Load the PyTorch library for loading the Tensor model and defining the computing network
+    from easydict import EasyDict # Load EasyDict for instantiating configuration files
+    from ding.config import compile_config # Load configuration related components in DI-engine config module
+    from ding.envs import DingEnvWrapper # Load environment related components in DI-engine env module
+    from ding.policy import DQNPolicy, single_env_forward_wrapper # Load policy-related components in DI-engine policy module
+    from ding.model import DQN # Load model related components in DI-engine model module
+    from dizoo.box2d.lunarlander.config.lunarlander_dqn_config import main_config, create_config # Load DI-zoo lunarlander environment and DQN algorithm related configurations
 
 
     def main(main_config: EasyDict, create_config: EasyDict, ckpt_path: str):
@@ -59,9 +61,15 @@ Just use the following code to make the agent run, remember to replace the model
     if __name__ == "__main__":
         main(main_config=main_config, create_config=create_config, ckpt_path='./final.pth.tar')
 
-As can be seen from the code, the PyTorch object of the model can be obtained by using torch.load, and then the model can be loaded into the DQN model of DI-engine using load_state_dict.
+As shown in the codes, the PyTorch object parameters of the model can be obtained by using torch.load.
+And then the model parameters can be loaded into the DQN model of DI-engine using load_state_dict to make the model rebuilt.
 Then load the DQN model into the DQN policy, and use the forward_fn function of the evaluation mode to make the agent generate feedback action for the environmental state, obs.
 The action of the agent will interact with the environment once to generate the environment state, obs, at the next moment, the reward, rew, of this interaction, the signal, done, of whether the environment is over, and other information, info.
+
+.. note::
+    The environment state is generally a set of vectors or tensors. The reward is generally a real value. The signal whether the environment has ended is a boolean variable, yes or no. Other information is an additional message that the creator of the environment wants to pass, in any format.
+
+The reward value at all times will be accumulated as the total score of the agent in this task.
 
 .. note::
     You can see the total score of the deployed agent in the log, and you can see the replay video in the experiment folder.
@@ -74,7 +82,10 @@ The action of the agent will interact with the environment once to generate the 
 To Better Evaluate Agents
 ------------------------------
 
-In reinforcement learning, the performance of the agent may fluctuate with different initial states. 
+In various contexts of reinforcement learning, the initial states of the agents are not always exactly the same. 
+The performance of the agent may fluctuate with different initial states.
+For example, in the environment of "lunarlander", the lunar surface is different every time.
+
 Therefore, we need to set up multiple environments and run several more evaluation tests to better score it.
 DI-engine designed the environment manager env_manager to do this, we can do this with the following slightly more complex code:
 
@@ -210,5 +221,5 @@ Try generating an agent model yourself, maybe it will be stronger:
 .. note::
     DI-engine integrates the tensorboard component to record key information during the training process. You can turn it on during training, so you can see real-time updated information, such as the average total reward value recorded by the evaluator, etc.
 
-So far, you have completed the Hello World task of DI-engine, used the provided code and model, and learned how the reinforcement learning agent interacts with the environment.
+Well done! So far, you have completed the Hello World task of DI-engine, used the provided code and model, and learned how the reinforcement learning agent interacts with the environment.
 Please continue to read this document, `First Reinforcement Learning Program <../01_quickstart/first_rl_program.html>`_, to understand how the RL pipeline is built in DI-engine.

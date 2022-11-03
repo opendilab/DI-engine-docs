@@ -4,34 +4,36 @@
 .. toctree::
    :maxdepth: 2
 
-决策智能是人工智能领域最重要的方向，它的一般形式是使用一个智能体来处理来自一个环境的信息，并给出合理的反馈与响应，并让环境和智能体的状态向着设计者所期望的方向变化。
+决策智能是人工智能领域最重要的方向。它的一般形式是使用一个智能体来处理来自一个环境的信息，并给出合理的反馈与响应，并让环境和智能体的状态向着设计者所期望的方向变化。
+比如无人驾驶汽车会接收来自环境中的路况信息，并给与实时的自动驾驶决策，并让车辆驶向设定的目的地。
 
 我们首先使用"月球着陆器"这个环境来介绍 DI-engine 中的智能体，以及它是如何与环境交互的。
+在这个模拟环境里，智能体需要将着陆器安全平稳地降落至指定区域并避免坠毁。
 
 .. image::
     images/lunarlander.gif
     :width: 1000
     :align: center
 
-让智能体运行起来
+想让你的智能体动起来吗？
 --------------
 
-智能体本质上是一个接受输入，反馈输出的数学模型。它的模型由一个模型结构和一组模型参数构成。
-在机器学习领域的实践中，我们会把模型写入存放在一个文件中，或是从一个文件中读出所需要的智能体模型。
+智能体形式上是一个可以与环境自由互动的对象，其本质上是一个接受输入，反馈输出的数学模型。它的模型由一个模型结构和一组模型参数构成。
+通常，我们会把模型写入存放在一个文件中，或是从一个文件中读出所需要的智能体模型。
 这里我们提供了一个由 DI-engine 框架使用 DQN 算法训练的智能体模型：
 `final.pth.tar <https://opendilab.net/download/DI-engine-docs/01_quickstart/final.pth.tar>`_ \
-只需要使用以下的代码，就可以让智能体动起来，记得要把函数中的模型地址换成本地保存的地址：
+只需要使用以下的代码，就可以让智能体动起来，记得要把函数中的模型地址（"ckpt_path='./final.pth.tar'"）换成本地保存的地址（例如 '~/Download/final.pth.tar'）
 
 .. code-block:: python
 
-    import gym
-    import torch
-    from easydict import EasyDict
-    from ding.config import compile_config
-    from ding.envs import DingEnvWrapper
-    from ding.policy import DQNPolicy, single_env_forward_wrapper
-    from ding.model import DQN
-    from dizoo.box2d.lunarlander.config.lunarlander_dqn_config import main_config, create_config
+    import gym # 载入 gym 库，用于标准化强化学习环境
+    import torch # 载入 PyTorch 库，用于加载 Tensor 模型，定义计算网络
+    from easydict import EasyDict # 载入 EasyDict，用于实例化配置文件
+    from ding.config import compile_config # 载入DI-engine config 中配置相关组件
+    from ding.envs import DingEnvWrapper # 载入DI-engine env 中环境相关组件
+    from ding.policy import DQNPolicy, single_env_forward_wrapper # 载入DI-engine policy 中策略相关组件
+    from ding.model import DQN # 载入DI-engine model 中模型相关组件
+    from dizoo.box2d.lunarlander.config.lunarlander_dqn_config import main_config, create_config # 载入DI-zoo lunarlander 环境与 DQN 算法相关配置
 
 
     def main(main_config: EasyDict, create_config: EasyDict, ckpt_path: str):
@@ -58,9 +60,14 @@
         main(main_config=main_config, create_config=create_config, ckpt_path='./final.pth.tar')
 
 
-从代码中可见，通过使用 torch.load 可以获得模型的 PyTorch 对象，然后使用 load_state_dict 即可将模型加载至 DI-engine 的 DQN 模型中。
+示例的代码里，通过使用 torch.load 可以获得模型的 PyTorch 对象的参数。
+然后使用 load_state_dict 即可将模型加载至 DI-engine 的 DQN 模型中，这样就可以完整地恢复该模型。
 然后将 DQN 模型加载到 DQN 策略中，使用评价模式的 forward_fn 函数，即可让智能体对环境状态 obs 产生反馈的动作 action 。
-智能体的动作 action 会和环境进行一次交互，生成下一个时刻的环境状态 obs ，此次交互的奖励 rew ，环境是否结束的信号 done 以及其他信息 info 。
+智能体的动作 action 会和环境进行一次互动，生成下一个时刻的环境状态 obs (observation) ，此次交互的奖励 rew (reward)，环境是否结束的信号 done 以及其他信息 info (information) 。
+
+.. note::
+    环境状态一般是一组向量或张量。奖励值一般是一个实数数值。环境是否结束的信号是一个布尔变量，是或否。其他信息则是环境的创建者想要额外传递的消息，格式不限。
+
 所有时刻的奖励值会被累加，作为本次智能体在这个任务中的总分。
 
 .. note::
@@ -69,7 +76,10 @@
 更好地评估智能体
 ------------------------
 
-在强化学习中，智能体的成绩可能会随不同的初始状态而发生波动。因此，我们需要开设多个环境，从而多进行几次评估测试，来更好地为它打分。
+在强化学习的各种环境中，智能体的初始状态并不总是完全相同。而智能体的成绩可能会随不同的初始状态而发生波动。
+因此，我们需要开设多个环境，从而多进行几次评估测试，来更好地为它打分。
+比如在"月球着陆器"这个环境里，每一次的月球地貌都不相同。
+
 DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以使用以下稍微更复杂一些的代码来做到这一点：
 
 .. code-block:: python
@@ -210,5 +220,5 @@ DI-engine 设计了环境管理器 env_manager 来做到这一点，我们可以
 .. note::
     DI-engine 集成了 tensorboard 组件，用于记录训练过程中的关键信息。你可以在训练时开启它，这样你就可以看到实时更新的信息，比如评估器记录的平均总奖励值等等。
 
-至此您已经完成了 DI-engine 的 Hello World 任务，使用了提供的代码和模型，学习了强化学习的智能体与环境是如何交互的。
+做的不错！至此您已经完成了 DI-engine 的 Hello World 任务，使用了提供的代码和模型，学习了强化学习的智能体与环境是如何交互的。
 请继续阅读文档， `第一个强化学习程序 <../01_quickstart/first_rl_program_zh.html>`_ ， 来了解 DI-engine 的强化学习算法的生产框架是如何搭建的。
