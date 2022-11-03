@@ -3,7 +3,7 @@ Specifications of DI-engine Config
 
 In order to ensure the ease of use, readability, and scalability of config, the config submitted by developers needs to comply with the following specifications.
 
-The config of DI-engine consists of two parts: main_config and create_config. ?
+The config of DI-engine consists of two parts: main_config and create_config. 
 
 Example Link
 --------------
