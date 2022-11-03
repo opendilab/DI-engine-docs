@@ -32,22 +32,19 @@ Specification of naming
       The name of the X_config.py and related variable names in the config file do not need to add the default field. For example, the config file name hopper_onppo_default_config.py should be changed into hopper_onppo_config.py.
 
    -  Similarly
-      For ICM algorithm,the general algorithm is the module proposed in the paper combined with a baseline algorithm,its corresponding config name should be named as <env_name>\_<module_name>\_<baseline_name>\_config.py
+      For algorithms like ICM, the full algorithm is the module proposed in the paper combined with a baseline algorithm, its corresponding config name should be named as <env_name>_<module_name>_<baseline_name>_config.py, e.g. cartpole_icm_offppo_config.py
       ,such as cartpole_icm_offppo_config.py
 
-   -  If the algorithm has verious versions of on-policy and off-policy ,please unify the name of config.py file and related varible names in the file,and use of onppo/offppo to distinguish on-policy and off-policy versions of the algorithm. For example,for the config of the PPO algorithm,
-      hopper_ppo_config.py should be changed to hopper_onppo_config.py。
+   -  If the algorithm has verious versions including on-policy and off-policy, please unify the related name in X_config.py file name and related varible names in the file, and use onppo/offppo to distinguish on-policy and off-policy versions of the algorithm. For example, for the config of the on policy PPO algorithm, hopper_ppo_config.py should be changed to hopper_onppo_config.py.
 
 -  exp_name field
 
    -  main_config must include exp_name filed
 
-   -  The naming convention is environemnt+algorithm+seed,such as \ ``qbert_sqil_seed0``
-
+   -  The naming format is <environemnt>_<algorithm>_seed0, e.g. qbert_sqil_seed0
 -  Name of the file path
 
-   -  See the sqil example, commented accordingly.If multiple models need to be loaded, the model path (model_path) variable is named as follows：prefix1_model_path,prefix2_model_path,...,
-      varibles of data_path are named in same way.
+   -  Please refer to the sqil example, commented accordingly. If multiple models need to be loaded, the model path variable is named as follows：prefix1_model_path, prefix2_model_path, .... The varibles of data_path are named in same way.
 
 .. code:: python
 
@@ -66,9 +63,8 @@ Specification of naming
 Main Specification
 ~~~~~~~~~~~~~~~~~~~~
 
--  For env_manager field in create_config, except for simple environments 
-   cartpole, pendulum, bitflip 
-   environment uses base, other environments normally use subprocess：
+-  For env_manager field in create_config, except for some simple environments such as cartpole, pendulum, bitflip
+we set it as base, for other environments, we seet env_manager as subprocess：
 
    .. code:: python
 
@@ -77,12 +73,11 @@ Main Specification
 -  Ensure evaluator_env_num：n_evaluator_episode = 1:1 （expect smac environment）
 
 -  manager field shoudl generally not be included in the env field of main_config
-   (shared_memory defaults to True when the manager field is not included)：
+(shared_memory defaults to True when the manager field is not included)：
 
-   -  smac environment is an exception,due to the state dimension problem,smac needs to set shared_memory=Fasle。
+   -  smac environment is an exception,due to the state dimension problem,smac needs to set shared_memory=Fasle.
 
-   -  In environments other than the smac environment, if an error is reported due to the state dimension problem,you can include manager field and set  shared
-      memory=False。
+   -  In environments other than the SMAC environment, if an error is reported due to the state dimension problem, you can include manager field and set shared_memory=False.
 
 -  If you want to turn on/off shared memory, please control it in env.manager filed
 
@@ -99,7 +94,7 @@ Main Specification
 
 -  create config
 
-   -  in env field,only ``type`` 和 ``import_names``\ two fields,
+   -  iin env field, we have two fields: type and import_names :
       Such as：
 
    .. code:: python
@@ -109,7 +104,7 @@ Main Specification
           import_names=['dizoo.atari.envs.atari_env'],
       ),
 
-   -  nnormally field \ ``replay_buffer``\ is unnecessary。If you want to use the buffer stored as deque，please specify the type of replay_buffer：
+   -  Generally speaking, the field replay_buffer is unnecessary. But if you want to use the buffer stored as deque，you can specify the type of replay_buffer in following way：
 
       .. code::
 
@@ -124,7 +119,7 @@ Main Specification
       to unify the style,If an algorithm needs to call other config,this convention can be waived。Such as imitation
       learning algorithm needs to introduce expert config, see the example of sqil for details。
 
-   -  Every config must have a starting command,and it's format should as below
+   -  Each config must have a startup command written in a format similar to the following:
 
       .. code:: python
 
@@ -133,8 +128,8 @@ Main Specification
              from ding.entry import serial_pipeline
              serial_pipeline([main_config, create_config], seed=0)
 
-      -  Remember \ ``from ding.entry import serial_pipeline``\ this line should not as the head of the file,
-         please note it at \ ``if ___name___ == "___main___":``\ below.
+      -  Remember this line from ding.entry import serial_pipeline should not as the head of the file,
+but put it below if ___name___ == "___main___"::
 
    -  If the algorithm use different serial_pipeline_X,
       you need to add corresponding starting command ``serial_X``\ in \ https://github.com/opendilab/DI-engine/blob/5d2beed4a8a07fb70599d910c6d53cf5157b133b/ding/entry/cli.py#L189\ .
@@ -147,7 +142,6 @@ Main Specification
 
       alpha=0.1,  # alpha: 0.08-0.12
 
--  Please make sure all parameters in config are valid ,unused keys should be deleted.
+-  Please make sure all parameters in config are valid, unused redundant parameters should be deleted.
 
--  Normally TODO is not include in config, if it is really necessary to write into config,please mark the content clearly,such as：TODO(name):
-   xxx.
+-  TODO is usually not included in the config, if you do need to write the TODO term, please clearly indicate the developer and content, e.g. TODO(name): xxx.
