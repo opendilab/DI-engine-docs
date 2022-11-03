@@ -1,19 +1,18 @@
 Specifications of DI-engine Config
 ==================================
 
-To ensure the ease of use, readability, and extensibility of the config，config submitted by the developers should comply with the following specifications.
+In order to ensure the ease of use, readability, and scalability of config, the config submitted by developers needs to comply with the following specifications.
 
-Config of DI-engine includes two divisions：main_config and create_config.
+The config of DI-engine consists of two parts: main_config and create_config. ?
 
 Example Link
 --------------
 
-Example of Deep Q-Network （DQN）：
+Example of Deep Q-Network (DQN)：
 
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_dqn_config.py
 
-Example of SQIL with model or data:
-
+Example config for algorithms with model or data, e.g. SQIL:
 https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_sqil_config.py
 
 Details of the specification
@@ -22,15 +21,15 @@ Details of the specification
 Specification of Grammar
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
--  config should satisfy flake8 python syntax checking and yapf formatting.
+-  config needs to pass python's flake8 syntax check and execute yapf formatting.
 
 Specification of naming 
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
--  file name： config.py,related variable name：main_config and create_config
+-  The file name of X_config.py, related variable name in main_config and create_config
 
-   -  Uniformly named after <env_name>\_<algo_name>\_config.py
-      .The name of the file and related variable names in the file do not need to add the default field. For instance file name hopper_onppo_default_config.py should be changed into hopper_onppo_config.py。
+   -  X_config.py is uniformly named in the format of <environment_name>_<algorithm_name>_config.py.
+      The name of the X_config.py and related variable names in the config file do not need to add the default field. For example, the config file name hopper_onppo_default_config.py should be changed into hopper_onppo_config.py.
 
    -  Similarly
       For ICM algorithm,the general algorithm is the module proposed in the paper combined with a baseline algorithm,its corresponding config name should be named as <env_name>\_<module_name>\_<baseline_name>\_config.py
