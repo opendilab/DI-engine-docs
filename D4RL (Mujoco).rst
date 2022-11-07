@@ -250,7 +250,7 @@ After the environment is created and before it is reset, the \ ``enable_save_rep
            print('Episode is over, final eval reward is: {}'.format(timestep.info['final_eval_reward']))
            break
 
-DI-ZOO RUNNABLE CODE EXAMPLE
+DI-zoo Runnable Code Example
 =================================
 
 The complete training profile is available in `github link <https://github.com/opendilab/DI-engine/tree/main/dizoo/d4rl/config>`__
@@ -331,7 +331,7 @@ The complete training profile is available in `github link <https://github.com/o
 Note: For offline RL algorithms, such as TD3_bc, CQL, you need to use a special entry function, the example can be referred to
 `link <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/entry/d4rl_cql_main.py>`__ 
 
-BENCHMARK ALGORITHM PERFORMANCE
+Benchmark Algorithm Performance
 =================================
 
 -  Walker2d
