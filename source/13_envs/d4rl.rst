@@ -34,7 +34,6 @@ The picture below shows one of the Hopper games.
 
 .. image:: ../images/d4rl.gif
    :align: center
-   :scale: 60%
 
 Installation
 ==============
