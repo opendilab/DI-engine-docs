@@ -32,7 +32,7 @@ Each subenvironment contains 5 smaller subenvironments.
 
 The picture below shows one of the Hopper games.
 
-.. image:: ./images/d4rl.gif
+.. image:: ../images/d4rl.gif
    :align: center
    :scale: 60%
 
