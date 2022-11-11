@@ -1,8 +1,7 @@
-为什么需要自定义 Env Wrapper
+为什么需要 Env Wrapper
 ------------------------------------------------------
-
-总的来说 Env Wrapper (包裹器) 的本质是向原始环境添加某些通用的附加功能。
-在训练智能体时，我们经常需要改变环境的定义以追求更好的训练效果， 而这些处理技巧也具备一定的普适性。例如，对于一些环境，归一化观测状态是非常常见的预处理方式。这样处理会让训练更快并且更加稳定。 如果我们将这个共同的部分提取出来，并将这个预处理放在环境包裹器（Env Wrapper）中，这样就避免了重复的开发。即如果我们以后想修改观测状态归一化的方式，我们只需要在这个环境包裹器进行更改即可。
+环境模块是强化学习领域中最重要的模块之一。 我们在这些环境中训练我们的智能体，让他们在这些环境中探索和学习。强化学习中除了一些基准环境，例如 atari，mujoco 外，还可能包括各种各样自定义的环境。总的来说 Env Wrapper (包裹器) 的本质就是向我们自定义的环境中添加某些通用的附加功能。
+比如说：在训练智能体时，我们经常需要改变环境的定义以追求更好的训练效果， 而这些处理技巧也具备一定的普适性。如对于一些环境，归一化观测状态是非常常见的预处理方式。这样处理会让训练更快并且更加稳定。 如果我们将这个共同的部分提取出来，并将这个预处理放在环境包裹器（Env Wrapper）中，这样就避免了重复的开发。即如果我们以后想修改观测状态归一化的方式，我们只需要在这个环境包裹器进行更改即可。
 
 因此，如果原始的环境不能完美地适配我们的需求，我们就需要往其中添加相应的功能模块，来对原始环境的功能进行扩充，使得用户能够方便地对环境的输入和输出进行操作或适配。而 Env Wrapper 正是添加功能的一种简明实现方案。
 
@@ -10,7 +9,7 @@
 我们提供的 Env Wrapper
 ==============================================
 
-DI-engine 提供了大量已经定义好的、通用的 Env Wrapper，用户可以根据自己的需求直接包裹在需要使用的环境之上。在实现时，我们借鉴了 `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，总共包括以下几种:
+DI-engine 提供了大量已经定义好的、通用的 Env Wrapper，用户可以根据自己的需求直接包裹在需要使用的环境之上。在实现时，我们借鉴了 `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，并且依然遵循 gym.Wrapper 的格式 `Gym.Wrapper <https://www.gymlibrary.dev/api/wrappers/>`_ ，总共包括以下几种:
 
 - NoopResetEnv：为环境添加重置方法。在一些无操作（no-operations）后重置环境.
 
@@ -38,9 +37,9 @@ DI-engine 提供了大量已经定义好的、通用的 Env Wrapper，用户可�
 
 - FireResetEnv：  在环境重置时采取 ``fire`` 行动。 相关的讨论查阅 `这里 <https://github.com/openai/baselines/issues/240>`_
 
-- update_shape： 这是一个有助于在应用 env wrapper 后识别观测状态、动作和奖励的形状的函数。
+Tip: update_shape： 这是一个有助于在应用 env wrapper 后识别观测状态、动作和奖励的形状的函数。
 
-给环境包裹上 Env Wrapper
+如何使用 Env Wrapper
 ------------------------------------
 下一个问题是我们如何给环境包裹上 Env Wrapper。最简单的一种方法就是手动地显式对环境进行包裹：
 
@@ -50,7 +49,7 @@ DI-engine 提供了大量已经定义好的、通用的 Env Wrapper，用户可�
     env.NoopResetEnv(env, noop_max = 30)
     env = MaxAndSkipEnv(env, skip = 4)
 
-如果需要对某一个环境同时添加多个包裹器，还可以使用这样的方法：
+如果需要将 gym 格式的环境转化为 DI-engine 的环境格式，并使用相应的多个 Env Wrapper，可以按照如下所示的方法：
 
 .. code:: python
 
@@ -65,10 +64,10 @@ DI-engine 提供了大量已经定义好的、通用的 Env Wrapper，用户可�
         }
     )
 
-特别需要说明的是，列表里的 Env Wrapper 是按照顺序包裹在环境外的。如在上面这个例子中，环境先是包裹了一层 MaxAndSkipWrapper ，再包裹了一层 ScaledFloatFrameWrapper。
+特别需要说明的是，列表里的 Env Wrapper 是按照顺序包裹在环境外的。如在上面这个例子中，环境先是包裹了一层 MaxAndSkipWrapper ，再包裹了一层 ScaledFloatFrameWrapper。同时 Env Wrapper 的作用是添加功能，但不改变原有的功能。
 
 
-Env Wrapper 结构举例
+如何自定义 Env Wrapper （举例）
 -----------------------------------------
 以 ObsNormEnv wrapper 为例。为了归一化观测状态，我们只需要改变原始环境类中的两个方法：step方法和 reset方法，其余方法保持不变。
 注意有些时候, 由于观测状态经过归一化后的界限改变了，info 也需要做相应的修改。 另请注意，ObsNormEnv wrapper 的本质是向原始环境添加附加功能，这正是包装器的含义. \
@@ -113,7 +112,7 @@ ObsNormEnv的结构如下：
 - ``reset``: 重置环境状态并重置 ``data_count``, ``running mean/std``。
 
 
-如果需要添加的功能不在我们提供的 Env Wrapper 中，用户也可以按照上面介绍的例子自定义满足需求的包裹器。
+如果需要添加的功能不在我们提供的 Env Wrapper 中，用户也可以按照上面介绍的例子按照例子 + 参考 gym 中关于 Wrapper 的 `相关文档 <https://www.gymlibrary.dev/api/wrappers/>`_，自定义满足需求的包裹器。
 
-更多关于 env wrapper 的信息，可以查看该链接
+更多关于 env wrapper 的具体实现细节，可以查看该链接
 ``ding/envs/env_wrappers/env_wrappers.py``
