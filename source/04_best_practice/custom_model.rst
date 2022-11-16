@@ -40,7 +40,7 @@ Step-by-step guide to customizing a model
 1. Choose your environment and policy
 +++++++++++++++++++++++++++++++++++++
 
--  For the purpose of this guide, let the choice of environment and policy to be the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\ (a wrapper for the Deep Mind Control Suite). (For details, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ documentation)
+-  For the purpose of this guide, let the choice of environment and policy to be the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\ (a wrapper for the Deep Mind Control Suite). (For details, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\  documentation)
 
 2. Check to see if the policy's default_model is suitable
 ++++++++++++++++++++++++++++++++++++++++++
