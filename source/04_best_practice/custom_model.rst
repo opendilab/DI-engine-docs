@@ -30,7 +30,7 @@ When using the configuration file ``cfg.policy.model``, DI-engine will correspon
 How to customize the neural network model
 ----------------------------------
 
-It is often the case that the \ ``default_model``\ chosen in a DI-engine \ ``policy``\  is not suitable for one's task at hand. Take for example the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\  (a wrapper for the Deep Mind Control Suite). Note the default values for observation is  \ ``pixel``\, while \ ``obs_shape = (3, height, width)``\  (For setting \ ``from_pixel = True, channels_first = True``\, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\  documentation for details)
+It is often the case that the \ ``default_model``\ chosen in a DI-engine \ ``policy``\  is not suitable for one's task at hand. Take for example the use of \ ``sac``\  on the \ ``cartpole-swingup``\  task of \ ``dmc2gym``\  (a wrapper for the Deep Mind Control Suite). Note the default values for observation is  \ ``pixel``\, while \ ``obs_shape = (3, height, width)``\  (For setting \ ``from_pixel = True, channels_first = True``\, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\  documentation for details)
 
 If one were to look at the source code of \ `sac <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\, it can be seen that the \ ``default_model``\  is actually \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\. The \ ``qac model``\  currently only supports an \ ``obs_shape``\  of one dimensoin (e.g. (4, )). Hence, it becomes apparent that one must customize a model according to one's needs and ensure that the policy is setup accordingly.
 
@@ -40,7 +40,7 @@ Step-by-step guide to customizing a model
 1. Choose your environment and policy
 +++++++++++++++++++++++++++++++++++++
 
--  For the purpose of this guide, let the choice of environment and policy to be the use of \ ``sac``\ on the \ ``cartpole-swingup``\  task of \ ``dmc2gym``\  (a wrapper for the Deep Mind Control Suite). (For details, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\  documentation)
+-  For the purpose of this guide, let the choice of environment and policy to be the use of \ ``sac``\  on the \ ``cartpole-swingup``\  task of \ ``dmc2gym``\  (a wrapper for the Deep Mind Control Suite). (For details, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\  documentation)
 
 2. Check to see if the policy's default_model is suitable
 ++++++++++++++++++++++++++++++++++++++++++
@@ -75,7 +75,7 @@ Using the default_model as a guide and reference when crafting the custom_model:
 
 One can also reference the \ ``encoder``\  implementation of \ ``encoder.py``\  and \ ``head``\  implementation of \ ``head.py``\. See \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
 
--   The \ ``encoder``\  is used to encode inputs such as \ ``obs``\ , \ ``action``\ etc. for subsequent processing. DI-engine have thus far implemented the following encoders:
+-   The \ ``encoder``\  is used to encode inputs such as \ ``obs``\ , \ ``action``\  etc. for subsequent processing. DI-engine have thus far implemented the following encoders:
 
 +-----------------------+-------------------------------------+
 |encoder                |usage                                |
@@ -216,7 +216,7 @@ From here, one will customize the model required specifically for the sac+dmc2gy
 
 -  In general, when writing unit tests, one would need to first manually construct the \ ``obs``\  and \ ``action``\  inputs, define the model and verify that output dimensions and type are correct. Following that, if the model contains a neural network, it is also necessary to verify that the model is differentiable.
 
-Take for example the unit test written for our new model \ ``QACPixel``\. We first construct \ ``obs``\ with a shape of \ ``(B, channel, height, width)``\ (where B = batch_size) and we construct \ ``action``\  with a shape of \ ``(B, action_shape)``\. Then we define the model \ ``QACPixel``\ and obtain and pass along the corresponding outputs of its \ ``actor``\  and \ ``critic``\. Finally, we make sure that the shape sizes of \ ``q, mu, sigma``\  are correct and that \ ``actor``\  and \ ``critic``\  is differentiable.
+Take for example the unit test written for our new model \ ``QACPixel``\. We first construct \ ``obs``\ with a shape of  \ ``(B, channel, height, width)``\  (where B = batch_size) and we construct \ ``action``\  with a shape of \ ``(B, action_shape)``\. Then we define the model \ ``QACPixel``\  and obtain and pass along the corresponding outputs of its \ ``actor``\  and \ ``critic``\. Finally, we make sure that the shape sizes of \ ``q, mu, sigma``\  are correct and that \ ``actor``\  and \ ``critic``\  is differentiable.
 
 .. code:: python
 
