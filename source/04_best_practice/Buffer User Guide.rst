@@ -1,7 +1,7 @@
 Buffer User Guide
 ===============================
 
-Buffer getting started
+Buffer Getting Started
 -------------------------------
 
 **Basic concepts of Buffer**
