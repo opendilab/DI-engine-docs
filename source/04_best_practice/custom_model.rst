@@ -53,7 +53,7 @@ It is often the case that the \ ``default_model``\ chosen in a DI-engine \ ``pol
 而此时查阅 \ `sac 源码 <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ 可知 \ ``default_model``\ 为 \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\ ，
 \ ``qac model``\ 中暂时只支持 \ ``obs_shape``\ 为一维的情况，此时我们即可根据需求自定义 model 并应用到 policy。
 
-If one were to look at the source code of \ `sac <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\, it can be seen that the \ ``default_model``\ is actually \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\. The \ ``qac model``\ currently only supports an \ ``obs_shape``\ of 1 only. Hence, it becomes apparent that one must customize a model according to one's needs and ensure that the policy is setup accordingly.
+If one were to look at the source code of \ `sac <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\, it can be seen that the \ ``default_model``\ is actually \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\. The \ ``qac model``\ currently only supports an \ ``obs_shape``\ of one dimensoin (e.g. (4, )). Hence, it becomes apparent that one must customize a model according to one's needs and ensure that the policy is setup accordingly.
 
 自定义 model 基本步骤
 
