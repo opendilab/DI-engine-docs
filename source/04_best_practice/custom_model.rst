@@ -276,7 +276,7 @@ How to make use of a customized model
 
 将定义好的 model 作为参数传入 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ , 
 传入的 model 将在 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L59>`__\ 
-通过 \ ``create_policy``\  被调用。或者跟上述新 pipeline 一样，作为参数传入 policy 。
+通过 \ ``create_policy``\  被调用。
 
 Pass the defined model into \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ as a argument. The model will then be passed on to \ ``create_policy``\. 
 
