@@ -1,20 +1,13 @@
-如何自定义神经网络模型（model）
-
 How to customize the neural network model
 
 =================================================
-在强化学习中，我们需要根据决策问题类型和使用的策略（Policy）来选择相应的神经网络。而在 DI-engine 中，Policy 使用的神经网络可以通过配置文件中的 ``cfg.policy.model`` 来自动生成，
-也可由用户自定义实例化相应的神经网络，作为参数传入 Policy 中。而在接下来的部分，我们将会详细展开每种使用方式具体的接口和原理。
 
 In using reinforcement learning methods, one would have to choose an appropriate neural networks depending on the nature of the decision problem and the policy that is used. In the context of the DI-engine framework, a user can do so in 2 primary ways. The first way involves a user making use of the configuration file ``cfg.policy.model`` to automatically generate the desired neural network. The second way gives the user more control by allowing the desired neural network (instantiated as an object) to be passed direcly into the policy.
 
 The purpose of this guide is to explain the details with regards to these 2 primary ways of choosing the appropriate neural network and as well as the principles behind them. 
 
-Policy 默认使用的模型是什么
 Default model used in a policy 
 ----------------------------------
-
-DI-engine 中已经实现的 policy，默认使用 ``default_model`` 方法中表明的神经网络模型，例如在 SACPolicy 中：
 
 For a policy implemented in DI-engine, the ``default_model`` method contains the details of the default neural network model that was implemented. Take for example SACPolicy:
 
@@ -31,51 +24,27 @@ For a policy implemented in DI-engine, the ``default_model`` method contains the
                 return 'qac', ['ding.model.template.qac']
     ...
 
-此处return的 \ ``'maqac_continuous', ['ding.model.template.maqac']``\ ，前者是模型在注册器中注册的名字，后者是模型所处的文件路径。
-
 Observe here that the method either returns \ ``'maqac_continuous', ['ding.model.template.maqac']``\ or \ ``'qac', ['ding.model.template.qac']``\. In both cases, the first item in the return tuple is the name registered with DI-engine's model registry mechanism. The second item gives an indication of the file path of where the model file is located.
 
-在使用配置文件时，DI-engine 封装好的入口文件将会把 ``cfg.policy.model`` 中的参数，逐个传给默认注册好的模型类（例如把 ``obs_shape``, ``action_shape`` 等参数传给 
-`QAC <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py#L13>`_ ），模型类中根据传入参数自动生成所需的神经网络（例如为向量输入使用全连接层（FC）而为图像输入使用卷积（Conv））。
-
 When using the configuration file ``cfg.policy.model``, DI-engine will correspondingly pass each argument into the model registered with DI-engine's registry mechanism. (For example, argument ``obs_shape``, ``action_shape`` etc will be passed into `QAC <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py#L13>`_ ). The required neural network is then automatically generated in the model class based on the incoming parameters (e.g. a fully connected layer (FC) for vector input and a convolution (Conv) for image input).
-
-如何自定义神经网络模型
 
 How to customize the neural network model
 ----------------------------------
 
-但很多时候 DI-engine 中实现的 \ ``policy``\ 中的  \ ``default_model``\ 不适用自己的任务，例如这里想要在 \ ``dmc2gym``\ 环境 \ ``cartpole-swingup``\  任务下应用 \ ``sac``\ 算法，且环境 observation 为  \ ``pixel``\ ，
-即 \ ``obs_shape = (3, height, width)``\ （如果设置 \ ``from_pixel = True, channels_first = True``\ ，详情见  \ `dmc2gym 环境文档 <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ ） 
-
 It is often the case that the \ ``default_model``\ chosen in a DI-engine \ ``policy``\ is not suitable for one's task at hand. Take for example the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\ (a wrapper for the Deep Mind Control Suite). Note the default values for observation is  \ ``pixel``\, while \ ``obs_shape = (3, height, width)``\ (For settings \ ``from_pixel = True, channels_first = True``\, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ documentation for details)
 
-而此时查阅 \ `sac 源码 <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ 可知 \ ``default_model``\ 为 \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\ ，
-\ ``qac model``\ 中暂时只支持 \ ``obs_shape``\ 为一维的情况，此时我们即可根据需求自定义 model 并应用到 policy。
-
 If one were to look at the source code of \ `sac <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\, it can be seen that the \ ``default_model``\ is actually \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\. The \ ``qac model``\ currently only supports an \ ``obs_shape``\ of one dimensoin (e.g. (4, )). Hence, it becomes apparent that one must customize a model according to one's needs and ensure that the policy is setup accordingly.
-
-自定义 model 基本步骤
 
 Step-by-step guide to customizing a model
 ----------------------------------
 
-1. 明确 env, policy
-
-Choose your environment and policy
+1. Choose your environment and policy
 +++++++++++++++++++++++++++++++++++++
-
--  比如这里选定 \ ``dmc2gym``\ 环境 \ ``cartpole-swingup``\  任务，且设置 \ ``from_pixel = True, channels_first = True``\ （详情见  \ `dmc2gym 环境文档 <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ ） 
-   ，即此时观察空间为图像 \ ``obs_shape = (3, height, width)``\ ，并选择 \ ``sac``\ 算法进行学习。
 
 -  For the purpose of this guide, let the choice of environment and policy to be the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\ (a wrapper for the Deep Mind Control Suite). (For details, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\ documentation)
 
-2. 查阅 policy 中的 default_model 是否适用
-
-Check to see if the policy's default_model is suitable
+2. Check to see if the policy's default_model is suitable
 ++++++++++++++++++++++++++++++++++++++++++
-
--  此时根据\ `policy-default_model 链接 <https://xxx>`__\ 或者直接查阅源码 \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ ，找到 SAC 的  \ ``default_model``\：
 
 -  This can be done in 1 of 2 ways. One either look up the documentation at \ `policy-default_model 链接 <https://xxx>`__\ or read the source code of \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ and find out what is being used in the \ ``default_model``\ method. 
 
@@ -92,24 +61,12 @@ Check to see if the policy's default_model is suitable
                 return 'qac', ['ding.model.template.qac']
     ...
 
--  进一步查看  \ `ding/model/template/qac:QAC <https://github.com/opendilab/DI-engine/blob/69db77e2e54a0fba95d83c9411c6b11cd25beae9/ding/model/template/qac.py#L40>`__\ ，
-   发现 DI-engine 中实现的 \ ``qac model``\ 暂时只支持 \ ``obs_shape``\ 为一维的情况，但是此时环境的观察空间为图像 \ ``obs_shape = (3, height, width)``\ ，
-   因此我们需要根据需求自定义 model 并应用到 policy。
-
 -  Now that we see QAC is being used here, we can then further read up \ `ding/model/template/qac:QAC <https://github.com/opendilab/DI-engine/blob/69db77e2e54a0fba95d83c9411c6b11cd25beae9/ding/model/template/qac.py#L40>`__\. The \ ``qac model``\ implemented in DI-engine currently only supports \ ``obs_shape``\ of 1. However, the observation space of the task chosen is an image of \ ``obs_shape = (3, height, width)``\
 
 Hence, we will need to do some customization.
 
-3. custom_model 实现
-
-Customizing the model
+3. Customizing the model
 +++++++++++++++++++++++++++++++++++++
-
-根据已有的 defaul_model 来决定 custom_model 所需实现的功能:
-
--  需要实现原 default model 中所有的 public 方法
-  
--  保证返回值的类型的原 default model 一致
 
 Using the default_model as a guide and reference when crafting the custom_model:
 
@@ -117,67 +74,46 @@ Using the default_model as a guide and reference when crafting the custom_model:
 
 -  Ensure that the type of return in custom_model is the same as the default_model.
 
-具体实现可利用 \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\ 下 \ ``encoder.py``\ / \ ``head.py``\ 已实现的 \ ``encoder``\ 和 \ ``head``\ 
-
 One can also reference the \ ``encoder``\ implementation of \ ``encoder.py``\ and \ ``head``\ implementation of / \ ``head.py``\. See \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
-
--  \ ``encoder``\ 用于对输入的 \ ``obs``\ 或者 \ ``action``\ 等进行编码，便于进行后续处理， DI-engine 中已实现的 encoder 如下：
 
 -   The \ ``encoder``\ is used to encode inputs such as \ ``obs``\ , \ ``action``\ etc. for subsequent processing. DI-engine have thus far implemented the following encoders:
 
 +-----------------------+-------------------------------------+
 |encoder                |usage                                |
 +=======================+=====================================+
-|ConvEncoder            |处理图像obs输入                      |
+|ConvEncoder            |For encoding image inputs            |
 +-----------------------+-------------------------------------+
-|FCEncoder              |处理一维obs输入                      |                
+|FCEncoder              |For encoding one dimensional inputs  |                
 +-----------------------+-------------------------------------+
 |StructEncoder          |                                     |
 +-----------------------+-------------------------------------+
-For encoding image inputs
-For encoding one dimensional inputs
-
--  \ ``head``\ 用于对已经编码的数据进行相应处理，输出 policy 所需信息或者辅助 RL 过程， DI-engine 中已实现的 head ：
 
 -  The \ ``head``\ is used to process the encoded inputs and outputs data required by the policy or the overall RL process. DI-engine have thus far implemented the following heads:
 
 +-----------------------+-------------------------------------+
-|head                   |usage                                |
+|head                   |usage                                 |
 +=======================+=====================================+
-|DiscreteHead           |输出离散动作值                       |
+|DiscreteHead           |Output discrete action value         |
 +-----------------------+-------------------------------------+
-|DistributionHead       |输出 Q 值分布                        |
+|DistributionHead       |Output Q value distribution          |
 +-----------------------+-------------------------------------+
-|RainbowHead            |输出 Q 值分布                        |
+|RainbowHead            |Output Q value distribution          |
 +-----------------------+-------------------------------------+
-|QRDQNHead              | 分位数回归预测连续动作值            |
-|                       |（Quantile Regression DQN）       |
+|QRDQNHead              | Quantile regression                 |
+|                       | continuous action value             |
 +-----------------------+-------------------------------------+
-|QuantileHead           |用于输出动作分位数                   |
+|QuantileHead           |Output action quantiles              |
 +-----------------------+-------------------------------------+
-|DuelingHead            |用于输出离散动作的 logit             |
+|DuelingHead            |Output discrete action value logits  |
 +-----------------------+-------------------------------------+
-|RegressionHead         |用于输出动作 Q 值                    |
+|RegressionHead         |Output continuous action Q values    |
 +-----------------------+-------------------------------------+
-|ReparameterizationHead |用于输出动作 mu 和 sigma             |
+|ReparameterizationHead |Output action mu and sigma           |
 +-----------------------+-------------------------------------+
-|MultiHead              |处理动作空间为多维的情况             |
+|MultiHead              |Handle multi-dimensional action space|
 +-----------------------+-------------------------------------+
-Output discrete action value
-Output Q value distribution
-Output Q value distribution
-Quantile regression continuous action value
-Output action quantiles
-Output discrete action value logits
-Output continuous action Q values
-Output action mu and sigma
-Handle multi-dimensional action spaces
-
-例如这里需要自定义针对 sac+dmc2gym+cartpole-swingup 任务的 model ，我们把新的 custom_model 实现为 \ ``QACPixel``\  类
 
 From here, one will customize the model required specifically for the sac+dmc2gym+cartpole-swingup task combination. For now, we will name and instantiate the new custom_model as a \ ``QACPixel``\ type.
-
--  这里对照 \ ``QAC``\ 已经实现的方法， \ ``QACPixel``\ 需要实现 \ ``init``\  ， \ ``forward``\ ，以及 \ ``compute_actor``\ 和  \ ``compute_critic``\ 。
 
 -  With reference to the \ ``QAC``\ implementation, the \ ``QACPixel``\ implementation must have the following methods:  \ ``init``\, \ ``forward``\, \ ``compute_actor``\ and \ ``compute_critic``\.
 
@@ -194,9 +130,6 @@ From here, one will customize the model required specifically for the sac+dmc2gy
         ...
       def compute_critic(self, inputs: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
         ...
-
--  针对图像输入， \ ``QACPixel``\ 主要需要修改的是 \ ``init``\ 中对 \ ``self.actor``\ 和 \ ``self.critic``\ 的定义。
-   可以看到 \ ``QAC``\ 中 \ ``self.actor``\ 和 \ ``self.critic``\ 的 encoder 都只是一层 nn.Linear
 
 -  In the case of image inputs, the \ ``init``\ method of \ ``QACPixel``\ will have to adjust the definition its \ ``self.actor``\ and \ ``self.critic``\. By observation, we can see that the \ ``self.action``\ and \ ``self.critic``\ of \ ``QAC``\ uses an encoder that consists of only a single layer nn.Linear.
 
@@ -220,9 +153,6 @@ From here, one will customize the model required specifically for the sac+dmc2gy
                   ...
               )
           )
-
--  我们通过定义 encoder_cls 指定 encoder 的类型，加入 \ ``ConvEncoder``\ ，并且因为需要对 obs 进行encode 后和 action 进行拼接，
-   将 \ ``self.critic``\ 分为  \ ``self.critic_encoder``\ 和 \ ``self.critic_head``\ 两部分
 
 -  We define the type of encoder by defining the variable encoder_cls. In this case, we have defined it as a \ ``ConvEncoder``\. Since we need to connect the encoded obs with the action, \ ``self.critic``\ is constructed from 2 parts: one part being \ ``self.critic_encoder``\ and the other part \ ``self.critic_head``\.
 
@@ -248,15 +178,10 @@ From here, one will customize the model required specifically for the sac+dmc2gy
       )
       self.critic = nn.ModuleList([self.critic_encoder, self.critic_head])
 
--  再对 \ ``compute_actor``\ 和  \ ``compute_critic``\ 分别进行修改即可。
-
 -  Finally, we will also have to make corresponding changes to \ ``compute_actor``\ and  \ ``compute_critic``\
 
-4. 如何应用自定义模型
-How to make use of a customized model
+4. How to make use of a customized model
 +++++++++++++++++++++++++++++++++++++
-
--  新 pipeline ： 直接定义model，作为参数传入 policy 进行初始化，如：
 
 -  New pipeline: Define the model with the corresponding imports, then pass the model into the policy as an argument as follows.
 
@@ -270,13 +195,7 @@ How to make use of a customized model
    ...
 
 
--  旧pipeline
-
 -  Old pipeline
-
-将定义好的 model 作为参数传入 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ , 
-传入的 model 将在 \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L59>`__\ 
-通过 \ ``create_policy``\  被调用。
 
 Pass the defined model into \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ as a argument. The model will then be passed on to \ ``create_policy``\. 
 
@@ -295,13 +214,8 @@ Pass the defined model into \ `serial_pipeline <https://github.com/opendilab/DI-
     policy = create_policy(cfg.policy, model=model, enable_field=['learn', 'collect', 'eval', 'command'])
     ...
 
-5. 测试自定义 model 
-Unit testing a customized model
+5. Unit testing a customized model
 +++++++++++++++++++++++++++++++++++++
-
--  编写新的 model 测试，一般而言，首先需要构造 \ ``obs``\  \ ``action``\ 等输入，传入 model ，验证输出的维度、类型的正确性。其次如果涉及神经网络，需要验证 model 是否可微。
-   如对于我们编写的新模型 \ ``QACPixel``\ 编写测试，首先构造维度为 \ ``(B, channel, height, width)``\ （B = batch_size）的 \ ``obs``\ 和维度为 \ ``(B, action_shape)``\ 的 \ ``action``\ ，传入 \ ``QACPixel``\ 的 \ ``actor``\ 和 \ ``critic``\ 得到输出.
-   检查输出的 \ ``q, mu, sigma``\ 的维度是否正确，以及相应的 \ ``actor``\ 和 \ ``critic``\  model 是否可微：
 
 -  In general, when writing unit tests, one would need to first manually construct the \ ``obs``\  and \ ``action``\ inputs, define the model and verify that output dimensions and type are correct. Following that, if the model contains a neural network, it is also necessary to verify that the model is differentiable.
 
@@ -333,11 +247,6 @@ Take for example the unit test written for our new model \ ``QACPixel``\. We fir
 
 .. tip::
 
-  同样，使用者也可以参考 DI-engine 中已有的单元测试，来熟悉相关神经网络模型的使用
-  
   Alternatively, user can also reference existing unit tests implemented in DI-engine to get familiar with the various neural networks while customizing a model.
-
--  单元测试编写运行可参考 \ `单元测试指南 <https://di-engine-docs.readthedocs.io/zh_CN/latest/22_test/index_zh.html>`__\ 
-
 
  For more on writing and running unit tests, refer to \ `Unit Testing Guidelines <https://di-engine-docs.readthedocs.io/zh_CN/latest/22_test/index_zh.html>`__\ 
