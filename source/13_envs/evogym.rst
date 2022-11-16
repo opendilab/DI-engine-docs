@@ -217,16 +217,18 @@ Benchmark Algorithm Performance
 ================================
 
 
--  Coinrun（Average reward equal to 10 is considered a better Agent）
+- Walker（Reward of 1 is given to the agent for completing its task.
+- The robot walks forwards and backwards on relatively flat terrain.
 
-   - Coinrun + DQN
+   - Walker + DDPG
 
-    .. image:: images/coinrun_dqn.svg
+    .. image:: images/evogym_walker_ddpg.png
      :align: center
 
--  Maze（Average reward equal to 10 is considered a better Agent）
+- Bridgewalker（Reward of 1 is given to the agent for completing its task.
+- The robot walks as far as possible on a soft rope-bridge.
 
-   - Maze + DQN
+   - Bridgewalker + DDPG
 
-    .. image:: images/maze_dqn.svg
+    .. image:: images/evogym_walker_ddpg.png
      :align: center
