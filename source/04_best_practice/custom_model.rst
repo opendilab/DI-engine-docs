@@ -23,16 +23,16 @@ For a policy implemented in DI-engine, the ``default_model`` method contains the
                 return 'qac', ['ding.model.template.qac']
     ...
 
-Observe here that the method either returns \ ``'maqac_continuous', ['ding.model.template.maqac']``\ or \ ``'qac', ['ding.model.template.qac']``\. In both cases, the first item in the return tuple is the name registered with DI-engine's model registry mechanism. The second item gives an indication of the file path of where the model file is located.
+Observe here that the method either returns \ ``'maqac_continuous', ['ding.model.template.maqac']``\  or \ ``'qac', ['ding.model.template.qac']``\. In both cases, the first item in the return tuple is the name registered with DI-engine's model registry mechanism. The second item gives an indication of the file path of where the model file is located.
 
 When using the configuration file ``cfg.policy.model``, DI-engine will correspondingly pass each argument into the model registered with DI-engine's registry mechanism. (For example, argument ``obs_shape``, ``action_shape`` etc will be passed into `QAC <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py#L13>`_ ). The required neural network is then automatically generated in the model class based on the incoming arguments (e.g. a fully connected layer (FC) for vector input and a convolution (Conv) for image input).
 
 How to customize the neural network model
 ----------------------------------
 
-It is often the case that the \ ``default_model``\ chosen in a DI-engine \ ``policy``\ is not suitable for one's task at hand. Take for example the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\ (a wrapper for the Deep Mind Control Suite). Note the default values for observation is  \ ``pixel``\, while \ ``obs_shape = (3, height, width)``\ (For setting \ ``from_pixel = True, channels_first = True``\, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\  documentation for details)
+It is often the case that the \ ``default_model``\ chosen in a DI-engine \ ``policy``\  is not suitable for one's task at hand. Take for example the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\  (a wrapper for the Deep Mind Control Suite). Note the default values for observation is  \ ``pixel``\, while \ ``obs_shape = (3, height, width)``\  (For setting \ ``from_pixel = True, channels_first = True``\, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\  documentation for details)
 
-If one were to look at the source code of \ `sac <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\, it can be seen that the \ ``default_model``\ is actually \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\. The \ ``qac model``\ currently only supports an \ ``obs_shape``\ of one dimensoin (e.g. (4, )). Hence, it becomes apparent that one must customize a model according to one's needs and ensure that the policy is setup accordingly.
+If one were to look at the source code of \ `sac <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\, it can be seen that the \ ``default_model``\  is actually \ `qac <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py>`__\. The \ ``qac model``\  currently only supports an \ ``obs_shape``\  of one dimensoin (e.g. (4, )). Hence, it becomes apparent that one must customize a model according to one's needs and ensure that the policy is setup accordingly.
 
 Step-by-step guide to customizing a model
 ----------------------------------
@@ -40,12 +40,12 @@ Step-by-step guide to customizing a model
 1. Choose your environment and policy
 +++++++++++++++++++++++++++++++++++++
 
--  For the purpose of this guide, let the choice of environment and policy to be the use of \ ``sac``\ on the \ ``cartpole-swingup``\ task of \ ``dmc2gym``\ (a wrapper for the Deep Mind Control Suite). (For details, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\  documentation)
+-  For the purpose of this guide, let the choice of environment and policy to be the use of \ ``sac``\ on the \ ``cartpole-swingup``\  task of \ ``dmc2gym``\  (a wrapper for the Deep Mind Control Suite). (For details, see \ `dmc2gym <https://github.com/opendilab/DI-engine-docs/blob/main/source/13_envs/dmc2gym_zh.rst>`__\  documentation)
 
 2. Check to see if the policy's default_model is suitable
 ++++++++++++++++++++++++++++++++++++++++++
 
--  This can be done in 1 of 2 ways. One either look up the documentation at \ `policy-default_model <https://xxx>`__\  or read the source code of \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\  and find out what is being used in the \ ``default_model``\ method. 
+-  This can be done in 1 of 2 ways. One either look up the documentation at \ `policy-default_model <https://xxx>`__\  or read the source code of \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\  and find out what is being used in the \ ``default_model``\  method. 
 
 .. code:: python
 
@@ -60,7 +60,7 @@ Step-by-step guide to customizing a model
                 return 'qac', ['ding.model.template.qac']
     ...
 
--  Now that we see QAC is being used here, we can then further read up \ `ding/model/template/qac:QAC <https://github.com/opendilab/DI-engine/blob/69db77e2e54a0fba95d83c9411c6b11cd25beae9/ding/model/template/qac.py#L40>`__\. The \ ``qac model``\ implemented in DI-engine currently only supports \ ``obs_shape``\ of 1. However, the observation space of the task chosen is an image of \ ``obs_shape = (3, height, width)``\
+-  Now that we see QAC is being used here, we can then further read up \ `ding/model/template/qac:QAC <https://github.com/opendilab/DI-engine/blob/69db77e2e54a0fba95d83c9411c6b11cd25beae9/ding/model/template/qac.py#L40>`__\. The \ ``qac model``\  implemented in DI-engine currently only supports \ ``obs_shape``\ of 1. However, the observation space of the task chosen is an image of \ ``obs_shape = (3, height, width)``\
 
 Hence, we will need to do some customization.
 
@@ -75,7 +75,7 @@ Using the default_model as a guide and reference when crafting the custom_model:
 
 One can also reference the \ ``encoder``\  implementation of \ ``encoder.py``\  and \ ``head``\  implementation of \ ``head.py``\. See \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
 
--   The \ ``encoder``\ is used to encode inputs such as \ ``obs``\ , \ ``action``\ etc. for subsequent processing. DI-engine have thus far implemented the following encoders:
+-   The \ ``encoder``\  is used to encode inputs such as \ ``obs``\ , \ ``action``\ etc. for subsequent processing. DI-engine have thus far implemented the following encoders:
 
 +-----------------------+-------------------------------------+
 |encoder                |usage                                |
@@ -87,7 +87,7 @@ One can also reference the \ ``encoder``\  implementation of \ ``encoder.py``\  
 |StructEncoder          |                                     |
 +-----------------------+-------------------------------------+
 
--  The \ ``head``\ is used to process the encoded inputs and outputs data required by the policy or the overall RL process. DI-engine have thus far implemented the following heads:
+-  The \ ``head``\  is used to process the encoded inputs and outputs data required by the policy or the overall RL process. DI-engine have thus far implemented the following heads:
 
 +-----------------------+-------------------------------------+
 |head                   |usage                                |
@@ -112,9 +112,9 @@ One can also reference the \ ``encoder``\  implementation of \ ``encoder.py``\  
 |MultiHead              |Multi-dimensional action spaces      |
 +-----------------------+-------------------------------------+
 
-From here, one will customize the model required specifically for the sac+dmc2gym+cartpole-swingup task combination. For now, we will name and instantiate the new custom_model as a \ ``QACPixel``\ type.
+From here, one will customize the model required specifically for the sac+dmc2gym+cartpole-swingup task combination. For now, we will name and instantiate the new custom_model as a \ ``QACPixel``\  type.
 
--  With reference to the \ ``QAC``\ implementation, the \ ``QACPixel``\ implementation must have the following methods:  \ ``init``\, \ ``forward``\, \ ``compute_actor``\ and \ ``compute_critic``\.
+-  With reference to the \ ``QAC``\  implementation, the \ ``QACPixel``\  implementation must have the following methods:  \ ``init``\, \ ``forward``\, \ ``compute_actor``\  and \ ``compute_critic``\.
 
 .. code:: python
 
@@ -130,7 +130,7 @@ From here, one will customize the model required specifically for the sac+dmc2gy
       def compute_critic(self, inputs: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
         ...
 
--  In the case of image inputs, the \ ``init``\ method of \ ``QACPixel``\ will have to adjust the definition its \ ``self.actor``\  and \ ``self.critic``\. By observation, we can see that the \ ``self.action``\  and \ ``self.critic``\ of \ ``QAC``\  uses an encoder that consists of only a single layer nn.Linear.
+-  In the case of image inputs, the \ ``init``\ method of \ ``QACPixel``\  will have to adjust the definition its \ ``self.actor``\  and \ ``self.critic``\. By observation, we can see that the \ ``self.action``\  and \ ``self.critic``\  of \ ``QAC``\  uses an encoder that consists of only a single layer nn.Linear.
 
 .. code:: python
 
@@ -153,7 +153,7 @@ From here, one will customize the model required specifically for the sac+dmc2gy
               )
           )
 
--  We define the type of encoder by defining the variable encoder_cls. In this case, we have defined it as a \ ``ConvEncoder``\. Since we need to connect the encoded obs with the action, \ ``self.critic``\ is constructed from 2 parts: one part being \ ``self.critic_encoder``\  and the other part \ ``self.critic_head``\.
+-  We define the type of encoder by defining the variable encoder_cls. In this case, we have defined it as a \ ``ConvEncoder``\. Since we need to connect the encoded obs with the action, \ ``self.critic``\  is constructed from 2 parts: one part being \ ``self.critic_encoder``\  and the other part \ ``self.critic_head``\.
 
 .. code:: python
 
