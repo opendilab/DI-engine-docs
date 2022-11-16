@@ -150,8 +150,8 @@ For encoding one dimensional inputs
 +-----------------------+-------------------------------------+
 |RainbowHead            |输出 Q 值分布                        |
 +-----------------------+-------------------------------------+
-|QRDQNHead              |Quantile Regression DQN，            |
-|                       |用于输出动作分位数                   |
+|QRDQNHead              | 分位数回归预测连续动作值            |
+|                       |（Quantile Regression DQN）       |
 +-----------------------+-------------------------------------+
 |QuantileHead           |用于输出动作分位数                   |
 +-----------------------+-------------------------------------+
@@ -166,7 +166,7 @@ For encoding one dimensional inputs
 Output discrete action value
 Output Q value distribution
 Output Q value distribution
-Quantile Regression DQN, output action quantiles
+Quantile regression continuous action value
 Output action quantiles
 Output discrete action value logits
 Output continuous action Q values
