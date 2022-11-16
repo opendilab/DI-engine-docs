@@ -45,7 +45,7 @@ Step-by-step guide to customizing a model
 2. Check to see if the policy's default_model is suitable
 ++++++++++++++++++++++++++++++++++++++++++
 
--  This can be done in 1 of 2 ways. One either look up the documentation at \ `policy-default_model <https://xxx>`__\ or read the source code of \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ and find out what is being used in the \ ``default_model``\ method. 
+-  This can be done in 1 of 2 ways. One either look up the documentation at \ `policy-default_model <https://xxx>`__\  or read the source code of \ `ding/policy/sac:SACPolicy <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py>`__\ and find out what is being used in the \ ``default_model``\ method. 
 
 .. code:: python
 
