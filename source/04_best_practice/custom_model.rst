@@ -73,7 +73,7 @@ Using the default_model as a guide and reference when crafting the custom_model:
 
 -  Ensure that the type of return in custom_model is the same as the default_model.
 
-One can also reference the \ ``encoder``\ implementation of \ ``encoder.py``\ and \ ``head``\ implementation of / \ ``head.py``\. See \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
+One can also reference the \ ``encoder``\ implementation of \ ``encoder.py``\  and \ ``head``\ implementation of / \ ``head.py``\. See \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
 
 -   The \ ``encoder``\ is used to encode inputs such as \ ``obs``\ , \ ``action``\ etc. for subsequent processing. DI-engine have thus far implemented the following encoders:
 
