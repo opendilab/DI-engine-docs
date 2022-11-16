@@ -8,7 +8,7 @@ The purpose of this guide is to explain the details with regards to these 2 prim
 Default model used in a policy 
 ----------------------------------
 
-For a policy implemented in DI-engine, the ``default_model`` method contains the details of the default neural network model that was implemented. Take for example SACPolicy:
+For a policy implemented in DI-engine, the ``default_model`` method contains the details of the default neural network model that was implemented. Take for example the SACPolicy implementation:
 
 .. code:: python
 
