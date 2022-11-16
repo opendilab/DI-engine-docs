@@ -96,8 +96,8 @@ If the user uses this feature, when depositing samples, the user must also suppl
 
 By default, for mutable objects stored in a buffer (such as list, np.array, torch.tensor, etc.), the sampling operation in fact returns a reference to that object.
 If the user subsequently makes changes to the content of the reference, it may cause the corresponding content in the sample pool to change as well.
-In some application scenarios, the user may expect the data in the sample pool to remain unchanged, and this can be done by using the \ **clone_object middleware**\ to return a copy of the object in the buffer at sampling time.
-In this way, modifications to the copy contents do not affect the original data in the buffer. \ **Sample cloning significantly increases the sampling elapsed time** \.
+In some application scenarios, the user may expect the data in the sample pool to remain unchanged, and this can be done by using the \ **clone_object middleware**\  to return a copy of the object in the buffer at sampling time.
+In this way, modifications to the copy contents do not affect the original data in the buffer. \ **Sample cloning significantly increases the sampling elapsed time**\.
 
 .. code-block:: python
     
@@ -115,7 +115,7 @@ In this case, the user can use group sampling to achieve this goal.
 
 - **Custom implementation via atomic operations**
 
-  When storing samples, you can add "episode" information to the meta to specify the episode to which the sample belongs, and when sampling, you can set groupby="episode" to enable group sampling with the episode keyword. \ **Sampling in groups can seriously increase the sampling time**.
+  When storing samples, you can add "episode" information to the meta to specify the episode to which the sample belongs, and when sampling, you can set groupby="episode" to enable group sampling with the episode keyword. \ **Sampling in groups can seriously increase the sampling time**\.
 
   .. code-block:: python
 
