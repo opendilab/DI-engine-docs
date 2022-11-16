@@ -130,7 +130,7 @@ From here, one will customize the model required specifically for the sac+dmc2gy
       def compute_critic(self, inputs: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
         ...
 
--  In the case of image inputs, the \ ``init``\ method of \ ``QACPixel``\ will have to adjust the definition its \ ``self.actor``\ and \ ``self.critic``\. By observation, we can see that the \ ``self.action``\ and \ ``self.critic``\ of \ ``QAC``\ uses an encoder that consists of only a single layer nn.Linear.
+-  In the case of image inputs, the \ ``init``\ method of \ ``QACPixel``\ will have to adjust the definition its \ ``self.actor``\  and \ ``self.critic``\. By observation, we can see that the \ ``self.action``\  and \ ``self.critic``\ of \ ``QAC``\  uses an encoder that consists of only a single layer nn.Linear.
 
 .. code:: python
 
@@ -153,7 +153,7 @@ From here, one will customize the model required specifically for the sac+dmc2gy
               )
           )
 
--  We define the type of encoder by defining the variable encoder_cls. In this case, we have defined it as a \ ``ConvEncoder``\. Since we need to connect the encoded obs with the action, \ ``self.critic``\ is constructed from 2 parts: one part being \ ``self.critic_encoder``\ and the other part \ ``self.critic_head``\.
+-  We define the type of encoder by defining the variable encoder_cls. In this case, we have defined it as a \ ``ConvEncoder``\. Since we need to connect the encoded obs with the action, \ ``self.critic``\ is constructed from 2 parts: one part being \ ``self.critic_encoder``\  and the other part \ ``self.critic_head``\.
 
 .. code:: python
 
@@ -177,7 +177,7 @@ From here, one will customize the model required specifically for the sac+dmc2gy
       )
       self.critic = nn.ModuleList([self.critic_encoder, self.critic_head])
 
--  Finally, we will also have to make corresponding changes to \ ``compute_actor``\ and  \ ``compute_critic``\
+-  Finally, we will also have to make corresponding changes to \ ``compute_actor``\  and  \ ``compute_critic``\
 
 4. How to make use of a customized model
 +++++++++++++++++++++++++++++++++++++
@@ -194,9 +194,7 @@ From here, one will customize the model required specifically for the sac+dmc2gy
    ...
 
 
--  Old pipeline
-
-Pass the defined model into \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\ as a argument. The model will then be passed on to \ ``create_policy``\. 
+-  Old pipeline: Pass the defined model into \ `serial_pipeline <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L22>`__\  as a argument. The model will then be passed on to \ ``create_policy``\. 
 
 .. code:: python
   
@@ -216,9 +214,9 @@ Pass the defined model into \ `serial_pipeline <https://github.com/opendilab/DI-
 5. Unit testing a customized model
 +++++++++++++++++++++++++++++++++++++
 
--  In general, when writing unit tests, one would need to first manually construct the \ ``obs``\  and \ ``action``\ inputs, define the model and verify that output dimensions and type are correct. Following that, if the model contains a neural network, it is also necessary to verify that the model is differentiable.
+-  In general, when writing unit tests, one would need to first manually construct the \ ``obs``\  and \ ``action``\  inputs, define the model and verify that output dimensions and type are correct. Following that, if the model contains a neural network, it is also necessary to verify that the model is differentiable.
 
-Take for example the unit test written for our new model \ ``QACPixel``\. We first construct \ ``obs``\ with a shape of \ ``(B, channel, height, width)``\ (where B = batch_size) and we construct \ ``action``\ with a shape of \ ``(B, action_shape)``\. Then we define the model \ ``QACPixel``\ and obtain and pass along the corresponding outputs of its \ ``actor``\ and \ ``critic``\. Finally, we make sure that the shape sizes of \ ``q, mu, sigma``\ are correct and that \ ``actor``\ and \ ``critic``\ is differentiable.
+Take for example the unit test written for our new model \ ``QACPixel``\. We first construct \ ``obs``\ with a shape of \ ``(B, channel, height, width)``\ (where B = batch_size) and we construct \ ``action``\  with a shape of \ ``(B, action_shape)``\. Then we define the model \ ``QACPixel``\ and obtain and pass along the corresponding outputs of its \ ``actor``\  and \ ``critic``\. Finally, we make sure that the shape sizes of \ ``q, mu, sigma``\  are correct and that \ ``actor``\  and \ ``critic``\  is differentiable.
 
 .. code:: python
 
@@ -246,6 +244,6 @@ Take for example the unit test written for our new model \ ``QACPixel``\. We fir
 
 .. tip::
 
-  Alternatively, user can also reference existing unit tests implemented in DI-engine to get familiar with the various neural networks while customizing a model.
+  Alternatively, users can also reference existing unit tests implemented in DI-engine to get familiar with the various neural networks while customizing a model.
 
  For more on writing and running unit tests, refer to \ `Unit Testing Guidelines <https://di-engine-docs.readthedocs.io/zh_CN/latest/22_test/index_zh.html>`__\ 
