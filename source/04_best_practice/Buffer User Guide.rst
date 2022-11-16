@@ -158,7 +158,7 @@ On top of group sampling, you can also use \ **group_sample middleware**\  to im
 **Delete multiple use samples**
 
 By default, the samples in the buffer may be repeatedly collected multiple times. During the training process, if these duplicate samples are used repeatedly without control, it may lead to poor results of the model.
-To avoid this problem, we can use \ **use_time_check middleware**\ to set the maximum number of times the samples can be used.
+To avoid this problem, we can use \ **use_time_check middleware**\  to set the maximum number of times the samples can be used.
 
 .. code-block:: python
     
