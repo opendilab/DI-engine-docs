@@ -38,7 +38,7 @@ Observe here that the method either returns \ ``'maqac_continuous', ['ding.model
 在使用配置文件时，DI-engine 封装好的入口文件将会把 ``cfg.policy.model`` 中的参数，逐个传给默认注册好的模型类（例如把 ``obs_shape``, ``action_shape`` 等参数传给 
 `QAC <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py#L13>`_ ），模型类中根据传入参数自动生成所需的神经网络（例如为向量输入使用全连接层（FC）而为图像输入使用卷积（Conv））。
 
-When using the configuration file ``cfg.policy.model``, DI-engine will sequentially pass each parameter into the model registered with DI-engine's registry mechanism. (For example, parameters ``obs_shape``, ``action_shape`` etc will be passed into `QAC <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py#L13>`_ ). The required neural network is then automatically generated in the model class based on the incoming parameters (e.g. a fully connected layer (FC) for vector input and a convolution (Conv) for image input).
+When using the configuration file ``cfg.policy.model``, DI-engine will correspondingly pass each argument into the model registered with DI-engine's registry mechanism. (For example, argument ``obs_shape``, ``action_shape`` etc will be passed into `QAC <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py#L13>`_ ). The required neural network is then automatically generated in the model class based on the incoming parameters (e.g. a fully connected layer (FC) for vector input and a convolution (Conv) for image input).
 
 如何自定义神经网络模型
 
