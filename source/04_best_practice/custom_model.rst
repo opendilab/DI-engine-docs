@@ -25,7 +25,7 @@ For a policy implemented in DI-engine, the ``default_model`` method contains the
 
 Observe here that the method either returns \ ``'maqac_continuous', ['ding.model.template.maqac']``\ or \ ``'qac', ['ding.model.template.qac']``\. In both cases, the first item in the return tuple is the name registered with DI-engine's model registry mechanism. The second item gives an indication of the file path of where the model file is located.
 
-When using the configuration file ``cfg.policy.model``, DI-engine will correspondingly pass each argument into the model registered with DI-engine's registry mechanism. (For example, argument ``obs_shape``, ``action_shape`` etc will be passed into `QAC <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py#L13>`_ ). The required neural network is then automatically generated in the model class based on the incoming parameters (e.g. a fully connected layer (FC) for vector input and a convolution (Conv) for image input).
+When using the configuration file ``cfg.policy.model``, DI-engine will correspondingly pass each argument into the model registered with DI-engine's registry mechanism. (For example, argument ``obs_shape``, ``action_shape`` etc will be passed into `QAC <https://github.com/opendilab/DI-engine/blob/main/ding/model/template/qac.py#L13>`_ ). The required neural network is then automatically generated in the model class based on the incoming arguments (e.g. a fully connected layer (FC) for vector input and a convolution (Conv) for image input).
 
 How to customize the neural network model
 ----------------------------------
