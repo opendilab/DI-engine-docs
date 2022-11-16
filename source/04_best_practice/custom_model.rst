@@ -73,7 +73,7 @@ Using the default_model as a guide and reference when crafting the custom_model:
 
 -  Ensure that the type of return in custom_model is the same as the default_model.
 
-One can also reference the \ ``encoder``\ implementation of \ ``encoder.py``\  and \ ``head``\ implementation of / \ ``head.py``\. See \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
+One can also reference the \ ``encoder``\  implementation of \ ``encoder.py``\  and \ ``head``\  implementation of \ ``head.py``\. See \ `ding/model/common <https://github.com/opendilab/DI-engine/tree/main/ding/model/common>`__\
 
 -   The \ ``encoder``\ is used to encode inputs such as \ ``obs``\ , \ ``action``\ etc. for subsequent processing. DI-engine have thus far implemented the following encoders:
 
@@ -90,7 +90,7 @@ One can also reference the \ ``encoder``\ implementation of \ ``encoder.py``\  a
 -  The \ ``head``\ is used to process the encoded inputs and outputs data required by the policy or the overall RL process. DI-engine have thus far implemented the following heads:
 
 +-----------------------+-------------------------------------+
-|head                   |usage                                 |
+|head                   |usage                                |
 +=======================+=====================================+
 |DiscreteHead           |Output discrete action value         |
 +-----------------------+-------------------------------------+
@@ -98,8 +98,8 @@ One can also reference the \ ``encoder``\ implementation of \ ``encoder.py``\  a
 +-----------------------+-------------------------------------+
 |RainbowHead            |Output Q value distribution          |
 +-----------------------+-------------------------------------+
-|QRDQNHead              | Quantile regression                 |
-|                       | continuous action value             |
+|QRDQNHead              |Quantile regression                  |
+|                       |continuous action value              |
 +-----------------------+-------------------------------------+
 |QuantileHead           |Output action quantiles              |
 +-----------------------+-------------------------------------+
@@ -109,7 +109,7 @@ One can also reference the \ ``encoder``\ implementation of \ ``encoder.py``\  a
 +-----------------------+-------------------------------------+
 |ReparameterizationHead |Output action mu and sigma           |
 +-----------------------+-------------------------------------+
-|MultiHead              |Handle multi-dimensional action space|
+|MultiHead              |Multi-dimensional action spaces      |
 +-----------------------+-------------------------------------+
 
 From here, one will customize the model required specifically for the sac+dmc2gym+cartpole-swingup task combination. For now, we will name and instantiate the new custom_model as a \ ``QACPixel``\ type.
