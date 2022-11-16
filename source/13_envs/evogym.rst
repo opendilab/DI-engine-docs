@@ -19,7 +19,7 @@ Installation Method
 --------------------
 
 The environment can be downloaded and installed using GitHub and pip.
-Given that the installation procedure may vary a little according to your OS, you are invited to check the instructions in the original `repo <https://github.com/EvolutionGym/evogym#installation>`__ in case you should encounter any problem.
+Given that the installation procedure may vary a little according to your OS, you are invited to check the instructions in the original `repository <https://github.com/EvolutionGym/evogym#installation>`__ in case you should encounter any problem.
 
 .. code:: shell
 
@@ -43,7 +43,7 @@ Space Before Transformation (Original Environment)
 Observation Space
 ------------------
 
-- The observation space includes the state information of the robot, a\ ``(2N + 3)``\ vector including the relative position of each voxel corner with respect to the center of mass of the robot \ ``(2N)``\, and the velocity and orientation of center of mass \ ``(3)``\. Rhe data type is\ ``float32``\.
+- The observation space includes the state information of the robot, a\ ``(2N + 3)``\ vector including the relative position of each voxel corner with respect to the center of mass of the robot \ ``(2N)``\, and the velocity and orientation of center of mass \ ``(3)``\. The data type is\ ``float32``\.
 - To handle complex tasks, specifically those with varying terrain types, an additional observation vector including terrain information is provided.
 - Furthermore, goal-related information is offered to inform the controller of the execution status of the current task.
 - For instance, in manipulation tasks where the robot interacts with some object O, it is provided orientation and velocity as well as the position of O’s center of mass relative to the robot.
@@ -51,7 +51,7 @@ Observation Space
 Action Space
 -------------
 
-- It is a a continuous action space of size N. Each of the N components of the action vector is associated with an actuator voxel (either horizontal or vertical) of the robot, and instructs a deformation target of that voxel. The data type is \ ``float``\
+- It is a a continuous action space of size N. Each of the N components of the action vector is associated with an actuator voxel (either horizontal or vertical) of the robot, and instructs a deformation target of that voxel. The data type is \ ``float``\.
 - Specifically, the action value\ ``u``\ is within the range\ ``[0.6, 1.6]``\, and corresponds to a gradual expansion/contraction of that actuator to\ ``u``\ times its rest length.
 
 
@@ -65,7 +65,7 @@ Key Facts
 
 1. 1D observation input which can vary according to robot's structure, task and environment.
 
-2. Continuous action space
+2. Continuous action space according to the structure of the robot.
 
 3. Top-performing policies not only can learn how to control a robot, but they can also learn how to create a better robot design tailored for a specific task.
 
@@ -217,7 +217,7 @@ Benchmark Algorithm Performance
 ================================
 
 
-- Walker（Reward of 1 is given to the agent for completing its task.
+- Walker（Reward of 1 is given to the agent for completing its task plus a small reward for getting close to it).
 - The robot walks forwards and backwards on relatively flat terrain.
 
    - Walker + DDPG
@@ -225,7 +225,7 @@ Benchmark Algorithm Performance
     .. image:: images/evogym_walker_ddpg.png
      :align: center
 
-- Bridgewalker（Reward of 1 is given to the agent for completing its task.
+- Bridgewalker（Reward of 1 is given to the agent for completing its task plus a small reward for getting close to it).
 - The robot walks as far as possible on a soft rope-bridge.
 
    - Bridgewalker + DDPG
