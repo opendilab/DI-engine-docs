@@ -217,18 +217,10 @@ Benchmark Algorithm Performance
 ================================
 
 
-- Walker（Reward of 1 is given to the agent for completing its task plus a small reward for getting close to it).
-- The robot walks forwards and backwards on relatively flat terrain.
+- Carrier（Reward of 1 is given to the agent for completing its task plus a small reward for getting close to it).
+- The robot catches a box initialized on top of it and carries it as far as possible.
 
-   - Walker + DDPG
+   - Carrier + PPO
 
-    .. image:: images/evogym_walker_ddpg.png
-     :align: center
-
-- Bridgewalker（Reward of 1 is given to the agent for completing its task plus a small reward for getting close to it).
-- The robot walks as far as possible on a soft rope-bridge.
-
-   - Bridgewalker + DDPG
-
-    .. image:: images/evogym_walker_ddpg.png
+    .. image:: images/evogym_carry_ppo.png
      :align: center
