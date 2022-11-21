@@ -6,7 +6,7 @@ Overview
 
 Evolution Gym (Evogym) is the first large-scale benchmark for co-optimizing the design and control of soft robots.
 Each robot is composed of different types of voxels (e.g., soft, rigid, actuators), resulting in a modular and expressive robot design space.
-The environment spans a wide range of tasks, including locomotion on various types of terrains and manipulation.
+The environment spans a wide range of tasks, including locomotion and manipulation on various types of terrains.
 The image below shows a robot in action.
 
 .. image:: ./images/evogym.gif
@@ -18,7 +18,7 @@ Install
 Installation Method
 --------------------
 
-The environment can be downloaded and installed using GitHub and pip.
+The Evogym environment can be downloaded from GitHub and installed using pip.
 Given that the installation procedure may vary a little according to your OS, you are invited to check the instructions in the original `repository <https://github.com/EvolutionGym/evogym#installation>`__ in case you should encounter any problem.
 
 .. code:: shell
@@ -31,7 +31,7 @@ Given that the installation procedure may vary a little according to your OS, yo
 Verify Installation
 --------------------
 
-After the installation is complete, you can verify that the installation was successful by running the following command on the command line:
+After installation, you can verify whether if it is successful by running the following command:
 
 .. code:: shell
 
@@ -51,7 +51,7 @@ Observation Space
 Action Space
 -------------
 
-- It is a a continuous action space of size N. Each of the N components of the action vector is associated with an actuator voxel (either horizontal or vertical) of the robot, and instructs a deformation target of that voxel. The data type is \ ``float``\.
+- The action space is continuous of size N. Each component of the N-size action vector is associated with an actuator voxel (either horizontal or vertical) of the robot, and instructs a deformation target of that voxel, compressing or stretching the size of voxel from 60% to 160%. The data type is \ ``float``\.
 - Specifically, the action value\ ``u``\ is within the range\ ``[0.6, 1.6]``\, and corresponds to a gradual expansion/contraction of that actuator to\ ``u``\ times its rest length.
 
 
@@ -109,35 +109,37 @@ After the environment is created, but before reset, call the \ ``enable_save_rep
 
 .. code:: python
 
-    import gym
-    from evogym import sample_robot
-    from gym.wrappers import Monitor
+    import time
+import gym
+from evogym import sample_robot
+# import envs from the envs folder and register them
+import evogym.envs
 
-    # import envs from the envs folder and register them
-    import evogym.envs
-    from dizoo.evogym.envs.viewer import DingEvoViewer
-    from evogym.sim import EvoSim
+if __name__ == '__main__':
+    # create a random robot
+    body, connections = sample_robot((5, 5))
+    env = gym.make('Walker-v0', body=body)
 
+    if gym.version.VERSION > '0.22.0':
+        env.metadata.update({'render_modes': ["rgb_array"]})
+    else:
+        env.metadata.update({'render.modes': ["rgb_array"]})
+    env = gym.wrappers.RecordVideo(
+        env,
+        video_folder="./video",
+        episode_trigger=lambda episode_id: True,
+        name_prefix='rl-video-{}'.format(time.time())
+    )
 
-    if __name__ == '__main__':
-        # create a random robot
-        body, connections = sample_robot((5, 5))
-
-        env = gym.make('Walker-v0', body=body)
-        env.default_viewer = DingEvoViewer(EvoSim(env.world))
-        env = Monitor(env, './video', force=True)
-        env.__class__.render = env.default_viewer.render
-        env.metadata['render.modes'] = 'rgb_array'
-
-        env.reset()
-        # step the environment for 200 iterations
-        for i in range(100):
-            action = env.action_space.sample()
-            ob, reward, done, info = env.step(action)
-            x = env.render()
-            if done:
-                env.reset()
-        env.close()
+    env.reset()
+    # step the environment for 100 iterations
+    for i in range(100):
+        action = env.action_space.sample()
+        ob, reward, done, info = env.step(action)
+        x = env.render()
+        if done:
+            env.reset()
+    env.close()
 
 DI-zoo Runnable Code Example
 =============================
