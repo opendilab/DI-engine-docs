@@ -78,7 +78,7 @@ In the previous section, we provided a basic application scenario for buffer. Ne
 **Priority sampling**
 
 In some algorithms, priority sampling is needed. In DI-engine, you can use \ **PriorityExperienceReplay middleware**\  to give the buffer priority sampling function.
-If the user uses this feature, when depositing samples, the user must also supplement the meta with information about the priority of the samples, as shown below. \ **Priority sampling increases the sample elapsed time **\.
+If the user uses this feature, when depositing samples, the user must also supplement the meta with information about the priority of the samples, as shown below. \ **Priority sampling increases the sample elapsed time**\ .
 
 .. code-block:: python
     
