@@ -65,7 +65,7 @@ If it is necessary to convert an environment in gym format to DI-engine environm
     )
 
 
-特别需要说明的是，列表里的 Env Wrapper 是按照顺序包裹在环境外的。如在上面这个例子中，环境先是包裹了一层 MaxAndSkipWrapper ，再包裹了一层 ScaledFloatFrameWrapper。同时 Env Wrapper 的作用是添加功能，但不改变原有的功能。
+In particular, the Env Wrappers in the list are wrapped outside the environment in order. In the example above, the Env Wrapper wraps a layer of MaxAndSkipWrapper and then a layer of ScaledFloatFrameWrapper, while the Env Wrapper serves to add functionality but does not change the original functionality.
 
 
 How to customise Env Wrapper （Example）
@@ -112,8 +112,7 @@ The structure of ObsNormEnv as below：
 
 - ``reset``: Reset the state of the environment and reset ``data_count``, ``running mean/std``.
 
-
-如果需要添加的功能不在我们提供的 Env Wrapper 中，用户也可以按照上面介绍的例子按照例子 + 参考 gym 中关于 Wrapper 的 `相关文档 <https://www.gymlibrary.dev/api/wrappers/>`_，自定义满足需求的包裹器。
+If the functionality to be added is not in the Env Wrapper we provide, the user can also follow the example presented above and follow the example + refer to the `Related Documentation <https://www.gymlibrary.dev/api/wrappers/>`_ on Wrappers in the gym to customise a wrapper to meet the requirements.
 
 For more details about env wrapper，please see
 ``ding/envs/env_wrappers/env_wrappers.py``
