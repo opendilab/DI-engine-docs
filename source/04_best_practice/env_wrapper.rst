@@ -1,17 +1,17 @@
-为什么需要 Env Wrapper
+Why do we need Env Wrapper
 ------------------------------------------------------
-环境模块是强化学习领域中最重要的模块之一。 我们在这些环境中训练我们的智能体，让他们在这些环境中探索和学习。强化学习中除了一些基准环境，例如 atari，mujoco 外，还可能包括各种各样自定义的环境。总的来说 Env Wrapper (包裹器) 的本质就是向我们自定义的环境中添加某些通用的附加功能。
+Environment module is one of the most vital modules in reinforcement learning。 We train our agents in these environmnets and we allow them to explore and learn in these envirnments。强化学习中除了一些基准环境，例如 atari，mujoco 外，还可能包括各种各样自定义的环境。总的来说 Env Wrapper (包裹器) 的本质就是向我们自定义的环境中添加某些通用的附加功能。
 比如说：在训练智能体时，我们经常需要改变环境的定义以追求更好的训练效果， 而这些处理技巧也具备一定的普适性。如对于一些环境，归一化观测状态是非常常见的预处理方式。这样处理会让训练更快并且更加稳定。 如果我们将这个共同的部分提取出来，并将这个预处理放在环境包裹器（Env Wrapper）中，这样就避免了重复的开发。即如果我们以后想修改观测状态归一化的方式，我们只需要在这个环境包裹器进行更改即可。
 
 因此，如果原始的环境不能完美地适配我们的需求，我们就需要往其中添加相应的功能模块，来对原始环境的功能进行扩充，使得用户能够方便地对环境的输入和输出进行操作或适配。而 Env Wrapper 正是添加功能的一种简明实现方案。
 
 
-我们提供的 Env Wrapper
+Env Wrapper offered by DI-engine
 ==============================================
 
-DI-engine 提供了大量已经定义好的、通用的 Env Wrapper，用户可以根据自己的需求直接包裹在需要使用的环境之上。在实现时，我们借鉴了 `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，并且依然遵循 gym.Wrapper 的格式 `Gym.Wrapper <https://www.gymlibrary.dev/api/wrappers/>`_ ，总共包括以下几种:
+DI-engine provides a large number of defined and generic Env Wrapper，用户可以根据自己的需求直接包裹在需要使用的环境之上。In the process of implementation，we refered  `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，并且依然遵循 gym.Wrapper 的格式 `Gym.Wrapper <https://www.gymlibrary.dev/api/wrappers/>`_ ，总共包括以下几种:
 
-- NoopResetEnv：为环境添加重置方法。在一些无操作（no-operations）后重置环境.
+- NoopResetEnv：add a reset method to the environment. Resets the environment after some no-operations..
 
 - MaxAndSkipEnv： 每 ``skip`` 帧（做同样的action）返回最近的两帧的最大值。(为了跨时间步的最大池化 max pooling)。
 
@@ -39,7 +39,7 @@ DI-engine 提供了大量已经定义好的、通用的 Env Wrapper，用户可�
 
 Tip: update_shape： 这是一个有助于在应用 env wrapper 后识别观测状态、动作和奖励的形状的函数。
 
-如何使用 Env Wrapper
+How to use Env Wrapper
 ------------------------------------
 下一个问题是我们如何给环境包裹上 Env Wrapper。最简单的一种方法就是手动地显式对环境进行包裹：
 
