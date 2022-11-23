@@ -13,19 +13,19 @@ DI-engine provides a large number of defined and generic Env Wrapper，用户可
 
 - NoopResetEnv：add a reset method to the environment. Resets the environment after some no-operations..
 
-- MaxAndSkipEnv： 每 ``skip`` 帧（做同样的action）返回最近的两帧的最大值。(为了跨时间步的最大池化 max pooling)。
+- MaxAndSkipEnv： Each ``skip`` frame（doing the same action）returns the maximum value of the two most recent frames.(for max pooling across time steps)。
 
-- WarpFrame： 将图像帧的大小转换为84x84, 如 `Nature 论文 <https://www.deepmind.com/publications/human-level-control-through-deep-reinforcement-learning>`_ 和后来的工作中所做的那样。(注意此注册器也将RGB图像转换为GREY图像)
+- WarpFrame： Convert the size of the image frame to 84x84, such as `Nature‘s paper <https://www.deepmind.com/publications/human-level-control-through-deep-reinforcement-learning>`_  and it's following work。(Note that this registrar also converts RGB images to GREY images)
 
-- ScaledFloatFrame： 将状态值标准化为 0~1。
+- ScaledFloatFrame： Normalize status values to 0~1。
 
-- ClipRewardEnv： 通过奖励的正负将奖励裁剪为 {+1, 0, -1}。
+- ClipRewardEnv： Cuts the reward to {+1, 0, -1} by the positive or negative of the reward.
 
 - FrameStack： 将堆叠好的n_frames个最近的状态帧设置为当前状态。
 
 - ObsTransposeWrapper：对观测状态的各个维度进行调整，将通道维（channel）放置在状态的第一维上。通常用于 atari 环境。
 
-- RunningMeanStd： 用于更新方差、均值和计数的 wrapper。
+- RunningMeanStd：a wrapper for updating variances, means and counts.
 
 - ObsNormEnv：根据运行均值和标准差（running mean and std）对观测状态进行归一化。
 
@@ -41,7 +41,7 @@ Tip: update_shape： 这是一个有助于在应用 env wrapper 后识别观测�
 
 How to use Env Wrapper
 ------------------------------------
-下一个问题是我们如何给环境包裹上 Env Wrapper。最简单的一种方法就是手动地显式对环境进行包裹：
+The next question is how should we wrap the environment with Env Wrapper. One solution is to wrap the environment manually and explicitly：
 
 .. code:: python
 
@@ -72,7 +72,7 @@ How to customise Env Wrapper （Example）
 Taking ObsNormEnv wrapper as an example。In order to normalis the observed state，we only need to change two methods in the original environment class：step method and reset method，The rest of the method remains the same.
 注意有些时候, 由于观测状态经过归一化后的界限改变了，info 也需要做相应的修改。 另请注意，ObsNormEnv wrapper 的本质是向原始环境添加附加功能，这正是包装器的含义. \
 
-另外，由于采样得到数据的分布与策略高度相关，即不同的策略，样本的分布会有很大不同，所以我们使用运行均值和标准差来归一化观测状态，而不是固定均值和标准差 。
+In addition, since the distribution of the sampled data is highly correlated with the strategy, i.e., the distribution of the samples can vary significantly from strategy to strategy, we use running means and standard deviations to normalize the observed states, rather than fixed means and standard deviations.
 
 The structure of ObsNormEnv as below：
 
@@ -114,5 +114,5 @@ The structure of ObsNormEnv as below：
 
 如果需要添加的功能不在我们提供的 Env Wrapper 中，用户也可以按照上面介绍的例子按照例子 + 参考 gym 中关于 Wrapper 的 `相关文档 <https://www.gymlibrary.dev/api/wrappers/>`_，自定义满足需求的包裹器。
 
-更多关于 env wrapper 的具体实现细节，可以查看该链接
+For more details about env wrapper，please see
 ``ding/envs/env_wrappers/env_wrappers.py``
