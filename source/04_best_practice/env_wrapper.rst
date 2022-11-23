@@ -9,7 +9,7 @@ Environment module is one of the most vital modules in reinforcement learning。
 Env Wrapper offered by DI-engine
 ==============================================
 
-DI-engine provides a large number of defined and generic Env Wrapper，用户可以根据自己的需求直接包裹在需要使用的环境之上。In the process of implementation，we refered  `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，并且依然遵循 gym.Wrapper 的格式 `Gym.Wrapper <https://www.gymlibrary.dev/api/wrappers/>`_ ，总共包括以下几种:
+DI-engine provides a large number of defined and generic Env Wrapper，用户可以根据自己的需求直接包裹在需要使用的环境之上。In the process of implementation，we refered  `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，and folloiw the form of gym.Wrapper，which is `Gym.Wrapper <https://www.gymlibrary.dev/api/wrappers/>`_ ，In total, these include the following:
 
 - NoopResetEnv：add a reset method to the environment. Resets the environment after some no-operations..
 
@@ -67,14 +67,14 @@ How to use Env Wrapper
 特别需要说明的是，列表里的 Env Wrapper 是按照顺序包裹在环境外的。如在上面这个例子中，环境先是包裹了一层 MaxAndSkipWrapper ，再包裹了一层 ScaledFloatFrameWrapper。同时 Env Wrapper 的作用是添加功能，但不改变原有的功能。
 
 
-如何自定义 Env Wrapper （举例）
+How to customise Env Wrapper （Example）
 -----------------------------------------
-以 ObsNormEnv wrapper 为例。为了归一化观测状态，我们只需要改变原始环境类中的两个方法：step方法和 reset方法，其余方法保持不变。
+Taking ObsNormEnv wrapper as an example。In order to normalis the observed state，we only need to change two methods in the original environment class：step method and reset method，The rest of the method remains the same.
 注意有些时候, 由于观测状态经过归一化后的界限改变了，info 也需要做相应的修改。 另请注意，ObsNormEnv wrapper 的本质是向原始环境添加附加功能，这正是包装器的含义. \
 
 另外，由于采样得到数据的分布与策略高度相关，即不同的策略，样本的分布会有很大不同，所以我们使用运行均值和标准差来归一化观测状态，而不是固定均值和标准差 。
 
-ObsNormEnv的结构如下：
+The structure of ObsNormEnv as below：
 
 .. code:: python
 
@@ -103,13 +103,13 @@ ObsNormEnv的结构如下：
             ...
 
 
-- ``__init__``: 初始化 ``data_count``, ``clip_range``, 和 ``running mean/std``。
+- ``__init__``: initialize ``data_count``, ``clip_range``, and ``running mean/std``。
 
-- ``step``: 使用给定的动作推进环境，并更新 ``data_count``和 ``running mean and std``。
+- ``step``: use the given action to advance the environment，and update ``data_count``and ``running mean and std``。
 
-- ``observation``: 获取观察结果. 如果 ``data_count`` 总数超过30，则返回归一化的版本。
+- ``observation``: obtain the result observed. if ``data_count`` 总数超过30，则返回归一化的版本。
 
-- ``reset``: 重置环境状态并重置 ``data_count``, ``running mean/std``。
+- ``reset``: Reset the state of the environment and reset ``data_count``, ``running mean/std``。
 
 
 如果需要添加的功能不在我们提供的 Env Wrapper 中，用户也可以按照上面介绍的例子按照例子 + 参考 gym 中关于 Wrapper 的 `相关文档 <https://www.gymlibrary.dev/api/wrappers/>`_，自定义满足需求的包裹器。
