@@ -73,7 +73,7 @@ Other
 ======
 
 Robot and environment definition
---------------------
+-------------------------------------
 
 Evogym provides fixed tasks, but you can define your own robot structure and environment.
 For a concrete example you can refer to the following `json file
@@ -110,36 +110,36 @@ After the environment is created, but before reset, call the \ ``enable_save_rep
 .. code:: python
 
     import time
-import gym
-from evogym import sample_robot
-# import envs from the envs folder and register them
-import evogym.envs
+    import gym
+    from evogym import sample_robot
+    # import envs from the envs folder and register them
+    import evogym.envs
 
-if __name__ == '__main__':
-    # create a random robot
-    body, connections = sample_robot((5, 5))
-    env = gym.make('Walker-v0', body=body)
+    if __name__ == '__main__':
+        # create a random robot
+        body, connections = sample_robot((5, 5))
+        env = gym.make('Walker-v0', body=body)
 
-    if gym.version.VERSION > '0.22.0':
-        env.metadata.update({'render_modes': ["rgb_array"]})
-    else:
-        env.metadata.update({'render.modes': ["rgb_array"]})
-    env = gym.wrappers.RecordVideo(
-        env,
-        video_folder="./video",
-        episode_trigger=lambda episode_id: True,
-        name_prefix='rl-video-{}'.format(time.time())
-    )
+        if gym.version.VERSION > '0.22.0':
+            env.metadata.update({'render_modes': ["rgb_array"]})
+        else:
+            env.metadata.update({'render.modes': ["rgb_array"]})
+        env = gym.wrappers.RecordVideo(
+            env,
+            video_folder="./video",
+            episode_trigger=lambda episode_id: True,
+            name_prefix='rl-video-{}'.format(time.time())
+        )
 
-    env.reset()
-    # step the environment for 100 iterations
-    for i in range(100):
-        action = env.action_space.sample()
-        ob, reward, done, info = env.step(action)
-        x = env.render()
-        if done:
-            env.reset()
-    env.close()
+        env.reset()
+        # step the environment for 100 iterations
+        for i in range(100):
+            action = env.action_space.sample()
+            ob, reward, done, info = env.step(action)
+            x = env.render()
+            if done:
+                env.reset()
+        env.close()
 
 DI-zoo Runnable Code Example
 =============================
