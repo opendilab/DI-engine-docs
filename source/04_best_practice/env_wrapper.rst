@@ -50,6 +50,7 @@ The next question is how should we wrap the environment with Env Wrapper. One so
     env = MaxAndSkipEnv(env, skip = 4)
 
 If it is necessary to convert an environment in gym format to DI-engine environment format and use the corresponding multiple Env Wrapper, this can be done as shown below：
+
 .. code:: python
 
     from ding.envs import DingEnvWrapper
@@ -62,6 +63,7 @@ If it is necessary to convert an environment in gym format to DI-engine environm
             ]
         }
     )
+
 
 特别需要说明的是，列表里的 Env Wrapper 是按照顺序包裹在环境外的。如在上面这个例子中，环境先是包裹了一层 MaxAndSkipWrapper ，再包裹了一层 ScaledFloatFrameWrapper。同时 Env Wrapper 的作用是添加功能，但不改变原有的功能。
 
