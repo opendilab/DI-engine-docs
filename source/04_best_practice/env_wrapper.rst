@@ -1,6 +1,6 @@
 Why do we need Env Wrapper
 ------------------------------------------------------
-Environment module is one of the most vital modules in reinforcement learning。 We train our agents in these environmnets and we allow them to explore and learn in these envirnments。强化学习中除了一些基准环境，例如 atari，mujoco 外，还可能包括各种各样自定义的环境。总的来说 Env Wrapper (包裹器) 的本质就是向我们自定义的环境中添加某些通用的附加功能。
+Environment module is one of the most vital modules in reinforcement learning。 We train our agents in these environmnets and we allow them to explore and learn in these envirnments。In addition to a number of benchmark environments （such as atari or mujoco）reinforcement learning may also include a variety of custom environments.Overall，The essence of the Env Wrapper is to add certain generic additional features to our custom environment.
 For instance：When we are training intelligences, we usually need to change the definition of the environment in order to achieve better training results, and these processing techniques are somewhat universal.For some environments, normalising the observed state is a very common pre-processing method. This processing makes training faster and more stable. If we extract this common part and put this preprocessing in an Env Wrapper, we avoid duplicate development. That is, if we want to change the way we normalise the observation state in the future, we can simply change it in this Env Wrapper.
 
 Therefore, if the original environment is not perfectly adapted to our needs, we need to add functional modules to it to extend the functionality of the original environment and make it easy for the user to manipulate or adapt the environment's inputs and outputs. Env Wrapper is a simple solution for adding functionality.
@@ -9,7 +9,7 @@ Therefore, if the original environment is not perfectly adapted to our needs, we
 Env Wrapper offered by DI-engine
 ==============================================
 
-DI-engine provides a large number of defined and generic Env Wrapper，用户可以根据自己的需求直接包裹在需要使用的环境之上。In the process of implementation，we refered  `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，and folloiw the form of gym.Wrapper，which is `Gym.Wrapper <https://www.gymlibrary.dev/api/wrappers/>`_ ，In total, these include the following:
+DI-engine provides a large number of defined and generic Env Wrapper，The user can wrap it directly on top of the environment they need to use according to their needs.In the process of implementation，we refered  `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，and folloiw the form of gym.Wrapper，which is `Gym.Wrapper <https://www.gymlibrary.dev/api/wrappers/>`_ ，In total, these include the following:
 
 - NoopResetEnv：add a reset method to the environment. Resets the environment after some no-operations..
 
@@ -21,23 +21,23 @@ DI-engine provides a large number of defined and generic Env Wrapper，用户可
 
 - ClipRewardEnv： Cuts the reward to {+1, 0, -1} by the positive or negative of the reward.
 
-- FrameStack： 将堆叠好的n_frames个最近的状态帧设置为当前状态。
+- FrameStack： Set the nearest state frame of the stacked n_frames to the current state.
 
-- ObsTransposeWrapper：对观测状态的各个维度进行调整，将通道维（channel）放置在状态的第一维上。通常用于 atari 环境。
+- ObsTransposeWrapper：The dimensions of the observed state are adjusted to place the channel dimension on the first dimension of the state. It is typically used in atari environments.
 
 - RunningMeanStd：a wrapper for updating variances, means and counts.
 
-- ObsNormEnv：根据运行均值和标准差（running mean and std）对观测状态进行归一化。
+- ObsNormEnv：The observed states are normalised according to the running mean and std.
 
-- RewardNormEnv： 根据运行的标准差（running mean and std）对环境奖励进行归一化。
+- RewardNormEnv： The environmental rewards are normalised according to the standard deviation of the runs (running mean and std).
 
-- RamWrapper： 通过扩展观测状态的维度，将原始环境的ram状态转换成类似图像的状态
+- RamWrapper： Converting the ram state of the original environment into an image-like state by extending the dimensionality of the observed state.
 
-- EpisodicLifeEnv： 让环境中的智能体的死亡来标志一个episode结束（游戏结束）, 并且只有在真正的游戏结束时才会重置游戏。一般来讲， 这样有助于算法的价值估计。
+- EpisodicLifeEnv：Let the death of an intelligence in the environment mark the end of an episode (game over), and only reset the game when the real game is over. In general, this helps the algorithm to estimate the value.
 
-- FireResetEnv：  在环境重置时采取 ``fire`` 行动。 相关的讨论查阅 `这里 <https://github.com/openai/baselines/issues/240>`_
+- FireResetEnv：  Take ``fire`` action when the environment is reset. For more information ` <https://github.com/openai/baselines/issues/240>`_
 
-Tip: update_shape： 这是一个有助于在应用 env wrapper 后识别观测状态、动作和奖励的形状的函数。
+Tip: update_shape：This is a function that helps to identify the shape of observed states, actions and rewards after the env wrapper has been applied.
 
 How to use Env Wrapper
 ------------------------------------
@@ -49,8 +49,7 @@ The next question is how should we wrap the environment with Env Wrapper. One so
     env.NoopResetEnv(env, noop_max = 30)
     env = MaxAndSkipEnv(env, skip = 4)
 
-如果需要将 gym 格式的环境转化为 DI-engine 的环境格式，并使用相应的多个 Env Wrapper，可以按照如下所示的方法：
-
+If it is necessary to convert an environment in gym format to DI-engine environment format and use the corresponding multiple Env Wrapper, this can be done as shown below：
 .. code:: python
 
     from ding.envs import DingEnvWrapper
@@ -70,7 +69,7 @@ The next question is how should we wrap the environment with Env Wrapper. One so
 How to customise Env Wrapper （Example）
 -----------------------------------------
 Taking ObsNormEnv wrapper as an example。In order to normalis the observed state，we only need to change two methods in the original environment class：step method and reset method，The rest of the method remains the same.
-注意有些时候, 由于观测状态经过归一化后的界限改变了，info 也需要做相应的修改。 另请注意，ObsNormEnv wrapper 的本质是向原始环境添加附加功能，这正是包装器的含义. \
+Note that in some cases, as the normalised bounds of the observed state change, info will need to be modified accordingly.Please also note that the essence of the ObsNormEnv wrapper is to add additional functionality to the original environment, which is what the wrapper is all about. \
 
 In addition, since the distribution of the sampled data is highly correlated with the strategy, i.e., the distribution of the samples can vary significantly from strategy to strategy, we use running means and standard deviations to normalize the observed states, rather than fixed means and standard deviations.
 
@@ -103,13 +102,13 @@ The structure of ObsNormEnv as below：
             ...
 
 
-- ``__init__``: initialize ``data_count``, ``clip_range``, and ``running mean/std``。
+- ``__init__``: initialize ``data_count``, ``clip_range``, and ``running mean/std``.
 
-- ``step``: use the given action to advance the environment，and update ``data_count``and ``running mean and std``。
+- ``step``: use the given action to advance the environment，and update ``data_count``and ``running mean and std``.
 
-- ``observation``: obtain the result observed. if ``data_count`` 总数超过30，则返回归一化的版本。
+- ``observation``: obtain the result observed. if ``data_count`` Returns the normalised version if the total number exceeds 30.
 
-- ``reset``: Reset the state of the environment and reset ``data_count``, ``running mean/std``。
+- ``reset``: Reset the state of the environment and reset ``data_count``, ``running mean/std``.
 
 
 如果需要添加的功能不在我们提供的 Env Wrapper 中，用户也可以按照上面介绍的例子按照例子 + 参考 gym 中关于 Wrapper 的 `相关文档 <https://www.gymlibrary.dev/api/wrappers/>`_，自定义满足需求的包裹器。
