@@ -1,9 +1,9 @@
 Why do we need Env Wrapper
 ------------------------------------------------------
 Environment module is one of the most vital modules in reinforcement learning。 We train our agents in these environmnets and we allow them to explore and learn in these envirnments。强化学习中除了一些基准环境，例如 atari，mujoco 外，还可能包括各种各样自定义的环境。总的来说 Env Wrapper (包裹器) 的本质就是向我们自定义的环境中添加某些通用的附加功能。
-比如说：在训练智能体时，我们经常需要改变环境的定义以追求更好的训练效果， 而这些处理技巧也具备一定的普适性。如对于一些环境，归一化观测状态是非常常见的预处理方式。这样处理会让训练更快并且更加稳定。 如果我们将这个共同的部分提取出来，并将这个预处理放在环境包裹器（Env Wrapper）中，这样就避免了重复的开发。即如果我们以后想修改观测状态归一化的方式，我们只需要在这个环境包裹器进行更改即可。
+For instance：When we are training intelligences, we usually need to change the definition of the environment in order to achieve better training results, and these processing techniques are somewhat universal.For some environments, normalising the observed state is a very common pre-processing method. This processing makes training faster and more stable. If we extract this common part and put this preprocessing in an Env Wrapper, we avoid duplicate development. That is, if we want to change the way we normalise the observation state in the future, we can simply change it in this Env Wrapper.
 
-因此，如果原始的环境不能完美地适配我们的需求，我们就需要往其中添加相应的功能模块，来对原始环境的功能进行扩充，使得用户能够方便地对环境的输入和输出进行操作或适配。而 Env Wrapper 正是添加功能的一种简明实现方案。
+Therefore, if the original environment is not perfectly adapted to our needs, we need to add functional modules to it to extend the functionality of the original environment and make it easy for the user to manipulate or adapt the environment's inputs and outputs. Env Wrapper is a simple solution for adding functionality.
 
 
 Env Wrapper offered by DI-engine
