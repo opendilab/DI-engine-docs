@@ -106,7 +106,7 @@ The structure of ObsNormEnv as below：
 
 - ``__init__``: initialize ``data_count``, ``clip_range``, and ``running mean/std``.
 
-- ``step``: use the given action to advance the environment，and update ``data_count``and ``running mean and std``.
+- ``step``: use the given action to advance the environment，and update ``data_count`` and  ``running mean and std``.
 
 - ``observation``: obtain the result observed. if ``data_count`` Returns the normalised version if the total number exceeds 30.
 
