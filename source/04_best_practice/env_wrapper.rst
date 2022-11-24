@@ -35,7 +35,7 @@ DI-engine provides a large number of defined and generic Env Wrapper，The user 
 
 - EpisodicLifeEnv：Let the death of an intelligence in the environment mark the end of an episode (game over), and only reset the game when the real game is over. In general, this helps the algorithm to estimate the value.
 
-- FireResetEnv：  Take ``fire`` action when the environment is reset. For more information ` <https://github.com/openai/baselines/issues/240>`_
+- FireResetEnv：  Take ``fire`` action when the environment is reset. For more information <https://github.com/openai/baselines/issues/240>_
 
 Tip: update_shape：This is a function that helps to identify the shape of observed states, actions and rewards after the env wrapper has been applied.
 
