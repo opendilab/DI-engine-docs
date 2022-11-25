@@ -3,7 +3,7 @@ Gym-Super-Mario-Bros
 
 Overview
 =======
-Here is the "Super Mario Bros" series of games, in which players need to control Mario to move and jump, avoid the pits and enemies in the process of leading to the end, gain more gold coins to get higher scores. This game also has many interesting props to enhance player experiences.`gym-super-mario-bros <https://github.com/Kautenja/gym-super-mario-bros>`_ , this environment is encapsulated from "Super Mario Bros" of Nintendo after OpenAI Gym.
+Here is the "Super Mario Bros" series of games, in which players need to control Mario to move and jump, avoid the pits and enemies in the process of leading to the end, gain more gold coins to get higher scores. This game also has many interesting props to enhance player experiences. `gym-super-mario-bros <https://github.com/Kautenja/gym-super-mario-bros>`_ , this environment is encapsulated from "Super Mario Bros" of Nintendo after OpenAI Gym.
 Here is the screeshot of game:
 
 .. image:: ./images/mario.png
@@ -102,7 +102,7 @@ Action Space
 ----------
 
 The action space of gym-super-mario-bros contains the whole 256 discrete actions from Nintendo.
-To compress this size (and to facilitate learning by the intelligences), the environment provides the action wrapper `` JoypadSpace `` by default to reduce the action dimension: the optional set of actions and their meanings are as follows:
+To compress this size (and to facilitate learning by the intelligences), the environment provides the action wrapper ``JoypadSpace`` by default to reduce the action dimension: the optional set of actions and their meanings are as follows:
 
 .. code:: python
 
@@ -165,7 +165,7 @@ For the 7-dimensional discrete action space represented by SIMPLE_MOVEMENT, the 
 State Space
 ----------
 
-The state space input to gym-super-mario-bros is the image information, and the tensor matrix in three dimensions (datatype=uint8). In addition, the different versions of the game correspond to the same image resolution `` 240*256*3 ``, but the higher the version, the more abbreviated the image is (pixel blocking), as follows:
+The state space input to gym-super-mario-bros is the image information, and the tensor matrix in three dimensions (datatype=uint8). In addition, the different versions of the game correspond to the same image resolution ``240*256*3``, but the higher the version, the more abbreviated the image is (pixel blocking), as follows:
 
 .. code:: shell
 
@@ -185,7 +185,7 @@ The state space input to gym-super-mario-bros is the image information, and the 
     [255 255 255]
     [255 255 255]]], (240, 256, 3), uint8)
 
-The corresponding game screenshots of ` v3 ` are as follows:
+The corresponding game screenshots of ``v3`` are as follows:
 
 .. image:: ./images/mario_v3.png
    :align: center
@@ -195,18 +195,18 @@ Reward Space
 -----------
 We hope Mario could more likely to move to the **right side** , and move **faster** to the end successfully, the setting of the reward for each frame consists of three parts as follows:
 
-1. `` v ``:represents the difference in Mario's x-coordinate (which can be interpreted as the velocity to the right) between two consecutive frames, with positive and negative.
+1. ``v``:represents the difference in Mario's x-coordinate (which can be interpreted as the velocity to the right) between two consecutive frames, with positive and negative.
 
 
-2. `` c ``:the time used per frame, simply understood as a negative REVERSE for each frame, is used to push the intelligence to reach the end faster.
+2. ``c``:the time used per frame, simply understood as a negative REVERSE for each frame, is used to push the intelligence to reach the end faster.
 
 
-3. `` d ``:penalty for death, giving a high penalty of -15 if Mario dies.
+3. ``d``:penalty for death, giving a high penalty of -15 if Mario dies.
 
 
-Total reward `` r = v + c + d ``
+Total reward ``r = v + c + d``
 
-Reward being clipped to `` (-15,15) ``
+Reward being clipped to ``(-15,15)``
 
 
 Termination Conditions
@@ -221,7 +221,7 @@ For gym-super-mario-bros ,the termination condition for each episode of the envi
 
 Additional information contained in info
 ----------------------------
-At each step of interaction with the environment , the environment returns the ` info ` dictionary, which contains information about the coins acquired, the current accumulated score, the time remaining, and Mario's current coordinates. The details are as follows:
+At each step of interaction with the environment , the environment returns the ``info`` dictionary, which contains information about the coins acquired, the current accumulated score, the time remaining, and Mario's current coordinates. The details are as follows:
 
 .. list-table:: More Information
    :widths: 15 10 35
@@ -263,7 +263,7 @@ At each step of interaction with the environment , the environment returns the `
 
 Built-in Environment
 -----------
-There are several built-in environments, including \ ``"SuperMarioBros-v0"``、 ``"SuperMarioBros-v1"``、 ``"SuperMarioBros-v2"`` \ , and \ ``"SuperMarioBros2-v0"``\ for Super Mario Bros. and Super Mario Bros. 2 "\ ``"SuperMarioBros2-v0"`` and \ ``"SuperMarioBros2-v1"``.
+There are several built-in environments, including \ ``"SuperMarioBros-v0"``、 ``"SuperMarioBros-v1"``、 ``"SuperMarioBros-v2"``、``"SuperMarioBros-v3"`` \ for Super Mario Bros. And "\ ``"SuperMarioBros2-v0"``、 ``"SuperMarioBros2-v1"`` \for Super Mario Bros. 2.
 In addition, Super Mario Bros. also allows you to select specific levels to break into, such as \ ``"SuperMarioBros-1-1-v0"`` \ .
 
 Video Store
