@@ -39,7 +39,7 @@ In the following, we will introduce the specific operation of buffer for users.
     data = [d.data for d in buffered_data]
 
 
-**Using Buffer to complete online training**
+**Using Buffer to Complete Online Training**
 
 In the previous subsection, we introduced the actual storage structure of the data in the buffer, as well as the most basic deposit and sample operations.
 In fact, in most tasks, the user does not need to use these underlying atomic operations. We \ **recommend** \ user to call the buffer object through the DI-engine wrapped middleware to complete the training.
@@ -53,7 +53,7 @@ In fact, in most tasks, the user does not need to use these underlying atomic op
     task.use(OffPolicyLearner(cfg, policy.learn_mode, buffer))
 
 
-**Using Buffer to load expert data**
+**Using Buffer to Load Expert Data**
 
 During the imitation learning tasks, like SQIL and DQFD, we need to load some expert experiences before training. Actually, users can use another buffer to hold the expert data, taking SQIL as an example (the complete code can be found at \ `./ding/example/sqil.py <https://github.com/opendilab/DI-engine/blob/main/ding/example/sqil.py>`_):
 
@@ -92,7 +92,7 @@ If users enable the function when putting samples, they must explicitly pass the
     buffered_data = buffer.sample(3)
 
 
-**Sample cloning**
+**Sample Cloning**
 
 By default, for mutable objects stored in a buffer (such as list, np.array, torch.tensor, etc.), the sampling operation in fact returns a reference to that object.
 If the user subsequently makes changes to the content of the reference, it may cause the corresponding content in the sample pool to change as well.
@@ -107,13 +107,13 @@ In this way, modifications to the copy contents do not affect the original data 
     buffer.use(clone_object())
 
 
-**Group sampling**
+**Group Sampling**
 
   In some specific environments or algorithms, users may wish to collect, store, and process samples by entire episodes.
 For example, in chess, Go, or card games where players are only rewarded at the end of the game, algorithms solving such tasks often want to process the entire game, and some algorithms like Hindsight Experience Replay (HER) need to sample complete episodes and process them in episodic units.
 In this case, the user can use group sampling to achieve this goal.
 
-- **Custom implementation via atomic operations**
+- **Custom Implementation via Atomic Operations**
 
   The aforementioned demand can be implemented by some atomic operations to achieve customization and more flexibility. For example, when storing samples, you can add "episode" information to the meta to specify the episode to which the sample belongs, and when sampling, you can set groupby="episode" to enable group sampling with the episode keyword. \ **Sampling in groups can seriously increase the sampling time**\.
 
@@ -129,7 +129,7 @@ In this case, the user can use group sampling to achieve this goal.
       # Grouping according to the keyword "episode" requires that the number of different groups in the buffer is not less than the number of samples.
       grouped_data = buffer.sample(2, groupby="episode")
 
-- **Implementation through middleware**
+- **Implementation through Middleware**
 
   In DI-engine, we also provide an integral group sampling operation by the data_pusher middleware. Take the R2D2 algorithm, where episodes of samples are passed in sequences through the LSTM network, for example.
  In data collection, each env instance corresponds to a unique decision track, so the env_id is recommended to use as the key to distinguish different episodes.
@@ -143,7 +143,7 @@ In this case, the user can use group sampling to achieve this goal.
       task.use(data_pusher(cfg, buffer, group_by_env=True))
 
 
-**(Available options)**
+**(Available Options)**
 On top of group sampling, you can also use \ **group_sample middleware**\  to implement post-processing of samples, such as: choosing whether to disrupt data within the same group, and setting the maximum length of each group of data.
 
 .. code-block:: python
@@ -155,7 +155,7 @@ On top of group sampling, you can also use \ **group_sample middleware**\  to im
     buffer.use(group_sample(size_in_group=3, ordered_in_group=True))
     
 
-**Delete multiple use samples**
+**Delete Multiple Use Samples**
 
 By default in the Dequebuffer, samples may be collected repeatedly by multiple sample function calls. If it is not controlled, the training performance will decay since it fits partial samples too many times.
 To avoid this problem, we can use \ **use_time_check middleware**\  to set the maximum number of times the samples can be used.
