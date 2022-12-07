@@ -1,7 +1,7 @@
 Why do we need Env Wrapper
 ------------------------------------------------------
-Environment module is one of the most vital modules in reinforcement learning。 We train our agents in these environmnets and we allow them to explore and learn in these envirnments。In addition to a number of benchmark environments （such as atari or mujoco）reinforcement learning may also include a variety of custom environments.Overall，The essence of the Env Wrapper is to add certain generic additional features to our custom environment.
-For instance：When we are training intelligences, we usually need to change the definition of the environment in order to achieve better training results, and these processing techniques are somewhat universal.For some environments, normalising the observed state is a very common pre-processing method. This processing makes training faster and more stable. If we extract this common part and put this preprocessing in an Env Wrapper, we avoid duplicate development. That is, if we want to change the way we normalise the observation state in the future, we can simply change it in this Env Wrapper.
+Environment module is one of the most vital modules in reinforcement learning。 We train our agents in these environmnets and we allow them to explore and learn in these envirnments. In addition to a number of benchmark environments (such as atari or mujoco) reinforcement learning may also include a variety of custom environments.Overall，The essence of the Env Wrapper is to add certain generic additional features to our custom environment.
+For instance：When we are training agents, we usually need to change the definition of the environment in order to achieve better training results, and these processing techniques are somewhat universal.For some environments, normalising the observed state is a very common pre-processing method. This processing makes training faster and more stable. If we extract this common part and put this preprocessing in an Env Wrapper, we avoid duplicate development. That is, if we want to change the way we normalise the observation state in the future, we can simply change it in this Env Wrapper.
 
 Therefore, if the original environment is not perfectly adapted to our needs, we need to add functional modules to it to extend the functionality of the original environment and make it easy for the user to manipulate or adapt the environment's inputs and outputs. Env Wrapper is a simple solution for adding functionality.
 
@@ -9,19 +9,19 @@ Therefore, if the original environment is not perfectly adapted to our needs, we
 Env Wrapper offered by DI-engine
 ==============================================
 
-DI-engine provides a large number of defined and generic Env Wrapper，The user can wrap it directly on top of the environment they need to use according to their needs.In the process of implementation，we refered  `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，and folloiw the form of gym.Wrapper，which is `Gym.Wrapper <https://www.gymlibrary.dev/api/wrappers/>`_ ，In total, these include the following:
+DI-engine provides a large number of pre-defined and generic Env Wrapper. The user can wrap it directly on top of the environment they need to use according to their needs.In the process of implementation，we refered  `OpenAI Baselines <https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py>`_ ，and follow the form of gym.Wrapper，which is `Gym.Wrapper <https://www.gymlibrary.dev/api/wrappers/>`_ ，In total, these include the following:
 
-- NoopResetEnv：add a reset method to the environment. Resets the environment after some no-operations..
+- NoopResetEnv：add a reset method to the environment. Reset the environment after some no-operations..
 
 - MaxAndSkipEnv： Each ``skip`` frame（doing the same action）returns the maximum value of the two most recent frames.(for max pooling across time steps)。
 
-- WarpFrame： Convert the size of the image frame to 84x84, such as `Nature‘s paper <https://www.deepmind.com/publications/human-level-control-through-deep-reinforcement-learning>`_  and it's following work。(Note that this registrar also converts RGB images to GREY images)
+- WarpFrame： Convert the size of the image frame to 84x84, according to  `Nature‘s paper <https://www.deepmind.com/publications/human-level-control-through-deep-reinforcement-learning>`_  and it's following work. (Note that this registrar also converts RGB images to GREY images)
 
 - ScaledFloatFrame： Normalize status values to 0~1。
 
-- ClipRewardEnv： Cuts the reward to {+1, 0, -1} by the positive or negative of the reward.
+- ClipRewardEnv： Clip the reward to {+1, 0, -1} by the positive or negative of the reward.
 
-- FrameStack： Set the nearest state frame of the stacked n_frames to the current state.
+- FrameStack： Set the current state to be the stacked nearest n_frames.
 
 - ObsTransposeWrapper：The dimensions of the observed state are adjusted to place the channel dimension on the first dimension of the state. It is typically used in atari environments.
 
@@ -33,7 +33,7 @@ DI-engine provides a large number of defined and generic Env Wrapper，The user 
 
 - RamWrapper： Converting the ram state of the original environment into an image-like state by extending the dimensionality of the observed state.
 
-- EpisodicLifeEnv：Let the death of an intelligence in the environment mark the end of an episode (game over), and only reset the game when the real game is over. In general, this helps the algorithm to estimate the value.
+- EpisodicLifeEnv：Let the death of an agent in the environment mark the end of an episode (game over), and only reset the game when the real game is over. In general, this helps the algorithm to estimate the value.
 
 - FireResetEnv：  Take ``fire`` action when the environment is reset. For more information please click `here <https://github.com/openai/baselines/issues/240>`_
 
@@ -41,7 +41,7 @@ Tip: update_shape：This is a function that helps to identify the shape of obser
 
 How to use Env Wrapper
 ------------------------------------
-The next question is how should we wrap the environment with Env Wrapper. One solution is to wrap the environment manually and explicitly：
+The next question is how to wrap the environment with Env Wrapper. One solution is to wrap the environment manually and explicitly：
 
 .. code:: python
 
@@ -68,10 +68,10 @@ If it is necessary to convert an environment in gym format to DI-engine environm
 In particular, the Env Wrappers in the list are wrapped outside the environment in order. In the example above, the Env Wrapper wraps a layer of MaxAndSkipWrapper and then a layer of ScaledFloatFrameWrapper, while the Env Wrapper serves to add functionality but does not change the original functionality.
 
 
-How to customise Env Wrapper （Example）
+How to customise an Env Wrapper （Example）
 -----------------------------------------
-Taking ObsNormEnv wrapper as an example。In order to normalis the observed state，we only need to change two methods in the original environment class：step method and reset method，The rest of the method remains the same.
-Note that in some cases, as the normalised bounds of the observed state change, info will need to be modified accordingly.Please also note that the essence of the ObsNormEnv wrapper is to add additional functionality to the original environment, which is what the wrapper is all about. \
+Taking ObsNormEnv wrapper as an example. In order to normalise the observed state，we only need to change two methods in the original environment class:step method and reset method, The rest of the method remains the same.
+Note that in some cases, as the normalised bounds of the observed state change, info is needed to be modified accordingly.Please also note that the essence of the ObsNormEnv wrapper is to add additional functionality to the original environment, which is what the wrapper is all about. \
 
 In addition, since the distribution of the sampled data is highly correlated with the strategy, i.e., the distribution of the samples can vary significantly from strategy to strategy, we use running means and standard deviations to normalize the observed states, rather than fixed means and standard deviations.
 
