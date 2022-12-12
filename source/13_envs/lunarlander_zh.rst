@@ -304,8 +304,8 @@ link <https://github.com/opendilab/DI-engine/blob/main/dizoo/box2d/lunarlander/c
             ),
         ),
     )
-    lunarlander_dqn_default_config = EasyDict(lunarlander_dqn_default_config)
-    main_config = lunarlander_dqn_default_config
+    lunarlander_dqn_config = EasyDict(lunarlander_dqn_config)
+    main_config = lunarlander_dqn_config
 
     lunarlander_dqn_create_config = dict(
         env=dict(
