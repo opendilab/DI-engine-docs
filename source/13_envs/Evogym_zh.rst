@@ -17,7 +17,7 @@ Evolution Gym（Evogym）是第一个用于共同优化软体机器人设计和�
 --------------------
 
 Evogym 环境可以从 GitHub 下载并使用 pip 安装。
-鉴于安装过程可能会因操作系统而有一些不同，遇到任何问题可以查看原始`仓库<https://github.com/EvolutionGym/evogym#installation>`__中的说明。
+鉴于安装过程可能会因操作系统而有一些不同，遇到任何问题可以查看原始\ `仓库 <https://github.com/EvolutionGym/evogym#installation>`__\ 中的说明。
 
 .. code:: shell
 
@@ -104,7 +104,6 @@ Evogym提供固定的任务，但你可以自定义你自己的机器人结构�
 存储录像
 ------------
 
-After the environment is created, but before reset, call the \ ``enable_save_replay`` \ method, specifying the path to save the game replay. The environment will automatically save the local video files after each episode ends. (The default call \ ``gym.wrappers.RecordVideo`` \ implementation ), the code shown below will run an environment episode and save the result of this episode in a folder\ ``./video/``\ :
 在环境创建之后，重置之前调用 \ ``enable_save_replay`` \ 方法，指定游戏录像保存的路径。环境将在每个 episode 结束后自动保存本地视频文件。(默认调用 \ ``gym.wrappers.RecordVideo`` \ 实现)，下面所示的代码将运行一个环境 episode，并将这个 episode 的结果保存在一个文件夹 \ ``./video/``\ 里。
 
 .. code:: python
