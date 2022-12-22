@@ -1,13 +1,31 @@
 如何构建多智能体环境
 ==============================================================
 
-``DI-zoo`` 为用户提供了一些多智能体强化学习常用环境，包括 `PettingZoo Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/petting_zoo/envs/petting_zoo_simple_spread_env.py>`_ 、 `SMAC Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/smac/envs/smac_env.py>`_ 、 `Multi-Agent MuJoCo Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/multiagent_mujoco/envs/multi_mujoco_env.py>`_ 、 `Google Research Football Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/gfootball/envs/gfootball_academy_env.py>`_ 。
 
-然而在部分情况下，用户需要依据自己的业务，自己实现多智能体环境，并期待可以将其快速迁移到 ``DI-engine`` 中，以便使用 ``DI-engine`` 中的多智能体强化学习算法解决问题。本节将会介绍构建自己的多智能体强化学习环境，并利用``DI-engine``中的多智能体算法（以 `QMIX <https://github.com/opendilab/DI-engine/blob/main/ding/policy/qmix.py>`_ 与 `MAPPO <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo.py>`_ 这两类用于合作多智能体的CTDE算法为例）来训练多智能体的方式。下面大部分情况下将以 PettingZoo 为例进行说明。具体代码可以参考 `PettingZoo Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/petting_zoo/envs/petting_zoo_simple_spread_env.py>`_ 。
+``DI-zoo`` 为用户提供了一些多智能体强化学习常用环境：
 
-多智能体环境的构建方法和单智能体环境的构建方式基本是一样的，因此首先需要对``DI-engine`` 中强化学习环境的 `构建方式 <https://di-engine-docs.readthedocs.io/zh_CN/latest/04_best_practice/ding_env_zh.html>`_ 进行了解，新建的环境文件需要在 ``dizoo`` 文件夹下，也需要实现 ``__init__()`` 、 ``seed()`` 、 ``reset()`` 与 ``step()`` 等方法。
++------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
+|Env Name                                                                                                                                  |Learning Mode                        |Observability                        |Action Space                         |Observations                         |
++==========================================================================================================================================+=====================================+=====================================+=====================================+=====================================+
+| `PettingZoo(MPE) <https://github.com/opendilab/DI-engine/blob/main/dizoo/petting_zoo/envs/petting_zoo_simple_spread_env.py>`_            |cooperative + collaborative + mixed	| Both                               | Both                               | Continuous                         |
++------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
+| `SMAC <https://github.com/opendilab/DI-engine/blob/main/dizoo/smac/envs/smac_env.py>`_                                                   |cooperative                         |	Partial                          |	Discrete                          |	Continuous                         |
++------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
+| `MAMuJoCo <https://github.com/opendilab/DI-engine/blob/main/dizoo/multiagent_mujoco/envs/multi_mujoco_env.py>`_                          |cooperative                         |	Partial                          |	Continuous                        |	Continuous                         |
++------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
+| `GRF <https://github.com/opendilab/DI-engine/blob/main/dizoo/gfootball/envs/gfootball_academy_env.py>`_                                  |collaborative + mixed               |	Full                             |	Discrete                          |	Continuous                         |
++------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
 
-特殊的是，相较于单智能体环境，多智能体环境的动作空间、奖励空间和观测空间是字典，用以区分不同智能体的元素，拿``PettingZoo``的动作空间和奖励空间举例：
+然而在部分情况下，用户需要依据自己的业务，自己实现多智能体环境，并期待可以将其快速迁移到 ``DI-engine`` 中，以便使用 ``DI-engine`` 中的多智能体强化学习算法解决问题。本节将会介绍构建自己的多智能体强化学习环境，并利用 ``DI-engine`` 中的多智能体算法（以 `QMIX <https://github.com/opendilab/DI-engine/blob/main/ding/policy/qmix.py>`_ 与 `MAPPO <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo.py>`_ 这两类用于合作多智能体的CTDE算法为例）来训练多智能体的方式。下面大部分情况下将以 ``PettingZoo`` 环境中的 ``simple spread`` 为例进行说明：
+
+.. image:: ./images/mpe_simple_spread.gif
+   :align: center
+
+具体代码可以参考 `PettingZoo Env <https://github.com/opendilab/DI-engine/blob/main/dizoo/petting_zoo/envs/petting_zoo_simple_spread_env.py>`_ 。
+
+多智能体环境的构建方法和单智能体环境的构建方式基本是一样的，因此首先需要对 ``DI-engine`` 中强化学习环境的 `构建方式 <https://di-engine-docs.readthedocs.io/zh_CN/latest/04_best_practice/ding_env_zh.html>`_ 进行了解，新建的环境文件需要在 ``dizoo`` 文件夹下，也需要实现 ``__init__()`` 、 ``seed()`` 、 ``reset()`` 与 ``step()`` 等方法。
+
+特殊的是，相较于单智能体环境，多智能体环境的动作空间、奖励空间和观测空间有时需要用字典（dict）形式来实现，用以区分不同智能体的元素，还是拿 ``simple spread`` 的动作空间和奖励空间举例：
 
 
 .. code:: python
@@ -157,7 +175,13 @@
 如何使用 ``DI-engine`` 中的 MARL 算法
 ``DI-engine`` 中集成了多种多智能体算法，包括 value-based 的 `QMIX <https://github.com/opendilab/DI-engine/blob/main/ding/policy/qmix.py>`_ 、 `QTRAN <https://github.com/opendilab/DI-engine/blob/main/ding/policy/qtran.py>`_ 以及actor-critic的 `COMA <https://github.com/opendilab/DI-engine/blob/main/ding/policy/coma.py>`_ 、 `MAPPO <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo.py>`_ 等，这里以 QMIX 与 MAPPO 为例。
 
-当环境已经完成后，进行智能体训练只需要修改默认算法配置文件的几个参数。以 ``PettingZoo`` 下的 QMIX config文件为例：
+当环境已经完成后，进行智能体训练只需要找到相应的多智能体算法配置的模板，然后修改跟新环境相关的几个参数即可。例如如果想要使用 QMIX 算法，那么可以找到 ``PettingZoo`` 下的 QMIX config `ptz_simple_spread_qmix_config.py https://github.com/opendilab/DI-engine/blob/main/dizoo/petting_zoo/config/ptz_simple_spread_qmix_config.py>_` 文件。
+
+需要修改的内容有以下几点：
+- main_config 的 env 属性：其中包含需要传递给实现的多智能体环境类的 ``__init__`` 函数的参数，包括子环境的的名称、智能体数量等；
+- main_config 中 policy 的 model 属性：其中包含需要传递给模型的参数，包括智能体的局部观测维度、全局观测维度、动作维度等；
+- create_config 的 env 属性，包含实现的多智能体环境所在的路径以及其在装饰器中的 key (type)。
+其它的内容与环境无关，直接照搬就可以运行，完整的配置文件示例如下：
 
 
 .. code:: python
@@ -234,13 +258,7 @@
         from ding.entry import serial_pipeline
         serial_pipeline((main_config, create_config), seed=0)
 
-需要修改的内容有以下几点：
-- main_config 的 env 属性：其中包含需要传递给实现的多智能体环境类的 ``__init__`` 函数的参数，包括子环境的的名称、智能体数量等；
-- main_config 中 policy 的 model 属性：其中包含需要传递给模型的参数，包括智能体的局部观测维度、全局观测维度、动作维度等；
-- create_config 的 env 属性，包含实现的多智能体环境所在的路径以及其在装饰器中的 key (type)。
-其它的内容与环境无关，直接照搬就可以运行。
-
-如果想要利用 actor-critic 的 MAPPO 算法，则需要对环境作额外的改动，由于 critic 需要对每个智能体的价值做判断，而之前的全局信息不包含智能体的判别信息，即 critic 无从得知这是要对哪个智能体做出评价，因此无法计算正确的价值。为此，在环境中需要使用 ``agent_specific_global_state`` 来替代原来的 ``global_state``。还是用 ``PettingZoo`` 环境作为例子：
+如果想要利用 actor-critic 的 MAPPO 算法，则需要对环境作额外的改动，由于 critic 需要对每个智能体的价值做判断，而之前的全局信息对每个智能体都是相同的，不包含智能体的判别信息，即 critic 无从得知这是要对哪个智能体做出评价，因此无法为每个智能体给出特异的价值评估。为此，在环境中需要使用 ``agent_specific_global_state`` 来替代原来的 ``global_state``。还是用 ``PettingZoo`` 环境作为例子：
 
 
 .. code:: python
@@ -257,7 +275,7 @@
         )
         self._observation_space['global_state'] = agent_specifig_global_state
 
-所谓 ``agent_specific_global_state``，就是将智能体自己的局部观测与全局状态进行叠加，这样 ``global_state`` 就既有智能体的判别信息，也具有足够的全局信息来让 critic 给出正确的价值。
+所谓 ``agent_specific_global_state``，一种常规的实现方式是，将智能体自己的局部观测与全局状态进行叠加，这样 ``global_state`` 就既有智能体的判别信息，也具有足够的全局信息来让 critic 给出正确的价值。
 同理，在 ``reset()`` 与 ``step()`` 中处理 observation 时，也要修改返回的 ``global_state``：
 
 
@@ -361,4 +379,4 @@
         from ding.entry import serial_pipeline_onpolicy
         serial_pipeline_onpolicy((main_config, create_config), seed=0)
 
-相较于 QMIX 的改动外，唯一的区别就是增加了对于 ``agent_specific_global_state=True`` 的判断。
+相较于 QMIX 的改动外，唯一的区别就是增加了配置项 ``agent_specific_global_state=True`` 。
