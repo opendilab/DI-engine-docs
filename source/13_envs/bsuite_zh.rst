@@ -37,7 +37,7 @@ action space :math:`\mathcal{A}=\{-1,+1\}`.
 安装方法
 -----------------
 
-You just need to use the command ``pip`` to install bsuite, however it will be automatically installed when installing DI-engine.
+你只需要使用 ``pip`` 命令来安装bsuite，然而在安装DI-engine时它会自动安装。
 
 .. code:: shell
 
@@ -50,7 +50,7 @@ You just need to use the command ``pip`` to install bsuite, however it will be a
 验证安装
 --------------------
 
-Once installed, you can verify whether the installation is successful by running the following command on the Python command line.
+一旦安装完毕，你可以通过在Python命令行上运行以下命令来验证安装是否成功。
 
 .. code:: python
 
@@ -59,7 +59,7 @@ Once installed, you can verify whether the installation is successful by running
    timestep = env.reset()
    print(timestep)
 
-Original Environment Space
+原始环境空间
 ===========================
 
 观察空间
@@ -88,7 +88,7 @@ Original Environment Space
 其他
 -------
 
--  Environments terminate once they have reached their maximum number of steps N.
+-  环境一旦达到其最大步数N，就会终止。
 
 
 关键事实
