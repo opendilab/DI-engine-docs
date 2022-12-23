@@ -65,11 +65,11 @@ action space :math:`\mathcal{A}=\{-1,+1\}`。
 观察空间
 -------------------
 
--  代理人的观察是一个三维的向量。数据类型是 ``float32``。它们的具体含义如下：
+-  智能体的观察是一个三维的向量。数据类型是 ``float32``。它们的具体含义如下：
 
-  -  obs[0] shows the current time, ranging from [0, 1]. 
-  -  obs[1] shows the query as an integer number between 0 and num of bit at the last step. It's always 0 in memory length experiment because there is only a single bit. (It's useful in memory size experiment.)
-  -  obs[2] shows the context of +1 or -1 at the first step. At all future timesteps the context is equal to 0 and a countdown until the end of the episode
+  -  obs[0] 显示当前时间，范围是 [0, 1]。
+  -  obs[1] 在最后一步将查询显示为0和num之间的整数位。在内存长度实验中它总是0，因为只有一个比特。(在内存大小实验中它是有用的)。
+  -  obs[2] 在第一步显示了+1或-1的条件。在以后的所有时间步骤中，上下文都等于0，并且有一个倒计时，直到episode结束。
 
 动作空间
 ---------------
