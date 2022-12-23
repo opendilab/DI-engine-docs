@@ -31,10 +31,10 @@ action space :math:`\mathcal{A}=\{-1,+1\}`.
 
    Image taken from paper `Behaviour Suite for Reinforcement Learning <https://arxiv.org/abs/1908.03568>`__
 
-Installation
+安装
 =============
 
-How To install
+安装方法
 -----------------
 
 You just need to use the command ``pip`` to install bsuite, however it will be automatically installed when installing DI-engine.
@@ -47,7 +47,7 @@ You just need to use the command ``pip`` to install bsuite, however it will be a
    cd DI-engine
    pip install ".[common_env]"
 
-Verify Installation
+验证安装
 --------------------
 
 Once installed, you can verify whether the installation is successful by running the following command on the Python command line.
