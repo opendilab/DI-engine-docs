@@ -16,7 +16,8 @@ Installation Method
 
 .. code:: shell
 
-    pip install git+https://github.com/thomashirtz/gym-hybrid@master#egg=gym-hybrid
+    cd ./DI-engine/dizoo/gym_hybrid/envs/gym-hybrid
+    pip install -e .
 
 Verify Installation
 --------------------
