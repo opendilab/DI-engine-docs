@@ -3,7 +3,7 @@ Gym-Hybrid
 
 概述
 =======
-在 gym-hybrid 任务中, 智能体需要在边长为 2 的正方形框内，从随机出发点启动，通过加速（Accelerate）、转向（Turn）或刹车（Break）等一系列控制操作，最终希望停留在红色目标区域（一个半径为 0.1 的圆）。如下图所示：
+在 gym-hybrid 任务中, 智能体需要在一个正方形框内，从随机出发点启动，通过加速（Accelerate）、转向（Turn）或刹车（Break）等一系列控制操作，最终希望停留在绿色目标区域（一个有目标旗帜的圆）。如下图所示：
 
 .. image:: ./images/hybrid.gif
    :align: center
@@ -54,7 +54,7 @@ Gym-hybrid 的动作空间属于离散连续动作混合空间，有3 个离散�
   
 -  \ ``Break ()`` \: 表示停止。
 
-使用gym环境空间定义则可表示为：
+使用 gym 环境空间定义则可表示为：
 
 .. code:: python
     
@@ -132,8 +132,4 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/gym_hybrid/config>`
    .. image:: images/gym_hybrid_Moving-v0.png
      :align: center
 
-图1：HPPO 和其他混合动作空间算法在 Moving-v0 上的训练曲线图。实线表示各个算法在5个种子上的测试局对应 return 的平均值，阴影部分表示5个种子上的标准差，在每个种子的每个测试点上我们一共评估8局。横坐标为训练时与环境交互的步数。return>=1.5 的轨迹视为一次成功的移动。
-
-参考资料
-=====================
-- Gym-hybrid `源码 <https://github.com/thomashirtz/gym-hybrid>`__
+图1：HPPO 和其他混合动作空间算法在 Moving-v0 上的训练曲线图。实线表示各个算法在5个种子上的测试局对应 return 的平均值，阴影部分表示5个种子上的标准差，在每个种子的每个测试点上我们一共评估8局。横坐标为训练时与环境交互的步数。return>=1.5 的轨迹视为一次成功的移动。关于对比算法的详细信息，可以参考 `知乎博客 <https://zhuanlan.zhihu.com/p/478728586>`_
