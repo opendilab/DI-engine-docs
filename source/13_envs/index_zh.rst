@@ -33,6 +33,7 @@
 
    slime_volleyball_zh
    competitive_rl_zh
+   Evogym_zh.rst
    procgen_zh
    smac_zh
    d4rl_zh
