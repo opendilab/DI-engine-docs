@@ -2,7 +2,7 @@
 Bsuite
 ~~~~~~~
 
-Description
+概述
 ============
 
 ``bsuite`` is a collection of carefully-designed experiments that investigate core capabilities of a reinforcement learning (RL) agent with two main objectives:
