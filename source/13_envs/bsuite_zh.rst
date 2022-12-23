@@ -62,7 +62,7 @@ Once installed, you can verify whether the installation is successful by running
 Original Environment Space
 ===========================
 
-Observations Space
+观察空间
 -------------------
 
 -  The observation of agent is a 3-dimensional vector. Data type is ``float32``. Their specific meaning is as below:
@@ -71,12 +71,12 @@ Observations Space
   -  obs[1] shows the query as an integer number between 0 and num of bit at the last step. It's always 0 in memory length experiment because there is only a single bit. (It's useful in memory size experiment.)
   -  obs[2] shows the context of +1 or -1 at the first step. At all future timesteps the context is equal to 0 and a countdown until the end of the episode
 
-Actions Space
+动作空间
 ---------------
 
 -  The action space is a discrete space of size 2, which is {-1,1}. Data type is ``int``.
 
-Rewards Space
+奖励空间
 -------------
 
 -  The reward space is a discrete space of size 3, which is a ``float`` value.
@@ -91,7 +91,7 @@ Others
 -  Environments terminate once they have reached their maximum number of steps N.
 
 
-Key Facts
+关键事实
 ==========
 
 1. We can change the memory length N to make it gradually more challenging.
@@ -101,7 +101,7 @@ Key Facts
 3. Each environment is designed to test a particular propriety of RL policies, including: generalization, exploration, credit assignment, scaling, noise, memory.
 
 
-Others
+其他
 =======
 
 Using bsuite in 'OpenAI Gym' format
@@ -143,7 +143,7 @@ Using DI-engine, you can create a bsuite environment simply with the name of you
    memory_len_env = BSuiteEnv(cfg)
 
 
-DI-zoo Runnable Code
+DI-zoo 可运行代码示例
 =======================
 
 The full training configuration can be found on `github
@@ -209,7 +209,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/bsuite/config/seria
         serial_pipeline((main_config, create_config), seed=0)
 
 
-Benchmark algorithm performance
+基准算法性能
 ===============================
 
    - memory_len/15 + R2D2
