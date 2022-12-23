@@ -14,7 +14,7 @@ Bsuite
    :align: center
    :scale: 70%
 
-   Image taken from: https://github.com/deepmind/bsuite
+   图片选自: https://github.com/deepmind/bsuite
 
 Here we take *Memory Length* as an example environment to illustrate below. It's designed to test the number of sequential steps an agent can remember a single bit. The underlying environment is based on a stylized `T-maze <https://en.wikipedia.org/wiki/T-maze>`__ problem, parameterized by a length :math:`N \in \mathbb{N}`. 
 Each episode lasts N steps with observation :math:`o_t=\left(c_t, t / N\right)` and 
