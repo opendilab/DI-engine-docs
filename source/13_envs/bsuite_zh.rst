@@ -116,11 +116,10 @@ Our implementation uses the bsuite Gym wrapper to make the bsuite codebase run u
    env = bsuite.load_and_record_to_csv('memory_len/0', results_dir='/path/to/results')
    gym_env = gym_wrapper.GymFromDMEnv(env)
 
-About Configurations
+配置
 -----------------------
 
-Configurations are designed to increase the level of difficulty of an environment. For example, in a 5-armed bandit environment, configurations are used to regulate the level of noise to perturb the rewards.
-Given a specific environment, all possible configurations can be visualized with the following code snippet.
+配置的设计是为了提高环境的难度水平。例如，在一个五臂匪徒的环境中，配置被用来调节噪音水平以扰乱奖励。给定一个特定的环境，所有可能的配置都可以通过下面的代码片断进行可视化。
 
 .. code:: python
 
@@ -132,7 +131,7 @@ Given a specific environment, all possible configurations can be visualized with
 .. image:: ./images/bsuite_config.png
    :align: center
 
-Using DI-engine, you can create a bsuite environment simply with the name of your desired configuration.
+使用DI-engine，你可以简单地用你想要的配置的名字来创建一个bsuite环境。
 
 .. code:: python
 
