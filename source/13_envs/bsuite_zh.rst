@@ -85,7 +85,7 @@ Original Environment Space
   -  If it's the last step and the agent select the correct action, the reward is 1.
   -  If it's the last step andthe agent select a wrong action, the reward is -1.
 
-Others
+其他
 -------
 
 -  Environments terminate once they have reached their maximum number of steps N.
@@ -94,20 +94,20 @@ Others
 关键事实
 ==========
 
-1. We can change the memory length N to make it gradually more challenging.
+1. 我们可以改变记忆的长度N，使其逐渐变得更具挑战性。
 
-2. Discrete actions space.
+2. 离散行动空间。
 
-3. Each environment is designed to test a particular propriety of RL policies, including: generalization, exploration, credit assignment, scaling, noise, memory.
+3. 每个环境都被设计用来测试RL策略的一个特定的适当性，包括：概括、探索、信用分配、缩放、噪音、记忆。
 
 
 其他
 =======
 
-Using bsuite in 'OpenAI Gym' format
+以”OpenAI Gym“ 格式使用 bsuite 
 ------------------------------------
 
-Our implementation uses the bsuite Gym wrapper to make the bsuite codebase run under the OpenAI Gym interface. Hence, ``gym`` needs to be installed to make bsuite work properly.
+我们的实现使用bsuite Gym包装器来使bsuite代码库在OpenAI Gym接口下运行。因此，需要安装 ``gym`` 来使bsuite正常工作。
 
 .. code:: python
 
