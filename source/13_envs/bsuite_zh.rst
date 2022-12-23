@@ -21,7 +21,7 @@ Each episode lasts N steps with observation :math:`o_t=\left(c_t, t / N\right)` 
 action space :math:`\mathcal{A}=\{-1,+1\}`。
 
    - 在episode开始时，代理被提供一个 +1 或 -1的背景， 这意味着 :math:`c_1 \sim {Unif}(\mathcal{A})`。
-   - At all future timesteps the context is equal to zero and a countdown until the end of the episode, which means :math:`c_t=0` for all :math:`t>2`.
+   - 在所有未来的时间步骤中，上下文都等于零，并且是直到剧情结束的倒计时，这意味着所有 :math:`t>2`的 :math:`c_t=0`。
    - At the end of the episode the agent must select the correct action corresponding to the context to reward. The reward :math:`r_t=0` for all :math:`t<N`, and :math:`r_N={Sign}\left(a_N=c_1\right)`
 
 
