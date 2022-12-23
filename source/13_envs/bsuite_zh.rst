@@ -74,7 +74,7 @@ action space :math:`\mathcal{A}=\{-1,+1\}`。
 动作空间
 ---------------
 
--  The action space is a discrete space of size 2, which is {-1,1}. Data type is ``int``.
+-  行动空间是一个大小为 2 的离散空间，它是 {-1,1}。 数据类型为 ``int``。
 
 奖励空间
 -------------
