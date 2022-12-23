@@ -7,8 +7,8 @@ Bsuite
 
 ``bsuite``  是一个精心设计的实验集合，研究强化学习代理的核心能力。其主要有两个目标：
 
-    1. To collect clear, informative and scalable problems that capture key issues in the design of efficient and general learning algorithms.
-    2. To study agent behavior through their performance on these shared benchmarks.
+    1. 收集明确的、信息量大的、可扩展的问题，抓住高效和通用学习算法设计中的关键问题。
+    2. 通过他们在这些共享基准上的表现来研究代理行为。
 
 .. figure:: ./images/bsuite.png
    :align: center
