@@ -29,7 +29,7 @@ action space :math:`\mathcal{A}=\{-1,+1\}`.
    :align: center
    :scale: 70%
 
-   Image taken from paper `Behaviour Suite for Reinforcement Learning <https://arxiv.org/abs/1908.03568>`__
+   图片选自 `Behaviour Suite for Reinforcement Learning <https://arxiv.org/abs/1908.03568>`__ 一文
 
 安装
 =============
