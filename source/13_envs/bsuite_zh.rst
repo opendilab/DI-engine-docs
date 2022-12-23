@@ -145,10 +145,9 @@ Using DI-engine, you can create a bsuite environment simply with the name of you
 
 DI-zoo 可运行代码示例
 =======================
-
-The full training configuration can be found on `github
-link <https://github.com/opendilab/DI-engine/tree/main/dizoo/bsuite/config/serial>`__
-. In the following part, we show an example of configuration for the file, ``memory_len_0_dqn_config.py``\, you can run the demo with the following code：
+完整的训练配置可以在 `github
+链接 <https://github.com/opendilab/DI-engine/tree/main/dizoo/bsuite/config/serial>`__ 中找到。
+在下面的部门，我们展示了一个配置文件的例子，``memory_len_0_dqn_config.py``\ ，你可以用下面的代码来运行这个演示：
 
 .. code:: python
 
