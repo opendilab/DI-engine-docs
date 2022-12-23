@@ -20,7 +20,7 @@ Bsuite
 Each episode lasts N steps with observation :math:`o_t=\left(c_t, t / N\right)` and 
 action space :math:`\mathcal{A}=\{-1,+1\}`。
 
-   - At the beginning of the episode the agent is provided a context of +1 or -1, which means :math:`c_1 \sim {Unif}(\mathcal{A})`.
+   - 在episode开始时，代理被提供一个 +1 或 -1的背景， 这意味着 ：math:`c_1 \sim {Unif}(\mathcal{A})`。
    - At all future timesteps the context is equal to zero and a countdown until the end of the episode, which means :math:`c_t=0` for all :math:`t>2`.
    - At the end of the episode the agent must select the correct action corresponding to the context to reward. The reward :math:`r_t=0` for all :math:`t<N`, and :math:`r_N={Sign}\left(a_N=c_1\right)`
 
