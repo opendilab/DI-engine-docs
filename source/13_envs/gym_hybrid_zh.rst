@@ -3,7 +3,7 @@ Gym-Hybrid
 
 概述
 =======
-在 gym-hybrid 任务中, agent 的任务很简单：在边长为 2 的正方形框内加速（Accelerate）、转向（Turn）或刹车（Break），以停留在红色目标区域。目标区域是一个半径为 0.1 的圆。如下图所示。
+在 gym-hybrid 任务中, agent 的任务很简单：在边长为 2 的正方形框内加速（Accelerate）、转向（Turn）或刹车（Break），以停留在红色目标区域（目标区域是一个半径为 0.1 的圆）。如下图所示。
 
 .. image:: ./images/hybrid.gif
    :align: center
@@ -95,13 +95,13 @@ Gym-hybrid 的状态空间由一个有 10 个元素的 list 表示，描述了�
 
 终止条件
 ------------
-Gym-hybrid 环境每个 episode 的终止条件是遇到以下任何一种情况：
+Gym-hybrid 环境每个 episode 遇到以下任何一种情况之一时即视为终止：
 
 - agent 成功进入目标区域
   
 - agent 出界
   
-- 达到 episode 的最大 step
+- 达到 episode 的最大 step（默认设置为200）
   
 
 内置环境
@@ -114,80 +114,13 @@ DI-zoo 可运行代码示例
 
 下面提供一个完整的 gym hybrid 环境 config，采用 DDPG 作为基线算法。请在\ ``DI-engine/dizoo/gym_hybrid`` \ 目录下运行\ ``gym_hybrid_ddpg_config.py`` \ 文件，如下。
 
-.. code:: python
+完整的训练配置文件在 `github
+link <https://github.com/opendilab/DI-engine/tree/main/dizoo/gym_hybrid/config>`__
+内，对于具体的配置文件，例如 `gym_hybrid_ddpg_config.py <https://github.com/opendilab/DI-engine/blob/main/dizoo/gym_hybrid/config/gym_hybrid_ddpg_config.py>`__ ，使用如下命令即可运行：
 
-    from easydict import EasyDict
-    from ding.entry import serial_pipeline
+.. code:: shell
 
-    gym_hybrid_ddpg_config = dict(
-        exp_name='gym_hybrid_ddpg_seed0',
-        env=dict(
-            collector_env_num=8,
-            evaluator_env_num=5,
-            # (bool) Scale output action into legal range [-1, 1].
-            act_scale=True,
-            env_id='Moving-v0',  # ['Sliding-v0', 'Moving-v0']
-            n_evaluator_episode=5,
-            stop_value=2,  # 1.85 for hybrid_ddpg
-        ),
-        policy=dict(
-            cuda=True,
-            priority=False,
-            random_collect_size=0,  # hybrid action space not support random collect now
-            action_space='hybrid',
-            model=dict(
-                obs_shape=10,
-                action_shape=dict(
-                    action_type_shape=3,
-                    action_args_shape=2,
-                ),
-                twin_critic=False,
-                actor_head_type='hybrid',
-            ),
-            learn=dict(
-                action_space='hybrid',
-                update_per_collect=10,  # [5, 10]
-                batch_size=32,
-                discount_factor=0.99,
-                learning_rate_actor=0.0003,  # [0.001, 0.0003]
-                learning_rate_critic=0.001,
-                actor_update_freq=1,
-                noise=False,
-            ),
-            collect=dict(
-                n_sample=32,
-                noise_sigma=0.1,
-                collector=dict(collect_print_freq=1000, ),
-            ),
-            eval=dict(evaluator=dict(eval_freq=1000, ), ),
-            other=dict(
-                eps=dict(
-                    type='exp',
-                    start=1.,
-                    end=0.1,
-                    decay=100000,  # [50000, 100000]
-                ),
-                replay_buffer=dict(replay_buffer_size=100000, ),
-            ),
-        ),
-    )
-    gym_hybrid_ddpg_config = EasyDict(gym_hybrid_ddpg_config)
-    main_config = gym_hybrid_ddpg_config
-
-    gym_hybrid_ddpg_create_config = dict(
-        env=dict(
-            type='gym_hybrid',
-            import_names=['dizoo.gym_hybrid.envs.gym_hybrid_env'],
-        ),
-        env_manager=dict(type='base'),
-        policy=dict(type='ddpg'),
-    )
-    gym_hybrid_ddpg_create_config = EasyDict(gym_hybrid_ddpg_create_config)
-    create_config = gym_hybrid_ddpg_create_config
-
-
-    if __name__ == "__main__":
-        serial_pipeline([main_config, create_config], seed=0)
+python3 ./DI-engine/dizoo/gym_hybrid/config/gym_hybrid_ddpg_config.py
 
 
 基准算法性能
