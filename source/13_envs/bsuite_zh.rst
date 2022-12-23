@@ -65,7 +65,7 @@ action space :math:`\mathcal{A}=\{-1,+1\}`。
 观察空间
 -------------------
 
--  The observation of agent is a 3-dimensional vector. Data type is ``float32``. Their specific meaning is as below:
+-  代理人的观察是一个三维的向量。数据类型是 ``float32``。它们的具体含义如下：
 
   -  obs[0] shows the current time, ranging from [0, 1]. 
   -  obs[1] shows the query as an integer number between 0 and num of bit at the last step. It's always 0 in memory length experiment because there is only a single bit. (It's useful in memory size experiment.)
@@ -79,11 +79,11 @@ action space :math:`\mathcal{A}=\{-1,+1\}`。
 奖励空间
 -------------
 
--  The reward space is a discrete space of size 3, which is a ``float`` value.
+-   奖励空间是一个大小为 3 的离散空间，是一个 ``float`` 值。
 
-  -  If it isn't the last step (t<N), the reward is 0.
-  -  If it's the last step and the agent select the correct action, the reward is 1.
-  -  If it's the last step andthe agent select a wrong action, the reward is -1.
+  -  如果不是最后一步 (t<N), 奖励为 0。
+  -  如果是最后一步，代理人选择了正确的行动，那么奖励就是 1。
+  -  如果是最后一步，代理人选择了一个错误的行动，那么奖励是 -1。
 
 其他
 -------
