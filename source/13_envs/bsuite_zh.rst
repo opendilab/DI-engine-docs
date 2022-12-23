@@ -16,13 +16,13 @@ Bsuite
 
    图片选自: https://github.com/deepmind/bsuite
 
-这里我们以 *Memory Length* 为例环境来说明如下。 它的目的是测试一个代理人能够记住一个比特的连续步骤的数量。底层环境是基于一个风格化的 `T-maze <https://en.wikipedia.org/wiki/T-maze>`__ 问题， a length :math:`N \in \mathbb{N}`. 
-Each episode lasts N steps with observation :math:`o_t=\left(c_t, t / N\right)` and 
-action space :math:`\mathcal{A}=\{-1,+1\}`。
+这里我们以 *Memory Length* 为例环境来说明如下。 它的目的是测试一个代理人能够记住一个比特的连续步骤的数量。底层环境是基于一个风格化的 `T-maze <https://en.wikipedia.org/wiki/T-maze>`__ 问题， 以一个长度 :math:`N \in \mathbb{N}`为参数。 
+每个 episode 持续 N 个步骤并观察空间 :math:`o_t=\left(c_t, t / N\right)` 和 
+动作空间 :math:`\mathcal{A}=\{-1,+1\}`。
 
    - 在episode开始时，代理被提供一个 +1 或 -1的背景， 这意味着 :math:`c_1 \sim {Unif}(\mathcal{A})`。
    - 在所有未来的时间步骤中，上下文都等于零，并且是直到剧情结束的倒计时，这意味着所有 :math:`t>2`的 :math:`c_t=0`。
-   - 在episode结束时，代理人必须选择与上下文相对应的正确行动来进行奖励。对于所有 :math:`t<N`， 奖励 :math:`r_t=0`并且 :math:`r_N={Sign}\left(a_N=c_1\right)`。
+   - 在episode结束时，智能体必须选择与环境相对应的正确行动来进行奖励。对于所有 :math:`t<N`， 奖励 :math:`r_t=0`并且 :math:`r_N={Sign}\left(a_N=c_1\right)`。
 
 
 .. figure:: ./images/bsuite_memory_length.png
