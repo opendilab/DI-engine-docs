@@ -16,9 +16,9 @@ Bsuite
 
    图片选自: https://github.com/deepmind/bsuite
 
-Here we take *Memory Length* as an example environment to illustrate below. It's designed to test the number of sequential steps an agent can remember a single bit. The underlying environment is based on a stylized `T-maze <https://en.wikipedia.org/wiki/T-maze>`__ problem, parameterized by a length :math:`N \in \mathbb{N}`. 
-Each episode lasts N steps with observation :math:`o_t=\left(c_t, t / N\right)` and 
-action space :math:`\mathcal{A}=\{-1,+1\}`.
+这里我们以 *Memory Length* 为例环境来说明如下。 它的目的是测试一个代理人能够记住一个比特的连续步骤的数量。底层环境是基于一个风格化的 `T-maze <https://en.wikipedia.org/wiki/T-maze>`__ 问题， 参数为长度 :math：`N \in \mathbb{N}`. 
+每个情节持续 N 个步骤和观察点 ：math:`o_t=\left(c_t, t / N\right)` 和
+行动空间 ：math:`\mathcal{A}=\{-1,+1\}`.
 
    - At the beginning of the episode the agent is provided a context of +1 or -1, which means :math:`c_1 \sim {Unif}(\mathcal{A})`.
    - At all future timesteps the context is equal to zero and a countdown until the end of the episode, which means :math:`c_t=0` for all :math:`t>2`.
