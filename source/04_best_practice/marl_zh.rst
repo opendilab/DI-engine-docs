@@ -4,17 +4,36 @@
 
 ``DI-zoo`` 为用户提供了一些多智能体强化学习常用环境：
 
-+------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
-|Env Name                                                                                                                                  |Learning Mode                        |Observability                        |Action Space                         |Observations                         |
-+==========================================================================================================================================+=====================================+=====================================+=====================================+=====================================+
-| `PettingZoo(MPE) <https://github.com/opendilab/DI-engine/blob/main/dizoo/petting_zoo/envs/petting_zoo_simple_spread_env.py>`_            |cooperative + collaborative + mixed	| Both                               | Both                               | Continuous                         |
-+------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
-| `SMAC <https://github.com/opendilab/DI-engine/blob/main/dizoo/smac/envs/smac_env.py>`_                                                   |cooperative                         |	Partial                          |	Discrete                          |	Continuous                         |
-+------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
-| `MAMuJoCo <https://github.com/opendilab/DI-engine/blob/main/dizoo/multiagent_mujoco/envs/multi_mujoco_env.py>`_                          |cooperative                         |	Partial                          |	Continuous                        |	Continuous                         |
-+------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
-| `GRF <https://github.com/opendilab/DI-engine/blob/main/dizoo/gfootball/envs/gfootball_academy_env.py>`_                                  |collaborative + mixed               |	Full                             |	Discrete                          |	Continuous                         |
-+------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+-------------------------------------+
+.. list-table:: MARL environments in DI-engine
+    :widths: 20 20 20 20 20
+    :header-rows: 1
+
+    * - Env Name
+      - Learning Mode 
+      - Observability
+      - Action Space
+      - Observations
+    * - | `PettingZoo(MPE) <https://github.com/opendilab/DI-engine/blob/main/dizoo/petting_zoo/envs/petting_zoo_simple_spread_env.py>`_
+      - | Cooperative + Collaborative + Mixed
+      - | Both
+      - | Both
+      - | Continuous
+    * - | `SMAC <https://github.com/opendilab/DI-engine/blob/main/dizoo/smac/envs/smac_env.py>`_
+      - | Cooperative
+      - | Partial
+      - | Discrete
+      - | Continuous
+    * - | `MAMuJoCo <https://github.com/opendilab/DI-engine/blob/main/dizoo/multiagent_mujoco/envs/multi_mujoco_env.py>`_
+      - | Cooperative
+      - | Partial
+      - | Continuous
+      - | Continuous
+    * - | `GRF <https://github.com/opendilab/DI-engine/blob/main/dizoo/gfootball/envs/gfootball_academy_env.py>`_
+      - | Collaborative + Mixed
+      - | Full
+      - | Discrete
+      - | Continuous
+
 
 然而在部分情况下，用户需要依据自己的业务，自己实现多智能体环境，并期待可以将其快速迁移到 ``DI-engine`` 中，以便使用 ``DI-engine`` 中的多智能体强化学习算法解决问题。本节将会介绍构建自己的多智能体强化学习环境，并利用 ``DI-engine`` 中的多智能体算法（以 `QMIX <https://github.com/opendilab/DI-engine/blob/main/ding/policy/qmix.py>`_ 与 `MAPPO <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo.py>`_ 这两类用于合作多智能体的CTDE算法为例）来训练多智能体的方式。下面大部分情况下将以 ``PettingZoo`` 环境中的 ``simple spread`` 为例进行说明：
 
