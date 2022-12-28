@@ -1,7 +1,8 @@
 Random Seed
 =============
 
-In reinforcement learning, different random numbers as seeds will affect the results of the algorithm. In order to reproduce or fairly compare experimental results of other algorithms, we need to use the same random seeds.
+In reinforcement learning, different random numbers as seeds will affect the results of the algorithm. In order to reproduce \
+or fairly compare experimental results of other algorithms, we need to use the same random seeds.
 
 
 First, in each entry function, we have a global random "seed" parameter. For example, in ``ding/entry/serial_entry.py`` ,
@@ -11,7 +12,8 @@ First, in each entry function, we have a global random "seed" parameter. For exa
     def serial_pipeline(..., seed: int = 0, ...):
         ...
 
-In ``ding/utils/default_helper.py`` , we define a ``set_pkg_seed`` function that is called in the entry function (as shown below) to set "seed" of all associated packages used.
+In ``ding/utils/default_helper.py`` , we define a ``set_pkg_seed`` function that is called at the beginning \
+of the entry function (as shown below) to set "seed" of all associated packages used.
 
 
 .. code:: python
@@ -23,7 +25,8 @@ In ``ding/utils/default_helper.py`` , we define a ``set_pkg_seed`` function that
         if use_cuda and torch.cuda.is_available():
             torch.cuda.manual_seed(seed)
 
-For a collector or evaluator environment, if only one seed is given, DI-engine generates a list of random seeds for that set of environments.
+For a collector or evaluator, if only one seed is given, DI-engine will generate a list of random seeds \
+for the set of environments in order to give each subenvironment different randomness.
 
 .. code:: python
 
@@ -44,6 +47,13 @@ For a collector or evaluator environment, if only one seed is given, DI-engine g
         self._env_dynamic_seed = dynamic_seed
 
 To make the environment more diverse, DI-engine also allows ``dynamic_seed`` to be enabled when many episodes are run per environment.
+
+The selection of random seeds is critical to the environment. For example, in the environmental LunarLander, the randomness of the environment is jointly determined by the randomness of the initial landing moment and the randomness in the landing process.
+For the initial moment, the lander starts from the top center of the screen, and a random initial force is applied to its center of mass to ensure that the horizontal velocity, vertical velocity, \
+angle and angular velocity are different in the initial state under different seeds. \
+At the same time, the distribution of lunar terrain will be determined according to the random number sampled.
+For the landing process, there is a Stochastic dispersion Force (Stochastic dispersion) in the lander's dynamics equation to ensure that environmental transfer functions vary among different seeds.
+
 As the link ``ding/envs/env/DI-engine_env_wrapper.py`` shows, first, DI-engine sets the environment seed when resetting the environment, 
 And if ``dynamic_seed`` is True, DI-engine adds a random integer to the original seed to make each episode different. And reproducibility can be guaranteed by seeding this random generator. The random generator is usually ``numpy.random``.
 
