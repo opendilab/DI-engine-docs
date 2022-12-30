@@ -20,9 +20,9 @@ Bsuite
 每个 episode 持续 N 个步骤并观察空间 :math:`o_t=\left(c_t, t / N\right)` 和 
 动作空间 :math:`\mathcal{A}=\{-1,+1\}`。
 
-   - 在episode开始时，智能体被提供一个 +1 或 -1的背景， 这意味着 :math:`c_1 \sim {Unif}(\mathcal{A})`。
-   - 在所有未来的时间步骤中，上下文都等于零，并且是直到剧情结束的倒计时，这意味着所有 :math:`t>2` 都有  :math:`c_t=0` 。
-   - 在episode结束时，智能体必须选择与环境相对应的正确行动来进行奖励。对于所有 :math:`t<N`， 奖励 :math:`r_t=0`并且 :math:`r_N={Sign}\left(a_N=c_1\right)`。
+   - 在 episode 开始时，提供给智能体一个 +1 或 -1的上下文， 这意味着 :math:`c_1 \sim {Unif}(\mathcal{A})`。
+   - 在所有未来的时间步骤中，上下文等于零，并倒计时直到 episode 结束，这意味着所有 :math:`t>2` 都有  :math:`c_t=0` 。
+   - 在 episode 结束时，智能体必须选择与环境相对应的正确行动来获得奖励。对于所有 :math:`t<N`， 奖励 :math:`r_t=0`并且 :math:`r_N={Sign}\left(a_N=c_1\right)`。
 
 
 .. figure:: ./images/bsuite_memory_length.png
@@ -37,7 +37,7 @@ Bsuite
 安装方法
 -----------------
 
-你只需要使用 ``pip`` 命令来安装bsuite，然而在安装DI-engine时它会自动安装。
+你只需要使用 ``pip`` 命令来安装 bsuite，然而在安装 DI-engine 时它会自动安装。
 
 .. code:: shell
 
@@ -50,7 +50,7 @@ Bsuite
 验证安装
 --------------------
 
-一旦安装完毕，你可以通过在Python命令行上运行以下命令来验证安装是否成功。
+一旦安装完毕，你可以通过在 Python 命令行上运行以下命令来验证安装是否成功。
 
 .. code:: python
 
