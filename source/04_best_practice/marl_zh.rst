@@ -264,13 +264,14 @@
 QMIX
 >>>>>>>>>>>>>>>>
 
-例如，如果想要使用 QMIX 算法，那么首先找到 ``PettingZoo`` 下的 QMIX config `ptz_simple_spread_qmix_config.py https://github.com/opendilab/DI-engine/blob/main/dizoo/petting_zoo/config/ptz_simple_spread_qmix_config.py>`_ 文件，然后修改以下与环境相关的内容：
+例如，如果想要使用 QMIX 算法，那么首先找到 ``PettingZoo`` 下的 QMIX config `ptz_simple_spread_qmix_config.py <https://github.com/opendilab/DI-engine/blob/main/dizoo/petting_zoo/config/ptz_simple_spread_qmix_config.py>`_ 文件，然后修改以下与环境相关的内容：
 
 需要修改的内容有以下几点：
 
 - main_config 的 env 属性：其中包含需要传递给实现的多智能体环境类的 ``__init__`` 函数的参数，包括子环境的的名称、智能体数量等；
 - main_config 中 policy 的 model 属性：其中包含需要传递给模型的参数，包括智能体的局部观测维度、全局观测维度、动作维度等；
 - create_config 的 env 属性，包含实现的多智能体环境所在的路径以及其在装饰器中的 key (type)。
+
 其它的内容与环境无关，直接使用原设置即可 (当然不同环境 MARL 算法的最优参数一般也会不同，如果需要好的性能可能需要调整参数)，完整的配置文件示例如下：
 
 
