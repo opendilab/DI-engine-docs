@@ -213,5 +213,5 @@ DI-zoo 可运行代码示例
    - memory_len/15 + R2D2
 
    .. figure:: ./images/bsuite_momery_len_15_r2d2.png
-      :align: center
+      :align: center 
       :scale: 70%
