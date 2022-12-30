@@ -37,7 +37,7 @@ Bsuite
 安装方法
 -----------------
 
-你只需要使用 ``pip`` 命令来安装 bsuite，然而在安装 DI-engine 时它会自动安装。
+你只需要使用 ``pip`` 命令来安装 bsuite，在安装 DI-engine 时它也会自动安装。
 
 .. code:: shell
 
