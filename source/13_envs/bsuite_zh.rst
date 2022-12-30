@@ -17,7 +17,7 @@ Bsuite
    图片选自: https://github.com/deepmind/bsuite
 
 这里我们以 *Memory Length* 为示例环境。 它的目的是测试一个代理人能够记住一个比特的连续步骤的数量。底层环境是基于一个风格化的 `T-maze <https://en.wikipedia.org/wiki/T-maze>`__ 问题， 以一个长度 :math:`N \in \mathbb{N}`为参数。 
-每个 episode 持续 N 个步骤，观察空间为 :math:`o_t=\left(c_t, t / N\right)` 和 
+每个 episode 持续 N 个步骤，观察空间为 :math:`o_t=\left(c_t, t / N\right)`和 
 动作空间 :math:`\mathcal{A}=\{-1,+1\}`。
 
    - 在 episode 开始时，提供给智能体一个 +1 或 -1的上下文， 这意味着 :math:`c_1 \sim {Unif}(\mathcal{A})`。
