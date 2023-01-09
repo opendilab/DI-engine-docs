@@ -63,7 +63,7 @@ Reward Space
 Key Facts
 ==========
 
-1. Continuous observation space varies according to robot's structure, task and environment.
+1. Vector observation space (1D vector) varies according to robot's structure, task and environment.
 
 2. Continuous action space varies according to the structure of the robot.
 
