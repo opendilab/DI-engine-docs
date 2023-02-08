@@ -30,7 +30,9 @@ Acrobot 环境内置在 gym 中，直接安装 gym 即可。其环境 id 是\ ``
     import gym
     env = gym.make('Acrobot-v1')
     obs = env.reset()
-    print(obs)  
+    print(obs)
+    assert env.observation_space.shape == (6,)
+    assert env.action_space == gym.spaces.Discrete(3)
 
 环境介绍
 =========
@@ -40,17 +42,17 @@ Acrobot 环境内置在 gym 中，直接安装 gym 即可。其环境 id 是\ ``
 
 Acrobot 的动作空间属于离散动作空间，有 3 个离散动作，分别是施加+1力矩, -1力矩和不施加力矩。
 
--  \ ``-1的力矩`` \: 0 表示向关节施加-1的力矩。
+-  \ ``-1的力矩`` \: 0 表示向关节施加 -1 的力矩。
 
--  \ ``0的力矩`` \: 1 表示向关节施加0的力矩。
+-  \ ``0的力矩`` \: 1 表示向关节施加 0 的力矩。
 
--  \ ``+1的力矩`` \: 2 表示向关节施加+1的力矩。
+-  \ ``+1的力矩`` \: 2 表示向关节施加 +1 的力矩。
 
 使用 gym 环境空间定义则可表示为：
 
 .. code:: python
     
-    action_space = spaces.Discrete(3)
+    action_space = gym.spaces.Discrete(3)
 
 状态空间
 ----------
@@ -71,81 +73,90 @@ Acrobot 的状态空间有 6 个元素，分别是：
 - \ ``Angular velocity of theta2`` \：第二个连杆相对于第一个连杆的角速度，范围是 \ ``[-9 * pi, 9 * pi]`` \。
 
 
-theta1 是第一个关节的角度，其中角度 0 表示第一个链接直接指向下方。
+``theta1`` 是第一个关节的角度，其中角度 ``0`` 表示第一个链接直接指向下方。
 
-theta2 是相对于第一个连杆的角度。 角度 0 对应于两个链接之间具有相同的角度。
+``theta2`` 是相对于第一个连杆的角度。 角度 ``0`` 对应于两个链接之间具有相同的角度。
 
 
 奖励空间
 -----------
-目标是让自由端以尽可能少的步数达到指定的目标高度，因此所有未达到目标的步数都会产生 -1 的奖励。 达到目标高度会导致终止，奖励为 0。
+目标是让自由端以尽可能少的步数达到指定的目标高度，因此所有未达到目标的步数都会产生 ``-1`` 的奖励。 达到目标高度会导致终止，奖励为 ``0``。
 
 
 终止条件
 ------------
-Cartpole 环境每个 episode 的终止条件是遇到以下任何一种情况：
+Acrobot 环境每个 episode 的终止条件是遇到以下任何一种情况：
 
 - 自由端达到目标高度，构造形式是 \ :math:`-cos(\theta_1) - cos(\theta_1 + \theta_2) > 1.0`\ 。
 
-- 达到 episode 的最大 step，默认为 500。
+- 达到 episode 的最大 step，默认为 ``500``。
   
 
 DI-zoo 可运行代码示例
 =====================
 
-下面提供一个完整的 acrobot 环境 config，采用 DQN 算法作为 policy。
+完整的训练配置文件在 `github
+link <https://github.com/opendilab/DI-engine/tree/main/dizoo/acrobot/config>`__
+内，对于具体的配置文件，例如\ ``acrobot_dqn_config.py``\ ，使用如下的 demo 即可运行：
 
 .. code:: python
-    import gym
-    from ditk import logging
-    from ding.model import DQN
-    from ding.policy import DQNPolicy
-    from ding.data import DequeBuffer
-    from ding.envs import DingEnvWrapper, BaseEnvManagerV2, SubprocessEnvManagerV2
-    from ding.config import compile_config
-    from ding.framework import task, ding_init
-    from ding.framework.context import OnlineRLContext
-    from ding.framework.middleware import OffPolicyLearner, StepCollector, interaction_evaluator, data_pusher, \
-    eps_greedy_handler, CkptSaver, online_logger, nstep_reward_enhancer
-    from ding.utils import set_pkg_seed
-    from dizoo.classic_control.acrobot.config.acrobot_dqn_config import main_config, create_config
+    from easydict import EasyDict
 
-    def main():
-        logging.getLogger().setLevel(logging.INFO)
-        cfg = compile_config(main_config, create_cfg=create_config, auto=True)
-        ding_init(cfg)
-
-        with task.start(async_mode=False, ctx=OnlineRLContext()):
-            collector_env = SubprocessEnvManagerV2(
-                env_fn= [lambda: DingEnvWrapper(gym.make(cfg.env.env_id)) for _ in range(cfg.env.collector_env_num)],
-                cfg=cfg.env.manager
-            )
-
-            evaluator_env = SubprocessEnvManagerV2(
-                env_fn=[lambda: DingEnvWrapper(gym.make(cfg.env.env_id)) for _ in range(cfg.env.evaluator_env_num)],
-                cfg=cfg.env.manager
-            )
-
-            set_pkg_seed(cfg.seed, use_cuda=cfg.policy.cuda)
-
-            model = DQN(**cfg.policy.model)
-            buffer_ = DequeBuffer(size=cfg.policy.other.replay_buffer.replay_buffer_size)
-            policy = DQNPolicy(cfg.policy, model=model)
-
-            task.use(interaction_evaluator(cfg, policy.eval_mode, evaluator_env))
-            task.use(eps_greedy_handler(cfg))
-            task.use(StepCollector(cfg, policy.collect_mode, collector_env))
-            task.use(nstep_reward_enhancer(cfg))
-            task.use(data_pusher(cfg, buffer_))
-            task.use(OffPolicyLearner(cfg, policy.learn_mode, buffer_))
-            task.use(online_logger(train_show_freq=10))
-            task.use(CkptSaver(policy,save_dir='/Your_path/acrobot_logs', train_freq=100))
-            task.run()
+    acrobot_dqn_config = dict(
+        exp_name='acrobot_dqn_seed0',
+        env=dict(
+            collector_env_num=8,
+            evaluator_env_num=8,
+            n_evaluator_episode=8,
+            stop_value=-60,
+            env_id='Acrobot-v1',
+            replay_path='acrobot_dqn_seed0/video',
+        ),
+        policy=dict(
+            cuda=True,
+            model=dict(
+                obs_shape=6,
+                action_shape=3,
+                encoder_hidden_size_list=[256, 256],
+                dueling=True,
+            ),
+            nstep=3,
+            discount_factor=0.99,
+            learn=dict(
+                update_per_collect=10,
+                batch_size=128,
+                learning_rate=0.0001,
+                target_update_freq=250,
+            ),
+            collect=dict(n_sample=96, ),
+            eval=dict(evaluator=dict(eval_freq=2000, )),
+            other=dict(
+                eps=dict(
+                    type='exp',
+                    start=1.,
+                    end=0.05,
+                    decay=250000,
+                ),
+                replay_buffer=dict(replay_buffer_size=100000, ),
+            ),
+        ),
+    )
+    acrobot_dqn_config = EasyDict(acrobot_dqn_config)
+    main_config = acrobot_dqn_config
+    acrobot_dqn_create_config = dict(
+        env=dict(type='acrobot', import_names=['dizoo.classic_control.acrobot.envs.acrobot_env']),
+        env_manager=dict(type='subprocess'),
+        policy=dict(type='dqn'),
+        replay_buffer=dict(type='deque', import_names=['ding.data.buffer.deque_buffer_wrapper']),
+    )
+    acrobot_dqn_create_config = EasyDict(acrobot_dqn_create_config)
+    create_config = acrobot_dqn_create_config
 
     if __name__ == "__main__":
-        main()
+        from ding.entry import serial_pipeline
+        serial_pipeline((main_config, create_config), seed=0)
 
-实验结果
+基准算法性能
 =================
 使用 DQN 算法的实验结果如下。横坐标是\ ``step`` \，纵坐标是\ ``reward_mean`` \。
 
@@ -156,5 +167,5 @@ DI-zoo 可运行代码示例
 
 参考资料
 =====================
-- Cartpole `源码 <https://github.com/openai/gym/blob/master/gym/envs/classic_control/acrobot.py>`__
+- Acrobot `源码 <https://github.com/openai/gym/blob/master/gym/envs/classic_control/acrobot.py>`__
 
