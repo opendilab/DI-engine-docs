@@ -28,11 +28,11 @@ In this step, we will train an expert policy, which has no difference with stand
 
       from copy import deepcopy
       from easydict import EasyDict
-      from dizoo.classic_control.cartpole.config.cartpole_offppo_config import cartpole_offppo_config,\
-      cartpole_offppo_create_config
+      from dizoo.classic_control.cartpole.config.cartpole_ppo_offpolicy_config import cartpole_ppo_offpolicy_config,\
+      cartpole_ppo_offpolicy_create_config
       from ding.entry import serial_pipeline_bc, collect_demo_data, serial_pipeline
 
-      config = [deepcopy(cartpole_offppo_config), deepcopy(cartpole_offppo_create_config)]
+      config = [deepcopy(cartpole_ppo_offpolicy_config), deepcopy(cartpole_ppo_offpolicy_create_config)]
       config[0].policy.learn.learner.hook.save_ckpt_after_iter = 100
       expert_policy = serial_pipeline(config, seed=0)
 
@@ -48,7 +48,7 @@ For different Imitation Learning or Offline Training algorithms, formats of demo
       collect_count = 10000  # number of transitions to collect
       expert_data_path = 'expert_data_ppo_bc.pkl'  # data path to be saved
       state_dict = expert_policy.collect_mode.state_dict()
-      collect_config = [deepcopy(cartpole_offppo_config), deepcopy(cartpole_offppo_create_config)]
+      collect_config = [deepcopy(cartpole_ppo_offpolicy_config), deepcopy(cartpole_ppo_offpolicy_create_config)]
       collect_config[0].exp_name = 'test_serial_pipeline_bc_ppo_collect'
       collect_demo_data(
           collect_config, seed=0, state_dict=state_dict, expert_data_path=expert_data_path, collect_count=collect_count
@@ -56,7 +56,16 @@ For different Imitation Learning or Offline Training algorithms, formats of demo
 
 Because the collect config is almost the same compared to the expert config, we directly modify the original config.
 
-If we requires demonstration data sorted according to quality ranking (e.g. TREX), we should use another function to collect demonstration data:
+For TREX, however, data generation process is more complicated and is shown as below:
+
+.. image::
+    images/trex.png
+    :width: 500
+    :align: center
+
+Firstly, we load different expert models to generate various demonstration episodes. Then, the episodes will be sampled into snippets with shorter sequence length, which are sorted according to their total return.
+
+In our implementation, the process above is included in one function. The method for collecting TREX data is:
 
    .. code:: python
 
@@ -69,9 +78,6 @@ If we requires demonstration data sorted according to quality ranking (e.g. TREX
       collect_config[0].reward_model.data_path = exp_name
       collect_config[0].reward_model.reward_model_path = exp_name + '/cartpole.params'  # path for saving TREX reward model
       collect_config[0].reward_model.expert_model_path = config[0].exp_name
-      collect_config[0].reward_model.checkpoint_max = 100  # specifying ckpt for generating demonstration data.
-      collect_config[0].reward_model.checkpoint_step = 100
-      collect_config[0].reward_model.num_snippets = 100  # number of sampled pieces from the total episode.
       args = EasyDict({'cfg': deepcopy(collect_config), 'seed': 0, 'device': 'cpu'})
       trex_collecting_data(args=args)
 
@@ -81,16 +87,10 @@ If we requires demonstration data sorted according to quality ranking (e.g. TREX
 Finally in this step, we will use the generated demonstration data for Imitation Learning / Offline Training. For BC, we can use:
 
    .. code:: python
-
-      il_config = [deepcopy(cartpole_offppo_config), deepcopy(cartpole_offppo_create_config)]
-      il_config[0].policy.learn.train_epoch = 20  # train epoch
-      il_config[1].policy.type = 'bc'  # modify the policy type to be BC
-      il_config[0].policy.model.pop('critic_head_hidden_size')
-      il_config[0].policy.model.pop('actor_head_hidden_size')
-      il_config[0].policy.model.pop('action_space')
-      il_config[0].policy.learn.learning_rate = 1e-2
-      il_config[0].policy.continuous = False  # use discrete BC
-      il_config[0].exp_name = 'test_serial_pipeline_bc_ppo_il'
+      
+      from dizoo.classic_control.cartpole.config.cartpole_bc_config import cartpole_bc_config,\
+      cartpole_bc_create_config
+      il_config = [deepcopy(cartpole_bc_config), deepcopy(cartpole_bc_create_config)]
       _, converge_stop_flag = serial_pipeline_bc(il_config, seed=0, data_path=expert_data_path)
       assert converge_stop_flag
 
@@ -102,3 +102,29 @@ For TREX, we can use:
       serial_pipeline_preference_based_irl(collect_config, seed=0, max_train_iter=1)
 
 Notably, we integrate all the algorithm-specific code into each ``serial_pipeline``.
+
+For BC, this process contains cloning the expert behavior and evaluation for the result. For TREX, a reward model is trained to predict the reward of an observation. Then RL algorithms are applied to maximize the predicted reward and is finally evaluated. The key in this process is to replace the real reward with predicted reward:
+
+   .. code:: python
+
+     def estimate(self, data: list) -> List[Dict]:
+         """
+         Overview:
+             Estimate reward by rewriting the reward key in each row of the data.
+         Arguments:
+             - data (:obj:`list`): the list of data used for estimation, with at least \
+                  ``obs`` and ``action`` keys.
+         Effects:
+             - This is a side effect function which updates the reward values in place.
+         """
+         train_data_augmented = self.reward_deepcopy(data)
+
+         res = collect_states(train_data_augmented)
+         res = torch.stack(res).to(self.device)
+         with torch.no_grad():
+             sum_rewards, sum_abs_rewards = self.reward_model.cum_return(res, mode='batch')
+
+         for item, rew in zip(train_data_augmented, sum_rewards):  # TODO optimise this loop as well ?
+             item['reward'] = rew
+
+         return train_data_augmented
