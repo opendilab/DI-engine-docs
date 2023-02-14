@@ -90,15 +90,15 @@ MetaDrive 中默认的奖励函数包含了一个密集的（驾驶过程中的�
   
 事实上， MetaDrive 提供了一个复杂的奖励函数，我们可以从 config dict 里面自定义他们的奖励函数，完整的奖励函数由以下四个部分构成：
 
-- 驾驶奖励 (driving_reward) ： 在t-1到t时刻，在当前车道线开出的纵向距离，它是一个密集奖励。
-- 速度奖励 (speed_reward) ： 当前时刻的速度，速度越大，则奖励越大，它也是一个密集奖励。
-- 横向比例 (use_lateral_reward) ： 它提供 [0, 1] 范围内的乘数，指示自我车辆是否远离当前车道的中心，与驾驶奖励配合使用．如果为True，则驾驶奖励的大小不仅取决于纵向路程，还取决于横向坐标与车道线正中间的距离。
-- 终止奖励 (terminaltion_reward) ： 在 episode结束时候，其他密集奖励将被禁用，并根据车辆的状态返回一个奖励。具体的情况可以分为：
+- 驾驶奖励 (driving_reward)： 在t-1到t时刻，在当前车道线开出的纵向距离，它是一个密集奖励。
+- 速度奖励 (speed_reward)： 当前时刻的速度，速度越大，则奖励越大，它也是一个密集奖励。
+- 横向比例 (use_lateral_reward)： 它提供 [0, 1] 范围内的乘数，指示自我车辆是否远离当前车道的中心，与驾驶奖励配合使用．如果为True，则驾驶奖励的大小不仅取决于纵向路程，还取决于横向坐标与车道线正中间的距离。
+- 终止奖励 (terminaltion_reward)： 在 episode结束时候，其他密集奖励将被禁用，并根据车辆的状态返回一个奖励。具体的情况可以分为：
 
- - 到达终点：　车辆获得一个成功完成目标的奖励(success_reward)；
- - 开出道路：　车辆获得一个对应的惩罚(out_of_road_penalty)；
- - 撞到他车：　车辆获得一个对应的惩罚(crash_vehicle_penalty)；
- - 撞到障碍：　车辆获得一个对应的惩罚(crash_object_penalty)。
+ - 到达终点：　车辆获得一个成功完成目标的奖励 (success_reward)；
+ - 开出道路：　车辆获得一个对应的惩罚 (out_of_road_penalty)；
+ - 撞到他车：　车辆获得一个对应的惩罚 (crash_vehicle_penalty)；
+ - 撞到障碍：　车辆获得一个对应的惩罚 (crash_object_penalty)。
 
 其他
 ----
@@ -128,11 +128,11 @@ MetaDrive 中默认的奖励函数包含了一个密集的（驾驶过程中的�
 汽车的观察空间被定义为俯视图，大小为 5x84x84，其中5代表了通道数，后两个维度(84x84)代表了每个通道的图片的大小。
 五个通道的语义为：
 
-- 道路信息和导航信息 (Road and Navigation) ；
-- 自身位置和自身历史位置 (Ego now and previous pos) ；
-- 周围车辆在 t 时刻的俯视图 (Neigbor at step t) ；
-- 周围车辆在t-1时刻的俯视图 (Neigbor at step t-1) ；
-- 周围车辆在t-2时刻的俯视图 (Neigbor at step t-2) 。
+- 道路信息和导航信息 (Road and Navigation)；
+- 自身位置和自身历史位置 (Ego now and previous pos)；
+- 周围车辆在 t 时刻的俯视图 (Neigbor at step t)；
+- 周围车辆在t-1时刻的俯视图 (Neigbor at step t-1)；
+- 周围车辆在t-2时刻的俯视图 (Neigbor at step t-2)。
   
 
 以下图的驾驶场景为例，红色车辆为我们控制的 agent ,它正在执行左转操作，与两辆相邻的蓝色车辆发生交互。
