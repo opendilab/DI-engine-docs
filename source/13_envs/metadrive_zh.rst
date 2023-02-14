@@ -6,13 +6,11 @@ Metadrive
 
 `MetaDrive <https://metadrive-simulator.readthedocs.io/en/latest/index.html>`_ 是一个高效的组合式 (Compositional) 的驾驶模拟器，驾驶的目标是控制一辆（或者多辆）汽车安全且按时地从起点开到终点。它具有以下特性:
 
-- 组合式: 它支持生成具有各种道路地图和交通设置的无限场景，可用于 RL 泛化性的研究。
-- 轻量化：易于安装和运行。它在标准 PC 上可以运行高达 300 FPS。
+- 组合式: 它支持生成具有各种道路地图和交通设置的（理论上可以无限的）场景，可用于 RL 泛化性的研究。
+- 轻量化：易于安装和运行。它在标准 PC 上可以运行高达每秒300帧 (up to 300 FPS)。
 - 高逼真：精确的物理模拟和多种类型的输入，包括激光雷达、RGB 图像、自上而下的语义地图和第一人称视角图像。用户可以自行选择强化学习中的 observation 的种类。
-以下主要以观测输入 (observation) 是语义地图的情况展开介绍。
+以下主要以观测输入 (observation) 是自上而下语义地图的情况展开介绍。
 
-..
-    目前 DI-engine 只支持离散动作空间版本， 后续会补充关于连续空间的版本及一些适配。
 
 .. image:: ./images/metadrive.gif
    :align: center
@@ -71,10 +69,7 @@ DI-engine 的镜像包含 DI-engine 框架本身，可通过\ ``docker pull open
 -  navigation ： 即导航信息，引导车辆驶向目的地的检查点 (checkpoints)。
 -  surrounding ： 即周围的信息，由激光雷达生成，通常使用240个激光扫描半径50米的临近区域。
 
-随机性：
 
-- 初始时刻的随机性：车辆会随机初始化到一条道路的某一条车道线上。
-- 道路的随机性：根据随机种子的不同，车道线的数目，道路不同模块的拼接，以及终点的选择都会有所变化。
 
 动作空间
 --------
@@ -91,7 +86,7 @@ MetaDrive 环境的动作空间是2维的连续动作，其有效范围为 [-1, 
 MetaDrive 中默认的奖励函数包含了一个密集的（驾驶过程中的）奖励和一个稀疏的终局奖励。
 
 - 密集奖励: 反映了在每一个 step 下，车辆在 Frenet 坐标中朝向目的地的纵向运动的程度。
-- 终端奖励: 只有在车辆成功到达目的地的时候得到。
+- 终端奖励: 只有在车辆成功到达目的地的时候得到。具体细节在下面 termination_reward里描述。
   
 事实上， MetaDrive 提供了一个复杂的奖励函数，我们可以从 config dict 里面自定义他们的奖励函数，完整的奖励函数由以下四个部分构成：
 
@@ -117,6 +112,11 @@ MetaDrive 中默认的奖励函数包含了一个密集的（驾驶过程中的�
 
 - 开出道路以外。
 
+随机性：
+
+- 初始时刻的随机性：车辆会随机初始化到一条道路的某一条车道线上。
+- 道路的随机性：根据随机种子的不同，车道线的数目，道路不同模块的拼接，以及终点的选择都会有所变化。
+
 
 变换后的空间（RL 环境）
 =======================
@@ -128,17 +128,17 @@ MetaDrive 中默认的奖励函数包含了一个密集的（驾驶过程中的�
 汽车的观察空间被定义为俯视图，大小为 5x84x84，其中5代表了通道数，后两个维度(84x84)代表了每个通道的图片的大小。
 五个通道的语义为：
 
-- 道路信息和导航信息 (Road and Navigation);
-- 自身位置和自身历史位置 (Ego now and previous pos);
-- 周围车辆在 t 时刻的俯视图　(Neigbor at step t);
-- 周围车辆在t-1时刻的俯视图 (Neigbor at step t-1);
-- 周围车辆在t-2时刻的俯视图 (Neigbor at step t-2).
+- 道路信息和导航信息 (Road and Navigation) ；
+- 自身位置和自身历史位置 (Ego now and previous pos) ；
+- 周围车辆在 t 时刻的俯视图 (Neigbor at step t) ；
+- 周围车辆在t-1时刻的俯视图 (Neigbor at step t-1) ；
+- 周围车辆在t-2时刻的俯视图 (Neigbor at step t-2) 。
   
 
 以下图的驾驶场景为例，红色车辆为我们控制的 agent ,它正在执行左转操作，与两辆相邻的蓝色车辆发生交互。
    .. image:: images/metadrive_figure.png
      :align: center
-在当前场景下，车辆的 observation 可以由以下五张图片来表征
+在当前场景下，车辆的 observation 可以由以下五张图片来表征。
    .. image:: images/metadrive_bird_view.png
      :align: center
 
