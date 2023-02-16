@@ -90,7 +90,7 @@ Observable Markov Decision Processes，POMDP)，
 (signal)，当环境发生变化时，奖励函数也会发生变化。奖励函数由当前的状态与智能体的动作决定，表示为\ :math:`r_t = R(s_t, a_t)`\ 。
 
 **回报(Return)**,
-又称为累积折扣奖励，定义为在一个马尔可夫决策过程中从\ :math:`t`\ 时刻开始往后所有奖励的加权和：\ :math:`G_t = \sum_{k=0}^{\infty} \gamma^{k} r_{t+k+1}`\ 。其中\ :math:`\gamma`
+又称为累积折扣奖励，定义为在一个马尔可夫决策过程中从\ :math:`t`\ 时刻开始往后所有奖励的加权和：\ :math:`G_t = \sum_{k=0}^{\infty} \gamma^{k} r_{t+k}`\ 。其中\ :math:`\gamma`
 表示折扣因子（衰减因子）体现的是未来的奖励在当前时刻的相对重要性，如果接近0，则表明趋向于只评估当前时刻的奖励，接近于1时表明同时考虑长期的奖励。一般情况下，\ :math:`\gamma \in [0,1)`\ 。在很多现实任务对应环境中的奖励函数可能是稀疏的，即并不是每一个状态下环境都会给予奖励，只有在一段轨迹过后才会给出一个奖励。因此在强化学习中，对奖励函数的设计与学习也是一个重要的方向，对强化学习方法的效果有很大的影响。
 
 策略/Policy
@@ -130,24 +130,24 @@ Observable Markov Decision Processes，POMDP)，
 **贝尔曼方程 (Bellman
 Equations)**\ 是强化学习方法的基础，描述的是当前时刻状态的值（动作值）与下一时刻状态的值（动作值）之间的递推关系。
 
-:math:`V_{\pi}(s) = E_{\pi,P}[r_{t+1}+\gamma * V_{\pi}(s_{t+1})|S_t=s]`
+:math:`V_{\pi}(s) = E_{\pi,P}[r_{t}+\gamma * V_{\pi}(s_{t+1})|S_t=s]`
 
-:math:`Q_{\pi}(s, a) = E_{\pi,P}[r_{t+1}+\gamma * Q_\pi(s_{t+1},a_{t+1})|S_t=s, A_t=a]`
+:math:`Q_{\pi}(s, a) = E_{\pi,P}[r_{t}+\gamma * Q_\pi(s_{t+1},a_{t+1})|S_t=s, A_t=a]`
 
 进一步如果将期望展开，可以写成下面的形式：
 
 | :math:`v_{\pi}(s)=\sum_{a \in A} \pi(a \mid s)\left(R_{s}^{a}+\gamma \sum_{s^{\prime} \in S} P_{s s^{\prime}}^{a} v_{\pi}\left(s^{\prime}\right)\right)`
 | :math:`q_{\pi}(s, a)=R_{s}^{a}+\gamma \sum_{s^{\prime} \in S} P_{s s^{\prime}}^{a} \sum_{a^{\prime} \in A} \pi\left(a^{\prime} \mid s^{\prime}\right) q_{\pi}\left(s^{\prime}, a^{\prime}\right)`
 
-其中\ :math:`R_{s}^{a}=\mathbb{E}\left[R_{t+1} \mid S_{t}=s, A_{t}=a\right]`,
+其中\ :math:`R_{s}^{a}=\mathbb{E}\left[R_{t} \mid S_{t}=s, A_{t}=a\right]`,
 :math:`P_{s s^{\prime}}^{a}=\mathbb{P}\left[S_{t+1}=s^{\prime} \mid S_{t}=s, A_{t}=a\right]`
 
 **贝尔曼最优方程(Bellman Optimality
 Equations)**\ ，描述的是当前时刻状态的最优值（最优动作值）与下一时刻状态的最优值（最优动作值）之间的递推关系。
 
-:math:`V^*(s)=max_a( E[r_{t+1} + \gamma * V^*(s_{t+1})|s_t=s])`
+:math:`V^*(s)=max_a( E[r_{t} + \gamma * V^*(s_{t+1})|s_t=s])`
 
-:math:`Q^*(s, a) = E[r_{t+1}+\gamma * max_{a'}Q^*(s_{t+1},a')|s_t=s, a_t=a]`
+:math:`Q^*(s, a) = E[r_{t}+\gamma * max_{a'}Q^*(s_{t+1},a')|s_t=s, a_t=a]`
 
 进一步如果将期望展开，可以写成下面的形式：
 
@@ -155,7 +155,7 @@ Equations)**\ ，描述的是当前时刻状态的最优值（最优动作值）
 
 :math:`q^{*}(s, a)=R_{s}^{a}+\gamma \sum_{s^{\prime} \in S} P_{s s^{\prime}}^{a} \max _{a^{\prime}} q^{*}\left(s^{\prime}, a^{\prime}\right)`
 
-同样的，其中\ :math:`R_{s}^{a}=\mathbb{E}\left[R_{t+1} \mid S_{t}=s, A_{t}=a\right]`,
+同样的，其中\ :math:`R_{s}^{a}=\mathbb{E}\left[R_{t} \mid S_{t}=s, A_{t}=a\right]`,
 :math:`P_{s s^{\prime}}^{a}=\mathbb{P}\left[S_{t+1}=s^{\prime} \mid S_{t}=s, A_{t}=a\right]`\ 。
 
 对于模型已知 (即知道状态转移概率函数和奖励函数)
@@ -178,7 +178,7 @@ Equations)**\ ，描述的是当前时刻状态的最优值（最优动作值）
    -  但是 DP 方法必须要求给定环境模型(状态转移函数，奖励函数)，而这往往是不现实的，而且 DP 方法很难用于连续状态和动作的环境中。
 
 -  **蒙特卡洛 (Monte Carlo,
-   MC)**\ 方法是指我们可以采样大量的轨迹，计算所有轨迹的真实回报\ :math:`G_{t}=r_{t+1}+\gamma r_{t+2}+\gamma^{2} r_{t+3}+\ldots`\ ，然后计算平均值作为Q值的估计。即使用经验平均回报（empirical
+   MC)**\ 方法是指我们可以采样大量的轨迹，计算所有轨迹的真实回报\ :math:`G_{t}=r_{t}+\gamma r_{t+1}+\gamma^{2} r_{t+2}+\ldots`\ ，然后计算平均值作为Q值的估计。即使用经验平均回报（empirical
    mean return）的方法来估计期望值。
 
    -  它不需要马尔可夫决策过程的状态转移函数和奖励函数，也不需要像动态规划那样用自举的方法，只能用在有终止状态的马尔可夫决策过程中。
@@ -186,9 +186,9 @@ Equations)**\ ，描述的是当前时刻状态的最优值（最优动作值）
 -  **时序差分 (Temporal Difference,
    TD)**\ 方法时序差分是介于蒙特卡洛和动态规划之间的方法，它是免模型的，不需要马尔可夫决策过程的状态转移函数和奖励函数。可以从不完整的回合中学习，并且结合了自举的思想。最简单的算法是一步时序差分（one-step
    TD) 即 TD(0)。每往前走一步，就做一步自举，用得到的估计回报（estimated
-   return）\ :math:`r_t+1 + \gamma V (s_{t+1})` 来更新上一时刻的值
+   return）\ :math:`r_t + \gamma V (s_{t+1})` 来更新上一时刻的值
    :math:`V (s_t)`\ ：
-   :math:`V (s_{t})\leftarrow V (s_{t}) + \alpha (r_{t+1} + \gamma V (s_{t+1})- V (s_{t}))`
+   :math:`V (s_{t})\leftarrow V (s_{t}) + \alpha (r_{t} + \gamma V (s_{t+1})- V (s_{t}))`
 
 -  这几种学习值函数的方法的比较如下图所示。
 
@@ -261,7 +261,7 @@ model) 和如何利用学习好的模型来学习值函数或策略。通过学�
 (sample efficiency)。
 
 环境模型可以定义为状态转移分布和奖励函数组成的元组：
-:math:`M=(P,R), 其中P(s_{t+1}|s_t, a_t)表示状态转移函数, R(r_{t+1}|s_t, a_t)`\ 表示奖励函数。
+:math:`M=(P,R), 其中P(s_{t+1}|s_t, a_t)表示状态转移函数, R(r_{t}|s_t, a_t)`\ 表示奖励函数。
 
 根据模型学习方法和使用方法的不同，可以有各种各样的 model-based RL算法。
 
