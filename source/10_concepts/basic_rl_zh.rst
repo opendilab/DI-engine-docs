@@ -72,7 +72,7 @@ observable)，当智能体只能接收部分环境信息\ :math:`o`\ 时，我�
 observable) 的，对应的决策过程即称为部分可观测马尔可夫决策过程 (Partially
 Observable Markov Decision Processes，POMDP)，
 部分可观测马尔可夫决策过程是马尔可夫决策过程的一种泛化。部分可观测马尔可夫决策过程依然具有马尔可夫性质，但是假设智能体无法感知环境的状态，只能知道部分观测值。通常用一个七元组描述
-:math:`(S, \Omega, O, A, P, R, \gamma)`\ ，其中O为观测空间，\ :math:`\Omega(o|s,a)`\ 为观测概率函数，其他与MDP的定义类似。
+:math:`(S, \Omega, O, A, P, R, \gamma)`\ ，其中O为观测空间，\ :math:`\Omega(o|s,a)`\ 为观测概率函数，其他与 MDP 的定义类似。
 
 动作空间/Action Spaces
 -------------------------
@@ -81,7 +81,7 @@ Observable Markov Decision Processes，POMDP)，
 的集合称之为动作空间 (Action Space)。其中，动作空间又分为离散 (discrete)
 动作空间与连续 (continuous) 动作空间。
 
-例如在Atari游戏与SMAC星际游戏中为离散的动作空间，只可以从有限数量的动作中进行选择，而 MuJoCo 等一些机器人连续控制任务中为连续动作空间，动作空间一般为实值向量区间。
+例如在 Atari 游戏与 SMAC 星际游戏中为离散的动作空间，只可以从有限数量的动作中进行选择，而 MuJoCo 等一些机器人连续控制任务中为连续动作空间，动作空间一般为实值向量区间。
 
 奖励与回报/Reward and Return
 ------------------------------
@@ -89,7 +89,7 @@ Observable Markov Decision Processes，POMDP)，
 **奖励 (reward)** 是智能体所处的环境给强化学习方法的一个学习信号
 (signal)，当环境发生变化时，奖励函数也会发生变化。奖励函数由当前的状态与智能体的动作决定，表示为\ :math:`r_t = R(s_t, a_t)`\ 。
 
-**回报(Return)**,
+**回报 (Return)**,
 又称为累积折扣奖励，定义为在一个马尔可夫决策过程中从\ :math:`t`\ 时刻开始往后所有奖励的加权和：\ :math:`G_t = \sum_{k=0}^{\infty} \gamma^{k} r_{t+k}`\ 。其中\ :math:`\gamma`
 表示折扣因子（衰减因子）体现的是未来的奖励在当前时刻的相对重要性，如果接近0，则表明趋向于只评估当前时刻的奖励，接近于1时表明同时考虑长期的奖励。一般情况下，\ :math:`\gamma \in [0,1)`\ 。在很多现实任务对应环境中的奖励函数可能是稀疏的，即并不是每一个状态下环境都会给予奖励，只有在一段轨迹过后才会给出一个奖励。因此在强化学习中，对奖励函数的设计与学习也是一个重要的方向，对强化学习方法的效果有很大的影响。
 
@@ -142,7 +142,7 @@ Equations)**\ 是强化学习方法的基础，描述的是当前时刻状态的
 其中\ :math:`R_{s}^{a}=\mathbb{E}\left[R_{t} \mid S_{t}=s, A_{t}=a\right]`,
 :math:`P_{s s^{\prime}}^{a}=\mathbb{P}\left[S_{t+1}=s^{\prime} \mid S_{t}=s, A_{t}=a\right]`
 
-**贝尔曼最优方程(Bellman Optimality
+**贝尔曼最优方程 (Bellman Optimality
 Equations)**\ ，描述的是当前时刻状态的最优值（最优动作值）与下一时刻状态的最优值（最优动作值）之间的递推关系。
 
 :math:`V^*(s)=max_a( E[r_{t} + \gamma * V^*(s_{t+1})|s_t=s])`
@@ -263,7 +263,7 @@ model) 和如何利用学习好的模型来学习值函数或策略。通过学�
 环境模型可以定义为状态转移分布和奖励函数组成的元组：
 :math:`M=(P,R), 其中P(s_{t+1}|s_t, a_t)表示状态转移函数, R(r_{t}|s_t, a_t)`\ 表示奖励函数。
 
-根据模型学习方法和使用方法的不同，可以有各种各样的 model-based RL算法。
+根据模型学习方法和使用方法的不同，可以有各种各样的 model-based RL 算法。
 
 在学习好环境模型后，主要有两种使用方法，一种是通过学到的模型生成一些仿真轨迹，在这些仿真轨迹上学习最优值函数进而得到最优策略；另一种是在学到的模型上直接优化策略。
 
@@ -281,8 +281,8 @@ Q&A
 
    -  强化学习中没有强的监督信号，只有稀疏的，延迟的奖励信号。
 
-2. 什么是exploration and
-   exploitation？我们通常使用哪些方法平衡exploration and exploitation？
+2. 什么是 exploration and
+   exploitation？我们通常使用哪些方法平衡 exploration and exploitation？
 
 -  Exploration 指的是RL中的智能体需要不断的去探索环境的不同状态动作空间,
    尽可能收集到多样化的样本用于强化学习训练，而 exploitation 指的是智能体需要利用好已经获得的“知识”，去选择当前状态下收益高的动作。如果 exploitation 太多，那么模型比较容易陷入局部最优，但是 exploration 太多，模型收敛速度太慢。如何在 exploitation-exploration 中取得平衡，以获得一种累计折扣奖励最高的最优策略，是强化学习中的一个核心问题。
@@ -314,11 +314,11 @@ Q&A
 
 -  Online training 指的是用于 RL 训练的数据是智能体与环境交互实时产生的。
    Offline training 即是训练时智能体不与环境进行交互，而是直接在给定的固定数据集上进行训练，
-   比如 behavior cloning 就是经典的 Offline training算 法。
-   我们通常在固定数据集上采样一个batch用于RL训练，因此 offline
-   RL 又称为Batch RL。具体参考我们的 offline RL 文档 []。
+   比如 behavior cloning 就是经典的 Offline training 算 法。
+   我们通常在固定数据集上采样一个 batch 用于 RL 训练，因此 offline
+   RL 又称为 Batch RL。具体参考我们的 offline RL 文档 []。
 
-7. 为什么要使用replay buffer？experience replay作用在哪里？
+7. 为什么要使用 replay buffer？ experience replay 作用在哪里？
 
 -  智能体与环境交互后产生的数据往往是具有很强的时序相关信息的，由于随机梯度下降通常要求训练的数据符合 i.i.d. 假设，因此将智能体与环境交互后产生的数据直接用于 RL 训练往往存在稳定性问题。
 
@@ -330,7 +330,7 @@ Q&A
 
 8. 强化学习目前的应用场景有哪些？
 
--  强化学习已经在游戏领域（Atari游戏，星际争霸，王者荣耀，象棋，围棋等）取得了比肩人类甚至超越人类的成就。在现实应用中，强化学习在互联网推荐，搜索方面有丰富的应用场景。除此之外，强化学习也被应用于自动驾驶，机器人控制等控制系统中。在医疗，生物，量化交易等领域，强化学习可以用于处理更多复杂的决策问题。
+-  强化学习已经在游戏领域（Atari 游戏，星际争霸，王者荣耀，象棋，围棋等）取得了比肩人类甚至超越人类的成就。在现实应用中，强化学习在互联网推荐，搜索方面有丰富的应用场景。除此之外，强化学习也被应用于自动驾驶，机器人控制等控制系统中。在医疗，生物，量化交易等领域，强化学习可以用于处理更多复杂的决策问题。
 
 参考文献
 --------

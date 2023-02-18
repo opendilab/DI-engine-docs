@@ -178,7 +178,7 @@ Once the modeling of the environment has been completed, there are also two path
 
 The definition of a model can be expressed mathematically as a tuple of state transfer distributions and reward functions. 
 
-:math:`M=(P,R), s_{t+1}~P(s_{t+1}|s_t, a_t), r_{t}~R(r_{t}|s_t, a_t)`
+:math:`M=(P,R), s_{t+1}\simP(s_{t+1}|s_t, a_t), r_{t}\simR(r_{t}|s_t, a_t)`
 
 The learning of a model can be extended to different algorithms depending on the model construction.
 
