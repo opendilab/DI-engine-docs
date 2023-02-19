@@ -31,7 +31,7 @@ The DQfD overall loss used to update the network is a combination of all four lo
 
 Overall Loss:  :math:`J(Q) = J_{DQ}(Q) + \lambda_1 J_n(Q) + \lambda_2J_E(Q) + \lambda_3 J_{L2}(Q)`
 
-- one-step loss:  :math:`J_{DQ}(Q) = (R(s,a) + \gamma Q(s_{t+1}, a_{t+1}^{max}; \theta ^') - Q(s,a;\theta))^2`, where :math:`a_{t+1}^{max} = argmax_a Q(s_{t+1},a;\theta)`.  
+- one-step loss:  :math:`J_{DQ}(Q) = (R(s,a) + \gamma Q(s_{t+1}, a_{t+1}^{max}; \theta^{'}) - Q(s,a;\theta))^2`, where :math:`a_{t+1}^{max} = argmax_a Q(s_{t+1},a;\theta)`.  
 
 - n-step loss:  :math:`J_n(Q) = r_t + \gamma r_{t+1} + ... + \gamma^{n-1} r_{t+n-1} + max_a \gamma^n Q(s_{t+n},a)`.
 
