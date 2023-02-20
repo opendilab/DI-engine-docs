@@ -205,7 +205,7 @@ Equations)**\ ，描述的是当前时刻状态的最优值（最优动作值）
 
 令 :math:`\tau` 表示一条轨迹，初始状态分布为
 :math:`\mu`\ ，如果动作是按照策略\ :math:`\pi`\ 选择的，那么轨迹
-:math:`\tau`\ 的概率分布为：\ :math:` {Pr}_{\mu}^{\pi}(\tau)=\mu\left(s_{0}\right) \pi\left(a_{0} \mid s_{0}\right) P\left(s_{1} \mid s_{0}, a_{0}\right) \pi\left(a_{1} \mid s_{1}\right) \cdots`
+:math:`\tau`\ 的概率分布为：\ :math:`{Pr}_{\mu}^{\pi}(\tau)=\mu\left(s_{0}\right) \pi\left(a_{0} \mid s_{0}\right) P\left(s_{1} \mid s_{0}, a_{0}\right) \pi\left(a_{1} \mid s_{1}\right) \cdots`
 
 这条轨迹的累计折扣奖励为：\ :math:`R(\tau):=\sum_{t=0}^{\infty} \gamma^{t} r\left(s_{t}, a_{t}\right)`
 
