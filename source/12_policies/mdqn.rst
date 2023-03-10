@@ -17,7 +17,7 @@ Quick Facts
 
 4. MDQN uses **eps-greedy** for exploration.
 
-5. MDQN increased the action gap, and has implicit KL regularization.
+5. MDQN increased the **action gap**, and has implicit **KL regularization**.
 
 
 Key Equations or Key Graphs
@@ -78,37 +78,46 @@ The td error interface MDQN used is defined as follows:
 Benchmark
 -----------
 
+.. list-table:: Benchmark and comparison of mdqn algorithm
+   :widths: 25 15 30 15 15
+   :header-rows: 1
 
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
-+=====================+=================+=====================================================+==========================+======================+
-|                     |                 |                                                     |`config_link_p <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  sdqn(3513)          |
-|                     |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|Asterix              |  8963           |.. image:: images/benchmark/mdqn_asterix.png         |atari/config/serial/      |  paper(1718)         |
-|                     |                 |                                                     |asterix/asterix_mdqn_confi|                      |
-|(Asterix-v0)         |                 |                                                     |g.py>`_                   |  dqn(3444)           |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_q <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  sdqn(1804)          |
-|SpaceInvaders        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  2211           |.. image:: images/benchmark/mdqn_spaceinvaders.png   |atari/config/serial/      |  paper(2045)         |
-|(spaceInvaders-v0)   |                 |                                                     |spaceinvaders/spaceinvader|                      |
-|                     |                 |                                                     |s_dqn_config.py>`_        |  dqn(1228)           |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_s <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |  sdqn(986.1)         |
-|Enduro               |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
-|                     |  1003           |.. image:: images/benchmark/mdqn_enduro.png          |atari/config/serial/      |  paper(1171)         |
-|(Enduro-v4)          |                 |                                                     |endruo/space              |                      |
-|                     |                 |                                                     |enduro_mdqn_config.py>`_  |  dqn(986.4)          |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+   * - environment
+     - best mean reward
+     - evaluation results
+     - config link
+     - comparison
+   * - | Asterix 
+       | (Asterix-v0)
+     - 8963
+     - .. image:: images/benchmark/mdqn_asterix.png 
+     - `config_link_a <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/asterix/asterix_mdqn_config.py>`_
+     - | sdqn(3513) paper(1718) dqn(3444)
+   * - | SpaceInvaders
+       | (SpaceInvaders-v0)
+     - 2211
+     - .. image:: images/benchmark/mdqn_spaceinvaders.png
+     - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_mdqn_config.py>`_
+     - | sdqn(1804) paper(2045) dqn(1228)
+   * - | Enduro
+       | (Enduro-v4)
+     - 1003
+     - .. image:: images/benchmark/mdqn_enduro.png
+     - `config_link_e <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/enduro/enduro_mdqn_config.py>`_
+     - | sdqn(986.1) paper(1171) dqn(986.4)
 
 
-P.S.：
+
+Key difference between our config and paper config: 
+
+-  we collect 100 samples, train 10 times. In the paper, they collect 4 samples, train 1 time.
+-  we update target network for every 500 iterations, they update target network for every 2000 iterations.
+-  the epsilon we used for exploration is from 1 to 0.05, their epsilon is from 0.01 to 0.001.
+
+P.S.:
 
 1. The above results are obtained by running the same configuration on seed 0
-2. For the discrete action space algorithm like DQN, the Atari environment set is generally used for testing (including sub-environments Pong), and Atari environment is generally evaluated by the highest mean reward training 10M ``env_step``. For more details about Atari, please refer to `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
+2. For the discrete action space algorithm like DQN, the Atari environment set is generally used for testing, and Atari environment is generally evaluated by the highest mean reward training 10M ``env_step``. For more details about Atari, please refer to `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
 
 
 Reference
