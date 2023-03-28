@@ -47,18 +47,14 @@ And we test action at asterix and get the same result as paper that MDQN could i
 .. image:: images/action_gap.png
    :align: center
 
-.. note::
-
 Pseudo-code
 ---------------
 .. image:: images/mdqn.png
    :align: center
 
-.. note::
-
 Extension
 ---------------
-
+- TBD
 
 
 Implementations
@@ -91,19 +87,19 @@ Benchmark
        | (Asterix-v0)
      - 8963
      - .. image:: images/benchmark/mdqn_asterix.png 
-     - `config_link_a <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/asterix/asterix_mdqn_config.py>`_
+     - `config_link_asterix <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/asterix/asterix_mdqn_config.py>`_
      - | sdqn(3513) paper(1718) dqn(3444)
    * - | SpaceInvaders
        | (SpaceInvaders-v0)
      - 2211
      - .. image:: images/benchmark/mdqn_spaceinvaders.png
-     - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_mdqn_config.py>`_
+     - `config_link_spaceinvaders <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_mdqn_config.py>`_
      - | sdqn(1804) paper(2045) dqn(1228)
    * - | Enduro
        | (Enduro-v4)
      - 1003
      - .. image:: images/benchmark/mdqn_enduro.png
-     - `config_link_e <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/enduro/enduro_mdqn_config.py>`_
+     - `config_link_enduro <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/enduro/enduro_mdqn_config.py>`_
      - | sdqn(986.1) paper(1171) dqn(986.4)
 
 
@@ -116,8 +112,8 @@ Key difference between our config and paper config:
 
 P.S.:
 
-1. The above results are obtained by running the same configuration on seed 0
-2. For the discrete action space algorithm like DQN, the Atari environment set is generally used for testing, and Atari environment is generally evaluated by the highest mean reward training 10M ``env_step``. For more details about Atari, please refer to `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
+-  The above results are obtained by running the same configuration on seed 0
+-  For the discrete action space algorithm like DQN, the Atari environment set is generally used for testing, and Atari environment is generally evaluated by the highest mean reward training 10M ``env_step``. For more details about Atari, please refer to `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
 
 
 Reference
