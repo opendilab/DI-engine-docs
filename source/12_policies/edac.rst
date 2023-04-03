@@ -10,23 +10,23 @@ Besides, the quantities of data that can be gathered
 online are substantially lower than the offline datasets. Such a paradigm promises to resolve a key challenge to bringing reinforcement learning algorithms out of constrained lab settings to the real world.
 
 However, directly utilizing existing value-based off-policy RL algorithms in an offline setting generally results
-in poor performance, due to issues with bootstrapping from out-of-distribution actions and overfitting. Thus, many constrain techniques are added to basic online RL algorithms. 
+in poor performance, due to issues with bootstrapping from out-of-distribution actions and overfitting. Thus, many constrain techniques (e.g. policy constraint; conservative estimation; uncertainty estimation) are added to basic online RL algorithms. 
 Uncertainty-Based Offline Reinforcement Learning with Diversified Q-Ensemble (EDAC), first proposed in `Uncertainty-Based Offline Reinforcement Learning with Diversified Q-Ensemble <https://arxiv.org/pdf/2110.01548.pdf>`_, 
-is one of them which penalty out-of-distribution(OOD) action by add critic. 
+is one of them which penalty out-of-distribution(OOD) action by adding more critic networks. 
 
 Quick Facts
 -------------
-1. EDAC is an offline RL algorithm.
+1. EDAC is an offline uncertainty estimation RL algorithm.
 
 2. EDAC can be implemented with less than 20 lines of code on top of a
    number of SAC RL algorithms
 
-3. EDAC supports both **discrete** and **continuous** action spaces.
+3. EDAC supports **continuous** action spaces.
 
 
 Key Equations or Key Graphs
 ---------------------------
-EDAC show that cliped Q-learning :math:`min_{j=1,2}Q(s,a)` can penalty OOD action by add the number of critic. 
+EDAC show that clipped Q-learning :math:`min_{j=1,2}Q(s,a)` can penalty OOD action by add the number of critic. 
 Therefore EDAC can be implemented by ensembleing Q-network on standard SAC RL algorithm and add a penalty term to penalty OOD action.
 
 In general, for the EDAC, the penalty term is following:
@@ -37,7 +37,7 @@ In general, for the EDAC, the penalty term is following:
 
 By adding above penalty term, the algorithm can minimize the number of necessary critics to achieve higher computational efficiency while maintaining good performance. This term compute the inner-product of gradients of Q-values of in-dataset state-actions.
 
-EDAC show the importance of cliped Q-learning by increasing the number of Q-networks in SAC algorithm. By computeing the clipe penalty and standard deviation
+EDAC show the importance of clipped Q-learning by increasing the number of Q-networks in SAC algorithm. By computing the clipe penalty and standard deviation
 of OOD action adn in-dataset action, paper show why algorithm will perform better by increasing the number of Q-network. The figure of these results is as following:
 
 .. image:: images/edac_clip_penalty.png
@@ -65,13 +65,9 @@ To increasing the variance of Q-values effectively for near-distribution OOD act
    :align: center
    :scale: 55%
 
-There are several methods to compute the smallest eigenvalue, such as the power method or the QR algorithm [ 27]. However, these iterative methods require 
+There are several methods to compute the smallest eigenvalue, such as the power method or the QR algorithm. However, these iterative methods require 
 constructing huge computation graphs, which makes optimizing the eigenvalue using back-propagation inefficient. Instead, we aim to maximize the sum of all eigenvalues, which is equal to the total variance.
-Above equation is equivalent to minimizing the equation of first figure by Lemma 1:
-
-.. image:: images/edac_lemma1.png
-   :align: center
-   :scale: 55%
+Above equation is equivalent to minimizing the equation of first figure.
 
 Pseudo-code
 ---------------
@@ -100,16 +96,16 @@ Benchmark
 |                     |                 |                                                     |`config_link_ha <https:// |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |                     |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
-|HalfCheetah          |  57.6           |.. image:: images/benchmark/halfcheetah_edac.png     |d4rl/config/halfcheetah_  |   EDAC Repo (92.5    |
-|                     |  :math:`\pm`    |                                                     |edac_medium_expert        |   :math:`\pm` 9.9)   |
-|(Medium Expert)      |  3.7            |                                                     |_config.py>`_             |                      |
+|HalfCheetah          |  92.5           |.. image:: images/halfcheetah_edac.png               |d4rl/config/halfcheetah_  |   EDAC Repo (106.3   |
+|                     |  :math:`\pm`    |                                                     |edac_medium_expert        |   :math:`\pm` 1.9)   |
+|(Medium Expert)      |  9.9            |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 |                     |                 |                                                     |`config_link_ho <https:// |                      |
 |                     |                 |                                                     |github.com/opendilab/     |                      |
 |Hopper               |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
-|                     |  85.4           |.. image:: images/benchmark/hopper_edac.png          |d4rl/config/hopper_sac_   |    EDAC Repo (110.8  |
-|(Medium Expert)      |  :math:`\pm`    |                                                     |edac_medium_expert        |    :math:`\pm` 1.3)  |
-|                     |  14.8           |                                                     |_config.py>`_             |                      |
+|                     |  110.8          |.. image:: images/hopper_edac.png                    |d4rl/config/hopper_sac_   |    EDAC Repo (110.7  |
+|(Medium Expert)      |  :math:`\pm`    |                                                     |edac_medium_expert        |    :math:`\pm` 0.1)  |
+|                     |  1.3            |                                                     |_config.py>`_             |                      |
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 Specifically for each dataset, our implementation results are as follows:
@@ -150,7 +146,7 @@ Reference
 Other Public Implementations
 ----------------------------
 
-- `CQL release repo`_
+- `EDAC release repo`_
 
 
-.. _`CQL release repo`: https://github.com/aviralkumar2907/CQL
+.. _`EDAC release repo`: https://github.com/aviralkumar2907/CQL
