@@ -66,8 +66,7 @@ The default config of MDQNPolicy is defined as follows:
 
 The td error interface MDQN used is defined as follows:
 
-.. autoclass:: ding.rl_utils.td.m_q_1step_td_error
-   :members: forward
+.. autofunction:: ding.rl_utils.td.m_q_1step_td_error
    :noindex:
 
 
