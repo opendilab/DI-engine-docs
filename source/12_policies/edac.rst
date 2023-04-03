@@ -149,4 +149,4 @@ Other Public Implementations
 - `EDAC release repo`_
 
 
-.. _`EDAC release repo`: https://github.com/aviralkumar2907/CQL
+.. _`EDAC release repo`: https://github.com/snu-mllab/EDAC
