@@ -8,15 +8,15 @@ MDQN 是在 `Munchausen Reinforcement Learning <https://arxiv.org/abs/2007.14430
 从实际使用的角度来看， MDQN 和 DQN 之间的关键区别是 Soft-DQN (传统 DQN 算法的扩展)的即时奖励中添加了一个缩放的 log-policy 。
 核心要点
 -------------
-1。 MDQN 是一种 **无模型 (model-free) ** 且 **基于值函数 (value-based) ** 的强化学习算法。
+1。 MDQN 是一种 **无模型 (model-free)** 且 **基于值函数 (value-based)** 的强化学习算法。
 
-2。 MDQN 只支持 **离散 (discrete) **  动作空间。
+2。 MDQN 只支持 **离散 (discrete)**  动作空间。
 
-3。 MDQN 是一个 **异策略 (off-policy) ** 算法。
+3。 MDQN 是一个 **异策略 (off-policy)** 算法。
 
-4。 MDQN 使用 **epsilon贪心 (eps-greedy) ** 来做探索 (exploration)。
+4。 MDQN 使用 **epsilon贪心 (eps-greedy)** 来做探索 (exploration)。
 
-5。 MDQN 增加了 **动作间隔 (action gap) **， 并具有隐式的 **KL正则化 (KL regularization) **。
+5。 MDQN 增加了 **动作间隔 (action gap)**， 并具有隐式的 **KL正则化 (KL regularization)**。
 
 
 关键方程或关键框图
@@ -40,7 +40,7 @@ MDQN 中使用的目标 Q 值 (target Q value) 是:
 
 对于 :math:`\pi_{\bar{\theta}}\left(a^{\prime} \mid s_{t+1}\right)` 被替换为 :math:`softmax(q-v)` 是在官方实现中使用的方法，但他们并未在论文中提及。
 
-并且我们在 asterix 进行测试，得到了与原论文相同的结果， 即MDQN可以增加动作间隙 (action gao) 。
+并且我们在 asterix 进行测试，得到了与原论文相同的结果， 即MDQN可以增加动作间隙 (action gap) 。
 
 .. image:: images/action_gap.png
    :align: center
