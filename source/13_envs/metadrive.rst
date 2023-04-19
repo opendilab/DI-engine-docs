@@ -21,7 +21,7 @@ Installation Method
 
 Users can choose to install it with one click through pip, or install it from source.
 
-Note: If the user does not have root privileges, please add \ ``--user`` \ after the install command
+Note: If the user does not have root privileges, please add \ ``--user`` \ after the install command.
 
 
 .. code:: shell
@@ -87,9 +87,9 @@ The default reward function in MetaDrive consists of a dense (obtained during dr
 
 MetaDrive provides a complex reward function. We can customize the reward function from the config dict. The complete reward function consists of the following four parts:
 
-- Driving reward (driving_reward): From t-1 to t time, the longitudinal distance from the current lane line. It is a dense reward.
+- Driving reward (driving_reward): From t-1 to t time, the longitudinal distance along the current lane line. It is a dense reward.
 - Speed reward (speed_reward): The speed at the current moment. The greater the speed, the greater the reward, it is also a dense reward.
-- Lateral scale (use_lateral_reward): It provides a multiplier in the range [0, 1] indicating whether the ego vehicle is far from the center of the current lane, used in conjunction with the driving reward. If True, the size of the driving reward depends not only on the longitudinal distance, but also on the distance between the horizontal coordinate and the middle of the lane line.
+- Lateral scale (use_lateral_reward): It provides a multiplier in the range [0, 1] indicating whether the ego vehicle is far from the center of the current lane, used in conjunction with the driving reward. If True, the size of the driving reward depends not only on the longitudinal distance, but also on the distance between the car and the middle of the lane line.
 - Terminal Reward (termination_reward): At the end of an episode, other dense rewards will be disabled and a final reward will be returned depending on the state of the vehicle. The specific situations can be divided into:
 
   - Reaching the destination: the vehicle gets a reward for successfully completing the goal (success_reward);
