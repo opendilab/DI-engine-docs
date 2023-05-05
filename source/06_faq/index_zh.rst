@@ -116,3 +116,78 @@ Q6: 如何理解打印出的 [EVALUATOR] 信息
 `eval_monitor.is_finished() <https://github.com/opendilab/DI-engine/blob/main/ding/worker/collector/interaction_serial_evaluator.py#L224>`_ 为True时，
 即 evaluator 完成了所有的评估任务后 (在所有 ``eval_env`` 上一共评估了 ``n_evaluator_episode`` 局)，才会退出本次评估, 所以可能会出现某个 ``eval_env`` 在完成它自己的评估数量为 ``each_env_episode[i]`` 的游戏局后，其对应的log信息仍然重复出现的情况,
 用户不必担心这些重复的 logs，它们不会对评估结果产生不好的影响。
+
+Q7: DI-engine 里的 config 文件有相关说明吗？如何在 config 中设置控制训练停止的相关字段？
+****************************************************************************************************
+
+:A7:
+
+关于 DI-engine 配置文件系统详细介绍可见 `配置文件系统文档 <https://di-engine-docs.readthedocs.io/zh_CN/latest/03_system/config_zh.html>`_ 。DI-engine 中一般来说有三种停止设置：
+
+- 到达预设置的 ``stop value``（config 中修改），即 ``evaluation episode reward mean`` 大于等于 ``stop value``
+
+- 到达预设置的最大环境交互步数（ ``env step`` ），训练入口中修改
+
+  - 样例 1： https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L24
+
+  - 样例 2： https://github.com/opendilab/DI-engine/blob/main/ding/example/sac.py#L41 设置次数的 max_env_step
+
+- 到达预设置的最大训练迭代数（ ``train iter`` ），训练入口中修改
+
+  - 样例 1： https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry.py#L23
+
+  - 样例 2： https://github.com/opendilab/DI-engine/blob/main/ding/example/sac.py#L41
+
+另外，关于配置文件具体字段的介绍，可以参考各个类的 default config 部分的注释，例如
+
+- `DQN default config <https://github.com/opendilab/DI-engine/blob/main/ding/policy/dqn.py#L85>`_
+- `SAC default config <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sac.py#L64>`_
+
+强化学习相关配置文件较为复杂，如果还有不懂的细节欢迎大家随时提问！
+
+Q8: DI-engine 安装相关问题。
+****************************************************************************************************
+
+- **能否用 pip 安装 DI-engine？**
+
+  :A: 
+
+  可以，直接使用 ``pip install DI-engine`` 命令即可，具体可见 `安装说明文档-安装发布版本 <https://di-engine-docs.readthedocs.io/zh_CN/latest/01_quickstart/installation_zh.html#id3>`_ 。
+
+- **DI-engine 安装时会自动安装 PyTorch 嘛？如果电脑本身带有 PyTorch 会怎么样呢？**
+
+  :A: 
+
+  如果当前环境之前已经安装过 PyTorch，安装 DI-engine 时检查 PyTorch 版本符合要求的话，就会直接安装其他的依赖包；如果之前没有安装，DI-engine 会默认装上 cpu 版的 PyTorch 最好自己先安装 PyTorch 的合适版本，不然 di-engine 会默认装上 cpu 版的 PyTorch，具体的安装步骤可参考 `安装说明文档 <https://di-engine-docs.readthedocs.io/zh_CN/latest/index_zh.html>`_ 。
+
+- **DI-engine 对应的 gym 版本是？是否不能适配最新 gym 版本？**
+
+  :A: 
+
+  目前 DI-engine 对应到 gym 版本 0.25.1（2023.5.5），对于 DI-engine 适配的各个依赖库版本问题，可以参考 `setup.py <https://github.com/opendilab/DI-engine/blob/main/setup.py#L53>`_ 文件。
+
+- **如何从 Github 源码安装最新的 DI-engine 开发版本？**
+
+  :A: 
+
+  可以从 Github clone 下来，进入到相应文件夹里 ``pip install -e .``，如：
+
+  .. code-block::
+
+    git clone https://github.com/opendilab/DI-engine.git
+    cd DI-engine
+    pip install .
+
+Q9: DI-engine 中的 episode 指什么呢？
+****************************************************************************************************
+
+:A9:
+
+episode 这个词的中文翻译比较生硬，并不是强化学习的原创概念，它来自于游戏，类似“关卡”的意思，指智能体开始玩游戏到通关或者 game over 的过程，本质是指跟环境交互的一个完整周期，比如一局游戏一盘围棋这样，或许翻译为“集”or“局”比较好。
+
+Q10: DI-engine 支持 selfplay 机制吗？
+****************************************************************************************************
+
+:A10:
+
+支持的，最简单的例子可以参考 ``dizoo`` 中的 `league demo <https://github.com/opendilab/DI-engine/tree/main/dizoo/league_demo>`_ 和 `slime volleyball <https://github.com/opendilab/DI-engine/tree/main/dizoo/slime_volley>`_ 。
