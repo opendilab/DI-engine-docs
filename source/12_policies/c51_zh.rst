@@ -17,7 +17,7 @@ C51最初是在
 
 3. C51是一种离线策略算法。
 
-4. 通常，C51使用eps-greedy或多项式采样进行探索。
+4. 通常, C51使用eps-greedy或多项式采样进行探索。
 
 5. C51可以配备RNN。
 
@@ -29,7 +29,7 @@ C51最初是在
 
 
 .. note::
-    C51使用离散分布来建模值分布，其支持集合为N个原子： :math:`z_i = V_\min + i * delta, i = 0,1,...,N-1` 和　:math:`delta = (V_\max - V_\min) / N`　。每个原子　:math:`z_i`　都有一个参数化的概率 :math:`p_i` 。 C51的贝尔曼更新将 :math:`r + \gamma * z_j^{\left(t+1\right)}` 的分布投影到分布 :math:`z_i^t` 上。
+    C51使用离散分布来建模值分布, 其支持集合为N个原子: :math:`z_i = V_\min + i * delta, i = 0,1,...,N-1` 和　:math:`delta = (V_\max - V_\min) / N` 。每个原子　:math:`z_i` 都有一个参数化的概率 :math:`p_i` 。 C51的贝尔曼更新将 :math:`r + \gamma * z_j^{\left(t+1\right)}` 的分布投影到分布 :math:`z_i^t` 上。
 
 关键方程或关键框图
 ---------------------------
@@ -50,19 +50,19 @@ C51的贝尔曼方程是通过将返回分布 :math:`r + \gamma * z_j` 投影到
    - Dueling head
    - RNN
 
-Implementation
+实现
 -----------------
 
 .. tip::
-      我们对C51的基准结果使用了与DQN相同的超参数，（除了C51的独有参数 `n_atom` ）, 经验上这种方法是配置C51的通用方法。
+      我们对C51的基准结果使用了与DQN相同的超参数, (除了C51的独有参数 `n_atom`) , 经验上这种方法是配置C51的通用方法。
 
-C51的默认配置如下：
+C51的默认配置如下:
 
 
 .. autoclass:: ding.policy.c51.C51Policy
    :noindex:
 
-C51使用的网络接口定义如下：
+C51使用的网络接口定义如下:
 
 .. autoclass:: ding.model.template.q_learning.C51DQN
    :members: forward

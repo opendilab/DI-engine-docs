@@ -19,6 +19,7 @@
 
     dqn_zh
     c51_zh
+    qrdqn_zh
 
 .. toctree::
     :maxdepth: 3
