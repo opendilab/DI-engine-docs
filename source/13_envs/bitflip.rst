@@ -2,7 +2,7 @@ BitFlip
 ~~~~~~~~~~~~~~~~~~
 
 Overview
-=======
+=========
 BitFlip is a very simple little game. Assuming there are n coins, each coin has two states, the positive side is denoted as 0 and the negative side is denoted as 1. The action space is a vector of length n, and executing the nth action type represents flipping the nth coin.
 For each episode, we randomly initialize the coin state and target state. If the coin state and the target state are not the same, the reward is -1, otherwise it is 1.
 
@@ -10,17 +10,17 @@ For each episode, we randomly initialize the coin state and target state. If the
    :align: center
 
 Installation
-====
+=============
 
 Installation Method
---------
+--------------------
 
 The BitFlip environment does not need to be installed, it is built into DI-engine.
 
 Runnable Code Example in DI-zoo
-========================
+================================
 
-Below is a complete Bitflip environment config that uses the DQN algorithm as the policy. Please run the "bitflip_dqn_main.py" file in the "\DI-engine\dizoo\classic_control\bitflip\entry" directory as follows.
+Below is a complete RL training pipeline for Bitflip environment, which uses the DQN algorithm as the policy. Please run the "bitflip_dqn_main.py" file in the "\DI-engine\dizoo\classic_control\bitflip\entry" directory as follows.
 
 .. code:: python
 
