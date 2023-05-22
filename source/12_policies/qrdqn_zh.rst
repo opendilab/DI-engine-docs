@@ -3,18 +3,18 @@ QRDQN
 
 概述
 ---------
-QR (Quantile Regression, 分位数回归) DQN 在 `Distributional Reinforcement Learning with Quantile Regression <https://arxiv.org/pdf/1710.10044>`_  中被提出,它继承了学习 q 值分布的思想。 与使用离散原子来近似分布密度函数不同, QRDQN 直接回归 q 值的一组离散分位数。
+QR (Quantile Regression, 分位数回归) DQN 在 `Distributional Reinforcement Learning with Quantile Regression <https://arxiv.org/pdf/1710.10044>`_  中被提出， 它继承了学习 q 值分布的思想。 与使用离散原子来近似分布密度函数不同， QRDQN 直接回归 q 值的一组离散分位数。
 
 
 核心要点
 -----------
-1. QRDQN 是一种 **model-free** 和 **value-based** 的强化学习算法。
+1. QRDQN 是一种 **无模型（model-free）** 和 **基于值（value-based）** 的强化学习算法。
 
 2. QRDQN 仅支持 **离散动作空间** 。
 
-3. QRDQN 是一种 **off-policy** 算法。
+3. QRDQN 是一种 **异策略（off-policy）** 算法。
 
-4. 通常情况下, QRDQN使用 **ε-贪婪策略** 或 **多项式采样** 进行探索。
+4. 通常情况下， QRDQN使用 **eps-greedy** 或 **多项式采样** 进行探索。
 
 5. QRDQN可以与循环神经网络 (RNN) 结合使用。
 
@@ -25,9 +25,9 @@ QR (Quantile Regression, 分位数回归) DQN 在 `Distributional Reinforcement 
 
 关键方程或关键框图
 ----------------------------
-C51 (Categorical 51) 使用N个固定位置来近似其概率分布, 并调整它们的概率, 而QRDQN将固定的均匀概率分配给N个可调整的位置。基于这一点, QRDQN使用分位数回归来随机调整分布的位置, 以使其与目标分布的Wasserstein距离最小化。
+C51 (Categorical 51) 使用N个固定位置来近似其概率分布， 并调整它们的概率， 而QRDQN将固定的均匀概率分配给N个可调整的位置。基于这一点， QRDQN使用分位数回归来随机调整分布的位置， 以使其与目标分布的Wasserstein距离最小化。
 
-分位数回归损失是一种非对称凸损失函数，用于量化回归问题。对于给定的分位数 :math:`\tau \in [0, 1]`, 该损失函数以权重 :math:`\tau` 惩罚过估计误差，以权重 :math:`1−\tau` 惩罚欠估计误差. 
+分位数回归损失是一种非对称凸损失函数，用于量化回归问题。对于给定的分位数 :math:`\tau \in [0, 1]` ， 该损失函数以权重 :math:`\tau` 惩罚过估计误差，以权重 :math:`1−\tau` 惩罚欠估计误差. 
 对于一个分布 :math:`Z` 和给定的分位数 :math:`\tau`，分位数函数 :math:`F_Z^{−1}(\tau)` 的值可以被描述为分位数回归损失的最小化器：
 
 .. math::
@@ -37,7 +37,7 @@ C51 (Categorical 51) 使用N个固定位置来近似其概率分布, 并调整�
    \rho_{\tau}(u)=u\left(\tau-\delta_{\{u<0\}}\right), \forall u \in \mathbb{R}
    \end{array}
 
-上述提到的损失在零点处不平滑, 这可能会限制在使用非线性函数逼近时的性能。因此, 在QRDQN的Bellman更新过程中应用了一种修改后的分位数Huber损失, 称为 ``quantile huber loss`` 损失 (即伪代码中的方程式10)。
+上述提到的损失在零点处不平滑， 这可能会限制在使用非线性函数逼近时的性能。因此， 在QRDQN的Bellman更新过程中应用了一种修改后的分位数Huber损失， 称为 ``quantile huber loss`` 损失 (即伪代码中的方程式10)。
 
 .. math::
 
@@ -47,11 +47,11 @@ C51 (Categorical 51) 使用N个固定位置来近似其概率分布, 并调整�
 
 .. note::
 
-   与DQN相比, QRDQN具有以下区别:
+   与DQN相比， QRDQN具有以下区别:
 
-     1. 神经网络架构: QRDQN的输出层大小为M x N, 其中M是离散动作空间的大小, N是一个超参数, 表示分位数目标的数量。
+     1. 神经网络架构: QRDQN的输出层大小为M x N， 其中M是离散动作空间的大小， N是一个超参数， 表示分位数目标的数量。
      2. 使用分位数Huber损失替代DQN损失函数。
-     3. 在原始的QRDQN论文中, 将RMSProp优化器替换为Adam优化器。而在DI-engine中, 我们始终使用Adam优化器。
+     3. 在原始的QRDQN论文中， 将RMSProp优化器替换为Adam优化器。而在DI-engine中， 我们始终使用Adam优化器。
 
 伪代码
 -------------
@@ -61,9 +61,9 @@ C51 (Categorical 51) 使用N个固定位置来近似其概率分布, 并调整�
 
 扩展
 -----------
-QRDQN可以与以下技术相结合使用:
+- QRDQN可以与以下技术相结合使用:
 
-  - 优先经验回放 (PER)
+  - 优先经验回放 (Prioritized Experience Replay)
   - 多步TD-损失
   - 双目标网络 (Double Target Network)
   - 循环神经网络 (RNN)
@@ -72,7 +72,7 @@ QRDQN可以与以下技术相结合使用:
 ----------------
 
 .. tip::
-      在我们的基准结果中, QRDQN使用与DQN相同的超参数, 除了QRDQN的专属超参数——"分位数的数量", 该超参数经验性地设置为32。
+      在我们的基准结果中，QRDQN使用与DQN相同的超参数， 除了QRDQN的专属超参数——"分位数的数量" ， 该超参数经验性地设置为32。
 
 QRDQN的默认配置可以如下定义:
 
@@ -121,15 +121,15 @@ QRDQN的贝尔曼更新在ding/rl_utils/td.py模块的qrdqn_nstep_td_error函数
 P.S.:
 
 1. 上述结果是通过在五个不同的随机种子 (0, 1, 2, 3, 4) 上运行相同的配置获得的。
-2. 对于像QRDQN这样的离散动作空间算法, 通常使用Atari环境集进行测试(包括子环境Pong), 而Atari环境通常通过训练1000万个环境步骤的最高平均奖励来评估。.  有关Atari的更多详细信息, 请参阅 `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
+2. 对于像QRDQN这样的离散动作空间算法， 通常使用Atari环境集进行测试(包括子环境Pong) ， 而Atari环境通常通过训练1000万个环境步骤的最高平均奖励来评估。 有关Atari的更多详细信息, 请参阅 `Atari Env Tutorial <../env_tutorial/atari.html>`_ .
 
-References
+参考文献
 ------------
 
 (QRDQN) Will Dabney, Mark Rowland, Marc G. Bellemare, Rémi Munos: “Distributional Reinforcement Learning with Quantile Regression”, 2017; arXiv:1710.10044. https://arxiv.org/pdf/1710.10044
 
 
-Other Public Implementations
+其他开源实现
 -------------------------------
 
 - `Tianshou <https://github.com/thu-ml/tianshou/blob/master/tianshou/policy/modelfree/qrdqn.py>`_
