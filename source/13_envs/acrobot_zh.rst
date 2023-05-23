@@ -8,6 +8,7 @@ Acrobot机器人系统是强化学习中的经典控制问题。该系统包括�
 .. image:: ./images/acrobot.gif
    :align: center
    :scale: 80%
+
 安装
 ====
 
@@ -80,7 +81,7 @@ Acrobot 的状态空间有 6 个元素，分别是：
 
 奖励空间
 -----------
-目标是让自由端以尽可能少的步数达到指定的目标高度，因此所有未达到目标的步数都会产生 ``-1`` 的奖励。 达到目标高度会导致终止，奖励为 ``0``。
+目标是让自由端以尽可能少的步数达到指定的目标高度，因此所有未达到目标的步数都会产生 ``-1`` 的奖励。 达到目标高度会导致终止，奖励为 ``0`` 。
 
 
 终止条件
@@ -89,17 +90,20 @@ Acrobot 环境每个 episode 的终止条件是遇到以下任何一种情况：
 
 - 自由端达到目标高度，构造形式是 \ :math:`-cos(\theta_1) - cos(\theta_1 + \theta_2) > 1.0`\ 。
 
-- 达到 episode 的最大 step，默认为 ``500``。
+- 达到 episode 的最大 step，默认为 ``500`` 。
   
 
 DI-zoo 可运行代码示例
 =====================
 
+
 完整的训练配置文件在 `github
-link <https://github.com/opendilab/DI-engine/tree/main/dizoo/acrobot/config>`__
+link <https://github.com/opendilab/DI-engine/tree/main/dizoo/classic_control/acrobot/config>`__
 内，对于具体的配置文件，例如\ ``acrobot_dqn_config.py``\ ，使用如下的 demo 即可运行：
 
 .. code:: python
+    
+
     from easydict import EasyDict
 
     acrobot_dqn_config = dict(
@@ -155,6 +159,7 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/acrobot/config>`__
     if __name__ == "__main__":
         from ding.entry import serial_pipeline
         serial_pipeline((main_config, create_config), seed=0)
+
 
 基准算法性能
 =================

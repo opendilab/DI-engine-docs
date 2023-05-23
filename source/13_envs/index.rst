@@ -38,7 +38,6 @@ Environments:
    gfootball
    overcooked
    bsuite
-   multiagent_particle
    pettingzoo
    pybullet
    dmc2gym
@@ -47,6 +46,7 @@ Environments:
    gym_hybrid
    gym_soccer
    evogym
+   metadrive
 
    image_cls
 
