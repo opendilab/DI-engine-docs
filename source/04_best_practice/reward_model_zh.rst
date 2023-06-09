@@ -210,7 +210,75 @@ Reward Model 入门
     """
     pass
 
+Reward Model 表
+-------------------------------
 
+.. list-table:: Reward Model Table
+   :widths: 5 10 30 20 35
+   :header-rows: 1
+
+   * - No.
+     - Algorithm
+     -  training type
+        (current support)
+     - Doc and Implementation
+     - Runnable Demo
+   * - 1.
+     - ICM
+     - coop-train
+     - | `Doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/12_policies/icm_zh.html>`_
+       | `reward_model/icm <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/icm_reward_model.py>`_
+     - python dizoo/classic_control/cartpole/config/serial/cartpole_icm_config.py
+   * - 2.
+     - RND
+     - coop-train
+     - | `Doc <https://di-engine-docs.readthedocs.io/en/latest/12_policies/rnd.html>`_
+       | `reward_model/rnd <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/rnd_reward_model.py>`_
+     - python dizoo/classic_control/cartpole/config/serial/cartpole_rnd_onppo_config.py
+   * - 3.
+     - GAIL
+     - coop-train
+     - | `Doc <https://di-engine-docs.readthedocs.io/en/latest/12_policies/gail.html>`_
+       | `reward_model/gail <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/gail_irl_model.py>`_
+     - python dizoo/classic_control/cartpole/config/serial/cartpole_dqn_gail_config.py.py
+   * - 4.
+     - GCL
+     - coop-train
+     - | `Doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/12_policies/guided_cost_zh.html>`_
+       | `reward_model/gcl <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/guided_cost_reward_model.py>`_
+     - python dizoo/classic_control/cartpole/config/serial/cartpole_gcl_config.py
+   * - 5.
+     - NGU
+     - coop-train
+     - | `Doc <https://di-engine-docs.readthedocs.io/zh_CN/latest/12_policies/ngu_zh.html>`_
+       | `reward_model/ngu <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/ngu_reward_model.py>`_
+     - python dizoo/classic_control/cartpole/config/serial/cartpole_ngu_config.py
+   * - 6.
+     - PDEIL
+     - coop-train
+     - | `reward_model/pdeil <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/pdeil_irl_model.py>`_
+     - 
+   * - 7.
+     - PWIL
+     - coop-train
+     - | `reward_model/pwil <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/pwil_irl_model.py>`_
+     - 
+   * - 8.
+     - RED
+     - pre-train
+     - | `reward_model/red <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/rnd_reward_model.py>`_
+     - 
+   * - 9.
+     - TREX
+     - pre-train
+     - | `Doc <https://di-engine-docs.readthedocs.io/en/latest/12_policies/trex.html>`_
+       | `reward_model/trex <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/trex_reward_model.py>`_
+     - python dizoo/classic_control/cartpole/config/serial/cartpole_trex_offppo_config.py
+   * - 10.
+     - DREX
+     - pre-train
+     - | `reward_model/drex <https://github.com/opendilab/DI-engine/blob/main/ding/reward_model/drex_reward_model.py>`_
+     - python dizoo/classic_control/cartpole/config/serial/cartpole_drex_dqn_config.py
 **(补充)**
 
 - 1. 所有的RM必须提供entry测试，现有的测试在 `here <https://github.com/opendilab/DI-engine/blob/main/ding/entry/tests/test_serial_entry_reward_model.py>`_
