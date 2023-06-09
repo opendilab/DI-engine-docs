@@ -16,3 +16,4 @@
    training_generated_folders_zh
    registry_zh
    wandb_zh
+   reward_model_zh
