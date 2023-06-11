@@ -124,7 +124,7 @@ Q7: DI-engine 里的 config 文件有相关说明吗？如何在 config 中设�
 
 关于 DI-engine 配置文件系统详细介绍可见 `配置文件系统文档 <https://di-engine-docs.readthedocs.io/zh_CN/latest/03_system/config_zh.html>`_ 。DI-engine 中一般来说有三种停止设置：
 
-- 到达预设置的 ``stop value``（config 中修改），即 ``evaluation episode reward mean`` 大于等于 ``stop value``
+- 到达预设置的 ``stop value`` （config 中修改），即 ``evaluation episode reward mean`` 大于等于 ``stop value``
 
 - 到达预设置的最大环境交互步数（ ``env step`` ），训练入口中修改
 
@@ -152,31 +152,31 @@ Q8: DI-engine 安装相关问题。
 
   :A: 
 
-  可以，直接使用 ``pip install DI-engine`` 命令即可，具体可见 `安装说明文档-安装发布版本 <https://di-engine-docs.readthedocs.io/zh_CN/latest/01_quickstart/installation_zh.html#id3>`_ 。
+    可以，直接使用 ``pip install DI-engine`` 命令即可，具体可见 `安装说明文档-安装发布版本 <https://di-engine-docs.readthedocs.io/zh_CN/latest/01_quickstart/installation_zh.html#id3>`_ 。
 
 - **DI-engine 安装时会自动安装 PyTorch 嘛？如果电脑本身带有 PyTorch 会怎么样呢？**
 
   :A: 
 
-  如果当前环境之前已经安装过 PyTorch，安装 DI-engine 时检查 PyTorch 版本符合要求的话，就会直接安装其他的依赖包；如果之前没有安装，DI-engine 会默认装上 cpu 版的 PyTorch 最好自己先安装 PyTorch 的合适版本，不然 di-engine 会默认装上 cpu 版的 PyTorch，具体的安装步骤可参考 `安装说明文档 <https://di-engine-docs.readthedocs.io/zh_CN/latest/index_zh.html>`_ 。
+    如果当前环境之前已经安装过 PyTorch，安装 DI-engine 时检查 PyTorch 版本符合要求的话，就会直接安装其他的依赖包；如果之前没有安装，DI-engine 会默认装上 cpu 版的 PyTorch 最好自己先安装 PyTorch 的合适版本，不然 di-engine 会默认装上 cpu 版的 PyTorch，具体的安装步骤可参考 `安装说明文档 <https://di-engine-docs.readthedocs.io/zh_CN/latest/index_zh.html>`_ 。
 
 - **DI-engine 对应的 gym 版本是？是否不能适配最新 gym 版本？**
 
   :A: 
 
-  目前 DI-engine 对应到 gym 版本 0.25.1（2023.5.5），对于 DI-engine 适配的各个依赖库版本问题，可以参考 `setup.py <https://github.com/opendilab/DI-engine/blob/main/setup.py#L53>`_ 文件。
+    目前 DI-engine 对应到 gym 版本 0.25.1（2023.5.5），对于 DI-engine 适配的各个依赖库版本问题，可以参考 `setup.py <https://github.com/opendilab/DI-engine/blob/main/setup.py#L53>`_ 文件。
 
 - **如何从 Github 源码安装最新的 DI-engine 开发版本？**
 
   :A: 
 
-  可以从 Github clone 下来，进入到相应文件夹里 ``pip install -e .``，如：
+    可以从 Github clone 下来，进入到相应文件夹里 ``pip install -e .``，如：
 
-  .. code-block::
+    .. code-block::
 
-    git clone https://github.com/opendilab/DI-engine.git
-    cd DI-engine
-    pip install .
+      git clone https://github.com/opendilab/DI-engine.git
+      cd DI-engine
+      pip install .
 
 Q9: DI-engine 中的 episode 指什么呢？
 ****************************************************************************************************

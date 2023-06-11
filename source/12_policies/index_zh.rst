@@ -19,6 +19,9 @@
 
     dqn_zh
     mdqn_zh
+    c51_zh
+    qrdqn_zh
+
 .. toctree::
     :maxdepth: 3
     :caption: 探索
@@ -33,3 +36,9 @@
 
     guided_cost_zh
     r2d3_zh
+
+.. toctree::
+    :maxdepth: 3
+    :caption: 离线强化学习
+    
+    edac_zh
