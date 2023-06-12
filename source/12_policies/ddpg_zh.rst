@@ -180,11 +180,7 @@ DDPG 可以与以下技术相结合使用:
             # current q value
             q_value = self._learn_model.forward(data, mode='compute_critic')['q_value']
             q_value_dict = {}
-            if self._twin_critic:
-                q_value_dict['q_value'] = q_value[0].mean()
-                q_value_dict['q_value_twin'] = q_value[1].mean()
-            else:
-                q_value_dict['q_value'] = q_value.mean()
+            q_value_dict['q_value'] = q_value.mean()
             # target q value. SARSA: first predict next action, then calculate next q value
             with torch.no_grad():
                 next_action = self._target_model.forward(next_obs, mode='compute_actor')['action']
@@ -214,10 +210,7 @@ DDPG 可以与以下技术相结合使用:
 
         actor_data = self._learn_model.forward(data['obs'], mode='compute_actor')
         actor_data['obs'] = data['obs']
-        if self._twin_critic:
-            actor_loss = -self._learn_model.forward(actor_data, mode='compute_critic')['q_value'][0].mean()
-        else:
-            actor_loss = -self._learn_model.forward(actor_data, mode='compute_critic')['q_value'].mean()
+        actor_loss = -self._learn_model.forward(actor_data, mode='compute_critic')['q_value'].mean()
         loss_dict['actor_loss'] = actor_loss
 
     1. ``actor network update``
