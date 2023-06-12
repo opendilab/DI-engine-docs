@@ -24,6 +24,12 @@
 
 .. toctree::
     :maxdepth: 3
+    :caption: 演员—评委
+
+    ddpg_zh
+
+.. toctree::
+    :maxdepth: 3
     :caption: 探索
 
     icm_zh

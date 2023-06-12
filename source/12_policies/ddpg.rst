@@ -6,7 +6,7 @@ Overview
 
 Deep Deterministic Policy Gradient (DDPG), proposed in the 2015 paper `Continuous control with deep reinforcement learning <https://arxiv.org/abs/1509.02971>`_, is an algorithm which learns a Q-function and a policy simultaneously.
 DDPG is an actor-critic, model-free algorithm based on the deterministic policy gradient(DPG) that can operate over high-dimensional, continuous action spaces.
-DPG `Deterministic policy gradient algorithms <http://proceedings.mlr.press/v32/silver14.pdf>`_ algorithm is similar to NFQCA.
+DPG `Deterministic policy gradient algorithms <http://proceedings.mlr.press/v32/silver14.pdf>`_ algorithm is similar to NFQCA `Reinforcement learning in feedback control <https://link.springer.com/content/pdf/10.1007/s10994-011-5235-x.pdf?pdf=button>`_.
 
 Quick Facts
 -----------
@@ -20,7 +20,13 @@ Quick Facts
 
 Key Equations or Key Graphs
 ---------------------------
-The DDPG algorithm maintains a parameterized actor function :math:`\mu\left(s \mid \theta^{\mu}\right)` which specifies the current policy by deterministically mapping states to a specific action. The critic :math:`Q(s, a)` is learned using the Bellman equation as in Q-learning. The actor is updated by following the applying the chain rule to the expected return from the start distribution :math:`J` with respect to the actor parameters:
+The DDPG algorithm maintains a parameterized actor function :math:`\mu\left(s \mid \theta^{\mu}\right)` which specifies the current policy by deterministically mapping states to a specific action. The critic :math:`Q(s, a)` is learned using the Bellman equation as in Q-learning. The actor is updated by following the applying the chain rule to the expected return from the start distribution :math:`J` with respect to the actor parameters.
+
+Specifically, to maximize the expected payoff :math:`J`, the algorithm needs to compute the gradient of :math:`J` on the policy function argument :math:`\theta^{\mu}`.
+:math:`J` is :math:`Q (s, a)` expectations, so the problem is transformed into computing :math:`Q^{\mu} (s, \mu(s))` to :math:`\theta^{\mu}` gradient.
+According to the chain rule, :math:`\nabla_{\theta^{\mu}} Q^{\mu}(s,  \mu(s)) = \nabla_{\theta^{\mu}}\mu(s)\nabla_{a}Q^\mu(s,a)|_{ a=\mu\left(s\right)}+\nabla_{\theta^{\mu}} Q^{\mu}(s,  a)|_{ a=\mu\left(s\right)}`.
+Similar to the derivation of **off-policy stochastic policy gradient** from `Off-Policy Actor-Critic <https://arxiv.org/pdf/1205.4839.pdf>`_, `Deterministic policy gradient algorithms <http://proceedings.mlr.press/v32/silver14.pdf>`_ dropped the second term.
+Thus, the approximate **deterministic policy gradient theorem** is obtained:
 
 .. math::
     \begin{aligned}
@@ -102,15 +108,16 @@ DDPG can be combined with:
         `Continuous control with deep reinforcement learning <https://arxiv.org/abs/1509.02971>`_ proposes soft target updates used to keep the network training stable.
         Since we implement soft update Target Network for actor-critic through ``TargetNetworkWrapper`` in ``model_wrap`` and configuring ``learn.target_theta``.
 
-    - Replay Buffers
+    - Initial collection of replay buffer following random policy
 
-        DDPG/TD3 random-collect-size is set to 25000 by default, while it is 10000 for SAC.
+        Before optimizing the model parameters, we need to have a sufficient number of transition data in the replay buffer following random policy to ensure that the model does not overfit the replay buffer data at the beginning of the algorithm.
+        So we control the number of transitions in the initial replay buffer by configuring ``random_collect_size``.
+        DDPG/TD3 ``random_collect_size`` is set to 25000 by default, while it is 10000 for SAC.
         We only simply follow SpinningUp default setting and use random policy to collect initialization data.
-        We configure ``random_collect_size`` for data collection.
 
-    - Gaussian noise during collecting transition.
+    - Gaussian noise during collecting transition
 
-        For the exploration noise process DDPG uses temporally correlated noise in order to explore well in physical environments that have momentum.
+        For the exploration noise process DDPG uses temporally correlated noise in order to generate temporally correlated exploration for exploration efficiency in physical control problems with inertia.
         Specifically, DDPG uses Ornstein-Uhlenbeck process with :math:`\theta = 0.15` and :math:`\sigma = 0.2`. The Ornstein-Uhlenbeck process models the velocity of a Brownian particle with friction, which results in temporally correlated values centered around 0.
         However, we use Gaussian noise instead of Ornstein-Uhlenbeck noise due to too many hyper-parameters of Ornstein-Uhlenbeck noise.
         We configure ``collect.noise_sigma`` to control the exploration.
@@ -177,32 +184,17 @@ In ``_forward_learn`` we update actor-critic policy through computing critic los
 
         .. code-block:: python
 
-            if self._twin_critic:
-                # TD3: two critic networks
-                target_q_value = torch.min(target_q_value[0], target_q_value[1])  # find min one as target q value
-                # network1
-                td_data = v_1step_td_data(q_value[0], target_q_value, reward, data['done'], data['weight'])
-                critic_loss, td_error_per_sample1 = v_1step_td_error(td_data, self._gamma)
-                loss_dict['critic_loss'] = critic_loss
-                # network2(twin network)
-                td_data_twin = v_1step_td_data(q_value[1], target_q_value, reward, data['done'], data['weight'])
-                critic_twin_loss, td_error_per_sample2 = v_1step_td_error(td_data_twin, self._gamma)
-                loss_dict['critic_twin_loss'] = critic_twin_loss
-                td_error_per_sample = (td_error_per_sample1 + td_error_per_sample2) / 2
-            else:
-                # DDPG: single critic network
-                td_data = v_1step_td_data(q_value, target_q_value, reward, data['done'], data['weight'])
-                critic_loss, td_error_per_sample = v_1step_td_error(td_data, self._gamma)
-                loss_dict['critic_loss'] = critic_loss
+            # DDPG: single critic network
+            td_data = v_1step_td_data(q_value, target_q_value, reward, data['done'], data['weight'])
+            critic_loss, td_error_per_sample = v_1step_td_error(td_data, self._gamma)
+            loss_dict['critic_loss'] = critic_loss
 
     2. ``critic network update``
 
     .. code-block:: python
 
         self._optimizer_critic.zero_grad()
-        for k in loss_dict:
-            if 'critic' in k:
-                loss_dict[k].backward()
+        loss_dict['critic_loss'].backward()
         self._optimizer_critic.step()
 
     1. ``actor loss``
