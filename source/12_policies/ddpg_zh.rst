@@ -23,14 +23,15 @@ DDPG 是基于 DPG (deterministic policy gradient) 的 **无模型（model-free�
 
 关键方程或关键框图
 ---------------------------
-DDPG 包含一个参数化的策略函数（actor） :math:`\mu\left(s \mid \theta^{\mu}\right)` 
-此函数通过将每一个状态确定性地映射到一个具体的行动从而明确当前策略。
-此外，算法还包含一个参数化的Q函数（critic） :math:`Q(s, a)` 
+DDPG 包含一个参数化的策略函数（actor） :math:`\mu\left(s \mid \theta^{\mu}\right)` ,
+此函数通过将每一个状态确定性地映射到一个具体的动作从而明确当前策略。
+此外，算法还包含一个参数化的Q函数（critic） :math:`Q(s, a)` 。
 正如 Q-learning 算法，此函数通过贝尔曼方程优化自身。
-如下公式所示，策略网络通过将链式法则应用于初始分布的预期收益 :math:`J` 来更新自身参数。
 
-具体而言，为了最大化预期收益 :math:`J` ，算法需要计算 :math:`J` 对策略函数参数 :math:`\theta^{\mu}` 的梯度。
- :math:`J` 是 :math:`Q(s, a)` 的期望，所以问题转化为计算 :math:`Q_{\mu}(s, \mu(s))` 对 :math:`\theta^{\mu}` 的梯度。
+策略网络通过将链式法则应用于初始分布的预期收益 :math:`J` 来更新自身参数。
+
+具体而言，为了最大化预期收益 :math:`J` ，算法需要计算 :math:`J` 对策略函数参数 :math:`\theta^{\mu}` 的梯度。 :math:`J` 是 :math:`Q(s, a)` 的期望，所以问题转化为计算 :math:`Q^{\mu}(s, \mu(s))` 对 :math:`\theta^{\mu}` 的梯度。
+
 根据链式法则，:math:`\nabla_{\theta^{\mu}} Q^{\mu}(s, \mu(s)) = \nabla_{\theta^{\mu}}\mu(s)\nabla_{a}Q^\mu(s,a)|_{ a=\mu\left(s\right)}+\nabla_{\theta^{\mu}} Q^{\mu}(s, a)|_{ a=\mu\left(s\right)}`。
 
 `Deterministic policy gradient algorithms <http://proceedings.mlr.press/v32/silver14.pdf>`_ 采取了与 `Off-Policy Actor-Critic <https://arxiv.org/pdf/1205.4839.pdf>`_ 中推导 **异策略版本的随机性策略梯度定理** 类似的做法，舍去了上式第二项，
@@ -153,8 +154,8 @@ DDPG 可以与以下技术相结合使用:
 训练 actor-critic 模型
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-首先，我们在 ``_init_learn`` 中分别初始化演员和评论家优化器。
-设置两个独立的优化器可以保证我们在计算actor损失时只更新 actor 网络参数而不更新 critic 网络，反之亦然。
+首先，我们在 ``_init_learn`` 中分别初始化 actor 和 critic 优化器。
+设置两个独立的优化器可以保证我们在计算 actor 损失时只更新 actor 网络参数而不更新 critic 网络，反之亦然。
 
     .. code-block:: python
 
@@ -179,8 +180,6 @@ DDPG 可以与以下技术相结合使用:
 
             # current q value
             q_value = self._learn_model.forward(data, mode='compute_critic')['q_value']
-            q_value_dict = {}
-            q_value_dict['q_value'] = q_value.mean()
             # target q value. SARSA: first predict next action, then calculate next q value
             with torch.no_grad():
                 next_action = self._target_model.forward(next_obs, mode='compute_actor')['action']
@@ -224,7 +223,7 @@ DDPG 可以与以下技术相结合使用:
 
 目标网络
 ~~~~~~~~~~~~~~~~~
-我们通过 ``_init_learn``中的目标模型初始化来实现目标网络。
+我们通过 ``_init_learn`` 中的目标模型初始化来实现目标网络。
 我们配置 ``learn.target_theta`` 来控制平均中的插值因子。
 
 

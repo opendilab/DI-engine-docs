@@ -20,11 +20,14 @@ Quick Facts
 
 Key Equations or Key Graphs
 ---------------------------
-The DDPG algorithm maintains a parameterized actor function :math:`\mu\left(s \mid \theta^{\mu}\right)` which specifies the current policy by deterministically mapping states to a specific action. The critic :math:`Q(s, a)` is learned using the Bellman equation as in Q-learning. The actor is updated by following the applying the chain rule to the expected return from the start distribution :math:`J` with respect to the actor parameters.
+The DDPG algorithm maintains a parameterized actor function :math:`\mu\left(s \mid \theta^{\mu}\right)` which specifies the current policy by deterministically mapping states to a specific action. The critic :math:`Q(s, a)` is learned using the Bellman equation as in Q-learning.
 
-Specifically, to maximize the expected payoff :math:`J`, the algorithm needs to compute the gradient of :math:`J` on the policy function argument :math:`\theta^{\mu}`.
-:math:`J` is :math:`Q (s, a)` expectations, so the problem is transformed into computing :math:`Q^{\mu} (s, \mu(s))` to :math:`\theta^{\mu}` gradient.
+The actor is updated by following the applying the chain rule to the expected return from the start distribution :math:`J` with respect to the actor parameters.
+
+Specifically, to maximize the expected payoff :math:`J`, the algorithm needs to compute the gradient of :math:`J` on the policy function argument :math:`\theta^{\mu}`. :math:`J` is :math:`Q (s, a)` expectations, so the problem is transformed into computing :math:`Q^{\mu} (s, \mu(s))` to :math:`\theta^{\mu}` gradient.
+
 According to the chain rule, :math:`\nabla_{\theta^{\mu}} Q^{\mu}(s,  \mu(s)) = \nabla_{\theta^{\mu}}\mu(s)\nabla_{a}Q^\mu(s,a)|_{ a=\mu\left(s\right)}+\nabla_{\theta^{\mu}} Q^{\mu}(s,  a)|_{ a=\mu\left(s\right)}`.
+
 Similar to the derivation of **off-policy stochastic policy gradient** from `Off-Policy Actor-Critic <https://arxiv.org/pdf/1205.4839.pdf>`_, `Deterministic policy gradient algorithms <http://proceedings.mlr.press/v32/silver14.pdf>`_ dropped the second term.
 Thus, the approximate **deterministic policy gradient theorem** is obtained:
 
@@ -168,8 +171,6 @@ In ``_forward_learn`` we update actor-critic policy through computing critic los
 
             # current q value
             q_value = self._learn_model.forward(data, mode='compute_critic')['q_value']
-            q_value_dict = {}
-            q_value_dict['q_value'] = q_value.mean()
             # target q value. SARSA: first predict next action, then calculate next q value
             with torch.no_grad():
                 next_action = self._target_model.forward(next_obs, mode='compute_actor')['action']
@@ -258,7 +259,7 @@ Benchmark
 +---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 
-P.S.：
+P.S.:
 
 1. The above results are obtained by running the same configuration on five different random seeds (0, 1, 2, 3, 4)
 
