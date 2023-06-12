@@ -285,6 +285,12 @@ P.S.：
 -----------
 Timothy P. Lillicrap, Jonathan J. Hunt, Alexander Pritzel, Nicolas Heess, Tom Erez, Yuval Tassa, David Silver, Daan Wierstra: “Continuous control with deep reinforcement learning”, 2015; [http://arxiv.org/abs/1509.02971 arXiv:1509.02971].
 
+David Silver, Guy Lever, Nicolas Heess, Thomas Degris, Daan Wierstra, et al.. Deterministic Policy Gradient Algorithms. ICML, Jun 2014, Beijing, China. ffhal-00938992f
+
+Hafner, R., Riedmiller, M. Reinforcement learning in feedback control. Mach Learn 84, 137–169 (2011).
+
+Degris, T., White, M., and Sutton, R. S. (2012b). Linear off-policy actor-critic. In 29th International Conference on Machine Learning.
+
 其他公开的实现
 ----------------------------
 
