@@ -33,14 +33,14 @@ DDPG 包含一个参数化的策略函数（actor） :math:`\mu\left(s \mid \the
  :math:`J` 是 :math:`Q(s, a)` 的期望，所以问题转化为计算 :math:`Q_{\mu}(s, \mu(s))` 对 :math:`\theta^{\mu}` 的梯度。
 根据链式法则，:math:`\nabla_{\theta^{\mu}} Q^{\mu}(s, \mu(s)) = \nabla_{\theta^{\mu}}\mu(s)\nabla_{a}Q^\mu(s,a)|_{ a=\mu\left(s\right)}+\nabla_{\theta^{\mu}} Q^{\mu}(s, a)|_{ a=\mu\left(s\right)}`。
 
-`Deterministic policy gradient algorithms <http://proceedings.mlr.press/v32/silver14.pdf>`_采取了与 `Off-Policy Actor-Critic <https://arxiv.org/pdf/1205.4839.pdf>`_ 中推导 **异策略版本的随机性策略梯度定理** 类似的做法，舍去了上式第二项，
+`Deterministic policy gradient algorithms <http://proceedings.mlr.press/v32/silver14.pdf>`_ 采取了与 `Off-Policy Actor-Critic <https://arxiv.org/pdf/1205.4839.pdf>`_ 中推导 **异策略版本的随机性策略梯度定理** 类似的做法，舍去了上式第二项，
 从而得到了近似后的 **确定性策略梯度定理** ：
 
 
 .. math::
     \begin{aligned}
     \nabla_{\theta^{\mu}} J & \approx \mathbb{E}_{s_{t} \sim \rho^{\beta}}\left[\left.\nabla_{\theta^{\mu}} Q\left(s, a \mid \theta^{Q}\right)\right|_{s=s_{t}, a=\mu\left(s_{t} \mid \theta^{\mu}\right)}\right] \\
-    &=\mathbb{E}_{s_{t} \sim \rho^{\beta}}\left[\left.\left.\nabla_{a} Q\left(s, a \mid \theta^{Q}\right)\right|_{s=s_{t}, a=\mu\left(s_{t}\right)} \nabla_{\theta_{\mu}} \mu\left(s \mid \theta^{\mu}\right)\right|_{s=s_{t}}\right]
+    &=\mathbb{E}_{s_{t} \sim \rho^{\beta}}\left[\left.\left.\nabla_{a} Q\left(s, a \mid \theta^{Q}\right)\right|_{s=s_{t}, a=\mu\left(s_{t}\right)} \nabla_{\theta^{\mu}} \mu\left(s \mid \theta^{\mu}\right)\right|_{s=s_{t}}\right]
     \end{aligned}
 
 DDPG 使用了一个 **经验回放池（replay buffer）** 来保证样本分布独立一致。
@@ -153,7 +153,7 @@ DDPG 可以与以下技术相结合使用:
 训练 actor-critic 模型
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-首先，我们在 ``_init_learn``中分别初始化演员和评论家优化器。
+首先，我们在 ``_init_learn`` 中分别初始化演员和评论家优化器。
 设置两个独立的优化器可以保证我们在计算actor损失时只更新 actor 网络参数而不更新 critic 网络，反之亦然。
 
     .. code-block:: python
