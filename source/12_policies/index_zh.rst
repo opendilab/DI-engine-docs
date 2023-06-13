@@ -47,4 +47,5 @@
     :maxdepth: 3
     :caption: 离线强化学习
     
+    cql_zh
     edac_zh
