@@ -3,7 +3,7 @@ Rainbow
 
 概述
 ---------
-Rainbow 是在 `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_. 它将许多独立的改进方法应用于DQN，包括： Double DQN, priority, dueling head, multi-step TD-loss, C51 (分布式强化学习) 和 noisy net。
+Rainbow 是在 `Rainbow: Combining Improvements in Deep Reinforcement Learning <https://arxiv.org/abs/1710.02298>`_. 它将许多独立的改进方法应用于DQN，包括： Double DQN, priority, dueling head, multi-step TD-loss, C51 (distributional RL) 和 noisy net。
 
 要点摘要
 -----------
@@ -34,7 +34,7 @@ Double DQN, 是在 `Deep Reinforcement Learning with Double Q-learning <https://
 Prioritized Experience Replay(PER)
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-DQN 从经验回放缓冲区均匀地进行采样。理想情况下，我们希望更频繁地采样那些有更多可学习内容的 transition。作为评估学习潜力的一种替代方法，优先级经验回放会根据最新的绝对 TD 误差的相对概率来采样对应的transition，具体而言：
+DQN 从经验回放缓冲区均匀地进行采样。理想情况下，我们希望更频繁地采样那些有更多可学习内容的 transition。作为评估学习潜力的一种替代方法，优先级经验回放会根据最新的绝对 TD 误差的概率来采样对应的transition，具体而言：
 
 .. math::
 
@@ -80,7 +80,7 @@ DQN的多步变体通过最小化替代损失来定义，具体如下：
 
 Distribution RL
 >>>>>>>>>>>>>>>
-分布式强化学习（Distributional RL）最初是在 `A Distributional Perspective on Reinforcement Learning <https://arxiv.org/abs/1707.06887>`_ 中提出的。它通过使用离散分布来学习逼近回报的分布，而不是期望回报。它的分布由一个向量 :math:`\boldsymbol{z}` 支持, 即 :math:`z^{i}=v_{\min }+(i-1) \frac{v_{\max }-v_{\min }}{N_{\text {atoms }}-1}` ,其中 :math:`i \in\left\{1, \ldots, N_{\text {atoms }}\right\}`,  :math:`N_{\text {atoms }} \in \mathbb{N}^{+}atoms` 。 
+Distributional RL 最初是在 `A Distributional Perspective on Reinforcement Learning <https://arxiv.org/abs/1707.06887>`_ 中提出的。它通过使用离散分布来学习逼近回报的分布，而不是期望回报。它的分布由一个向量 :math:`\boldsymbol{z}` 支持, 即 :math:`z^{i}=v_{\min }+(i-1) \frac{v_{\max }-v_{\min }}{N_{\text {atoms }}-1}` ,其中 :math:`i \in\left\{1, \ldots, N_{\text {atoms }}\right\}`,  :math:`N_{\text {atoms }} \in \mathbb{N}^{+}atoms` 。 
 它在t时刻的近似分布 :math:`d_{t}` 在这个支持向量上被定义, 在每个原子 :math:`i` 上的概率为 :math:`p_{\theta}^{i}\left(S_{t}, A_{t}\right)`  最终的分布可以表示为 :math:`d_{t}=\left(z, p_{\theta}\left(S_{t}, A_{t}\right)\right)` 。
 然后，通过最小化分布 :math:`d_{t}` 和目标分布之间的Kullback-Leibler散度，得到了一种分布式Q学习的变体。
 
@@ -88,7 +88,7 @@ Distribution RL
 
    D_{\mathrm{KL}}\left(\Phi_{\boldsymbol{z}} d_{t}^{\prime} \| d_{t}\right)
 
-在这里， :math:`\Phi_{\boldsymbol{z}}` 目标分布在固定支持 :math:`\boldsymbol{z}` 上的L2投影。
+在这里， :math:`\Phi_{\boldsymbol{z}}` 是目标分布在固定支持 :math:`\boldsymbol{z}` 上的L2投影。
 
 Noisy Net
 >>>>>>>>>
@@ -98,13 +98,13 @@ Noisy Nets使用一个噪声线性层，它结合了确定性和噪声流：
 
    \boldsymbol{y}=(\boldsymbol{b}+\mathbf{W} \boldsymbol{x})+\left(\boldsymbol{b}_{\text {noisy }} \odot \epsilon^{b}+\left(\mathbf{W}_{\text {noisy }} \odot \epsilon^{w}\right) \boldsymbol{x}\right)
 
-随着时间的推移，网络可以学习忽略噪声流，但在状态空间的不同部分以不同的速率进行学习，从而实现一种自适应的状态条件探索，即一种自退火机制。当动作空间很大时，例如在　Montezuma's Revenge 等游戏中噪声网络通常比 :math:`\epsilon`-greedy 方法取得更好的改进效果，这是由于 :math:`\epsilon`-greedy　往往会在收集足够数量的动作奖励之前迅速收敛到一个 one hot 分布。
+随着时间的推移，网络可以学习忽略噪声流，但在状态空间的不同部分以不同的速率进行学习，从而实现一种自适应的状态条件探索，即一种自退火机制。当动作空间很大时，例如在 Montezuma's Revenge 等游戏中噪声网络通常比 :math:`\epsilon`-greedy 方法取得更好的改进效果，这是由于 :math:`\epsilon`-greedy 往往会在收集足够数量的动作奖励之前迅速收敛到一个 one hot 分布。
 在我们的实现中，噪声在每次前向传播时都会重新采样，无论是在数据收集还是训练过程中。当使用双重Q学习时，目标网络也会在每次前向传播之前重新采样噪声。噪声采样过程中，噪声首先从 :math:`N(0,1)` 中进行采样，然后通过一个保持符号的平方根函数进行调节，即 :math:`x \rightarrow x.sign() * x.sqrt()`.
 
 Intergrated Method
 >>>>>>>>>>>>>>>>>>
 
-首先，我们将一步分布式损失替换为多步损失：
+首先，我们将一步的 distributional loss 替换为多步损失：
 
 .. math::
 
@@ -113,7 +113,7 @@ Intergrated Method
    d_{t}^{(n)}=\left(R_{t}^{(n)}+\gamma_{t}^{(n)} z,\quad p_{\bar{\theta}}\left(S_{t+n}, a_{t+n}^{*}\right)\right)
    \end{split}
 
-然后，我们将多步分布式损失与双重DQN相结合，通过使用在线网络选择贪婪动作，并使用目标网络评估该动作。KL损失也被用来优先选择转换：
+然后，我们将多步 distributional loss 与 Double DQN相结合，通过使用在线网络选择贪婪动作，并使用目标网络评估该动作。KL损失也被用来优先选择转换：
 
 .. math::
 

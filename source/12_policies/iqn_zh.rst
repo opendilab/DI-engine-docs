@@ -4,7 +4,8 @@ IQN
 概述
 ---------
 IQN 是在 `Implicit Quantile Networks for Distributional Reinforcement Learning <https://arxiv.org/pdf/1806.06923>`_ 被提出的。
-IQN (Implicit Quantile Network)和QRDQN (Quantile Regression DQN)之间的关键区别在于，IQN引入了隐式量化网络（Implicit Quantile Network），它是一个确定性参数化函数，通过训练将来自基本分布（例如在U([0, 1])上的tau）的样本重新参数化为目标分布的相应分位数值，而QRDQN直接学习了一组预定义的固定分位数。
+Distributional RL 的研究目标是通过建模值函数的概率分布，更全面地描述不同动作的预期奖励分布。
+IQN (Implicit Quantile Network)和 QRDQN (Quantile Regression DQN) 之间的关键区别在于， IQN 引入了隐式量化网络（Implicit Quantile Network），它是一个确定性参数化函数，通过训练将来自基本分布（例如在U([0, 1])上的 tau ）的样本重新参数化为目标分布的相应分位数值，而 QRDQN 直接学习了一组预定义的固定分位数。
 
 要点摘要：
 -----------
@@ -14,7 +15,7 @@ IQN (Implicit Quantile Network)和QRDQN (Quantile Regression DQN)之间的关键
 
 3. IQN 是一种 **异策略（off-policy）** 算法。
 
-4. 通常情况下， IQN 使用 **eps-greedy** 或 **多项式采样** 进行探索。
+4. 通常情况下， IQN 使用 **eps-greedy** 或 **多项式采样（multinomial sample）** 进行探索。
 
 5. IQN 可以与循环神经网络 (RNN) 结合使用。
 
@@ -42,8 +43,8 @@ IQN 可以与以下技术相结合使用:
   - 优先经验回放 (Prioritized Experience Replay)
 
     .. tip::
-        是否优先级经验回放（PER）能够提升IQN的性能取决于任务和训练策略。
-  - 多步时序差分 (TD)损失
+        是否优先级经验回放 (PER) 能够提升 IQN 的性能取决于任务和训练策略。
+  - 多步时序差分 (TD) 损失
   - 双目标网络 (Double Target Network)
   - 循环神经网络 (RNN)
 
