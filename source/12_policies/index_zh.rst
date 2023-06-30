@@ -23,6 +23,7 @@
     qrdqn_zh
     rainbow_zh
     iqn_zh
+    sql_zh
 
 .. toctree::
     :maxdepth: 3
