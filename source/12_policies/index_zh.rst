@@ -21,6 +21,14 @@
     mdqn_zh
     c51_zh
     qrdqn_zh
+    rainbow_zh
+    iqn_zh
+
+.. toctree::
+    :maxdepth: 3
+    :caption: 演员—评委
+
+    ddpg_zh
 
 .. toctree::
     :maxdepth: 3
@@ -48,4 +56,5 @@
     :maxdepth: 3
     :caption: 离线强化学习
     
+    cql_zh
     edac_zh
