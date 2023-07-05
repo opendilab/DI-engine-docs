@@ -27,6 +27,7 @@
     :caption: 演员—评委
 
     ddpg_zh
+    td3_zh
 
 .. toctree::
     :maxdepth: 3
