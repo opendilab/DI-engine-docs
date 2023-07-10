@@ -23,9 +23,13 @@ TD3 是一种基于 `deep deterministic policy gradient (DDPG) <https://arxiv.or
 
 关键方程或关键框图
 ---------------------------
-TD3 提出了一个截断双 Q 学习变体（Clipped Double-Q Learning），它利用了这样一个概念，即遭受高估偏差的值估计可以用作真实值估计的近似上限。TD3表明，目标网络是深度 Q 学习方法中的一种常见方法，通过减少误差积累来减少方差是至关重要的。
+TD3 提出了一个截断双 Q 学习变体（Clipped Double-Q Learning），它利用了这样一个概念，即遭受高估偏差的值估计可以用作真实值估计的近似上限。结合下式计算 :math:`Q_{\theta_1}` 的 target，当 :math:`Q_{\theta_2} \textless Q_{\theta_1}` 时，我们认为 :math:`Q_{\theta_1}` 高估了，并将其当作真实值估计的近似上限，取较小的 :math:`Q_{\theta_2}` 计算 :math:`y_1` 以减少过估计。
 
-首先，为了解决动作价值估计和策略提升的耦合问题，TD3建议延迟策略更新，直到动作价值估计值尽可能小。因此，TD3只在固定数量 :math:`d` 的 critic 网络更新后更新策略和目标网络。
+作为原始版本双 Q 学习的一种拓展，此扩展的动机是，如果目标和当前网络过于相似，例如在actor-critic框架中使用缓慢变化的策略，原始版本的双 Q 学习有时是无效的。
+
+TD3表明，目标网络是深度 Q 学习方法中的一种常见方法，通过减少误差积累来减少目标的方差是至关重要的。
+
+首先，为了解决动作价值估计和策略提升的耦合问题，TD3建议延迟策略更新，直到动作价值估计值尽可能小。因此，TD3只在固定数量次数的 critic 网络更新后再更新策略和目标网络。
 我们通过配置参数 ``learn.actor_update_freq`` 来实现策略更新延迟。
 
 其次，截断双 Q 学习（Clipped Double Q-learning）算法的目标更新如下:
@@ -36,8 +40,8 @@ TD3 提出了一个截断双 Q 学习变体（Clipped Double-Q Learning），它
 在实现中，我们可以通过使用单一的 actor 来优化 :math:`Q_{\theta_1}` 以减少计算开销。由于 TD target 计算过程中使用了同样的策略，因此对于 :math:`Q_{\theta_2}` 的优化目标， :math:`y_2= y_1` 。
 
 
-最后，确定性策略的一个问题是，它们可能会过拟合，以缩小价值估计中的峰值。当更新 critic 网络时，使用确定性策略的学习目标极易受到函数近似误差引起的不准确性的影响，从而增加了目标的方差。
-TD3 引入了一种用于深度价值学习的正则化策略，即目标策略平滑，它模仿了SARSA的学习更新。具体来说，TD3通过在目标策略中添加少量随机噪声并在以下小批次中取平均值来近似此期望：
+最后，确定性策略的一个问题是，它们可能会对数据集中带来较大价值的动作过拟合，以缩小价值估计中的峰值间的差距。当更新 critic 网络时，使用确定性策略的学习目标极易受到函数近似误差引起的不准确性的影响，从而增加了目标的方差。
+TD3 引入了一种用于深度价值学习的正则化策略，即目标策略平滑，它模仿了SARSA的学习更新。具体来说，TD3通过在目标策略中添加少量随机噪声并在多次计算以下数值后，取平均值来近似此期望：
 
 .. math::
     \begin{array}{l}
@@ -108,6 +112,7 @@ TD3 可以与以下技术相结合使用:
 
     - 遵循随机策略的经验回放池初始采集
 
+        在优化模型参数前，我们需要让经验回放池存有足够数目的遵循随机策略的 transition 数据，从而确保在算法初期模型不会对经验回放池数据过拟合。
         DDPG/TD3 的 ``random-collect-size`` 默认设置为25000, SAC 为10000。
         我们只是简单地遵循 SpinningUp 默认设置，并使用随机策略来收集初始化数据。
         我们通过配置 ``random-collect-size`` 来控制初始经验回放池中的 transition 数目。
@@ -221,9 +226,9 @@ TD3 可以与以下技术相结合使用:
                     self._optimizer_actor.step()
 
 
-3. 目标网络
+3. 目标网络（Target Network）
 
-    我们通过 ``_init_learn`` 中的目标模型初始化来实现目标网络。
+    我们通过 ``_init_learn`` 中的 ``self._target_model`` 初始化来实现目标网络。
     我们配置 ``learn.target_theta`` 来控制平均中的插值因子。
 
 
@@ -239,7 +244,7 @@ TD3 可以与以下技术相结合使用:
         )
 
 
-4. 目标策略平滑正则
+4. 目标策略平滑正则（Target Policy Smoothing Regularization）
 
     我们通过 ``_init_learn`` 中的目标模型初始化来实现目标策略平滑正则。
     我们通过配置 ``learn.noise``、 ``learn.noise_sigma`` 和 ``learn.noise_range`` 来控制引入的噪声，通过对噪声进行截断使所选动作不会太过偏离原始动作。
@@ -296,7 +301,7 @@ P.S.：
 
 
 
-参考
+参考文献
 -----------
 Scott Fujimoto, Herke van Hoof, David Meger: “Addressing Function Approximation Error in Actor-Critic Methods”, 2018; [http://arxiv.org/abs/1802.09477 arXiv:1802.09477].
 
