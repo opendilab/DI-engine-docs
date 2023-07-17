@@ -21,6 +21,21 @@
     mdqn_zh
     c51_zh
     qrdqn_zh
+    rainbow_zh
+    iqn_zh
+
+.. toctree::
+    :maxdepth: 3
+    :caption: 演员—评委
+
+    ddpg_zh
+
+.. toctree::
+    :maxdepth: 3
+    :caption: 演员—评委
+
+    ddpg_zh
+    td3_zh
 
 .. toctree::
     :maxdepth: 3
