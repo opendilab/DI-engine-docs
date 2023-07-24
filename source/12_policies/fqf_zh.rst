@@ -3,7 +3,7 @@ FQF
 
 概述
 ---------
-FQF 首次在论文 `Fully Parameterized Quantile Function for Distributional Reinforcement Learning <https://arxiv.org/pdf/1911.02140>`_ 中被提出。 FQF 和 IQN 的主要区别在于，FQF 额外引入了 the fraction proposal network，这是一个被训练的参数函数，用于在[0, 1]范围内生成 tau, 而 IQN 是从一个 base distribution, 如 U([0, 1]) 对 tau 进行采样。
+FQF 首次在论文 `Fully Parameterized Quantile Function for Distributional Reinforcement Learning <https://arxiv.org/pdf/1911.02140>`_ 中被提出。 FQF 和 IQN (Implicit Quantile Networks for Distributional Reinforcement Learning) 的主要区别在于，FQF 额外引入了 the fraction proposal network，这是一个被训练的参数函数，用于在[0, 1]范围内生成 tau, 而 IQN 是从一个 base distribution, 如 U([0, 1]) 对 tau 进行采样。
 
 核心要点
 -----------
@@ -42,7 +42,7 @@ FQF 首次在论文 `Fully Parameterized Quantile Function for Distributional Re
 
 然后将 the quantile embedding 与环境观测的 embedding 进行元素相乘，随后的全连接层将得到的乘积向量映射到相应的 quantile value 。
 
-FQF 比 IQN 的优势如下图所示：
+FQF 比 IQN 的优势如下图所示：左图 (a) 是 FQF 通过学习得到的 `\tau` ，右图 (b) 是 IQN 随机选择的 `\tau` ，阴影部分面积即为 1-Wasserstein loss，可以看出 FQF 得到 `\tau` 的方式要比 IQN 得到 `\tau` 的方式产生的 1-Wasserstein loss 要小。
 
 .. image:: images/fqf_iqn_compare.png
    :align: center
@@ -71,7 +71,7 @@ FQF 可以与以下技术相结合使用:
 ------------------
 
 .. tip::
-      我们的 FQF 基准结果使用与DQN相同的超参数，除了 FQF 的独有超参数， ``the number of quantiles``， 它经验性地设置为32。直观地说，与随机 fractions 相比，trained quantile fractions 的优势在较小的 N 下更容易被观察到。在较大的N下，当 trained quantile fractions 和随机 fractions 都密集地分布在[0, 1]时， FQF 和 IQN 之间的差异变得可以忽略不计。
+      我们的 FQF 基准结果使用与DQN相同的超参数，除了 FQF 的独有超参数， ``the number of quantiles``， 它经验性地设置为32。直观地说，与随机 fractions 相比，trained quantile fractions 的优势在较小的 N 下更容易被观察到。在较大的 N 下，当 trained quantile fractions 和随机 fractions 都密集地分布在[0, 1]时， FQF 和 IQN 之间的差异变得可以忽略不计。
 
 FQF 算法的默认配置如下所示：
 
