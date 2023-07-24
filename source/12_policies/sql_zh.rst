@@ -6,7 +6,7 @@ SQL
 Soft Q Learning（SQL）是一种异策略（off-policy）的 maximum entropy Q learning 算法，首次在 `Reinforcement Learning with Deep Energy-Based Policies <https://arxiv.org/abs/1702.08165>`_ 中被提出。
 SQL 使用基于能量的模型，在其中通过最大化累积奖励的期望值加上熵项来学习通过玻尔兹曼分布表示的最优策略。
 这样，最终得到的策略具有一种优势，即尝试学习执行任务的所有可能方式，而不仅仅是像其他传统强化学习算法那样只学习执行任务的最佳方式。
-Stein variational gradient descent (SVGD) 被用于学习一个随机采样网络，该网络近似从该分布中采集样本。
+Stein variational gradient descent (SVGD) 被用于学习一个随机采样网络，该网络近似从该（玻尔兹曼）分布中采集样本。
 该算法的特点包括通过最大熵公式改善探索能力，并具有可以在任务之间传递技能的组合性。
 
 要点摘要
@@ -17,11 +17,13 @@ Stein variational gradient descent (SVGD) 被用于学习一个随机采样网�
 
 3. SQL 同时支持 **离散动作空间** 和 **连续动作空间** 。
 
-4. SVGD 已被采用于从具有 **连续动作空间** 的软Q函数中进行采样。
+4. SVGD 已被采用于从具有 **连续动作空间** 的 soft Q 函数中进行采样。
 
 
 关键方程或关键图表
 ---------------------------
+SQL是一种最大熵策略的一种，这种策略（最大化熵策略）会选择一个使当前状态下概率最大的动作，同时最大化当前状态的不确定性或信息熵。
+这有助于智能体平衡探索与利用，通过选择使得当前状态的不确定性最大的动作，来探索环境中未知的部分，并在已知部分利用已有的经验。
 SQL考虑了一个更通用的最大熵策略，使得最优策略在每个访问的状态下都旨在最大化其熵值：
 
 .. image:: images/sql_policy.png
@@ -62,7 +64,7 @@ converges to :math:`Q^{*}_{\text{soft}} and V^{*}_{\text{soft}}` respectively.
 
 .. image:: images/SQL_sto_Q.png
 
-其中 :math:`q_{s_{t}}` 和 :math:`q_{a_{t}}` 在分别空间 :math:`\mathrm{S}` 和 :math:`\mathrm{A}` 是正数。
+其中 :math:`q_{s_{t}}` 和 :math:`q_{a_{t}}` 在分别空间 :math:`\mathrm{S}` 和 :math:`\mathrm{A}` 是处处大于0的。
 
 .. image:: images/SQL_sto_Q_tar.png
 
@@ -96,12 +98,12 @@ converges to :math:`Q^{*}_{\text{soft}} and V^{*}_{\text{soft}}` respectively.
 -----------
 SQL 可以与以下内容结合使用：
 
-    - 探索技术, 例如ε-贪婪或 OU 噪声 (这些技术可以在原始论文中找到;请参考  `Continuous control with deep reinforcement learning <https://arxiv.org/abs/1509.02971>`_ 和 `On the theory of the Brownian motion <https://link.aps.org/pdf/10.1103/PhysRev.36.823?casa_token=yFMSHBrxJoMAAAAA:5nFSMwUrqcdlUoobFDYOP0Y58r5jmNogkpHqFgMhzv0Md-4EcIkofMHHCkgsjEJFO10yqsmrhmNk_4dL>`_) 以增强探索能力。
+    - **探索技术**, 例如ε-贪婪或 OU 噪声 (这些技术可以在原始论文中找到；请参考  `Continuous control with deep reinforcement learning <https://arxiv.org/abs/1509.02971>`_ 和 `On the theory of the Brownian motion <https://link.aps.org/pdf/10.1103/PhysRev.36.823?casa_token=yFMSHBrxJoMAAAAA:5nFSMwUrqcdlUoobFDYOP0Y58r5jmNogkpHqFgMhzv0Md-4EcIkofMHHCkgsjEJFO10yqsmrhmNk_4dL>`_) 以增强探索能力。
 
-    - 一些分析人士将 Soft Q-learning 与策略梯度算法（Policy Gradient algorithms）之间建立了联系，比如 `Equivalence Between Policy Gradients and
+    - **策略梯度算法**，一些分析人士将 Soft Q-learning 与策略梯度算法（Policy Gradient algorithms）之间建立了联系，比如 `Equivalence Between Policy Gradients and
       Soft Q-Learning <https://arxiv.org/abs/1704.06440>`__ 。
     
-    - SQL可以与演示数据结合使用，用于提出一种模仿学习算法: SQIL， 该算法在以下论文中提出： `SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards <https://arxiv.org/abs/1905.11108>`_ 。  请参考DI-engine实现中的SQIL代码，链接： `SQIL code <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sql.py>` 。
+    - **演示数据**， SQL可以与演示数据结合使用，用于提出一种模仿学习算法: SQIL， 该算法在以下论文中提出： `SQIL: Imitation Learning via Reinforcement Learning with Sparse Rewards <https://arxiv.org/abs/1905.11108>`_  。  请参考 DI-engine 实现中的 SQIL 代码，链接：  `SQIL code <https://github.com/opendilab/DI-engine/blob/main/ding/policy/sql.py>`_ 。
 
 
 
@@ -129,11 +131,11 @@ SQL 可以与以下内容结合使用：
 
 .. note::
 
- - Lunarlander和Pong的停止值分别为200和20。
+ - Lunarlander和Pong的停止值分别为200和20， 当评估值的平均值到达停止值以上的时候训练停止。
 
- - 同时打开： 使用 cuda = True 和 base env manager = subprocess。
+ - 打开： 使用 cuda = True 和 base env manager = subprocess。
 
- - 同时关闭： 使用 cuda = False 和 base env manager = base。
+ - 关闭： 使用 cuda = False 和 base env manager = base。
 
 参考文献
 -----------
