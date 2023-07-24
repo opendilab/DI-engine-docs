@@ -22,6 +22,7 @@
     c51_zh
     qrdqn_zh
     iqn_zh
+    fqf_zh
     mdqn_zh
 
 .. toctree::
