@@ -6,7 +6,7 @@ SQL
 Soft Q Learning（SQL）是一种异策略（off-policy）的 maximum entropy Q learning 算法，首次在 `Reinforcement Learning with Deep Energy-Based Policies <https://arxiv.org/abs/1702.08165>`_ 中被提出。
 SQL 使用基于能量的模型，在其中通过最大化累积奖励的期望值加上熵项来学习通过玻尔兹曼分布表示的最优策略。
 这样，最终得到的策略具有一种优势，即尝试学习执行任务的所有可能方式，而不仅仅是像其他传统强化学习算法那样只学习执行任务的最佳方式。
-Stein variational gradient descent (SVGD) 被用于学习一个随机采样网络，该网络近似从该（玻尔兹曼）分布中采集样本。
+Stein variational gradient descent (SVGD) 被用于学习一个随机采样网络，该网络能够从策略的 energy-based model 中产生无偏样本。
 该算法的特点包括通过最大熵公式改善探索能力，并具有可以在任务之间传递技能的组合性。
 
 要点摘要
@@ -133,9 +133,6 @@ SQL 可以与以下内容结合使用：
 
  - Lunarlander和Pong的停止值分别为200和20， 当评估值的平均值到达停止值以上的时候训练停止。
 
- - 打开： 使用 cuda = True 和 base env manager = subprocess。
-
- - 关闭： 使用 cuda = False 和 base env manager = base。
 
 参考文献
 -----------
