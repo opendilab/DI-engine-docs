@@ -7,7 +7,7 @@ Configuration File System
 Introduction
 -------------------------------
 
-Configuration file system is an important component in machine learning algorithm tools, and due to the complexity of reinforcement learning, the configuration fields involved in related tasks are more complex than those in general tasks. To address this issue, DI-engine is designed based on the principle of "Convention over Configuration" (CoC), and a set of basic principles and related tools are developed, including:
+Configuration file system is an important component in machine learning algorithm tools, and the complexity of reinforcement learning makes its configuration field tasks more intricate compared to other machine learning tasks. To address this issue, DI-engine is designed based on the principle of "Convention over Configuration" (CoC), and a set of basic principles and related tools are developed, including:
 
 - Python configuration principles
 - Configuration compilation principles
@@ -17,7 +17,7 @@ Configuration file system is an important component in machine learning algorith
 
 .. note::
 
-    To learn more about the Convention over Configuration principle, you can refer to a Chinese blog post. `设计杂谈(0x02)——约定大于配置 <https://zhuanlan.zhihu.com/p/540714858>`_
+    To learn more about the ``Convention over Configuration`` principle, you can refer to a Chinese blog post `设计杂谈(0x02)——约定大于配置 <https://zhuanlan.zhihu.com/p/540714858>`_ .
 
 Basic Principles
 ------------
@@ -31,11 +31,11 @@ The overall schematic diagram is as follows:
 
 Python Configuration Principles
 ^^^^^^^^^^^^^^^^^^
-As most machine learning programs value programming flexibility and ease of use, DI-engine uses Python files (using multi-level dict) as the default configuration file to be compatible with various special requirements. Users who previously used yaml and json can also easily migrate to Python configuration. However, for parts outside of the core modules, such as communication interfaces in reinforcement learning simulation environments, native configuration can also be used without any special restrictions.
+As most machine learning programs value programming flexibility and ease of use, DI-engine uses Python files (specifically, multi-level dict) as the default configuration file to be compatible with various special requirements. Users who previously used ``yaml`` and ``json`` can also easily migrate to Python configuration. However, for parts outside of the core modules, such as communication interfaces in reinforcement learning simulation environments, native configuration can also be used without any special restrictions.
 
 Configuration Compilation Principles
 ^^^^^^^^^^^^^^^^^
-For the entire training program, DI-engine uses tools such as ``compile_config`` and ``get_instance_cfg`` as boundaries. Before the boundary, users can customize the required configuration content through various means such as using default configurations, modifying configurations in the code, and entering configurations from the command line. However, after the boundary, all configuration files will be fixed and no further changes will be allowed. The training program will also create corresponding functional modules and training pipelines based on the configuration at that time. This rule is called the Configuration Compilation Principles, where the period before the boundary is the configuration compilation generation period, and the period after the boundary is the configuration runtime usage period. In addition, in the tool functions, the final generated configuration file will be exported and stored in the experiment directory folder (usually named ``total_config.py``), which can be used by users to check the validity of the configuration file settings or to reproduce the original experiment directly using this file.
+For the entire training program, DI-engine uses tool functions such as ``compile_config`` and ``get_instance_cfg`` as boundaries. Before the boundary, users can customize the required configuration content through various means such as using default configurations, modifying configurations in the code, and entering configurations from the command line. However, after the boundary, all configuration files will be fixed and no further changes will be allowed. The training program will also create corresponding functional modules and training pipelines based on the configuration at that time. This rule is called the ``Configuration Compilation Principles`` , where the period before the boundary is the ``configuration compilation generation period``, and the period after the boundary is the ``configuration runtime usage period``. In addition, in the tool functions, the final generated configuration file will be exported and stored in the experiment directory folder (usually named ``total_config.py``), which can be used by users to check the validity of the configuration file settings or to reproduce the original experiment directly using this file.
 
 .. note::
    Typically, after completing an experiment, relevant information is stored in a path folder named after the ``exp_name`` configuration field. Among them, the macro configuration information file is ``total_config.py``, and the configuration file that can be directly used for training after format conversion is ``formatted_total_config.py``. Users can import the corresponding ``main_config`` and ``create_config`` directly from this file and pass them to the training entry function to start the experiment.
@@ -55,11 +55,11 @@ The Categories of Core Configuration Fields of a Reinforcement Learning Task
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Overall, the configuration fields required for reinforcement learning tasks in DI-engine can be mainly classified into two categories:
 
-- The first category consists of objects that are shared by various workers/middleware in the training pipeline, such as algorithm policies (Policy), environments (Env), reward models (Reward Model), data queues (Buffer), and so on. Each of these objects has its own default configuration. In the overall configuration file, they are placed in parallel with each other and maintain a flat hierarchy. The meaning of each object's configuration fields can be found in the corresponding class definition, and the class variables ``config`` and class method ``default_config`` specify the default configuration and calling method.
+- The first category consists of objects that are shared by various workers/middleware in the training pipeline, such as algorithm policies (``Policy``), environments (``Env``), reward models (``Reward Model``), data queues (``Buffer``), and so on. Each of these objects has its own default configuration. In the overall configuration file, they are placed in parallel with each other and maintain a flat hierarchy. The meaning of each object's configuration fields can be found in the corresponding class definition, and the class variables ``config`` and class method ``default_config`` specify the default configuration and calling method.
 
-- The second category consists of workers/middleware that perform various tasks in the training pipeline, such as learners (Learner), data collectors (Collector), and so on. They generally have fewer corresponding parameters, which can be directly specified in the training entry function or attached to the global area of the overall configuration file. There are no special requirements for their specific implementation, and the code should be kept clear and easy to use.
+- The second category consists of workers/middleware that perform various tasks in the training pipeline, such as learners (``Learner``), data collectors (``Collector``), and so on. They generally have fewer corresponding parameters, which can be directly specified in the training entry function or attached to the global area of the overall configuration file. There are no special requirements for their specific implementation, and the code should be kept clear and easy to use.
 
-In addition to the main configuration ``main_config``, there is also a creation configuration ``create_config`` that helps to quickly create training entry points. This part of the creation configuration is only used in the ``serial_pipeline_xxx`` series of quick training entry points, and can be ignored by users who create their own custom training entry functions. The creation configuration needs to specify the corresponding type name (type) and the path required to import the module (import_names).
+In addition to the main configuration ``main_config``, there is also a creation configuration ``create_config`` that helps to quickly create training entry points. This part of the creation configuration is only used in the ``serial_pipeline_xxx`` series of quick training entry points, and can be ignored by users who create their own custom training entry functions. The creation configuration needs to specify the corresponding type name (``type``) and the path required to import the module (``import_names``).
 
 .. note::
   Due to historical reasons, there were many sub-domains defined in the Policy field, such as learn, collect, eval, other, and so on. However, in the latest version of DI-engine (>=0.4.7), the mandatory dependency on these definitions has been removed. Now, using or not using these structures is optional, as long as the configuration fields are corresponded with the corresponding effective code segments in the policy.
@@ -67,12 +67,12 @@ In addition to the main configuration ``main_config``, there is also a creation 
 
 Other Tools
 ^^^^^^^^^^
-DI-engine also provides some related tools for configuration file storage and formatting. For specific information, please refer to the code. `ding/config <https://github.com/opendilab/DI-engine/tree/main/ding/config>`_
+DI-engine also provides some related tools for configuration file storage and formatting. For specific information, please refer to the code `ding/config <https://github.com/opendilab/DI-engine/tree/main/ding/config>`_ .
 
 Analysis of Configuration File Examples
 --------------------
 
-Here's a specific configuration example in DI-engine, which is used to train a DQN agent in the CartPole environment (the example used in the quick start document). The specific configuration content and related field explanations are as follows:
+Here's a `specific configuration example <https://github.com/opendilab/DI-engine/blob/main/dizoo/classic_control/cartpole/config/cartpole_dqn_config.py>`_ in DI-engine, which is used to train a DQN agent in the CartPole environment (the example used in the quick start document). The specific configuration content and related field explanations are as follows:
 
 .. code:: python
 
