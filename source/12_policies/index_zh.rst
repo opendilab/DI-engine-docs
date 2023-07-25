@@ -23,6 +23,7 @@
     qrdqn_zh
     iqn_zh
     fqf_zh
+    sql_zh
     mdqn_zh
 
 .. toctree::
