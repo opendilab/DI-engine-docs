@@ -3,26 +3,26 @@ QMIX
 
 概述
 ---------
-QMIX 是由 `Rashid et al.(2018) <https://arxiv.org/abs/1803.11485>`_ 提出的，用于在多智能体集中式训练中学习基于全局状态信息的联合动作价值函数，并从集中式端到端框架中提取分散策略。
+QMIX 是由 `Rashid et al.(2018) <https://arxiv.org/abs/1803.11485>`_ 提出的，用于在多智能体集中式训练中学习基于全局状态信息的联合动作价值函数，并从集中式端到端框架中提取分布式执行策略。
 QMIX 使用集中式神经网络来估计联合动作值，作为基于局部观察的每个智能体动作值的复杂非线性组合，这为集中式动作价值函数提供了一种新的表示，并保证了集中式和分散式策略之间的一致性。
 
-QMIX 是 `VDN (Sunehag et al. 2017) <https://arxiv.org/abs/1706.05296>`_ 的非线性扩展。
+QMIX 是 `VDN(Sunehag et al. 2017) <https://arxiv.org/abs/1706.05296>`_ 的非线性扩展。
 与 VDN(Value-Decomposition Networks For Cooperative Multi-Agent Learning
 ) 相比，QMIX 在训练过程中可以表示更多的额外状态信息，并且可以表示更丰富的动作价值函数类。
 
 核心要点
 -------------
-1. QMIX 使用 **集中式训练与分散式执行**的范式。
+1. QMIX 使用 **集中式训练与分散式执行(*centralized training with decentralized execution)**的范式。
 
-2. QMIX 是一种 **无模型、基于价值、离策略、多智能体** 的强化学习方法。
+2. QMIX 是一种 **无模型(model-free)、基于价值(value-based)、异策略(off-policy)、多智能体(multi-agent)** 的强化学习方法。
 
-3. QMIX 仅支持 **离散** 动作空间。
+3. QMIX 仅支持 **离散(discrete)** 动作空间。
 
-4. QMIX 考虑了一种 **部分可观察** 的情景，其中每个智能体只获得个体观察。
+4. QMIX 考虑了一种 **部分可观察(partially observable)** 的情景，其中每个智能体只获得个体观察。
 
 5. QMIX 接受 **DRQN** 作为个体价值网络来解决 **部分可观察** 问题。
 
-6. QMIX 使用由 **智能体网络、混合网络、超网络** 组成的架构来表示联合价值函数。 混合网络是一个前馈神经网络，它将智能体网络的输出作为输入并单调地混合它们，产生联合动作值。 混合网络的权重由单独的超网络产生。
+6. QMIX 使用由 **智能体网络(agent networks)、混合网络(a mixing network)、超网络(a hyper-network)** 组成的架构来表示联合价值函数。 混合网络是一个前馈神经网络，它将智能体网络的输出作为输入并单调地混合它们，产生联合动作值。 混合网络的权重由单独的超网络产生。
 
 关键方程或关键图形
 ---------------------------
@@ -115,7 +115,7 @@ P.S.：
 
 1. 上述结果是通过在五个不同的随机种子 (0, 1, 2) 上运行相同的配置获得的。
 2. 对于像 QMIX 这样的多智能体离散动作空间算法，通常使用 SMAC 环境集进行测试，并通常通过最高平均奖励训练 10M ``env_step`` 进行评估。
-有关 SMAC 的更多详细信息，请参阅 SMAC Env 教程 `SMAC Env Tutorial <../env_tutorial/smac_zh.html>`_ 。
+有关 SMAC 的更多详细信息，请参阅 SMAC Env 教程 `SMAC Env Tutorial <../13_env/smac_zh.rst>`_ 。
 
 引用
 -----------

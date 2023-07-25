@@ -23,7 +23,6 @@
     qrdqn_zh
     rainbow_zh
     iqn_zh
-    qmix_zh
 
 .. toctree::
     :maxdepth: 3
@@ -37,6 +36,12 @@
 
     ddpg_zh
     td3_zh
+
+.. toctree::
+    :maxdepth: 3
+    :caption: 多智能体强化学习
+
+    qmix_zh
 
 .. toctree::
     :maxdepth: 3
