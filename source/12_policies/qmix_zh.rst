@@ -8,7 +8,7 @@ QMIX 使用集中式神经网络来估计联合动作值，作为基于局部观
 
 QMIX 是 `VDN(Sunehag et al. 2017) <https://arxiv.org/abs/1706.05296>`_ 的非线性扩展。
 与 VDN(Value-Decomposition Networks For Cooperative Multi-Agent Learning
-) 相比，QMIX 在训练过程中可以表示更多的额外状态信息，并且可以表示更丰富的动作价值函数类。
+) 相比，QMIX 在训练过程中可以通过超网络(hyper-network)输入的全局信息表示更多的额外状态信息（智能体观测范围外），并且可以表示更丰富的动作价值函数类。
 
 核心要点
 -------------
@@ -22,7 +22,7 @@ QMIX 是 `VDN(Sunehag et al. 2017) <https://arxiv.org/abs/1706.05296>`_ 的非�
 
 5. QMIX 接受 **DRQN** 作为个体价值网络来解决 **部分可观察** 问题。
 
-6. QMIX 使用由 **智能体网络(agent networks)、混合网络(a mixing network)、超网络(a hyper-network)** 组成的架构来表示联合价值函数。 混合网络是一个前馈神经网络，它将智能体网络的输出作为输入并单调地混合它们，产生联合动作值。 混合网络的权重由单独的超网络产生。
+6. QMIX 使用由 **智能体网络(agent networks)、混合网络(mixing network)、超网络(hyper-network)** 组成的架构来表示联合价值函数。 混合网络是一个前馈神经网络，它将智能体网络的输出作为输入并单调地混合它们，产生联合动作值。 混合网络的权重由单独的超网络产生。
 
 关键方程或关键图形
 ---------------------------
@@ -51,6 +51,8 @@ QMIX 通过最小化下面的损失函数来训练混合网络：
 
 .. math::
    \mathcal{L}(\theta) = \sum_{i=1}^{b} [(y_{i}^{tot} - Q_{tot}(\tau, \textbf{u}, s; \theta))^{2}]
+
+混合网络的每个权重都是由独立的超网络产生的，它以全局状态作为输入并输出混合网络一层的权重。更多细节可以在原始论文 `Rashid et al.(2018) <https://arxiv.org/abs/1803.11485>`_ 中找到。
 
 VDN 和 QMIX 是试图分解 :math:`Q_tot` 的方法，分别假设可加性和单调性。因此，满足这些条件的联合动作价值函数将被 VDN 和 QMIX 很好地分解。
 然而，存在一些任务，其联合动作价值函数不满足所述条件。 `QTRAN (Son et al. 2019) <https://arxiv.org/abs/1905.05408>`_ 提出了一种通过将原始联合动作价值函数转换为容易分解的函数来摆脱这种结构约束的分解方法。
@@ -115,7 +117,7 @@ P.S.：
 
 1. 上述结果是通过在五个不同的随机种子 (0, 1, 2, 3, 4) 上运行相同的配置获得的。
 2. 对于像 QMIX 这样的多智能体离散动作空间算法，通常使用 SMAC 环境集进行测试，并通常通过最高平均奖励训练 10M ``env_step`` 进行评估。
-有关 SMAC 的更多详细信息，请参阅 SMAC Env 教程 `SMAC Env Tutorial <../13_envs/smac_zh.rst>`_ 。
+有关 SMAC 的更多详细信息，请参阅 SMAC Env 教程 `SMAC Env Tutorial <../13_envs/smac_zh.html>`_ 。
 
 引用
 -----------
