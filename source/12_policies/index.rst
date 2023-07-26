@@ -26,6 +26,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
     sql
     sqn
     mdqn
+    averaged_dqn
 
 .. toctree::
     :maxdepth: 3
