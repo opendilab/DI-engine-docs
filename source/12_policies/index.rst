@@ -14,7 +14,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
 - References
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :caption: Q-learning
 
     dqn
@@ -29,7 +29,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
     averaged_dqn
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :caption: Actor-Critic
 
     a2c
@@ -43,7 +43,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
     sac
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :caption: Exploration
 
     rnd
@@ -52,7 +52,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
     mcts
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :caption: Imitation Learning
 
     dqfd
@@ -62,7 +62,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
     r2d3
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :caption: Offline RL
 
     cql
@@ -70,14 +70,14 @@ All pages relative to our algorithms are grouped by category and follow the stru
     edac
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :caption: Memory Based
 
     r2d2
     gtrxl
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :caption: Multi-Agent
 
     qmix
@@ -88,20 +88,14 @@ All pages relative to our algorithms are grouped by category and follow the stru
     atoc
 
 .. toctree::
-    :maxdepth: 3
-    :caption: Self-Training
-
-    alphago
-
-.. toctree::
-    :maxdepth: 3
-    :caption: Model Based
+    :maxdepth: 2
+    :caption: Model-Based RL
 
     mbpo
     vpn
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
     :caption: Generalization
 
     plr
