@@ -35,6 +35,12 @@
 
 .. toctree::
     :maxdepth: 2
+    :caption: 多智能体强化学习
+
+    qmix_zh
+
+.. toctree::
+    :maxdepth: 2
     :caption: 探索
 
     icm_zh
