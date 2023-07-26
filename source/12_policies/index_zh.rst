@@ -54,3 +54,9 @@
     
     cql_zh
     edac_zh
+
+.. toctree::
+    :maxdepth: 2
+    :caption: 基于模型的强化学习（Model-Based RL）
+
+    mbpo
