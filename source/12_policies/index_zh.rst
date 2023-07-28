@@ -51,3 +51,9 @@
     
     cql_zh
     edac_zh
+
+.. toctree::
+    :maxdepth: 3
+    :caption: 泛化
+
+    plr
