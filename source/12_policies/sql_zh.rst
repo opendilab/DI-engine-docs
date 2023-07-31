@@ -113,6 +113,7 @@ SQL 可以与以下内容结合使用：
 默认配置被定义如下：
 
 .. autoclass:: ding.policy.sql.SQLPolicy
+   :noindex:
 
 
 基准

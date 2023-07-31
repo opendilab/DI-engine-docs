@@ -3,7 +3,7 @@ MBPO
 
 概述
 ---------
-Model-based policy optimization (MBPO) 首次在论文 `When to Trust Your Model: Model-Based Policy Optimization <https://arxiv.org/abs/1906.08253>`_中被提出。
+Model-based policy optimization (MBPO) 首次在论文 `When to Trust Your Model: Model-Based Policy Optimization <https://arxiv.org/abs/1906.08253>`_ 中被提出。
 MBPO 利用模型生成的短轨迹，并保证每一步的单调提升。
 具体来说，MBPO 通过训练模型集合来拟合真实环境的 transition ，并利用它生成从真实环境状态开始的短轨迹来进行策略提升。
 对于 RL 策略的选择，MBPO 使用 SAC 作为其 RL 的部分。
@@ -26,7 +26,7 @@ MBPO 利用模型生成的短轨迹，并保证每一步的单调提升。
 ---------------------------
 
 预测模型（Predictive Model）
-:::::::::::::::::
+::::::::::::::::::::::::::::
 
 MBPO 利用高斯神经网络集合（ensemble of gaussian neural network），集合中的每个成员都是： 
 
@@ -42,7 +42,7 @@ MBPO 利用高斯神经网络集合（ensemble of gaussian neural network），�
 
 
 策略优化（Policy Optimization）
-::::::::::::::::::::
+:::::::::::::::::::::::::::::::
 
 策略评估步骤（Policy evaluation step）：
 

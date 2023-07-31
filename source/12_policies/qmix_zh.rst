@@ -12,7 +12,7 @@ QMIX 是 `VDN(Sunehag et al. 2017) <https://arxiv.org/abs/1706.05296>`_ 的非�
 
 核心要点
 -------------
-1. QMIX 使用 **集中式训练与分散式执行(*centralized training with decentralized execution)**的范式。
+1. QMIX 使用 **集中式训练与分散式执行(centralized training with decentralized execution)** 的范式。
 
 2. QMIX 是一种 **无模型(model-free)、基于价值(value-based)、异策略(off-policy)、多智能体(multi-agent)** 的强化学习方法。
 
@@ -116,6 +116,7 @@ Benchmark
 P.S.：
 
 1. 上述结果是通过在五个不同的随机种子 (0, 1, 2, 3, 4) 上运行相同的配置获得的。
+
 2. 对于像 QMIX 这样的多智能体离散动作空间算法，通常使用 SMAC 环境集进行测试，并通常通过最高平均奖励训练 10M ``env_step`` 进行评估。
 有关 SMAC 的更多详细信息，请参阅 SMAC Env 教程 `SMAC Env Tutorial <../13_envs/smac_zh.html>`_ 。
 
