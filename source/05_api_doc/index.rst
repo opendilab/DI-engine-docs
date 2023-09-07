@@ -5,7 +5,8 @@ API Doc
     :maxdepth: 1
 
     config
-    env/index
+    env
+    model
     policy/index
     model/index
     framework/index
