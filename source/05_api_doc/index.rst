@@ -8,7 +8,6 @@ API Doc
     env
     model
     policy/index
-    model/index
     framework/index
     data/index
     
