@@ -22,6 +22,18 @@ FCEncoder
     :members: __init__, forward
 
 
+IMPALACnnResidualBlock
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: ding.model.common.encoder.IMPALACnnResidualBlock
+    :members: __init__, forward
+
+IMPALACnnDownStack
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: ding.model.common.encoder.IMPALACnnDownStack
+    :members: __init__, forward
+
 IMPALAConvEncoder
 ~~~~~~~~~~~~~~~~~~~~~~
 
