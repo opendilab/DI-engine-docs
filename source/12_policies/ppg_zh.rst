@@ -61,7 +61,7 @@ on-policy training procedure
 
 
 The following flow charts show how PPG alternates between the policy phase and the auxiliary phase
-以下流程图展示了PPG如何在策略阶段和辅助阶段之间进行交替
+以下流程图展示了 PPG 如何在策略阶段和辅助阶段之间进行交替
 
 .. image:: images/PPG.png
    :align: center
@@ -70,12 +70,12 @@ The following flow charts show how PPG alternates between the policy phase and t
 .. note::
 
    During the auxiliary phase, PPG also takes the opportunity to perform additional training on the value network.
-   在辅助阶段，PPG还利用机会对值网络进行额外的训练。
+   在辅助阶段，PPG 还利用机会对值网络进行额外的训练。
 
 off-policy training procedure
 ==============================
 DI-engine also implements off-policy PPG with two buffers with different data use constraint (``max_use``), which policy buffer offers data for policy phase while value buffer provides auxiliary phase's data. The whole training procedure is similar to off-policy PPO but execute additional auxiliary phase with a fixed frequency.
-DI-engine还实现了具有两个具有不同数据使用约束（"max_use"）的缓冲区的离策略PPG。其中，策略缓冲区提供策略阶段的数据，而值缓冲区提供辅助阶段的数据。整个训练过程类似于离策略PPO，但会以固定频率执行额外的辅助阶段。
+DI-engine 还实现了具有两个具有不同数据使用约束（"max_use"）的缓冲区的离策略 PPG。其中，策略缓冲区提供策略阶段的数据，而值缓冲区提供辅助阶段的数据。整个训练过程类似于离策略 PPO，但会以固定频率执行额外的辅助阶段。
 
 扩展
 -----------
@@ -90,12 +90,12 @@ DI-engine还实现了具有两个具有不同数据使用约束（"max_use"）�
     * `UCB-DrAC repo <https://github.com/rraileanu/auto-drac>`_
 
 
-- PPG可以与以下方法结合使用：
+- PPG 可以与以下方法结合使用：
 
-  * GAE或其他优势估计方法
-  * 多个缓冲区，具有不同的“max_use”约束
+  * GAE 或其他优势估计方法
+  * 多个缓冲区，具有不同的 "max_use" 约束
 
-- 在 procgen 环境中，PPO（或PPG）+ UCB-DrAC + PLR是最好的方法之一。
+- 在 procgen 环境中，PPO（或 PPG）+ UCB-DrAC + PLR 是最好的方法之一。
 
 实现
 ---------------
@@ -106,7 +106,7 @@ The default config is defined as follows:
     :noindex:
 
 The network interface PPG used is defined as follows:
-PPG使用的网络接口定义如下：
+PPG 使用的网络接口定义如下：
 
 .. autoclass:: ding.model.template.ppg.PPG
    :members: compute_actor_critic, compute_actor, compute_critic
