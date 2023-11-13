@@ -38,6 +38,7 @@
     :caption: 多智能体强化学习
 
     qmix_zh
+    happo_zh
 
 .. toctree::
     :maxdepth: 2
