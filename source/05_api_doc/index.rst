@@ -7,20 +7,18 @@ API Doc
     config
     env
     model
+    policy
     rl_utils
-    policy/index
+    torch_utils/index
+
     framework/index
     data/index
     
-    torch_utils/index
     utils/index
     
-    reward_model/index
-    league/index
-
-
     worker/learner/index
     worker/collector/index
     worker/replay_buffer/index
-    worker/coordinator/index
 
+    reward_model/index
+    league/index
