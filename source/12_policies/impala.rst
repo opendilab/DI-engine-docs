@@ -337,6 +337,13 @@ process is as follows.
 
     2. Here we introduce a parameter ``rho_pg_clip_ratio``, following the implementation in AlphaStar. This parameter, can give a subtle control on vtrace advantage. Usually, we will choose this parameter just same as rho_clip_ratio.
 
+Difference between old and new pipeline
+==========================================
+
+The way of task startup and the training component organization form is very different in old and new pipeline. In old pipeline, the training process is serial and intuitive, each part of the training is fully expressed in the main function.  In new pipeline, each part of the training is encapsulated as a function. The training process is completed through function calls, and use 'task.context' to control the data transfer during the training process.
+
+Meanwhile, the way of data slicing is different too. In new pipeline, data will be sliced by 'unroll_len' first, then randomly selected.
+
 
 Benchmark
 ----------
