@@ -2,6 +2,9 @@
 =================================================
 本文档将介绍 DI-engine 中用于高效构建和标准化不同类型决策环境的系列工具，从而方便使用者将各式各样的原始决策问题转化为适合使用强化学习方法解决的形式。
 
+关于一些特殊环境的说明可参考： `多智能体环境文档 <https://di-engine-docs.readthedocs.io/zh-cn/latest/04_best_practice/marl_zh.html>`_ 和
+`multi-discrete 动作环境文档 <https://di-engine-docs.readthedocs.io/zh-cn/latest/04_best_practice/marl_zh.html>`_ 。
+
 1. 困境：决策环境复杂性
 ----------------------------------
 决策智能是一个覆盖面很广的抽象概念，从虚拟世界的多人对抗游戏到现实世界的棋类对弈和自动驾驶问题，都和决策智能技术有着紧密的联系。
