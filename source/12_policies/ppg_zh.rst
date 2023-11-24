@@ -31,13 +31,13 @@ PPG 的优化分为两个阶段，策略阶段和辅助阶段。在策略阶段�
 
 .. math::
 
-    L^{j o i n t}=L^{a u x}+\beta_{c l o n e} \cdot \hat{\mathbb{E}}_{t}\left[K L\left[\pi_{\theta_{o l d}}\left(\cdot \mid s_{t}\right), \pi_{\theta}\left(\cdot \mid s_{t}\right)\right]\right]
+    \mathcal{L}^{\mathrm{joint}}=\mathcal{L}^{aux}+\beta_{clone} \cdot \hat{\mathbb{E}}_{t}\left[K L\left[\pi_{\theta_{o l d}}\left(\cdot \mid s_{t}\right), \pi_{\theta}\left(\cdot \mid s_{t}\right)\right]\right]
 
 联合损失函数优化辅助目标（蒸馏），同时通过 KL 散度限制（即第二项）保留原始策略。辅助损失定义如下：
 
 .. math::
 
-    L^{a u x}=\frac{1}{2} \cdot \hat{\mathbb{E}}_{t}\left[\left(V_{\theta_{\pi}}\left(s_{t}\right)-\hat{V}_{t}^{\mathrm{targ}}\right)^{2}\right]
+    L^{\mathrm{aux}}=\frac{1}{2} \cdot \hat{\mathbb{E}}_{t}\left[\left(V_{\theta_{\pi}}\left(s_{t}\right)-\hat{V}_{t}^{\mathrm{targ}}\right)^{2}\right]
 
 
 伪代码
@@ -57,14 +57,14 @@ on-policy 训练流程
 
 off-policy 训练流程
 ==============================
-DI-engine 还实现了具有两个具有不同数据使用约束（"max_use"）的缓冲区策略 PPG。其中，策略缓冲区提供策略阶段的数据，而值缓冲区提供辅助阶段的数据。整个训练过程类似于 off-policy PPO，但会以固定频率执行额外的辅助阶段。
+DI-engine 实现了采用两个不同数据使用次数约束（"max_use"）缓冲区的 PPG。其中，策略缓冲区提供策略阶段的数据，而值缓冲区提供辅助阶段的数据。整个训练过程类似于 off-policy PPO，但会以固定频率执行额外的辅助阶段。
 
 扩展
 -----------
 - PPG 可以与以下方法结合使用：
 
   * GAE 或其他优势估计方法
-  * 多个缓冲区，具有不同的 "max_use" 约束
+  * 多个具有不同的最大数据使用次数限制的回访缓存
 
 - 在 procgen 环境中，PPO（或 PPG）+ UCB-DrAC + PLR 是最好的方法之一。
 
