@@ -1,6 +1,6 @@
 如何高效构建决策环境
 =================================================
-本文档将介绍 DI-engine 中用于高效构建和标准化不同类型决策环境的系列工具，从而方便使用者将各式各样的原始决策问题转化为适合使用强化学习方法解决的马尔科夫决策过程（Markov Decision Process，MDP）。
+本文档将介绍 DI-engine 中用于高效构建和标准化不同类型决策环境的系列工具，从而方便使用者将各式各样的原始决策问题转化为适合使用强化学习方法解决的形式。
 
 1. 困境：决策环境复杂性
 ----------------------------------
@@ -18,20 +18,44 @@
 
   - One-hot 编码
 
+    - 目的： 将离散的类别信息表示成稀疏的二进制向量，使模型能够更好地理解和处理分类任务。
+
+    - 实施： 对于离散的类别，将每个类别映射为一个唯一的二进制向量，其中只有一个元素为1，其余为0。
+
   - Position encoding
+
+    - 目的： 在序列数据中引入位置信息，弥补模型无法捕捉元素顺序的不足，常用于处理时间序列或序列型数据。
+
+    - 实施： 为序列中的每个元素添加表示其位置的附加信息，通常使用三角函数或学习得到的编码。
 
   - Discretization
 
+    - 目的： 将连续的状态或动作空间离散化，以适应强化学习算法对离散空间的处理。
+
+    - 实施： 将连续空间划分为有限数量的离散块，将状态或动作映射到相应的离散值。
+
   - Normalization
+
+    - 目的： 将数据归一化到一定范围内，使模型更容易学习。
+
+    - 实施： 将数据映射到一定范围内，常用的归一化方法有 min-max 归一化和 z-score 归一化。
 
   - Abs->rel
 
+    - 目的： 将绝对位置信息转换为相对位置信息，使模型更容易学习。
+
+    - 实施： 将绝对位置信息转换为相对位置信息，常用的方法有相对位置编码和相对位置注意力。
+
   - Padding & Mask & Resize
+
+    - 目的： 将序列数据的长度统一，使模型能够处理变长序列。
+
+    - 实施： 通过填充、掩码或截断等方式，将序列数据的长度统一。
 
 
 等，往往散乱地分布在不同的代码仓库和实验配置中，缺少一个统一的界面来总结和管理。
 
-DI-engine 中统一和标准化了不同类型的决策问题，提供有关主流决策智能问题的最佳模板和实践。
+DI-engine 中统一和标准化了不同类型的决策问题，提供有关主流决策智能问题的模板和实践。
 具体来说，DI-engine 首先在 DI-zoo 中集成了多种经典环境的训练和测试样例： `DI-zoo Environment Versatility <https://github.com/opendilab/DI-engine#environment-versatility>`_ 。
 
 而基于 DI-zoo 中的实践经验，DI-engine 中还抽象整合了环境包装器（Env Wrapper）和环境管理器（Env Manager）两类功能组件，用于更便利高效地完成决策环境的预处理和标准化，本文档将在下面两节详细展开介绍。
@@ -66,7 +90,7 @@ DI-engine 提供了大量预定义且常用的 Env Wrapper，开发者可以根�
    * - | EvalEpisodeReturnWrapper
      - 为整个 episode 计算整体的 return，便于训练效果分析。
    * - | ActionRepeatWrapper
-     - 添加 sticky action 机制，即构建状态转移包含随机性的环境。
+     - 添加 sticky action* 机制，即构建状态转移包含随机性的环境。
    * - | GymHybridDictActionWrapper
      - 添加混合动作的语义转换和映射规则。
    * - | TimeLimitWrapper
@@ -94,7 +118,7 @@ DI-engine 提供了大量预定义且常用的 Env Wrapper，开发者可以根�
    * - | ObsNormWrapper
      - 根据运行均值和标准差（running mean and std）对观测状态进行归一化。
    * - | RewardNormWrapper
-     - 根据运行的标准差（running mean and std）对环境奖励进行归一化。
+     - 根据运行的标准差（running std）对环境奖励进行归一化。
    * - | RamWrapper
      - 通过扩展观测状态的维度，将原始环境的 ram 状态转换成类似图像的状态。
    * - | EpisodicLifeWrapper
@@ -102,6 +126,9 @@ DI-engine 提供了大量预定义且常用的 Env Wrapper，开发者可以根�
    * - | FireResetWrapper
      - 在环境重置时采取 fire 行动。
 
+.. note::
+  \* "sticky action" 机制通常是指在离散动作空间中的一种引入的技术，其中智能体在某些时间步上可能会执行与其选择的动作不同的动作。
+  这种机制的目的是模拟环境中的噪声或随机性，使得智能体需要更好地适应不确定性。
 
 更进一步地，为了简化 Env Wrapper 的配置难度，为经典决策环境提供一键可用的默认 Env Wrapper 设置，
 并直接做好相关的数据类型和接口转换（即从 gym 格式环境转换到 DI-engine 所需的 BaseEnv 衍生子环境），
@@ -120,7 +147,7 @@ DI-engine 提供了大量预定义且常用的 Env Wrapper，开发者可以根�
 
 有关 Env Wrapper 更详细的文档可以参考链接： `如何使用 Env Wrapper 快速构建决策环境 <https://di-engine-docs.readthedocs.io/zh_CN/latest/04_best_practice/env_wrapper_zh.html>`_ 。
 
-1. 高效性：向量化环境管理器（Env Manager）
+3. 高效性：向量化环境管理器（Env Manager）
 ----------------------------------
 
 由于强化学习常常需要在训练过程中和环境实时交互收集训练，环境的向量化和并行化就成为了加速训练的重要方式。
@@ -170,7 +197,7 @@ Env Manager 可以实现多个环境并行运行并返回相应信息，保持�
     while True:
         obs = env_manager.ready_obs
         random_action = env_manager.random_action()
-        timesteps = env_manager.step(random_action)  # each timestep is: obs, rew, done, info
+        timesteps = env_manager.step(random_action)  # There are batch_size timestamps in total, each timestamp consists of obs, rew, done, info
         collected_steps += len(timesteps)
 
         if collected_steps > n_steps:
