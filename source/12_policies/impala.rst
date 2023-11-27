@@ -380,13 +380,13 @@ Benchmark
        | (Pong skip-v4)
      - 21
      - .. image:: images/benchmark/impala_pong_new_pipeline.png
-     - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_impala_main.py>`_
+     - `config_link_np <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/pong/pong_impala_main.py>`_
      - | IMPALA paper shallow 200M (20.4)
    * - | SpaceInvaders(In new pipeline)
        | (SpaceInvadersNoFrame skip-v4)
      - 1006
      - .. image:: images/benchmark/impala_spaceinvaders_new_pipeline.png
-     - `config_link_s <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_impala_config.py>`_
+     - `config_link_ns <https://github.com/opendilab/DI-engine/blob/main/dizoo/atari/config/serial/spaceinvaders/spaceinvaders_impala_config.py>`_
      - | IMPALA paper shallow 200M (1726)
 
 P.S.：
