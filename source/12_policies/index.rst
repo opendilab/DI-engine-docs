@@ -67,6 +67,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
     td3_bc
     edac
     diffusion
+    dt
 
 .. toctree::
     :maxdepth: 2
