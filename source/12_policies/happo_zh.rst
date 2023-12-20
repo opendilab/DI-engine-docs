@@ -93,7 +93,23 @@ HAPPO 使用的网络接口定义如下，其中包含了 n_agent 个的 model�
 
 Benchmark
 -----------
-待填充
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_ha <https:// |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Halfcheetah          |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  5356           |.. image:: images/benchmark/happo_halfcheetah.png    |multiagent_mujoco/config/ |                      |
+|(Halfcheetah-v2)     |                 |                                                     |halfcheetah_happo_config  |                      |
+|                     |                 |                                                     |.py>`_                    |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_ha <https:// |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Simple-spread        |                 |                                                     |DI-engine/tree/main/dizoo/|                      |
+|                     |  -136.8         |.. image:: images/benchmark/happo_ptz.png            |petting_zoo/config/       |                      |
+|(simple_spread_v2)   |                 |                                                     |ptz_simple_spread_happo   |                      |
+|                     |                 |                                                     |_config.py>`_             |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
 
 引用
 -----------
