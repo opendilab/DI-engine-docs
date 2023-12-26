@@ -38,9 +38,29 @@ The RL Agent class offers streamlined configurations for benchmark environments 
         agent.deploy(enable_save_replay=True)
 
 
+The RL Agent class also supports users to train RL agents using custom configurations. The configuration format can refer to the default configuration. For example, to use the DQN algorithm to train the LunarLander environment, you can refer to the file `gym_lunarlander_v2.py <https://github.com/opendilab/DI-engine/blob/main/ding/config/example/DQN/ gym_lunarlander_v2.py>`.
+
+
+.. code-block:: python
+
+    from ding.bonus import DQNAgent
+    from ding.config.example.DQN.gym_lunarlander_v2 import cfg
+
+    if __name__ == "__main__":
+        # Initialize the agent
+        agent = DQNAgent(exp_name="LunarLander-v2-DQN", cfg=cfg)
+        # Train the agent
+        return_ = agent.train(step=int(2000000))
+        # Deploy the agent and render a video replay
+        agent.deploy(enable_save_replay=True)
+
+
+The RL Agent class integrates the training and evaluation pipelines, allowing users to call training and evaluation methods in the same main file without having to use multiple files to perform training and evaluation separately. In this way, users can evaluate the performance of the agent at any time during the training process, or train the agent at any time during the evaluation process.
+
+
 .. image::
     images/agent_usage.png
-    :width: 1310
+    :width: 1160
     :align: center
 
 In addition, the trained model checkpoints are accessible on the Hugging Face Hub. To download these models, we kindly request you to follow the explicit instructions provided on the respective model card webpages. 
