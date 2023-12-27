@@ -1,4 +1,4 @@
-DT
+DT (DecisionTransformer)
 ^^^^^^^
 
 综述
