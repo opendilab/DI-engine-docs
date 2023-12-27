@@ -1,24 +1,24 @@
-DT
-^^^^^^^
+DT (DecisionTransformer)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Overview
 ---------
-If you want to apply reinforcement learning technology in a certain decision-making field, the most important thing is to transform the original problem into a reasonable MDP (Markov Decision Process) problem. However, once the problem environment itself has some not-so-friendly “characteristics” (such as partially observable, non-stationary processes, etc.), the effect of conventional reinforcement learning methods may be greatly reduced. On the other hand, with the development of the data-driven paradigm in recent years, big data and pre-trained large models have shined in the fields of Computer Vision and Natural Language Processing, such as CLIP, DALL·E, and GPT-3, etc., all of which have achieved amazing results, and sequence prediction technology is one of the core modules among them. But for decision intelligence, especially Reinforcement Learning, due to the lack of large datasets similar to CV and NLP and suitable pre-training tasks, the progress of decision-making large models has been slow.
+Applying reinforcement learning technology in a specific decision-making field necessitates the transformation of the original problem into a reasonable Markov Decision Process (MDP) problem. However, the effectiveness of conventional reinforcement learning methods may be significantly reduced if the problem environment possesses certain unfriendly characteristics, such as partial observability or non-stationary processes. On the other hand, with the development of the data-driven paradigm in recent years, big data and pre-trained large models have shined in the fields of Computer Vision and Natural Language Processing, such as CLIP, DALL·E, and GPT-3, etc., all of which have achieved amazing results, and sequence prediction technology is one of the core modules among them. But for decision intelligence, especially Reinforcement Learning, due to the lack of large datasets similar to CV and NLP and suitable pre-training tasks, the progress of decision-making large models has been slow.
 
-In order to advance the development of decision-making large models and enhance the practical value of related technologies, many researchers have begun to focus on the subfield of Offline RL/Batch RL. Specifically, Offline RL is a reinforcement learning task that trains policies only through an offline dataset and does not interact with the environment during the training process. So for such tasks, can we learn from some of the research results in the fields of CV and NLP, such as sequence prediction related technologies?
+To promote the development of decision-making large models and enhance the practical value of related technologies, many researchers have shifted their focus to the subfield of Offline RL/Batch RL. Offline RL is a reinforcement learning task that trains policies solely through an offline dataset, without any interaction with the environment during the training process. This raises the question: can we learn from some of the research results in the fields of CV and NLP, such as sequence prediction related technologies?
 
-Consequently, in 2021, a series of works represented by Decision Transformer[3]/Trajectory Transformer[1-2] Transformer emerged. These works aimed to simplify decision-making problems into sequence predictions, apply transformer structures to Reinforcement Learning (RL) tasks, and establish connections with language models such as GPT-x and BERT. Unlike traditional RL, which involves calculating value functions or policy gradients, the DT directly outputs the optimal action selection using a transformer that masks subsequent sequences. By specifying the expected reward and utilizing state and action information, it can provide the next action and achieve the desired reward. Impressively, DT has not only reached but also surpassed the performance of state-of-the-art (SOTA) model-free offline RL algorithms in environments like Atari and D4RL (MuJoCo).
+Consequently, in 2021, a series of works represented by Decision Transformer[3]/Trajectory Transformer[1-2] Transformer emerged. These works aimed to simplify decision-making problems into sequence predictions, apply transformer architectures to Reinforcement Learning (RL) tasks, and establish connections with language models such as GPT-x and BERT. Unlike traditional RL, which involves calculating value functions or policy gradients, the DT directly outputs the optimal action selection using a transformer that masks subsequent sequences. By specifying the return-to-go and utilizing state and action information, it can provide the next action and achieve the desired reward. Impressively, DT has not only reached but also surpassed the performance of state-of-the-art (SOTA) model-free offline RL algorithms in environments like Atari and D4RL (MuJoCo).
 
 Quick Facts
 -------------
 1. DT  is **offline** rl algorithm
 2. DT support **discrete** and **continuous** action space
-3. The DT utilizes a transformer for action prediction, but it has undergone modifications in the structure of self-attention.
-4. The structure of the dataset utilized by then DT is dictated by the algorithm’s characteristics. It is imperative that these requirements are met during both the training and testing phases of the model.
+3. The DT utilizes a transformer for action prediction, but it has undergone modifications in the architecture of self-attention.
+4. The architecture of the dataset utilized by then DT is dictated by the algorithm’s characteristics. It is imperative that these requirements are met during both the training and testing phases of the model.
 
 Key Equations or Key Graphs
 ---------------------------
-The structure of DT as following:
+The architecture of DT as following:
 
 .. image:: images/DT.png
    :align: center
