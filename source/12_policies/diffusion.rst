@@ -24,7 +24,7 @@ In diffusion, trajectories are concatenated as follows in the array:
 .. math::
     \begin{align} \tau = \begin{bmatrix}s_0 s_1 ... s_T\\a_0 a_1 ... a_T \end{bmatrix} \nonumber\end{align}
 
-Regarding the time dependency between each transition in the trajezctory, Diffusion does not emphasize autoregression or Markovian properties, but makes a more relaxed assumption about temporal locality. Diffusion samples trajectories in the plan by iteratively denoising state-action pairs with variable quantities. 
+Regarding the time dependency between each transition in the trajectory, Diffusion does not emphasize autoregression or Markovian properties, but makes a more relaxed assumption about temporal locality. Diffusion samples trajectories in the plan by iteratively denoising state-action pairs with variable quantities. 
 In a single denoising step, a smaller receptive field constrains the model to infer the denoising result based on adjacent frames in the trajectory. 
 
 .. image:: images/diffuser_sample.png
@@ -35,7 +35,7 @@ The loss function of this model is:
 .. math::
     \mathcal{L}(\theta) = \mathbb{E}_{i, \epsilon, \tau^0}[||\epsilon - \epsilon_\theta(\tau^i, i)||^2]\nonumber
 The algorithm transforms the RL problem into a conditional sampling problem. It utilizes a guiding function to evaluate the value of each sample trajectory at every timestep t.
-Ultimately, the algorithm selects the best trajectory as its output. The best trajectory as follows:
+Ultimately, the algorithm selects the best trajectory as its output. The best trajectory is as follows:
 .. math::
     p(\mathcal{O}_t = 1) = exp(r(s_t, a_t))
 
@@ -45,12 +45,11 @@ Ultimately, the algorithm selects the best trajectory as its output. The best tr
 Implementations
 ----------------
 The default config is defined as follows:
-The default config is defined as follows:
 
     .. autoclass:: ding.policy.plan_diffuser.PDPolicy
         :noindex:
 
-The network interface QMIX used is defined as follows:
+The network interface diffusion used is defined as follows:
 
     .. autoclass:: ding.model.template.diffuser
         :members: forward
@@ -64,7 +63,7 @@ Benchmark
    :header-rows: 1
 
    * - environment
-     - best mean reward (normalized)
+     - reward_mean
      - evaluation results
      - config link
      - comparison
