@@ -1,4 +1,4 @@
-EDAC
+Diffusion
 ^^^^^^^
 
 Overview
@@ -16,7 +16,7 @@ Overview
  Quick Facts
 -------------
 1. Diffusion views offline decisions as a sequence model problem.
-2. Diffusion use diffuser model generating trajectory
+2. Diffusion use diffusion model generating trajectory
 
 Key Equations or Key Graphs
 ---------------------------
@@ -24,7 +24,7 @@ In diffusion, trajectories are concatenated as follows in the array:
 .. math::
     \begin{align} \tau = \begin{bmatrix}s_0 s_1 ... s_T\\a_0 a_1 ... a_T \end{bmatrix} \nonumber\end{align}
 
-Regarding the time dependency between each transition in the trajezctory, Diffuser does not emphasize autoregression or Markovian properties, but makes a more relaxed assumption about temporal locality. Diffuser samples trajectories in the plan by iteratively denoising state-action pairs with variable quantities. 
+Regarding the time dependency between each transition in the trajezctory, Diffusion does not emphasize autoregression or Markovian properties, but makes a more relaxed assumption about temporal locality. Diffusion samples trajectories in the plan by iteratively denoising state-action pairs with variable quantities. 
 In a single denoising step, a smaller receptive field constrains the model to infer the denoising result based on adjacent frames in the trajectory. 
 
 .. image:: images/diffuser_sample.png
