@@ -1,0 +1,179 @@
+QGPO
+^^^^^^^
+
+Overview
+---------
+
+Q-Guided Policy Optimization(QGPO), proposed in the 2023 paper `Contrastive Energy Prediction for Exact Energy-Guided Diffusion Sampling in Offline Reinforcement Learning <https://arxiv.org/abs/2304.12824>`_, is an actor-critic offline RL algorithm based on energy-based conditional diffusion model.
+
+Three key components form the basis of the QGPO algorithm: an unconditional diffusion model-based behavior policy, an action-state value function driven by an energy function, and an intermediate energy guidance function.
+
+In the paper, a novel training objective was introduced for the energy-based conditional diffusion model, which is referred to as contrastive energy prediction (CEP). CEP is a contrastive learning objective that focuses on maximizing the mutual information between the energy function and energy guidance across identical state-action pairings.
+
+The learning of the energy function is achieved by minimizing the Bellman error for state-action pairs derived from the behavior policy, which is based on the diffusion model. Furthermore, the diffusion model of the behavior policy is trained utilizing an offline dataset.
+
+Quick Facts
+-----------
+1. QGPO deploys as an **offline** RL algorithm.
+
+2. QGPO works as an **Actor-Critic** RL algorithm.
+
+3. QGPO's **Actor** is an energy-based conditional diffusion model constructed on an unconditional diffusion model and an intermediate energy guidance function.
+
+4. QGPO's **Critic** is an action-state value function based on an energy function.
+
+Key Equations or Key Graphs
+---------------------------
+The optimal policy :math:`\pi^*` that satisfies the constrained policy optimization in offline RL is:
+
+.. math::
+    \begin{aligned}
+    \pi^*(a|s) \propto \mu(a|s)e^{\beta Q_{\psi}(s,a)}
+    \end{aligned}
+
+Here, :math:`\mu(a|s)` functions as the behavior policy, :math:`Q_{\psi}(s,a)` acts as the action-state value function, and :math:eta` is the inverse temperature.
+
+We can regard it as a Boltzmann distribution over action :math:`a` with the energy function :math:`-Q_{\psi}(s,a)` and temperature :math:`\beta`.
+
+In general terms, by denoting :math:`a` with :math:`x0`, the target distribution is as follows:
+
+.. math::
+    \begin{aligned}
+    p_0(x_0) \propto q_0(x_0)e^{-\beta \mathcal{E}(x_0)}
+    \end{aligned}
+
+This distribution can be modeled by an energy-based conditional diffusion model:
+
+.. math::
+    \begin{aligned}
+    p_t(x_t) \propto q_t(x_t)e^{-\beta \mathcal{E}_t(x_t)}
+    \end{aligned}
+
+In this case, :math:`q_t(x_t)` is the unconditional diffusion model, and :math:`\mathcal{E}_t(x_t)` represents the intermediate energy during the diffusion process.
+
+When inferring from the diffusion model, the energy-based conditional diffusion model's score function can be computed as:
+
+.. math::
+    \begin{aligned}
+    \nabla_{x_t} \log p_t(x_t) = \nabla_{x_t} \log q_t(x_t) - \beta \nabla_{x_t} \mathcal{E}_t(x_t)
+    \end{aligned}
+
+where :math:`\nabla_{x_t} \log q_t(x_t)` works as the unconditional diffusion model's score function, and :math:`\nabla_{x_t} \mathcal{E}_t(x_t)` acts as the score function of intermediate energy, referred to as energy guidance.
+
+.. figure:: images/qgpo_paper_figure1.png
+   :align: center
+
+As an energy-based conditional diffusion modeled policy, QGPO comprises three components: a behavior policy based on the unconditional diffusion model, an energy function based action-state value function, and an intermediate energy guidance function.
+
+Thus, the training process of QGPO comprises three stages: unconditional diffusion model training, energy function training, and energy guidance function training.
+
+Initially, the unconditional diffusion model receives training from an offline dataset by minimizing the unconditional diffusion model's negative log-likelihood, which switches into minimizing the weighted MSE loss over score function of the unconditional diffusion model:
+
+.. math::
+    \begin{aligned}
+    \mathcal{L}_{\theta} = \mathbb{E}_{t,x_0,\epsilon} \left[ \left( \epsilon_{\theta}(x_t,t) - \epsilon \right)^2 \right]
+    \end{aligned}
+
+where :math:`\theta` is the parameters of unconditional diffusion model.
+
+In QGPO, the behavior policy over action :math:`a` conditioned by state :math:`s` is defined as the unconditional diffusion model, it can be written as:
+
+.. math::
+    \begin{aligned}
+    \mathcal{L}_{\theta} = \mathbb{E}_{t,s,a,\epsilon} \left[ \left( \epsilon_{\theta}(a_t,s,t) - \epsilon \right)^2 \right]
+    \end{aligned}
+
+where :math:`x_0` is the initial state, :math:`x_t` is the state after :math:`t` steps of diffusion process.
+
+Secondly, the state-action value function can be calculated using an in-support softmax Q-Learning method:
+
+.. math::
+    \begin{aligned}
+    \mathcal{T}Q_{\psi}(s,a) &= r(s,a) + \gamma \mathbb{E}_{s' \sim p(s'|s,a), a' \sim \pi(a'|s')} \left[ Q_{\psi}(s',a') \right] \\
+    &\approx r(s,a) + \gamma \frac{\sum_{\hat{a}}{e^{\beta_Q Q_{\psi}(s',\hat{a})}Q_{\psi}(s',\hat{a})}}{\sum_{\hat{a}}{e^{\beta_Q Q_{\psi}(s',\hat{a})}}}
+    \end{aligned}
+
+Here :math:`\psi` refers to the parameters of the action-state value function, and :math:`\hat{a}` is the action sampled from the unconditional diffusion model.
+
+Thirdly, the energy guidance function receives training by minimizing the contrastive energy prediction (CEP) loss:
+
+.. math::
+    \begin{aligned}
+    \mathcal{L}_{\phi} = \mathbb{E}_{t,s,\epsilon^{1:K},a^{1:K}\sim \mu(a|s)}\left[-\sum_{i=1}^{K}\frac{\exp(\beta Q_{\psi}(a^i,s))}{\sum_{j=1}^{K}\exp(\beta Q_{\psi}(a^j,s))}\log{\frac{\exp(f_{\phi}(a_t^i,s,t))}{\sum_{j=1}^{K}\exp(f_{\phi}(a_t^j,s,t))}}\right]
+    \end{aligned}
+
+In this case, :math:`\phi` denotes the parameters of energy guidance function.
+
+Implementations
+----------------
+The default config is defined as follows:
+
+.. autoclass:: ding.policy.qgpo.QGPOPolicy
+
+Model
+~~~~~~~~~~~~~~~~~
+Here we provide examples of `QGPO` model as default model for `QGPO`.
+
+.. autoclass:: ding.model.QGPO
+    :members: __init__, calculateQ, select_actions, sample, score_model_loss_fn, q_loss_fn, qt_loss_fn
+    :noindex:
+
+
+Benchmark
+-----------
+
+
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
++=====================+=================+=====================================================+==========================+======================+
+|                     |                 |                                                     |`config_link_ha <https:// |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|                     |                 |                                                     |DI-engine/blob/main/dizoo/| d3rlpy(12124)        |
+|Halfcheetah          |  11226          |.. image:: images/benchmark/halfcheetah_qgpo.png     |d4rl/config/halfcheetah_  |                      |
+|                     |                 |                                                     |qgpo_medium_expert        |                      |
+|(Medium Expert)      |                 |                                                     |_config.py>`_             |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_w <https://  |                      |
+|                     |                 |                                                     |github.com/opendilab/     |                      |
+|Walker2d             |                 |                                                     |DI-engine/blob/main/dizoo/| d3rlpy(5108)         |
+|                     |  5044           |.. image:: images/benchmark/walker2d_qgpo.png        |d4rl/config/walker2d_     |                      |
+|(Medium Expert)      |                 |                                                     |qgpo_medium_expert        |                      |
+|                     |                 |                                                     |_config.py>`_             |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+|                     |                 |                                                     |`config_link_ho <https:// |                      |
+|                     |                 |                                                     |github.com/opendilab/     | d3rlpy(3690)         |
+|Hopper               |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
+|                     |  3823           |.. image:: images/benchmark/hopper_qgpo.png          |d4rl/config/hopper_sac_   |                      |
+|(Medium Expert)      |                 |                                                     |qgpo_medium_expert        |                      |
+|                     |                 |                                                     |_config.py>`_             |                      |
++---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+
+
++---------------------+-----------------+----------------+---------------+----------+----------+
+| environment         |random           |medium replay   |medium expert  |medium    |expert    |
++=====================+=================+================+===============+==========+==========+
+|                     |                 |                |               |          |          |
+|Halfcheetah          |                 |                |11226          |          |          |
+|                     |                 |                |               |          |          |
++---------------------+-----------------+----------------+---------------+----------+----------+
+|                     |                 |                |               |          |          |
+|Walker2d             |                 |                |5044           |          |          |
+|                     |                 |                |               |          |          |
++---------------------+-----------------+----------------+---------------+----------+----------+
+|                     |                 |                |               |          |          |
+|Hopper               |                 |                |3823           |          |          |
+|                     |                 |                |               |          |          |
++---------------------+-----------------+----------------+---------------+----------+----------+
+
+**Note**: the D4RL environment used in this benchmark can be found `here <https://github.com/rail-berkeley/d4rl>`_.
+
+References
+-----------
+- Lu, Cheng, et al. "Contrastive Energy Prediction for Exact Energy-Guided Diffusion Sampling in Offline Reinforcement Learning.", 2023; [https://arxiv.org/abs/2304.12824].
+
+Other Public Implementations
+----------------------------
+
+- `Official implementation`_
+
+.. _`Official implementation`: https://github.com/ChenDRAG/CEP-energy-guided-diffusion
