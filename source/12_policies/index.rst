@@ -68,6 +68,7 @@ All pages relative to our algorithms are grouped by category and follow the stru
     edac
     dt
     qgpo
+    diffuser
 
 .. toctree::
     :maxdepth: 2
