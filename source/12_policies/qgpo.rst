@@ -8,7 +8,7 @@ Q-Guided Policy Optimization(QGPO), proposed in the 2023 paper `Contrastive Ener
 
 Three key components form the basis of the QGPO algorithm: an unconditional diffusion model-based behavior policy, an action-state value function driven by an energy function, and an intermediate energy guidance function.
 
-In the paper, a novel training objective was introduced for the energy-based conditional diffusion model, which is referred to as contrastive energy prediction (CEP). CEP is a contrastive learning objective that focuses on maximizing the mutual information between the energy function and energy guidance across identical state-action pairings.
+In the paper, a novel training objective was introduced for the energy-based conditional diffusion model, which is referred to as contrastive energy prediction (CEP). CEP is a contrastive learning objective that focuses on maximizing the mutual information between the energy function and energy guidance across identical state-action pairs.
 
 The learning of the energy function is achieved by minimizing the Bellman error for state-action pairs derived from the behavior policy, which is based on the diffusion model. Furthermore, the diffusion model of the behavior policy is trained utilizing an offline dataset.
 
