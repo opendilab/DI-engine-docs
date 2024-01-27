@@ -106,6 +106,22 @@ Thirdly, the energy guidance function receives training by minimizing the contra
 
 In this case, :math:`\phi` denotes the parameters of energy guidance function.
 
+After training, the action generation of the QGPO policy is a diffusion model sampling process conditioned on the current state, which combines the output of both unconditional diffusion model-based behavior policy and the gradient of the intermediate energy guidance function.
+Its scoring function can be calculated as:
+
+.. math::
+    \begin{aligned}
+    \nabla_{a_t} \log p_t(a_t|s) = \nabla_{a_t} \log q_t(a_t|s) - \beta \nabla_{a_t} \mathcal{E}_t(a_t,s)
+    \end{aligned}
+
+Then use **DPM-Solver** to solve and sample the diffusion model and obtain the optimal action:
+
+.. math::
+    \begin{aligned}
+    a_0 &= \mathrm{DPMSolver}(\nabla_{a_t} \log p_t(a_t|s), a_1) \\
+    a_1 &\sim \mathcal{N}(0, I)
+    \end{aligned}
+
 Implementations
 ----------------
 The default config is defined as follows:
