@@ -6,11 +6,13 @@ Overview
 
 Q-Guided Policy Optimization(QGPO), proposed in the 2023 paper `Contrastive Energy Prediction for Exact Energy-Guided Diffusion Sampling in Offline Reinforcement Learning <https://arxiv.org/abs/2304.12824>`_, is an actor-critic offline RL algorithm based on energy-based conditional diffusion model.
 
-Three key components form the basis of the QGPO algorithm: an unconditional diffusion model-based behavior policy, an action-state value function driven by an energy function, and an intermediate energy guidance function.
+Three key components form the basis of the QGPO algorithm: an  **unconditional diffusion model-based behavior policy**, an **action-state value function** driven by an energy function, and an **intermediate energy guidance function**.
 
-In the paper, a novel training objective was introduced for the energy-based conditional diffusion model, which is referred to as contrastive energy prediction (CEP). CEP is a contrastive learning objective that focuses on maximizing the mutual information between the energy function and energy guidance across identical state-action pairs.
+Three key components form the basis of the QGPO algorithm: an  **unconditional diffusion model-based behavior policy**, an **action-state value function** driven by an energy function, and an **intermediate energy guidance function**.
 
-The learning of the energy function is achieved by minimizing the Bellman error for state-action pairs derived from the behavior policy, which is based on the diffusion model. Furthermore, the diffusion model of the behavior policy is trained utilizing an offline dataset.
+The training of these three models requires two serial steps: first by using offline data sets to train the **unconditional diffusion model-based behavior policy** until convergence, and then alternately train the **action-state value function** and the **intermediate energy guidance function** until convergence.
+
+Training the **action-state value function** requires the use of a training objective based on the Bellman equation. In order to train the **intermediate energy guidance function**, a method called Contrastive Energy Prediction (CEP) is proposed, which is a contrastive learning objective that focuses on maximizing the mutual information between the energy function and energy guidance across identical state-action pairs.
 
 Quick Facts
 -----------
@@ -24,7 +26,7 @@ Quick Facts
 
 Key Equations or Key Graphs
 ---------------------------
-The optimal policy :math:`\pi^*` that satisfies the constrained policy optimization in offline RL is:
+Using Kullback-Leibler divergence as a constraint to optimize the strategy in reinforcement learning, the optimal strategy :math:`\pi^*` satisfies:
 
 .. math::
     \begin{aligned}
@@ -122,48 +124,34 @@ Here we provide examples of `QGPO` model as default model for `QGPO`.
 Benchmark
 -----------
 
+.. list-table:: Benchmark and comparison of QGPO algorithm
+   :widths: 25 15 30 15 15
+   :header-rows: 1
 
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-| environment         |best mean reward | evaluation results                                  | config link              | comparison           |
-+=====================+=================+=====================================================+==========================+======================+
-|                     |                 |                                                     |`config_link_ha <https:// |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|                     |                 |                                                     |DI-engine/blob/main/dizoo/| d3rlpy(12124)        |
-|Halfcheetah          |  11226          |.. image:: images/benchmark/halfcheetah_qgpo.png     |d4rl/config/halfcheetah_  |                      |
-|                     |                 |                                                     |qgpo_medium_expert        |                      |
-|(Medium Expert)      |                 |                                                     |_config.py>`_             |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_w <https://  |                      |
-|                     |                 |                                                     |github.com/opendilab/     |                      |
-|Walker2d             |                 |                                                     |DI-engine/blob/main/dizoo/| d3rlpy(5108)         |
-|                     |  5044           |.. image:: images/benchmark/walker2d_qgpo.png        |d4rl/config/walker2d_     |                      |
-|(Medium Expert)      |                 |                                                     |qgpo_medium_expert        |                      |
-|                     |                 |                                                     |_config.py>`_             |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
-|                     |                 |                                                     |`config_link_ho <https:// |                      |
-|                     |                 |                                                     |github.com/opendilab/     | d3rlpy(3690)         |
-|Hopper               |                 |                                                     |DI-engine/blob/main/dizoo/|                      |
-|                     |  3823           |.. image:: images/benchmark/hopper_qgpo.png          |d4rl/config/hopper_sac_   |                      |
-|(Medium Expert)      |                 |                                                     |qgpo_medium_expert        |                      |
-|                     |                 |                                                     |_config.py>`_             |                      |
-+---------------------+-----------------+-----------------------------------------------------+--------------------------+----------------------+
+   * - environment
+     - best mean reward
+     - evaluation results
+     - config link
+     - comparison
+   * - | Halfcheetah
+       | (Medium Expert)
+     - 11226
+     - .. image:: images/benchmark/halfcheetah_qgpo.png
+     - `config_link <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/config/halfcheetah_qgpo_medium_expert_config.py>`_
+     - | d3rlpy(12124)
+   * - | Walker2d
+       | (Medium Expert)
+     - 5044
+     - .. image:: images/benchmark/walker2d_qgpo.png
+     - `config_link <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/config/walker2d_qgpo_medium_expert_config.py>`_
+     - | d3rlpy(5108)
+   * - | Hopper
+       | (Medium Expert)
+     - 3823
+     - .. image:: images/benchmark/hopper_qgpo.png
+     - `config_link <https://github.com/opendilab/DI-engine/blob/main/dizoo/d4rl/config/hopper_medium_expert_qgpo_config.py>`_
+     - | d3rlpy(3690)
 
-
-+---------------------+-----------------+----------------+---------------+----------+----------+
-| environment         |random           |medium replay   |medium expert  |medium    |expert    |
-+=====================+=================+================+===============+==========+==========+
-|                     |                 |                |               |          |          |
-|Halfcheetah          |                 |                |11226          |          |          |
-|                     |                 |                |               |          |          |
-+---------------------+-----------------+----------------+---------------+----------+----------+
-|                     |                 |                |               |          |          |
-|Walker2d             |                 |                |5044           |          |          |
-|                     |                 |                |               |          |          |
-+---------------------+-----------------+----------------+---------------+----------+----------+
-|                     |                 |                |               |          |          |
-|Hopper               |                 |                |3823           |          |          |
-|                     |                 |                |               |          |          |
-+---------------------+-----------------+----------------+---------------+----------+----------+
 
 **Note**: the D4RL environment used in this benchmark can be found `here <https://github.com/rail-berkeley/d4rl>`_.
 
