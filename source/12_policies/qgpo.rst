@@ -133,8 +133,10 @@ Model
 Here we provide examples of `QGPO` model as default model for `QGPO`.
 
 .. autoclass:: ding.model.QGPO
-    :members: __init__, calculateQ, select_actions, sample, score_model_loss_fn, q_loss_fn, qt_loss_fn
-    :noindex:
+    :special-members: __init__
+    :members:
+    :private-members:
+    :undoc-members:
 
 
 Benchmark

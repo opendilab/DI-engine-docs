@@ -131,8 +131,10 @@ QGPO 算法由三个关键部分组成： **无条件扩散模型的行为策略
 支持 `QGPO` 算法的模型具有以下接口格式：
 
 .. autoclass:: ding.model.QGPO
-    :members: __init__, calculateQ, select_actions, sample, score_model_loss_fn, q_loss_fn, qt_loss_fn
-    :noindex:
+    :special-members: __init__
+    :members:
+    :private-members:
+    :undoc-members:
 
 
 Benchmark
