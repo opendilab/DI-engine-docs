@@ -56,7 +56,6 @@ Pseudocode
 ----------
 
 .. math::
-
     :nowrap:
 
     \begin{algorithm}[H]
@@ -96,12 +95,6 @@ Pseudocode
         \UNTIL{convergence}
     \end{algorithmic}
     \end{algorithm}
-
-
-.. image::
-   images/DDPG.jpg
-   :scale: 75%
-   :align: center
 
 Extensions
 -----------
