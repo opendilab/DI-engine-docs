@@ -1,9 +1,9 @@
-Frozen_Lake
+FrozenLake
 ~~~~~~~~~~~~~~~~~~
 
 概述
 =======
-Frozen_Lake 是强化学习中的经典控制问题。需要控制智能体在冰冻湖面上行进，从起点穿越冰冻湖到达目标点，且不会掉到任何冰洞里
+FrozenLake 是强化学习中的经典控制问题。需要控制智能体在冰冻湖面上行进，从起点穿越冰冻湖到达目标点，且不会掉到任何冰洞里
 。如下图所示。
 
 .. image:: ./images/FrozenLake.gif
@@ -16,7 +16,7 @@ Frozen_Lake 是强化学习中的经典控制问题。需要控制智能体在�
 安装方法
 --------
 
-Frozen_Lake 环境内置在 gymnasium 中，直接安装 gymnasium 即可。其环境 id 是\ ``FrozenLake-v1`` \。
+FrozenLake 环境内置在 gymnasium 中，直接安装 gymnasium 即可。其环境 id 是\ ``FrozenLake-v1`` \。
 
 .. code:: shell
 
@@ -42,7 +42,7 @@ Frozen_Lake 环境内置在 gymnasium 中，直接安装 gymnasium 即可。其�
 动作空间
 ----------
 
-Frozen_Lake 的动作空间属于离散动作空间，动作形状为 (1,) ，范围为 {0, 3} ，表示玩家移动的方向。
+FrozenLake 的动作空间属于离散动作空间，动作形状为 (1,) ，范围为 {0, 3} ，表示玩家移动的方向。
 
 -  \ ``0:`` \: 向左移动
 
@@ -77,7 +77,7 @@ Frozen_Lake 的动作空间属于离散动作空间，动作形状为 (1,) ，�
 
 终止条件
 ------------
-Frozen_Lake 环境每个 episode 的终止条件是遇到以下任何一种情况：
+FrozenLake 环境每个 episode 的终止条件是遇到以下任何一种情况：
 
 - 玩家掉入冰洞。
 - 玩家到达终点(位置 \ ``max(nrow) * max(ncol) - 1`` \)。
@@ -171,5 +171,5 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/frozen_lake/config>
 
 参考资料
 =====================
-- Frozen_Lake `源码 <https://github.com/opendilab/DI-engine/tree/main/dizoo/frozen_lake>`__
+- FrozenLake `源码 <https://github.com/opendilab/DI-engine/tree/main/dizoo/frozen_lake>`__
 
