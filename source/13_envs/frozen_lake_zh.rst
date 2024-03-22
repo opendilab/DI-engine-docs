@@ -3,7 +3,7 @@ Frozen_Lake
 
 概述
 =======
-Frozen_Lake是强化学习中的经典控制问题。需要控制智能体在冰冻湖面上行进，从起点穿越冰冻湖到达目标点，且不会掉到任何冰洞里
+Frozen_Lake 是强化学习中的经典控制问题。需要控制智能体在冰冻湖面上行进，从起点穿越冰冻湖到达目标点，且不会掉到任何冰洞里
 。如下图所示。
 
 .. image:: ./images/FrozenLake.gif
@@ -16,7 +16,7 @@ Frozen_Lake是强化学习中的经典控制问题。需要控制智能体在冰
 安装方法
 --------
 
-Frozen_lake 环境内置在 gymnasium 中，直接安装 gymnasium 即可。其环境 id 是\ ``FrozenLake-v1`` \。
+Frozen_Lake 环境内置在 gymnasium 中，直接安装 gymnasium 即可。其环境 id 是\ ``FrozenLake-v1`` \。
 
 .. code:: shell
 
@@ -42,7 +42,7 @@ Frozen_lake 环境内置在 gymnasium 中，直接安装 gymnasium 即可。其�
 动作空间
 ----------
 
-Acrobot 的动作空间属于离散动作空间，动作形状为 (1,) ，范围为 {0, 3} ，表示玩家移动的方向。
+Frozen_Lake 的动作空间属于离散动作空间，动作形状为 (1,) ，范围为 {0, 3} ，表示玩家移动的方向。
 
 -  \ ``0:`` \: 向左移动
 
@@ -52,7 +52,7 @@ Acrobot 的动作空间属于离散动作空间，动作形状为 (1,) ，范围
 
 -  \ ``3:`` \: 向上移动
 
-使用 gym 环境空间定义则可表示为：
+使用 gymnasium 环境空间定义则可表示为：
 
 .. code:: python
     
@@ -64,24 +64,24 @@ Acrobot 的动作空间属于离散动作空间，动作形状为 (1,) ，范围
 状态空间是一个代表玩家当前位置的值，即 \ ``current_row * nrows + current_col`` \ （其中行和列都从 0 开始）。
 
 
-- \ ``15`` \:(4x4 地图中的目标位置通过下面方式计算：\ ``3*4+3 = 15`` \)
+- \ ``15`` \: (4x4 地图中的目标位置通过下面方式计算:\ ``3*4+3 = 15`` \)
 
 奖励空间
 -----------
 -  \ ``+1`` \: 到达目标
 
--  \ ``0`` \: 到达孔
-
 -  \ ``0`` \: 到达冰洞
+
+-  \ ``0`` \: 前进
 
 
 终止条件
 ------------
-Acrobot 环境每个 episode 的终止条件是遇到以下任何一种情况：
+Frozen_Lake 环境每个 episode 的终止条件是遇到以下任何一种情况：
 
-- 玩家掉入冰洞 。
-- 玩家到达终点。(位置 \ ``max(nrow) * max(ncol) - 1`` \)
-- 达到 episode 的最大 step,默认为 ``100`` 。
+- 玩家掉入冰洞。
+- 玩家到达终点(位置 \ ``max(nrow) * max(ncol) - 1`` \)。
+- 达到 episode 的最大 step,默认为 ``100``。
   
 
 DI-zoo 可运行代码示例
@@ -171,5 +171,5 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/frozen_lake/config>
 
 参考资料
 =====================
-- Acrobot `源码 <https://github.com/opendilab/DI-engine/tree/main/dizoo/frozen_lake>`__
+- Frozen_Lake `源码 <https://github.com/opendilab/DI-engine/tree/main/dizoo/frozen_lake>`__
 
