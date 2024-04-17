@@ -3,7 +3,7 @@ Ising Model
 
 概述
 =======
-伊辛模型是一种经典的物理模型，用于描述铁磁性材料的微观磁态。在本环境中，该模型被扩展为一个多智能体系统，每个智能体通过局部交互影响整体系统的磁态。智能体的目标是通过改变自身的自旋状态来优化整个系统的有序性。
+伊辛模型 (Ising Model) 是一种经典的物理模型，用于描述铁磁性材料的微观磁态。在本环境中，该模型被扩展为一个多智能体系统，每个智能体通过局部交互影响整体系统的磁态。智能体的目标是通过改变自身的自旋状态来优化整个系统的有序性。
 
 
 环境介绍
@@ -58,7 +58,7 @@ Ising Model
 
 - 达到 episode 的最大上限步数（默认设置为200）
 
-- 当全局序参数order_param达到1时，表示系统已经达到完全有序的状态，此时认为环境任务完成，游戏结束。序参数是系统自旋向上和自旋向下的智能体数量差的绝对值，除以总智能体数量。
+- 当全局序参数 order_param 达到1时，表示系统已经达到完全有序的状态，此时认为环境任务完成，游戏结束。序参数是系统自旋向上和自旋向下的智能体数量差的绝对值，除以总智能体数量。
 
     - 具体来说，序参数可以定义为系统中自旋向上的粒子数与总粒子数之差，除以总粒子数，即： :math:`Order Parameter = \frac{N_{up} - N_{down}} {N_{total}}`
     
@@ -71,7 +71,7 @@ Mean field MARL
 Mean Field 近似
 ----------------
 
-Mean field 近似是一种数学和统计物理中的方法，用于近似描述大量相互作用粒子的系统。在这种近似中，每个粒子被假设只受到其他所有粒子的平均效应的影响，而不是受到每个单独粒子的影响。这种方法可以简化复杂系统的计算，使得分析和优化变得更加可行。
+Mean field 近似（见 `Phase Transitions and Critical Phenomena <https://academic.oup.com/book/8876>`__ ）是一种数学和统计物理中的方法，用于近似描述大量相互作用粒子的系统。在这种近似中，每个粒子被假设只受到其他所有粒子的平均效应的影响，而不是受到每个单独粒子的影响。这种方法可以简化复杂系统的计算，使得分析和优化变得更加可行。
 
 Mean Field MARL 算法
 ---------------------
@@ -84,11 +84,11 @@ Mean field MARL 算法主要解决的是集中式多智能体强化学习中，�
 
     Q_j(s,a)=\frac{1}{N_j}\sum_{k\in N(j)}Q_j(s,a_j,a_k)\qquad (1)
 
-其中  :math:`N(j)` 表示智能体j邻居智能体的标签集， :math:`N_j=|N(j)|` 表示邻居节点的个数。上式(4)对智能体之间的交互作用进行了一个近似，降低了表示智能体交互的复杂度，并且保留了部分主要的交互作用（近似保留邻居之间的交互，去掉了非邻居之间的交互）。虽然对联合动作  :math:`a` 做了近似化简，但是状态信息  :math:`s` 依然是一个全局信息。
+其中  :math:`N(j)` 表示智能体 j 邻居智能体的标签集， :math:`N_j=|N(j)|` 表示邻居节点的个数。上式(4)对智能体之间的交互作用进行了一个近似，降低了表示智能体交互的复杂度，并且保留了部分主要的交互作用（近似保留邻居之间的交互，去掉了非邻居之间的交互）。虽然对联合动作  :math:`a` 做了近似化简，但是状态信息  :math:`s` 依然是一个全局信息。
 
 将平均场论的思想引入式(1)中。该算法假定所有智能体都是同构的，其动作空间相同，并且动作空间是离散的。
-每个智能体的动作采用one-hot编码方式， 如智能体j的动作 :math:`a_j=[a_j^1,a_j^2,\cdots,a_j^D]` 表示共有D个动作的动作空间每个动作的值，若选取动作  :math:`i`， 则 :math:`a_j^i=1` ，其余为0。
-定义 :math:`\overline a_j` 为智能体 :math:`j` 邻居 :math:`N(j)` 的平均动作，其邻居 :math:`k` 的one-hot编码动作 :math:`a_k` 可以表示为 :math:`\overline a_j` 与一个波动 :math:`\delta a_{j,k}` 的形式
+每个智能体的动作采用 one-hot 编码方式， 如智能体j的动作 :math:`a_j=[a_j^1,a_j^2,\cdots,a_j^D]` 表示共有D个动作的动作空间每个动作的值，若选取动作  :math:`i`， 则 :math:`a_j^i=1` ，其余为0。
+定义 :math:`\overline a_j` 为智能体 :math:`j` 邻居 :math:`N(j)` 的平均动作，其邻居 :math:`k` 的 one-hot 编码动作 :math:`a_k` 可以表示为 :math:`\overline a_j` 与一个波动 :math:`\delta a_{j,k}` 的形式
 
 .. math::
 
@@ -100,11 +100,11 @@ Mean field MARL 算法主要解决的是集中式多智能体强化学习中，�
 
       \begin{aligned} Q_j(s,a)&=\frac{1}{N_j}\sum_{k\in N(j)}Q_j(s,a_j,a_k)\\ &=\frac{1}{N_j}\sum_k[Q_j(s,a_j,\overline a_j)+\nabla_{\widetilde a_{j,k}}Q_j(s,a_j,\overline a_j)\delta a_{j,k}+\frac{1}{2}\delta a_{j,k}\nabla_{\widetilde a_{j,k}}^2Q_j(s,a_j,\overline a_j)\delta a_{j,k}]\\ &=Q_j(s,a_j,\overline a_j)+\nabla_{\widetilde a_{j,k}}Q_j(s,a_j,\overline a_j)[\frac{1}{N_j}\sum_k\delta a_{j,k}]+\frac{1}{2N_j}\sum_k[\delta a_{j,k}\nabla_{\widetilde a_{j,k}}^2Q_j(s,a_j,\overline a_j)\delta a_{j,k}]\qquad (3)\\ &=Q_j(s,a_j,\overline a_j)+\frac{1}{2N_j}\sum_k R_{s,j}(a_k)\\ &\approx Q_j(s,a_j,\overline a_j)\qquad (4) \end{aligned}
 
-式(3)中第二项求和为0，可以直接化简掉，第三项为泰勒展开中的二阶项 :math:`R_{s,j}(a_k)` 是一个随机变量。具有如下性质：若值函数 :math:`Q_j(s,a_j,a_k)` 是一个M-smooth函数（M阶导数连续），则 :math:`R_{s,j}(a_k)\in [-2M,-2M]` ，该性质在原文中给出了证明。
+式(3)中第二项求和为0，可以直接化简掉，第三项为泰勒展开中的二阶项 :math:`R_{s,j}(a_k)` 是一个随机变量。具有如下性质：若值函数 :math:`Q_j(s,a_j,a_k)` 是一个 M-smooth 函数（M阶导数连续），则 :math:`R_{s,j}(a_k)\in [-2M,-2M]` ，该性质在原文中给出了证明。
 
-根据式(3)，将式(1)两两作用求和的形式进一步化简为中心智能体j与一个虚拟智能体 :math:`\overline a_j` 的相互作用，虚拟智能体是智能体j所有邻居作用效果的平均。
-因此得到MF-Q函数  :math:`Q_j(s,a_j,\overline a_j)`。
-假设有一段经验  :math:`[s,\{a_j\},\{r_j\},s']` ，MF-Q可以通过下式循环更新:
+根据式(3)，将式(1)两两作用求和的形式进一步化简为中心智能体j与一个虚拟智能体 :math:`\overline a_j` 的相互作用，虚拟智能体是智能体 j 所有邻居作用效果的平均。
+因此得到 MF-Q 函数  :math:`Q_j(s,a_j,\overline a_j)`。
+假设有一段经验  :math:`[s,\{a_j\},\{r_j\},s']` ，MF-Q 可以通过下式循环更新:
 
 .. math::
 
@@ -165,4 +165,9 @@ link <https://github.com/opendilab/DI-engine/tree/main/dizoo/ising_env/config>`_
 基准算法性能
 ============
 
--  待补充
+-  IsingModelEnv（50k env step 后停止，平均奖励等于 200 说明所有智能体选择了相同的方向，order_param 达到最大）
+
+   - IsingModelEnv + Mean Field Q-learning: 
+
+   .. image:: images/ising_env.png
+     :align: center
