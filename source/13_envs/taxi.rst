@@ -107,7 +107,7 @@ Termination Condition
 Each episode terminates when one of the following conditions is satisfied:
 
 - Successfully delivering the passenger. In other words, if step has no restriction, the process can only terminate when the passenger has been successfully delivered.
-- reached max step for each episode.
+- reached max step for each episode. This can be set through variable ``max_episode_steps`` in the environment.
 
 Implementation example inside DI-zoo
 =========================================
@@ -184,7 +184,7 @@ The following code is the implementation for Taxi-v3 environment, based on DQN a
 Benchmark Algorithm Performance
 =================================
 
-The iteration result based on DQN algorithm is shown in the figure below
+Set the total number of iteration steps to be 300000, and randomly select three different seeds. The iteration results based on the DQN algorithm are shown in the figure below: You can see that the average evaluation reward begins to converge after about 700k - 800k steps, and the average evaluation reward is basically stable after 1M steps, where every evaluation can successfully pick up and deliver passengers.
 
 .. image:: ./images/taxidqn.png
    :align: center
