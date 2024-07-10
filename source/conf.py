@@ -43,9 +43,14 @@ release = '0.1.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.mathjax',
-    'sphinx.ext.ifconfig', 'sphinx.ext.viewcode', 'sphinx.ext.githubpages',
-    'enum_tools.autoenum'
+    'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.ifconfig',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.githubpages',
+    'sphinx.ext.imgmath',
+    # 'sphinx.ext.mathjax',  # can only use one of imgmath and mathjax
+    'enum_tools.autoenum',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -107,32 +112,51 @@ html_css_files = ['css/style.css']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'DI-enginedoc'
 
-# -- Options for LaTeX output ------------------------------------------------
+# -- Options for LaTeX output + image type math ------------------------------------------------
+
+# imgmath settings
+imgmath_image_format = 'svg'
+imgmath_font_size = 14
+
+imgmath_latex_preamble = r'''
+    \usepackage{algorithm}
+    \usepackage{algorithmic}
+    \usepackage{amsmath}
+    \usepackage{cancel}
+    \usepackage[verbose=true,letterpaper]{geometry}
+    \geometry{
+        textheight=12in,
+        textwidth=6.5in,
+        top=1in,
+        headheight=12pt,
+        headsep=25pt,
+        footskip=30pt
+        }
+    \newcommand{\E}{{\mathrm E}}
+    \newcommand{\underE}[2]{\underset{\begin{subarray}{c}#1 \end{subarray}}{\E}\left[ #2 \right]}
+    \newcommand{\Epi}[1]{\underset{\begin{subarray}{c}\tau \sim \pi \end{subarray}}{\E}\left[ #1 \right]}
+'''
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    #
     # 'papersize': 'letterpaper',
 
     # The font size ('10pt', '11pt' or '12pt').
-    #
     # 'pointsize': '10pt',
 
     # Additional stuff for the LaTeX preamble.
-    #
     # 'preamble': '',
 
     # Latex figure (float) alignment
-    #
     # 'figure_align': 'htbp',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    (master_doc, 'DI-engine.tex', 'DI-engine Documentation', 'bao', 'manual'),
-]
+# latex_documents = [
+#     (master_doc, 'DI-engine.tex', 'DI-engine Documentation', 'bao', 'manual'),
+# ]
 
 # -- Options for manual page output ------------------------------------------
 
