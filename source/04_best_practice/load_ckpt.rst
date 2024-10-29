@@ -1,23 +1,22 @@
-==============================
-Loading Pretrained Models and Resuming Training
-==============================
+Loading Pre-trained Models and Resuming Training
+================================================
 
-In DI-engine, it is common to load a pretrained ``ckpt`` file and resume training from a checkpoint. This document will take ``cartpole_ppo_config.py`` as an example to explain how to load a pretrained model and implement resume training in DI-engine.
+In reinforcement learning experiments using DI-engine, loading a pre-trained ``ckpt`` file to resume training from a checkpoint is a common requirement. This article provides a detailed explanation of how to load a pre-trained model and resume training seamlessly using DI-engine, with ``cartpole_ppo_config.py`` as an example.
 
-Loading Pretrained Models
-==========================
+Loading a Pre-trained Model
+============================
 
-Configuring ``load_path``
--------------------------
+Configure ``load_ckpt_before_run``
+----------------------------------
 
-To load a pretrained model, you need to specify the path to the ``ckpt`` file in the configuration file. This can be done by setting the ``policy.load_path`` field.
+To load a pre-trained model, you first need to specify the path to the pre-trained ``ckpt`` file in the configuration file. This path is configured using the ``load_ckpt_before_run`` field.
 
-Example::
+Example code::
 
     from easydict import EasyDict
-
+    
     cartpole_ppo_config = dict(
-        exp_name='cartpole_ppo_seed0_loadckpt',
+        exp_name='cartpole_ppo_seed0',
         env=dict(
             collector_env_num=8,
             evaluator_env_num=5,
@@ -25,8 +24,6 @@ Example::
             stop_value=195,
         ),
         policy=dict(
-            # ========== Path to the pretrained ckpt ==========
-            load_path='/path/to/your/ckpt/iteration_100.pth.tar',
             cuda=False,
             action_space='discrete',
             model=dict(
@@ -44,7 +41,9 @@ Example::
                 value_weight=0.5,
                 entropy_weight=0.01,
                 clip_ratio=0.2,
-                learner=dict(hook=dict(save_ckpt_after_iter=100)),
+                # ======== Path to the pretrained checkpoint (ckpt) ========
+                learner=dict(hook=dict(load_ckpt_before_run='/path/to/your/ckpt/iteration_100.pth.tar')),
+                resume_training=False,
             ),
             collect=dict(
                 n_sample=256,
@@ -57,61 +56,77 @@ Example::
     )
     cartpole_ppo_config = EasyDict(cartpole_ppo_config)
     main_config = cartpole_ppo_config
-    cartpole_ppo_create_config = dict(
-        env=dict(
-            type='cartpole',
-            import_names=['dizoo.classic_control.cartpole.envs.cartpole_env'],
-        ),
-        env_manager=dict(type='base'),
-        policy=dict(type='ppo'),
-    )
-    cartpole_ppo_create_config = EasyDict(cartpole_ppo_create_config)
-    create_config = cartpole_ppo_create_config
 
-    if __name__ == "__main__":
-        # Or you can run it via command line `ding -m serial_onpolicy -c cartpole_ppo_config.py -s 0`
-        from ding.entry import serial_pipeline_onpolicy
-        serial_pipeline_onpolicy((main_config, create_config), seed=0)
-
-In the example above, ``policy.load_path`` specifies the pretrained model path as ``/path/to/your/ckpt/iteration_100.pth.tar``. When you run this code, DI-engine will automatically load the model weights and continue training from that point.
+In the above example, ``load_ckpt_before_run`` explicitly specifies the path to the pre-trained model ``/path/to/your/ckpt/iteration_100.pth.tar``. When you run this code, DI-engine will automatically load the model weights from this path and continue training from there.
 
 Model Loading Process
 ----------------------
 
-The model loading process occurs in the ``serial_entry_onpolicy.py`` file. The related code is as follows::
+The model loading process mainly occurs in the ``serial_entry_onpolicy.py`` file. The key step in loading a pre-trained model is done through the DI-engine ``hook`` mechanism::
 
-    # Load pretrained model if specified
-    if cfg.policy.load_path is not None:
-        logging.info(f'Loading model from {cfg.policy.load_path} begin...')
-        if cfg.policy.cuda and torch.cuda.is_available():
-            policy.learn_mode.load_state_dict(torch.load(cfg.policy.load_path, map_location='cuda'))
-        else:
-            policy.learn_mode.load_state_dict(torch.load(cfg.policy.load_path, map_location='cpu'))
-        logging.info(f'Loading model from {cfg.policy.load_path} end!')
+    # Learner's before_run hook.
+    learner.call_hook('before_run')
+    if resume_training:
+        collector.envstep = learner.collector_envstep
 
-When ``cfg.policy.load_path`` is not None, DI-engine will load the pretrained model from the specified path. If ``cfg.policy.cuda`` is ``True`` and CUDA is available, the model will be loaded onto the GPU; otherwise, it will be loaded onto the CPU.
+When ``load_ckpt_before_run`` is not empty, DI-engine will automatically call the ``before_run`` hook function of the ``learner`` to load the pre-trained model from the specified path. You can find the specific implementation code in DI-engine's `learner_hook.py <https://github.com/opendilab/DI-engine/blob/main/ding/worker/learner/learner_hook.py#L86>`_.
 
-Resuming Training
-==================
+Resuming Training from a Checkpoint
+===================================
 
-Logging and TensorBoard Path for Resumed Training
+Managing Logs and TensorBoard Paths When Resuming
 --------------------------------------------------
 
-By default, when you load a model and resume training, DI-engine will create a new path for the new training process. This avoids conflicts with previous training logs and TensorBoard data. However, if you want the resumed training logs and TensorBoard data to be saved in the original path, you can set ``renew_dir=False`` in ``serial_entry_onpolicy.py``.
+By default, DI-engine creates a new log path for each experiment to avoid overwriting previous training data and TensorBoard logs. However, if you want the logs and TensorBoard data to be saved in the same directory when resuming training, you can configure this by setting ``resume_training=True`` in the configuration file.
 
-The relevant code is as follows::
+Example code::
 
-    cfg = compile_config(cfg, seed=seed, env=env_fn, auto=True, create_cfg=create_cfg, save_cfg=True, renew_dir=False)
+    learn=dict(
+        ...  # Other parts of the code
+        learner=dict(hook=dict(load_ckpt_before_run='/path/to/your/ckpt/iteration_100.pth.tar')),
+        resume_training=True,
+    )
 
-This will save the resumed logs in the same folder as the previous training. However, this is **not recommended**, for the following reasons:
+When ``resume_training=True``, DI-engine will save the new logs and TensorBoard data in the original path. At the same time, the ``train_iter`` and ``collector.envstep`` from the loaded ``ckpt`` file will be restored, allowing training to seamlessly continue from the previous checkpoint.
 
-1. **Iteration Counting**: After resuming, the ``iter/steps`` will start counting from 0, which may confuse the previous training data.
-2. **TensorBoard Data Confusion**: Displaying both the previous learning curve and the new curve after resuming training in the same TensorBoard file may result in overlapping curves, making the visualization unclear.
+Restoring Iteration/Step Count When Resuming
+--------------------------------------------
 
-Therefore, it is recommended to keep the default behavior and create a new directory for the logs and TensorBoard files of the resumed training.
+When resuming training from a checkpoint, both the training ``iter`` and ``steps`` will be restored from the last saved iteration and step count in the checkpoint. This ensures that the training process continues from the correct point, maintaining the integrity of the training progress.
 
-Summary
-=======
+First Training (Pre-train) Results:
 
-- **Loading Pretrained Models**: You can specify the pretrained ``ckpt`` file path in the configuration by setting ``policy.load_path``. DI-engine will automatically load the model at the start of training.
-- **Managing Paths for Resumed Training**: By default, a new directory with a timestamp will be created for logs and TensorBoard files during resumed training. If you want to save logs in the original directory, you can set ``renew_dir=False``, though this is not recommended to avoid confusion with the training data.
+The following figures show the ``evaluator`` results for the first training (pre-train), with ``iter`` and ``steps`` on the x-axis, respectively:
+
+    .. image:: images/cartpole_ppo_evaluator_iter_pretrain.png
+        :align: center
+        :scale: 40%
+
+    .. image:: images/cartpole_ppo_evaluator_step_pretrain.png
+        :align: center
+        :scale: 40%
+
+Second Training (Resume) Results:
+
+The following figures show the ``evaluator`` results for the second training (resume), with ``iter`` and ``steps`` on the x-axis, respectively:
+
+    .. image:: images/cartpole_ppo_evaluator_iter_resume.png
+        :align: center
+        :scale: 40%
+
+    .. image:: images/cartpole_ppo_evaluator_step_resume.png
+        :align: center
+        :scale: 40%
+
+These graphs clearly demonstrate that training continues from where it left off after resuming, and the evaluation metrics show consistency at the same iterations/steps.
+
+Conclusion
+==========
+
+When conducting reinforcement learning experiments with DI-engine, loading pre-trained models and resuming training from checkpoints is crucial for ensuring stable, long-term training. From the examples and explanations provided in this article, we can observe the following:
+
+1. **Loading a pre-trained model** is configured through the ``load_ckpt_before_run`` field and is automatically loaded before training through the ``hook`` mechanism.
+2. **Resuming training** can be achieved by setting ``resume_training=True``, ensuring seamless log management and training progress continuation.
+3. In practical experiments, proper management of log paths and checkpoint data can prevent redundant training and data loss, improving the efficiency and reproducibility of experiments.
+
+We hope this article provides a clear guide for your experiments using DI-engine.

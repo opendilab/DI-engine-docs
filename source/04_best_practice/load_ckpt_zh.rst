@@ -1,23 +1,22 @@
-==============================
 加载预训练模型与断点续训
-==============================
+========================
 
-在使用 DI-engine 进行强化学习实验时，加载预训练的 ``ckpt`` 文件进行断点续训是常见需求。本文将以 ``cartpole_ppo_config.py`` 为例，详细说明如何在 DI-engine 中加载预训练模型，并实现断点续训。
+在使用 DI-engine 进行强化学习实验时，加载预训练的 ``ckpt`` 文件以实现断点续训是非常常见的需求。本文将以 ``cartpole_ppo_config.py`` 为例，详细说明如何使用 DI-engine 加载预训练模型并进行无缝的断点续训。
 
 加载预训练模型
 ================
 
-配置 ``load_path``
+配置 ``load_ckpt_before_run``
 ------------------
 
-加载预训练模型的步骤首先在配置文件中指定需要加载的 ``ckpt`` 文件路径。这个路径通过 ``policy.load_path`` 字段进行配置。
+要加载预训练模型，首先需要在配置文件中指定预训练的 ``ckpt`` 文件路径。该路径通过 ``load_ckpt_before_run`` 字段进行配置。
 
-示例::
+示例代码::
 
     from easydict import EasyDict
-
+    
     cartpole_ppo_config = dict(
-        exp_name='cartpole_ppo_seed0_loadckpt',
+        exp_name='cartpole_ppo_seed0',
         env=dict(
             collector_env_num=8,
             evaluator_env_num=5,
@@ -25,8 +24,6 @@
             stop_value=195,
         ),
         policy=dict(
-            # ==========  指定预训练模型的ckpt路径 ==========
-            load_path='/path/to/your/ckpt/iteration_100.pth.tar',
             cuda=False,
             action_space='discrete',
             model=dict(
@@ -44,7 +41,9 @@
                 value_weight=0.5,
                 entropy_weight=0.01,
                 clip_ratio=0.2,
-                learner=dict(hook=dict(save_ckpt_after_iter=100)),
+                # ======== Path to the pretrained checkpoint (ckpt) ========
+                learner=dict(hook=dict(load_ckpt_before_run='/path/to/your/ckpt/iteration_100.pth.tar')),
+                resume_training=False,
             ),
             collect=dict(
                 n_sample=256,
@@ -57,61 +56,77 @@
     )
     cartpole_ppo_config = EasyDict(cartpole_ppo_config)
     main_config = cartpole_ppo_config
-    cartpole_ppo_create_config = dict(
-        env=dict(
-            type='cartpole',
-            import_names=['dizoo.classic_control.cartpole.envs.cartpole_env'],
-        ),
-        env_manager=dict(type='base'),
-        policy=dict(type='ppo'),
-    )
-    cartpole_ppo_create_config = EasyDict(cartpole_ppo_create_config)
-    create_config = cartpole_ppo_create_config
 
-    if __name__ == "__main__":
-        # 或者你可以使用命令行方式运行 `ding -m serial_onpolicy -c cartpole_ppo_config.py -s 0`
-        from ding.entry import serial_pipeline_onpolicy
-        serial_pipeline_onpolicy((main_config, create_config), seed=0)
-
-在上面的例子中，``policy.load_path`` 明确指定了预训练模型的路径 ``/path/to/your/ckpt/iteration_100.pth.tar``。当你运行这段代码时，DI-engine 会自动加载该路径下的模型权重，并在此基础上继续训练。
+在上面的例子中，``load_ckpt_before_run`` 明确指定了预训练模型的路径 ``/path/to/your/ckpt/iteration_100.pth.tar``。当你运行这段代码时，DI-engine 会自动加载该路径下的模型权重，并在此基础上继续训练。
 
 模型加载流程
-----------------
+------------
 
-模型加载的具体流程发生在 ``serial_entry_onpolicy.py`` 文件中，相关代码如下::
+模型的加载流程主要发生在 ``serial_entry_onpolicy.py`` 文件中。加载预训练模型的关键操作是通过 DI-engine 的 ``hook`` 机制实现的::
 
-    # Load pretrained model if specified
-    if cfg.policy.load_path is not None:
-        logging.info(f'Loading model from {cfg.policy.load_path} begin...')
-        if cfg.policy.cuda and torch.cuda.is_available():
-            policy.learn_mode.load_state_dict(torch.load(cfg.policy.load_path, map_location='cuda'))
-        else:
-            policy.learn_mode.load_state_dict(torch.load(cfg.policy.load_path, map_location='cpu'))
-        logging.info(f'Loading model from {cfg.policy.load_path} end!')
+    # Learner's before_run hook.
+    learner.call_hook('before_run')
+    if resume_training:
+        collector.envstep = learner.collector_envstep
 
-当 ``cfg.policy.load_path`` 不为空时，DI-engine 会加载指定路径下的预训练模型。若 ``cfg.policy.cuda`` 为 ``True`` 且 CUDA 可用，模型将被加载到 GPU 上，否则加载到 CPU。
+当 ``load_ckpt_before_run`` 不为空时，DI-engine 会自动调用 ``learner`` 的 ``before_run`` 钩子函数来加载指定路径的预训练模型。你可以在 DI-engine 的 `learner_hook.py <https://github.com/opendilab/DI-engine/blob/main/ding/worker/learner/learner_hook.py#L86>`_ 中找到具体的实现代码。
 
 断点续训
 ========
 
-续训日志与 TensorBoard 路径
-----------------------------
+续训日志与 TensorBoard 路径管理
+------------------------------
 
-默认情况下，当你加载模型并继续训练时，DI-engine 会为新的实验过程创建一个新的路径。这样可以避免与之前的训练日志和 TensorBoard 数据冲突。如果你希望将断点续训的日志和 TensorBoard 数据保存在原来的路径下，可以在 ``serial_entry_onpolicy.py`` 中通过 ``renew_dir=False`` 来指定。
+在默认情况下，DI-engine 会为每次实验创建一个新的日志路径，以避免覆盖之前的训练数据和 TensorBoard 日志。如果你希望在断点续训时将日志与之前的实验保存在同一目录下，可以通过在配置文件中设置 ``resume_training=True`` 来实现。
 
-相关代码如下::
+示例代码::
 
-    cfg = compile_config(cfg, seed=seed, env=env_fn, auto=True, create_cfg=create_cfg, save_cfg=True, renew_dir=False)
+    learn=dict(
+        ...  # 其他部分代码
+        learner=dict(hook=dict(load_ckpt_before_run='/path/to/your/ckpt/iteration_100.pth.tar')),
+        resume_training=True,
+    )
 
-此时，DI-engine 会将断点续训的日志与之前的日志保存在同一文件夹下。然而，这种方式并不推荐，原因如下：
+当 ``resume_training=True`` 时，DI-engine 会将新的日志和 TensorBoard 数据保存在原来的路径下。同时，加载的 ``ckpt`` 文件中的 ``train_iter`` 和 ``collector.envstep`` 将被恢复，训练过程会从之前的训练断点无缝衔接。
 
-1. **迭代计数问题**：断点续训后的 ``iter/steps`` 会从 0 开始重新计数，与之前保存的训练数据产生混淆。
-2. **TensorBoard 数据冲突**：在同一个 TensorBoard 文件中显示之前的学习曲线与断点续训后的学习曲线，可能会导致曲线交叠，影响可视化效果。
+续训的迭代/步数恢复
+------------------
 
-因此，推荐使用默认的新建路径方式，将续训过程中的日志和 TensorBoard 数据保存在一个新的文件夹中。
+在断点续训时，训练的 ``iter`` 和 ``steps`` 将从加载的 ``ckpt`` 中保存的最后一次迭代和步数继续。通过这种方式，DI-engine 实现了训练过程的无缝衔接，确保了训练进度的准确性。
+
+第一次训练 (pretrain) 结果：
+
+下图显示了第一次训练 (pretrain) 的 ``evaluator`` 结果，分别以 ``iter`` 和 ``steps`` 为横轴：
+
+        .. image:: images/cartpole_ppo_evaluator_iter_pretrain.png
+            :align: center
+            :scale: 40%
+
+        .. image:: images/cartpole_ppo_evaluator_step_pretrain.png
+            :align: center
+            :scale: 40%
+
+第二次训练 (resume) 结果：
+
+下图显示了第二次训练 (resume) 的 ``evaluator`` 结果，分别以 ``iter`` 和 ``steps`` 为横轴：
+
+        .. image:: images/cartpole_ppo_evaluator_iter_resume.png
+            :align: center
+            :scale: 40%
+
+        .. image:: images/cartpole_ppo_evaluator_step_resume.png
+            :align: center
+            :scale: 40%
+
+通过这些图表，能够明显看出训练在断点续训后从上次的状态继续进行，且评估指标在相同的迭代/步长下表现出一致性。
 
 总结
 ====
 
-- **加载预训练模型**：通过在配置文件中设置 ``policy.load_path`` 来指定预训练的 ``ckpt`` 文件路径。DI-engine 会在训练开始时自动加载该模型。
-- **断点续训的路径管理**：默认情况下，续训时会新建一个带有时间戳的文件夹来保存新的训练日志和 TensorBoard 数据。如果你希望保存在原来的文件夹下，可以设置 ``renew_dir=False``，但不推荐这样做，以避免训练数据混乱。
+在使用 DI-engine 进行强化学习实验时，加载预训练模型和断点续训是实现长时间训练稳定性的重要手段。通过本文的示例与说明，我们可以看到：
+
+1. **预训练模型加载** 是通过 ``load_ckpt_before_run`` 字段配置，并在训练前通过 ``hook`` 机制自动加载。
+2. **断点续训** 可以通过设置 ``resume_training=True`` 来实现，确保日志和训练进度的无缝衔接。
+3. 在实际实验中，合理管理日志路径和断点数据，可以避免重复训练和数据丢失，提高实验的效率与可重复性。
+
+希望本文为你在 DI-engine 上的实验提供了清晰的操作指南。
