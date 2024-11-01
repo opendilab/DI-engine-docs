@@ -86,7 +86,14 @@
         resume_training=True,
     )
 
-当 ``resume_training=True`` 时，DI-engine 会将新的日志和 TensorBoard 数据保存在原来的路径下。同时，加载的 ``ckpt`` 文件中的 ``train_iter`` 和 ``collector.envstep`` 将被恢复，训练过程会从之前的训练断点无缝衔接。
+当 ``resume_training=True`` 时，DI-engine 会将新的日志和 TensorBoard 数据保存在原来的路径下。
+
+关键代码为::
+
+    # 注意renew_dir 的默认值为True，当 resume_training=True 时，renew_dir 被设置为了 False，以保证日志路径的一致性
+    cfg = compile_config(cfg, seed=seed, env=env_fn, auto=True, create_cfg=create_cfg, save_cfg=True, renew_dir=not cfg.policy.learn.resume_training)
+
+同时，加载的 ``ckpt`` 文件中的 ``train_iter`` 和 ``collector.envstep`` 将被恢复，训练过程会从之前的训练断点无缝衔接。
 
 续训的迭代/步数恢复
 ------------------

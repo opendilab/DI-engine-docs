@@ -87,7 +87,15 @@ Example code::
         resume_training=True,
     )
 
-When ``resume_training=True``, DI-engine will save the new logs and TensorBoard data in the original path. At the same time, the ``train_iter`` and ``collector.envstep`` from the loaded ``ckpt`` file will be restored, allowing training to seamlessly continue from the previous checkpoint.
+When ``resume_training=True``, DI-engine will save the new logs and TensorBoard data in the original path.
+
+The key code::
+
+    # Note that the default value of renew_dir is True. When resume_training=True, renew_dir is set to False to ensure the consistency of log paths.
+    cfg = compile_config(cfg, seed=seed, env=env_fn, auto=True, create_cfg=create_cfg, save_cfg=True, renew_dir=not cfg.policy.learn.resume_training)
+
+
+At the same time, the ``train_iter`` and ``collector.envstep`` from the loaded ``ckpt`` file will be restored, allowing training to seamlessly continue from the previous checkpoint.
 
 Restoring Iteration/Step Count When Resuming
 --------------------------------------------
