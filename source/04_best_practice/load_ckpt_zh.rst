@@ -43,7 +43,6 @@
                 clip_ratio=0.2,
                 # ======== Path to the pretrained checkpoint (ckpt) ========
                 learner=dict(hook=dict(load_ckpt_before_run='/path/to/your/ckpt/iteration_100.pth.tar')),
-                resume_training=False,
             ),
             collect=dict(
                 n_sample=256,
@@ -66,7 +65,7 @@
 
     # Learner's before_run hook.
     learner.call_hook('before_run')
-    if resume_training:
+    if cfg.policy.learn.resume_training:
         collector.envstep = learner.collector_envstep
 
 当 ``load_ckpt_before_run`` 不为空时，DI-engine 会自动调用 ``learner`` 的 ``before_run`` 钩子函数来加载指定路径的预训练模型。你可以在 DI-engine 的 `learner_hook.py <https://github.com/opendilab/DI-engine/blob/main/ding/worker/learner/learner_hook.py#L86>`_ 中找到具体的实现代码。
@@ -77,7 +76,7 @@
 续训日志与 TensorBoard 路径管理
 ------------------------------
 
-在默认情况下，DI-engine 会为每次实验创建一个新的日志路径，以避免覆盖之前的训练数据和 TensorBoard 日志。如果你希望在断点续训时将日志与之前的实验保存在同一目录下，可以通过在配置文件中设置 ``resume_training=True`` 来实现。
+在默认情况下，DI-engine 会为每次实验创建一个新的日志路径，以避免覆盖之前的训练数据和 TensorBoard 日志。如果你希望在断点续训时将日志与之前的实验保存在同一目录下，可以通过在配置文件中设置 ``resume_training=True`` (其默认值为 False) 来实现。
 
 示例代码::
 

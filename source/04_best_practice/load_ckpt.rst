@@ -66,7 +66,7 @@ The model loading process mainly occurs in the ``serial_entry_onpolicy.py`` file
 
     # Learner's before_run hook.
     learner.call_hook('before_run')
-    if resume_training:
+    if cfg.policy.learn.resume_training:
         collector.envstep = learner.collector_envstep
 
 When ``load_ckpt_before_run`` is not empty, DI-engine will automatically call the ``before_run`` hook function of the ``learner`` to load the pre-trained model from the specified path. You can find the specific implementation code in DI-engine's `learner_hook.py <https://github.com/opendilab/DI-engine/blob/main/ding/worker/learner/learner_hook.py#L86>`_.
@@ -77,7 +77,7 @@ Resuming Training from a Checkpoint
 Managing Logs and TensorBoard Paths When Resuming
 --------------------------------------------------
 
-By default, DI-engine creates a new log path for each experiment to avoid overwriting previous training data and TensorBoard logs. However, if you want the logs and TensorBoard data to be saved in the same directory when resuming training, you can configure this by setting ``resume_training=True`` in the configuration file.
+By default, DI-engine creates a new log path for each experiment to avoid overwriting previous training data and TensorBoard logs. However, if you want the logs and TensorBoard data to be saved in the same directory when resuming training, you can configure this by setting ``resume_training=True`` in the configuration file (its default value is False).
 
 Example code::
 
