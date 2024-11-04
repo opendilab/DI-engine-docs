@@ -62,14 +62,23 @@ In the above example, ``load_ckpt_before_run`` explicitly specifies the path to 
 Model Loading Process
 ----------------------
 
-The model loading process mainly occurs in the ``serial_entry_onpolicy.py`` file. The key step in loading a pre-trained model is done through the DI-engine ``hook`` mechanism::
+The model loading process mainly occurs in the main files under the `entry <https://github.com/opendilab/DI-engine/blob/main/ding/entry/>`_ path. Below, we take the `serial_entry_onpolicy.py <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry_onpolicy.py>`_ file as an example to explain the process.
+
+The key operation of loading a pre-trained model is achieved through the DI-engine's ``hook`` mechanism:
+
+.. code-block:: python
 
     # Learner's before_run hook.
     learner.call_hook('before_run')
-    if cfg.policy.learn.resume_training:
+    if cfg.policy.learn.get('resume_training', False):
         collector.envstep = learner.collector_envstep
 
-When ``load_ckpt_before_run`` is not empty, DI-engine will automatically call the ``before_run`` hook function of the ``learner`` to load the pre-trained model from the specified path. You can find the specific implementation code in DI-engine's `learner_hook.py <https://github.com/opendilab/DI-engine/blob/main/ding/worker/learner/learner_hook.py#L86>`_.
+When ``load_ckpt_before_run`` is not empty, DI-engine will automatically call the ``learner``'s ``before_run`` hook function to load the pre-trained model from the specified path. The specific implementation can be found in DI-engine's `learner_hook.py <https://github.com/opendilab/DI-engine/blob/main/ding/worker/learner/learner_hook.py#L86>`_.
+
+The checkpoint saving and loading functionalities for the policy itself are implemented through the ``_load_state_dict_learn`` and ``_state_dict_learn`` methods. For example, in the PPO policy, the implementations can be found at the following locations:
+
+- `PPO policy _load_state_dict_learn <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo.py#L1827>`_
+- `PPO policy _state_dict_learn <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo.py#L1841>`_
 
 Resuming Training from a Checkpoint
 ===================================
@@ -79,7 +88,9 @@ Managing Logs and TensorBoard Paths When Resuming
 
 By default, DI-engine creates a new log path for each experiment to avoid overwriting previous training data and TensorBoard logs. However, if you want the logs and TensorBoard data to be saved in the same directory when resuming training, you can configure this by setting ``resume_training=True`` in the configuration file (its default value is False).
 
-Example code::
+Example code:
+
+.. code-block:: python
 
     learn=dict(
         ...  # Other parts of the code
@@ -89,10 +100,12 @@ Example code::
 
 When ``resume_training=True``, DI-engine will save the new logs and TensorBoard data in the original path.
 
-The key code::
+The key code:
+
+.. code-block:: python
 
     # Note that the default value of renew_dir is True. When resume_training=True, renew_dir is set to False to ensure the consistency of log paths.
-    cfg = compile_config(cfg, seed=seed, env=env_fn, auto=True, create_cfg=create_cfg, save_cfg=True, renew_dir=not cfg.policy.learn.resume_training)
+    cfg = compile_config(cfg, seed=seed, env=env_fn, auto=True, create_cfg=create_cfg, save_cfg=True, renew_dir=not cfg.policy.learn.get('resume_training', False))
 
 
 At the same time, the ``train_iter`` and ``collector.envstep`` from the loaded ``ckpt`` file will be restored, allowing training to seamlessly continue from the previous checkpoint.

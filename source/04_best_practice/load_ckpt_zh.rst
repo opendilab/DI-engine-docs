@@ -61,14 +61,23 @@
 模型加载流程
 ------------
 
-模型的加载流程主要发生在 ``serial_entry_onpolicy.py`` 文件中。加载预训练模型的关键操作是通过 DI-engine 的 ``hook`` 机制实现的::
+模型的加载流程主要发生在 `entry <https://github.com/opendilab/DI-engine/blob/main/ding/entry/>`_  路径下的主文件中，下面以 `serial_entry_onpolicy.py <https://github.com/opendilab/DI-engine/blob/main/ding/entry/serial_entry_onpolicy.py>`_ 文件为例进行说明。
+加载预训练模型的关键操作是通过 DI-engine 的 ``hook`` 机制实现的：
+
+.. code-block:: python
 
     # Learner's before_run hook.
     learner.call_hook('before_run')
-    if cfg.policy.learn.resume_training:
+    if cfg.policy.learn.get('resume_training', False):
         collector.envstep = learner.collector_envstep
 
-当 ``load_ckpt_before_run`` 不为空时，DI-engine 会自动调用 ``learner`` 的 ``before_run`` 钩子函数来加载指定路径的预训练模型。你可以在 DI-engine 的 `learner_hook.py <https://github.com/opendilab/DI-engine/blob/main/ding/worker/learner/learner_hook.py#L86>`_ 中找到具体的实现代码。
+当 ``load_ckpt_before_run`` 不为空时，DI-engine 会自动调用 ``learner`` 的 ``before_run`` 钩子函数来加载指定路径的预训练模型。具体实现代码可以参考 DI-engine 的 `learner_hook.py <https://github.com/opendilab/DI-engine/blob/main/ding/worker/learner/learner_hook.py#L86>`_。
+
+其中，policy 本身的 checkpoint 保存和加载功能是通过 ``_load_state_dict_learn`` 和 ``_state_dict_learn`` 方法实现的。例如，PPO policy 中的实现位于以下位置：
+
+- `PPO policy _load_state_dict_learn <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo.py#L1827>`_
+- `PPO policy _state_dict_learn <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo.py#L1841>`_
+
 
 断点续训
 ========
@@ -91,7 +100,7 @@
 关键代码为::
 
     # 注意renew_dir 的默认值为True，当 resume_training=True 时，renew_dir 被设置为了 False，以保证日志路径的一致性
-    cfg = compile_config(cfg, seed=seed, env=env_fn, auto=True, create_cfg=create_cfg, save_cfg=True, renew_dir=not cfg.policy.learn.resume_training)
+    cfg = compile_config(cfg, seed=seed, env=env_fn, auto=True, create_cfg=create_cfg, save_cfg=True, renew_dir=not cfg.policy.learn.get('resume_training', False))
 
 同时，加载的 ``ckpt`` 文件中的 ``train_iter`` 和 ``collector.envstep`` 将被恢复，训练过程会从之前的训练断点无缝衔接。
 
