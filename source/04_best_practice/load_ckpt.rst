@@ -4,7 +4,7 @@ Loading Pre-trained Models and Resuming Training
 In reinforcement learning experiments using DI-engine, loading a pre-trained ``ckpt`` file to resume training from a checkpoint is a common requirement. This article provides a detailed explanation of how to load a pre-trained model and resume training seamlessly using DI-engine, with ``cartpole_ppo_config.py`` as an example.
 
 Loading a Pre-trained Model
-============================
+*****************************
 
 Configure ``load_ckpt_before_run``
 ----------------------------------
@@ -81,7 +81,7 @@ The checkpoint saving and loading functionalities for the policy itself are impl
 - `PPO policy _state_dict_learn <https://github.com/opendilab/DI-engine/blob/main/ding/policy/ppo.py#L1841>`_
 
 Resuming Training from a Checkpoint
-===================================
+***********************************
 
 Managing Logs and TensorBoard Paths When Resuming
 --------------------------------------------------
@@ -142,7 +142,7 @@ The following figures show the ``evaluator`` results for the second training (re
 These graphs clearly demonstrate that training continues from where it left off after resuming, and the evaluation metrics show consistency at the same iterations/steps.
 
 Conclusion
-==========
+***********
 
 When conducting reinforcement learning experiments with DI-engine, loading pre-trained models and resuming training from checkpoints is crucial for ensuring stable, long-term training. From the examples and explanations provided in this article, we can observe the following:
 
